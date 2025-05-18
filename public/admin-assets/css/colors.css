@@ -572,16 +572,16 @@ input:focus ~ .bg-light {
   background: rgba(115, 103, 240, 0.6); }
 
 .btn-primary {
-  border-color: #7367f0 !important;
-  background-color: #7367f0 !important;
+  border-color: #3da35c !important;
+  background-color: #3da35c !important;
   color: #fff !important; }
 
 .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: #fff;
-  background-color: #5e50ee !important; }
+  background-color: #3da35ce0 !important; }
 
 .btn-primary:hover:not(.disabled):not(:disabled) {
-  box-shadow: 0 8px 25px -8px #7367f0; }
+  box-shadow: 0 8px 25px -8px #3da35c; }
 
 .btn-primary:not(:disabled):not(.disabled):active:focus {
   box-shadow: none; }

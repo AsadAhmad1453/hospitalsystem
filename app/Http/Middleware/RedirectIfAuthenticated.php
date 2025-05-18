@@ -21,10 +21,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                return to_route(match (Auth::user()->role) {
+                    0 => 'admin-dashboard',
+                    1 => 'user-dashboard',
+                    2 => 'customer-dashboard',
+                    default => 'login',
+                });
             }
         }
-
         return $next($request);
     }
 }

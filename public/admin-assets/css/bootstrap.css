@@ -2663,21 +2663,21 @@ input[type="button"].btn-block {
   padding: 0.65rem 1.28rem;
   clear: both;
   font-weight: 400;
-  color: #6e6b7b;
+  color: #6b7b71;
   text-align: inherit;
   white-space: nowrap;
   background-color: transparent;
   border: 0; }
 
 .dropdown-item:hover, .dropdown-item:focus {
-  color: #7367f0;
+  color: #3da35c;
   text-decoration: none;
   background-color: rgba(115, 103, 240, 0.12); }
 
 .dropdown-item.active, .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background-color: #7367f0; }
+  background-color: #3da35c; }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #b9b9c3;
