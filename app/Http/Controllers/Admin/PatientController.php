@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use App\Models\Patient;
 
 class PatientController extends Controller
 {
     public function index(){
-        $roles = Role::with('permissions')->get();
-        $users = User::with('roles')->get();
+        $patients = Patient::all();
         return view('admin.patients.patients', get_defined_vars());
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -19,31 +20,18 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        if (method_exists($this, 'hasTooManyLoginAttempts') &&
-            $this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);
-        }
-
         if ($this->attemptLogin($request)) {
             $request->session()->regenerate();
-
-            $user = Auth::user();
-            \Log::info('Custom login redirect fired. Role = ' . $user->role);
-
-            return to_route(match ($user->role) {
-                0 => 'admin-dashboard',
-                1 => 'user-dashboard',
-                2 => 'customer-dashboard',
-                default => 'login',
-            });
+    
+            return to_route('admin-dashboard');
         }
-
+    
         $this->incrementLoginAttempts($request);
-
+    
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
         ]);
+       
     }
 
     /**

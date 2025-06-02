@@ -27,7 +27,11 @@
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$user->name}}</td>
-                                    <td>{{$user->roles->name}}</td>
+                                    <td>
+                                        @foreach($user->roles as $role)
+                                            {{ $role->name }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a href="{{route('del-user', $user->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>

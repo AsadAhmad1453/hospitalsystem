@@ -23,18 +23,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
-
-                            @if($user->role == '2')
+                            @foreach($patients as $patient)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
-                                    <td>{{$user->name}}</td>
+                                    <td>{{$patient->name}}</td>
                                     <td>Patient</td>
                                     <td>
-                                        <a href="{{route('del-user', $user->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
+                                        <a href="{{route('del-user', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
-                            @endif
                             @endforeach
                         </tbody>
                     </table>
@@ -42,7 +39,7 @@
             </div>
         </div>
         <!-- Modal to add new record -->
-        <div class="modal modal-slide-in fade" id="modals-slide-in">
+        {{-- <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
                 <form action="{{route('save-user')}}" method="POST" class="add-new-record modal-content pt-0">
                     @csrf
@@ -69,7 +66,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div> --}}
     </section>
 @endsection
 @section('custom-js')

@@ -16,14 +16,15 @@ class UsersController extends Controller
     }
 
     public function saveuser(Request $request){
-        // dd($request->role_id);
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'role_id' => $request->role_id,
         ]); 
+        $role = Role::where('id', $request->role_id)->first();
+        $user->assignRole($role->name);
         return back()->with(['success', 'User Added']);
     }
 

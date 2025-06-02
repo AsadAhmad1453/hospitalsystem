@@ -13,14 +13,14 @@
             <div class="card">
             <form action="{{ route('roles.bulkUpdatePermissions') }}" method="POST">
                 @csrf
-                <table class="datatables-basic table">
+                <table  class="datatables-basic table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Role</th>
                             <th></th>
                             @foreach($permissions as $permission)
-                                <th>{{ ucfirst(str_replace('_', ' ', $permission->name)) }}</th>
+                                <th>{{ ucfirst($permission->name) }}</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -61,7 +61,7 @@
                         <label class="form-label" for="basic-icon-default-fullname">Role Name</label>
                         <input type="text" name="name" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
                     </div>
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label for="basicSelect">Designation</label>
                         <select class="form-control" name="designation" id="basicSelect">
                             <option value="0">Doctor</option>
@@ -69,7 +69,7 @@
                             <option value="2">Patient</option>
                             <option value="3">Receptionist</option>
                         </select>
-                    </div>
+                    </div> --}}
                     
                     <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
@@ -88,6 +88,7 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
+    
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
     var approvalLink = $(this).attr('href');

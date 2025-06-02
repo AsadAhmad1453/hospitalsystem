@@ -1681,7 +1681,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 
 @media (max-width: 575.98px) {
   .header-navbar.floating-nav {
-    width : calc(    100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
+    width : calc(
+    100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
     margin-right : calc(2rem - 0.8rem);
     margin-left : calc(2rem - 0.8rem);
   }
@@ -1893,8 +1894,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 }
 
 .card-congratulations {
-  background : -webkit-linear-gradient(208deg, #7367F0, rgba(115, 103, 240, 0.7));
-  background :         linear-gradient(-118deg, #7367F0, rgba(115, 103, 240, 0.7));
+  background : -webkit-linear-gradient(208deg, #019410, rgba(0, 184, 28, 0.7));
+  background :         linear-gradient(-118deg, #0f8601, rgba(20, 154, 0, 0.7));
   color : #FFFFFF;
 }
 

@@ -9,7 +9,7 @@
     <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>Profile - Vuexy - Bootstrap HTML admin template</title>
+    <title>Admin Panel</title>
 
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -31,6 +31,10 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/themes/semi-dark-layout.css')}}">
 
     <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/core/menu/menu-types/vertical-menu.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/plugins/charts/chart-apex.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/plugins/extensions/ext-component-toastr.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/pages/app-invoice-list.css') }}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/core/menu/menu-types/vertical-menu.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/pages/page-profile.css')}}">
     <!-- END: Page CSS-->
@@ -51,9 +55,6 @@
         <div class="navbar-container d-flex content">
         
             <ul class="nav navbar-nav align-items-center ml-auto">
-                
-                
-                
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">{{Auth::user()->name }}</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="{{asset('admin-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
                     </a>
@@ -150,7 +151,7 @@
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto"><a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html"><span class="brand-logo">
-                            <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
+                            {{-- <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
                                 <defs>
                                     <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
                                         <stop stop-color="#000000" offset="0%"></stop>
@@ -172,8 +173,8 @@
                                         </g>
                                     </g>
                                 </g>
-                            </svg></span>
-                        <h2 class="brand-text">Vuexy</h2>
+                            </svg></span> --}}
+                        <h1 class="brand-text" style="color: black">ADMIN PANEL</h1>
                     </a></li>
                 <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pr-0" data-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
             </ul>
@@ -183,23 +184,23 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="{{Route::is('admin-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin-dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
                 </li>
-                <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
+                <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
                 </li>
-                <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Staff</span></a>
-                </li>
-
-                <li class="{{Route::is('permissions') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('permissions')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Permissions</span></a>
+                <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather='user-check'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Staff</span></a>
                 </li>
 
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
+                <li class="{{Route::is('permissions') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('permissions')}}"><i data-feather='check-circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Permissions</span></a>
+                </li>
+
+                <li class=" nav-item {{ request()->routeIs('roles-table*') ? 'active open' : '' }}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
                     <ul class="menu-content">
                         @foreach ($roles as $role)
-                        <li><a class="d-flex align-items-center {{Route::is('roles-table', $role->id) ? 'active' : ''}}" href="{{route('roles-table', $role->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">{{ ucfirst($role->name) }}</span></a>
+                        <li><a class="d-flex align-items-center {{ request()->routeIs('roles-table') && request()->route('id') == $role->id ? 'active' : '' }}" href="{{route('roles-table', $role->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">{{ ucfirst($role->name) }}</span></a>
                         </li>
                         @endforeach
                     </ul>
                 </li>
-                <li class="{{Route::is('patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
+                <li class="{{Route::is('patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
                 </li>
                 
             </ul>
@@ -231,7 +232,10 @@
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <!-- END: Page Vendor JS-->
+      <script src="{{ asset('admin-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/vendors/js/extensions/toastr.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/vendors/js/extensions/moment.min.js') }}"></script>
+  <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
     <script src="{{asset('admin-assets/js/core/app-menu.js')}}"></script>
@@ -239,6 +243,8 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
+     <script src="{{ asset('admin-assets/js/scripts/pages/dashboard-analytics.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/scripts/pages/app-invoice-list.js') }}"></script>
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <!-- END: Page JS-->
 

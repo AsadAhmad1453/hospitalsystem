@@ -29,7 +29,11 @@
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$user->name}}</td>
-                                    <td>{{$user->roles->name}}</td>
+                                    <td>
+                                        @foreach($user->roles as $role)
+                                            {{ $role->name }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <a href="{{route('del-user', $user->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
@@ -88,6 +92,7 @@
 <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
+<script src="{{ asset('admin-assets/js/scripts/cards/card-advance.js') }}"></script>
 <script>
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
