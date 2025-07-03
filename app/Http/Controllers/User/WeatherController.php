@@ -31,7 +31,6 @@ class WeatherController extends Controller
             return response()->json(['error' => 'No location provided'], 400);
         }
 
-        // return response()->json($weather);
         return response()->json([
             'temp' => $weather['main']['temp'] ?? null,
             'description' => $weather['weather'][0]['description'] ?? null

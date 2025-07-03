@@ -14,6 +14,7 @@ use App\Http\Controllers\User\PatientEntryController;
 use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\User\DataCollectorController;
 use App\Http\Controllers\User\DoctorController;
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +64,14 @@ Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginFor
 Route::post('/staff/login',[App\Http\Controllers\User\LoginController::class, 'login'])->name('staff.login');
 Route::post('/staff-logout', [App\Http\Controllers\User\LoginController::class, 'logout'])->name('staff-logout');
 
+Route::get('/clear-cache', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('config:cache');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return 'Application cache, config, route, and view cleared!';
+});
 Route::prefix('user')->middleware(['auth','is_user'])->group(function () { 
     Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::get('/patient-entry', [App\Http\Controllers\User\PatientEntryController::class, 'index'])->name('patient-entry');
