@@ -297,6 +297,16 @@
             }
         }
 
+.stepper-section {
+  border: none !important;
+}
+
+.stepper-section.active {
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
+}
+
+
 html {
   font-size: 14px;
   height: 100%;

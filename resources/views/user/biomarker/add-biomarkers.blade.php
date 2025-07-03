@@ -14,7 +14,7 @@
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <div class="col-sm-3 col-form-label">
-                                            <label for="weight">Weight</label>
+                                            <label for="weight">Weight (kg)</label>
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
@@ -25,7 +25,7 @@
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <div class="col-sm-3 col-form-label">
-                                            <label for="height">Height</label>
+                                            <label for="height">Height (cm / m)</label>
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="text" id="height" class="form-control" name="height" placeholder="Height" />
@@ -35,20 +35,70 @@
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <div class="col-sm-3 col-form-label">
-                                            <label for="blood-pressure">Blood Pressure</label>
+                                            <label for="bmi">BMI</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="blood-pressure" class="form-control" name="blood_pressure" placeholder="Blood Pressure" />
+                                            <input type="text" id="bmi" class="form-control" readonly name="bmi" placeholder="BMI" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group row">
                                         <div class="col-sm-3 col-form-label">
-                                            <label for="heart-rate">Heart Rate</label>
+                                            <label for="pulse">Pulse</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="heart-rate" class="form-control" name="heart_rate" placeholder="Heart Rate" />
+                                            <input type="text" id="pulse" class="form-control" name="pulse" placeholder="Pulse" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label for="systolic_blood_pressure">Systolic Blood Pressure</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="systolic_blood_pressure" class="form-control" name="systolic_blood_pressure" placeholder="Systolic Blood Pressure" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label for="diastlic-blood-preesure">Diastolic Blood Pressure</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="diastolic-blood-pressure" class="form-control" name="diastolic_blood_pressure" placeholder="Diastolic Blood Pressure" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label for="temperature">Temperature</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="temperature" class="form-control" name="temperature" placeholder="Temperature" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-sm-3 col-form-label">
+                                            <label for="weather">Current Weather</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <input type="text" id="weather" class="form-control" readonly name="weather" placeholder="Current Weather" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group row">
+                                        <div class="col-3 col-form-label">
+                                            <label for="reports">Reports</label>
+                                        </div>
+                                        <div class="col-9">
+                                            <input type="file" id="reports" class="form-control" name="reports" placeholder="Reports File" />
                                         </div>
                                     </div>
                                 </div>
@@ -137,4 +187,65 @@
             </div>
         </div>
     </section>
+@endsection
+@section('custom-js')
+<script>
+$(document).ready(function() {
+    function calculateBMI() {
+        var weight = parseFloat($('#weight').val());
+        var height = parseFloat($('#height').val());
+
+        // Height should be in meters for BMI calculation
+        // If height is entered in centimeters, convert to meters
+        if (height > 3) { // assume cm if height > 3
+            height = height / 100;
+        }
+
+        if (weight > 0 && height > 0) {
+            var bmi = weight / (height * height);
+            $('#bmi').val(bmi.toFixed(2));
+        } else {
+            $('#bmi').val('');
+        }
+    }
+
+    $('#weight, #height').on('input', calculateBMI);
+
+        // Weather: Auto-detect location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+        $('#weather').val('Location not supported');
+    }
+
+    function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        console.log(latitude, longitude);
+        $.ajax({
+            url: '/api/weather',
+            method: 'GET',
+            data: { lat: latitude, lon: longitude },
+            success: function(response) {
+                if (response.temp) {
+                    $('#weather').val(response.temp + ' °C');
+                } else {
+                    $('#weather').val('Unavailable');
+                }
+            },
+            error: function() {
+                $('#weather').val('Error fetching weather');
+            }
+        });
+    }
+
+    function error() {
+        $('#weather').val('Unable to get location');
+    }
+
+});
+
+
+
+</script>
 @endsection

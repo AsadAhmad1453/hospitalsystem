@@ -15,4 +15,20 @@ class Patient extends Model
     {
         return $this->hasMany(MedicalRecord::class);
     }
+
+    public function latestMedicalRecord()
+    {
+        return $this->hasOne(MedicalRecord::class)->latestOfMany();
+    }
+
+    public function appointmentRequest()
+    {
+        return $this->hasOne(Appointment::class);
+    }
+
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
+    }
+
 }

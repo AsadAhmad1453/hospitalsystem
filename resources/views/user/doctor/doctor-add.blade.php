@@ -112,14 +112,14 @@
                                     <div class="col-6">
                                         <div class="form-group row">
                                             <div class="col-sm-3 col-form-label">
-                                                <label for="contact-icon">Blood Pressure</label>
+                                                <label for="contact-icon">Systolic Blood Pressure</label>
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i data-feather="battery"></i></span>
                                                     </div>
-                                                    <input type="text" id="contact-icon" class="form-control" value="{{ $medicalRecord->blood_pressure }}" disabled/>
+                                                    <input type="text" id="contact-icon" class="form-control" value="{{ $medicalRecord->systolic_blood_pressure }}" disabled/>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,14 +127,44 @@
                                     <div class="col-6">
                                         <div class="form-group row">
                                             <div class="col-sm-3 col-form-label">
-                                                <label for="pass-icon">Heart Rate</label>
+                                                <label for="contact-icon">Diastolic Blood Pressure</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i data-feather="battery"></i></span>
+                                                    </div>
+                                                    <input type="text" id="contact-icon" class="form-control" value="{{ $medicalRecord->diasystolic_blood_pressure }}" disabled/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-3 col-form-label">
+                                                <label for="pass-icon">Temperature</label>
                                             </div>
                                             <div class="col-sm-9">
                                                 <div class="input-group input-group-merge">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text"><i data-feather="command"></i></span>
                                                     </div>
-                                                    <input type="text" id="pass-icon" class="form-control" value="{{ $medicalRecord->heart_rate }}" disabled />
+                                                    <input type="text" id="pass-icon" class="form-control" value="{{ $medicalRecord->temperature }}" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group row">
+                                            <div class="col-sm-3 col-form-label">
+                                                <label for="pass-icon">Weather</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i data-feather="command"></i></span>
+                                                    </div>
+                                                    <input type="text" id="pass-icon" class="form-control" value="{{ $medicalRecord->weather }}" disabled />
                                                 </div>
                                             </div>
                                         </div>
@@ -155,21 +185,39 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="diagnosis">Final Diagnosis</label>
+                                            <label for="complaint">Present Complaint</label>
+                                            <textarea class="form-control" id="complaint" rows="3" name="complaint" placeholder="Present Complaint"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="symptoms">Symptoms</label>
+                                            <textarea class="form-control" id="symptoms" rows="3" name="symptoms" placeholder="Symptoms"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="blood_pressure">Blood Pressure</label>
+                                            <textarea class="form-control" id="blood_pressure" rows="1" name="blood_pressure" placeholder="Blood Pressure"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="diagnosis">Provisional Diagnosis</label>
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <textarea class="form-control" id="diagnosis" rows="3" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
+                                            <textarea class="form-control" id="diagnosis" rows="3" name="final_diagnosis" placeholder="Provisional Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="medication">Recommended Medication</label>
-                                            <textarea class="form-control" id="medication" rows="3" name="recommended_medication" placeholder="Recommended Medication"></textarea>
+                                            <label for="medication">Prescription</label>
+                                            <textarea class="form-control" id="medication" rows="3" name="recommended_medication" placeholder="Prescription"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="investigation">Further Investigation</label>
-                                            <textarea class="form-control" id="investigation" rows="3" name="further_investigation" placeholder="Further Investigation"></textarea>
+                                            <label for="investigation">Lab Investigation</label>
+                                            <textarea class="form-control" id="investigation" rows="3" name="further_investigation" placeholder="Lab Investigation"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -192,8 +240,40 @@
                     </div>
                 </div>
             </div>
-            
             <div class="col-5">
+                    @if($patient->answers->isNotEmpty())
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Patient Data</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form form-horizontal">
+                                <div class="row">
+                                    
+                                    @foreach ($patient->answers as $answer)
+                                        
+                                    <div class="col-12">
+                                        <div class="form-group row">
+                                            <div class="col-sm-12 col-form-label">
+                                                <label for="fname-icon">{{ $answer->question }}</label>
+                                            </div>
+                                            <div class="col-sm-12   ">
+                                                <div class="input-group input-group-merge">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i data-feather="user"></i></span>
+                                                    </div>
+                                                    <input type="text" id="fname-icon" class="form-control" value="{{ $answer->answer }}" placeholder="Answer" disabled />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    @endforeach
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    @endif
                 <div class="container">
                     <header class="header">
                         <div class="header-title">

@@ -40,20 +40,27 @@ class BioMarkerController extends Controller
     }
 
     public function savetestreports(Request $request)
-    {
+    {   
         $request->validate([
             'weight' => 'required',
             'height' => 'required',
-            'blood_pressure' => 'required|string|max:255',
-            'heart_rate' => 'required|string|max:255',
         ]);
-
+        
+        $filePath = null;
+        if ($request->hasFile('reports')) {
+            $file = $request->file('reports');
+            $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
+        }
         MedicalRecord::create([
             'patient_id' => $request->patient_id,
             'weight' => $request->weight,
             'height' => $request->height,
-            'blood_pressure' => $request->blood_pressure,
-            'heart_rate' => $request->heart_rate,
+            'pulse' => $request->pulse,
+            'systolic_blood_pressure' => $request->systolic_blood_pressure,
+            'diasystolic_blood_pressure' => $request->diastolic_blood_pressure,
+            'temperature' => $request->temperature,
+            'weather' => $request->weather,
+            'report_file' => $filePath,
             'final_diagnosis' => null,
             'recommended_medication' => null,
             'further_investigation' => null,

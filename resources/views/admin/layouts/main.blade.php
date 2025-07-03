@@ -202,7 +202,18 @@
                 </li>
                 <li class="{{Route::is('patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
                 </li>
-                
+                <li class="{{Route::is('services') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('services')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Services</span></a>
+                </li>
+                <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Questions</span></a>
+                    <ul class="menu-content">
+                        
+                        <li><a class="d-flex align-items-center {{Route::is('question-sections') ? 'active' : ''}}" href="{{route('question-sections')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Sections</span></a>
+                        </li>
+                        <li><a class="d-flex align-items-center {{Route::is('questions') || Route::is('question-add') ? 'active' : ''}}" href="{{route('questions')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Questions</span></a>
+                        </li>
+                        
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

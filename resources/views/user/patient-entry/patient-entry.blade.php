@@ -20,7 +20,7 @@
                                 <th>CNIC</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Patient Status</th>
+                                <th>Payment Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -31,17 +31,12 @@
                                     <td>{{$patient->cnic}}</td>
                                     <td>{{$patient->name}}</td>
                                     <td>{{ $patient->email }}</td>
-                                    <td>
-                                     <input type="checkbox"
-                                        id="activetoggle"
-                                        class="patient-status-toggle"
-                                        data-id="{{ $patient->id }}"
-                                        data-toggle="toggle"
-                                        data-on="Active"
-                                        data-off="Inactive"
-                                        data-onstyle="success"
-                                        data-offstyle="danger"
-                                        {{ $patient->patient_status == '1' ? 'checked' : '' }}/>
+                                    <td class="text-center">
+                                        @if($patient->payment_status == 1)
+                                            <span class="btn btn-success "><strong>Paid</strong></span>
+                                        @else
+                                            <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-danger">Make Payment</a>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{route('del-user', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>

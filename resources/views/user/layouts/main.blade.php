@@ -28,11 +28,11 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/themes/bordered-layout.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/themes/semi-dark-layout.css')}}">
     
-    @yield('custom-css')
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/core/menu/menu-types/vertical-menu.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/pages/page-profile.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/vendors/css/forms/select/select2.min.css') }}">
+    @yield('custom-css')
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -178,12 +178,28 @@
                     </a>
                 </li>
                 @endcan
+                @can('Appointment Schedule')
+                <li class="{{ Route::is('appointments') ? 'active' : '' }} nav-item">
+                    <a class="d-flex align-items-center" href="{{ route('appointments') }}">
+                        <i data-feather="user"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Appointment Schedule</span>
+                    </a>
+                </li>
+                @endcan
+                @can('Data Collector')
+                <li class=" nav-item {{ Route::is('patients-data-table') || Route::is('data-collector') ? 'active' : '' }}">
+                    <a class="d-flex align-items-center" href="{{ route('patients-data-table') }}">
+                        <i data-feather="user"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Data Collector</span>
+                    </a>
+                </li>
+                @endcan
                 @can('bio marker')
                 <li class="{{Route::is('biomarker') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('biomarker')}}"><i data-feather="activity"></i><span class="menu-title text-truncate" data-i18n="Dashboards">BIO Markers Entry</span></a>
                 </li>
                 @endcan
                 @can('patient form')
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{route('doctor-form')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patient Form</span></a>
+                <li class="{{Route::is('doctor-form') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('doctor-form')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patient Form</span></a>
                 </li>
                 @endcan
             </ul>
@@ -211,21 +227,21 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{asset('admin-assets/vendors/js/vendors.min.js')}}"></script>
-    @yield('custom-js')
     <!-- BEGIN Vendor JS-->
-
+    
     <!-- BEGIN: Page Vendor JS-->
-        <script src="{{ asset('admin-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
     <!-- END: Page Vendor JS-->
-
+    
     <!-- BEGIN: Theme JS-->
     <script src="{{asset('admin-assets/js/core/app-menu.js')}}"></script>
     <script src="{{asset('admin-assets/js/core/app.js')}}"></script>
     <!-- END: Theme JS-->
-
+    
     <!-- BEGIN: Page JS-->
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <script src="{{ asset('admin-assets/js/scripts/forms/form-select2.js') }}"></script>
+    @yield('custom-js')
     <!-- END: Page JS-->
 
     

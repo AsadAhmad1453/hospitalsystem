@@ -8,7 +8,12 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
-
+use App\Http\Controllers\User\WeatherController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\User\PatientEntryController;
+use App\Http\Controllers\Admin\QuestionsController;
+use App\Http\Controllers\User\DataCollectorController;
+use App\Http\Controllers\User\DoctorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +34,17 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
+    Route::get('/question-sections', [QuestionsController::class, 'index'])->name('question-sections');
+    Route::post('/save-section', [QuestionsController::class, 'saveSection'])->name('save-section');
+    Route::get('/delete-section/{id}', [QuestionsController::class, 'deleteSection'])->name('del-section');    
+
+    Route::get('/questions', [QuestionsController::class, 'question'])->name('questions');
+    Route::get('/question-add', [QuestionsController::class, 'addQuestion'])->name('question-add');
+    Route::post('/save-question', [QuestionsController::class, 'saveQuestion'])->name('save-question');
+    Route::get('/delete-question/{id}', [QuestionsController::class, 'deleteQuestion'])->name('del-question');
+    Route::post('/update-question-order', [QuestionsController::class, 'updateQuestionOrder'])->name('update-question-order');
+
+
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions');
     Route::post('/permissions', [PermissionController::class, 'store'])->name('save-permission');
     Route::get('/permissions/{permission}', [PermissionController::class, 'destroy'])->name('del-perm');
@@ -36,6 +52,11 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-user', [UsersController::class, 'saveuser'])->name('save-user');
     Route::get('/del-user/{id}', [UsersController::class, 'deluser'])->name('del-user');
     Route::get('/roles-table/{id}', [UsersController::class, 'rolestable'])->name('roles-table');
+    Route::get('/services', [ServiceController::class, 'index'])->name('services');
+    Route::post('/save-service', [ServiceController::class, 'saveService'])->name('save-service');
+    Route::get('/delete-service/{id}', [ServiceController::class, 'deleteService'])->name('del-service');
+
+
 });
 
 Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('staff-login');
@@ -52,6 +73,9 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/view-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'viewPatient'])->name('patient-view');
     Route::get('/delete-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'deletePatient'])->name('patient-delete');
     Route::get('patient-status-toggle', [App\Http\Controllers\User\PatientEntryController::class, 'patientStatusToggle'])->name('patient-status-toggle');
+    Route::get('/patient-invoice/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'invoice'])->name('patient-invoice');
+    Route::post('/made-payment/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'payed'])->name('made-payment');
+    Route::post('/patient/decline/{id}', [PatientEntryController::class, 'paydecline'])->name('pay-decline');
 
     Route::get('/biomarker', [App\Http\Controllers\User\BioMarkerController::class, 'index'])->name('biomarker');
     Route::get('/add-biomarker/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'addBiomarker'])->name('biomarker-add');
@@ -61,4 +85,16 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/doctor-form', [App\Http\Controllers\User\DoctorController::class, 'index'])->name('doctor-form');
     Route::get('/doctor-add/{id}', [App\Http\Controllers\User\DoctorController::class, 'addDoctor'])->name('doctor-add');
     Route::post('/save-doctor-reports', [App\Http\Controllers\User\DoctorController::class, 'savedoctorreports'])->name('save-doctor-reports');
+    Route::get('/patient-prescription/{id}', [DoctorController::class, 'prescription'])->name('patient-prescription');
+    Route::post('/appointment-request/{id}', [DoctorController::class, 'reqApp'])->name('request-appointment');
+    Route::post('/appointment-update/{id}', [DoctorController::class, 'updateApp'])->name('update-appointment');
+    Route::get('/appointment-requests', [DoctorController::class, 'appos'])->name('appointments');
+    Route::get('/del-appointment/{id}', [DoctorController::class, 'delApp'])->name('del-appointment');
+    Route::get('/save-appointment/{id}', [DoctorController::class, 'saveApp'])->name('save-appointment');
+
+
+    Route::get('/patients', [DataCollectorController::class, 'patients'])->name('patients-data-table');
+    Route::get('/data-collector/{id}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
+    Route::post('/data-collector/submit', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
+    
 });

@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Round;
 use App\Models\Patient;
 use App\Models\MedicalRecord;
+use App\Models\Appointment;
+use Spatie\GoogleCalendar\Event;
+use Carbon\Carbon;
 
 
 class DoctorController extends Controller
@@ -19,10 +22,14 @@ class DoctorController extends Controller
 
     public function addDoctor($id)
     {
-        $patient = Patient::with(['medicalRecords' => function($query) {
-            $query->orderBy('created_at', 'desc');
-        }])->findOrFail($id);
+        $patient = Patient::with([
+            'medicalRecords' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+            'answers'
+        ])->findOrFail($id);
         $medicalRecord = $patient->medicalRecords->first();
+        
         return view('user.doctor.doctor-add',compact('patient', 'medicalRecord'));
     }
 
@@ -45,6 +52,9 @@ class DoctorController extends Controller
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
         $patient->update([
+            'blood_pressure' => $request->blood_pressure,
+            'symptoms' => $request->symptoms,
+            'complaint' => $request->complaint,
             'final_diagnosis' => $request->final_diagnosis,
             'recommended_medication' => $request->recommended_medication,
             'further_investigation' => $request->further_investigation,
@@ -56,6 +66,67 @@ class DoctorController extends Controller
         ]);
         $round = Round::where('patient_id', $request->patient_id)->delete();
 
-        return redirect()->route('doctor-form')->with('success', 'Doctor report saved successfully.');
+        return redirect()->route('patient-prescription', $request->patient_id)->with('success', 'Doctor report saved successfully.');
     }
+
+        public function prescription($patient_id)
+        {
+            $patient = Patient::with('latestMedicalRecord')->findOrFail($patient_id);
+
+            return view('user.doctor.prescription', get_defined_vars());
+        }
+
+        public function appos()
+        {   
+            $appointments = Appointment::with('patient')->get();
+
+            return view('user.patient-entry.appointment-requests', get_defined_vars()); 
+        }
+
+        public function reqApp(Request $request, $patient_id)
+        {
+
+            Appointment::Create([
+                'patient_id' => $patient_id,
+                'appointment_date' => $request->appointment_date,
+            ]);
+
+            return redirect()->back()->with('success', 'Appointment scheduled successfully.');
+        }
+
+        public function updateApp(Request $request, $id)
+        {
+            $appointment = Appointment::where('id', $id)->first();
+            $appointment->update([
+                'appointment_date' => $request->appointment_date
+            ]);
+
+            return back();
+        }
+
+
+        public function saveApp($patient_id)
+        {
+          
+            $appointment = Appointment::where('patient_id', (int)$patient_id)->first();
+            // dd(storage_path('app/google-calendar/service-account-credentials.json'));
+            $appointmentDate = Carbon::createFromFormat('Y-m-d', $appointment->appointment_date);
+            
+             $event = Event::create([
+                'name' => 'All-Day Appointment',
+                'startDate' => $appointmentDate,                 // Pass Carbon instance
+                'endDate' => $appointmentDate->copy()->addDay(), // Pass Carbon instance
+            ]);
+
+            $appointment->delete();
+            
+            return redirect()->route('appointments');        
+        }
+
+        public function delApp($id)
+        {
+            Appointment::where('id', $id)->delete();
+
+            return back();
+        }
 }

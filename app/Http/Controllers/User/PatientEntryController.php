@@ -8,6 +8,8 @@ use App\Http\Requests\StorePatientRequest;
 use App\Models\Patient;
 use App\Models\User;
 use App\Models\Round;
+use App\Models\Service;
+use App\Models\Invoice;
 use Illuminate\Support\Facades\Auth;
 
 class PatientEntryController extends Controller
@@ -20,19 +22,72 @@ class PatientEntryController extends Controller
     public function addPatient()
     {
         $users = User::where('role_id','6')->get();
-        return view('user.patient-entry.add-patient',compact('users'));
+        $services = Service::all();
+        return view('user.patient-entry.add-patient',compact('users', 'services'));
     }
+
+    public function paydecline($id)
+    {
+        $patient = Patient::findOrFail($id);
+        $patient->payment_status = '0'; // Set payment status to unpaid
+        $patient->save();
+        return redirect()->route('patient-entry')->with('success', 'Payment status updated to unpaid.');
+    }
+
     public function savepatient(StorePatientRequest $request)
     {
+        
         $validatedData = $request->validated();
-        $patient = Patient::create($validatedData);
+        if(!$patientexists){
+            $patient = Patient::create($validatedData);
+        }
+
+        foreach ($request->services as $service) {
+            Invoice::create([
+                'patient_id' => $patient->id,
+                'service_id' => $service,
+            ]);
+        }
+
+        // Round::create([
+        //     'patient_id' => $patient->id,
+        //     'visit_number' => 1,
+        // ]);
+
+        return redirect()->route('patient-invoice', $patient->id)->with('success', 'Patient added successfully.');
+    }
+
+    public function invoice($patientId)
+    {
+        $patient = Patient::findOrFail($patientId);
+        $invoices = Invoice::where('patient_id', $patientId)->with('service')->get();
+        $services = Service::all();
+
+        
+        $totalAmount = $invoices->sum(function($invoice) {
+            return ($invoice->service ) ? (float)$invoice->service->amount : 0;
+        });
+
+        
+
+        return view('user.patient-entry.invoice', compact('patient', 'invoices', 'services', 'totalAmount'));
+    }
+
+    public function payed(Request $request, $id){
+        
+        $patient = Patient::findOrFail($id);
+        $patient->payment_status = '1';
+        $patient->patient_status = '1';
+        $patient->save();
+
         Round::create([
             'patient_id' => $patient->id,
             'visit_number' => 1,
         ]);
 
-        return redirect()->route('patient-entry')->with('success', 'Patient added successfully.');
+        return redirect()->route('patient-entry')->with(['success' => 'Payment Made Successfully']);
     }
+
     public function patientStatusToggle(Request $request)
     {
         $patient = Patient::findOrFail($request->id);
