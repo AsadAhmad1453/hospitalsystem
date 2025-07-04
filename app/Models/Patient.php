@@ -11,6 +11,12 @@ class Patient extends Model
     protected $table = 'patients';
     protected $guarded = [];
 
+
+    public function round()
+    {
+        return $this->hasOne(Round::class);
+    }
+
     public function medicalRecords()
     {
         return $this->hasMany(MedicalRecord::class);

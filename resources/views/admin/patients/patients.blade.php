@@ -19,7 +19,7 @@
                                 <th>Name</th>
                                 <th></th>
                                 <th>Role</th>
-                                <th>Actions</th>
+                                <th>Actions <a href="{{ route('del-all') }}" class="float-right text-danger course-sure"><i class="fa fa-trash"></i> Delete all</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +29,7 @@
                                     <td>{{$patient->name}}</td>
                                     <td>Patient</td>
                                     <td>
-                                        <a href="{{route('del-user', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
+                                        <a href="{{route('del-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

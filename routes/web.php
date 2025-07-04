@@ -37,13 +37,14 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
     Route::get('/question-sections', [QuestionsController::class, 'index'])->name('question-sections');
     Route::post('/save-section', [QuestionsController::class, 'saveSection'])->name('save-section');
-    Route::get('/delete-section/{id}', [QuestionsController::class, 'deleteSection'])->name('del-section');    
+    Route::get('/delete-section/{id}', [QuestionsController::class, 'deleteSection'])->name('del-section');
 
     Route::get('/questions', [QuestionsController::class, 'question'])->name('questions');
     Route::get('/question-add', [QuestionsController::class, 'addQuestion'])->name('question-add');
     Route::post('/save-question', [QuestionsController::class, 'saveQuestion'])->name('save-question');
     Route::get('/delete-question/{id}', [QuestionsController::class, 'deleteQuestion'])->name('del-question');
     Route::post('/update-question-order', [QuestionsController::class, 'updateQuestionOrder'])->name('update-question-order');
+    Route::get('/del-all-questions', [QuestionsController::class, 'delAllQuestions'])->name('del-all-questions');
 
 
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions');
@@ -52,6 +53,9 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-staff', [StaffController::class, 'savestaff'])->name('save-staff');
     Route::post('/save-user', [UsersController::class, 'saveuser'])->name('save-user');
     Route::get('/del-user/{id}', [UsersController::class, 'deluser'])->name('del-user');
+    Route::get('/del-patient/{id}', [PatientController::class, 'delPatient'])->name('del-patient');
+    Route::get('/del-all', [PatientController::class, 'delAll'])->name('del-all');
+
     Route::get('/roles-table/{id}', [UsersController::class, 'rolestable'])->name('roles-table');
     Route::get('/services', [ServiceController::class, 'index'])->name('services');
     Route::post('/save-service', [ServiceController::class, 'saveService'])->name('save-service');
@@ -72,7 +76,7 @@ Route::get('/clear-cache', function () {
     Artisan::call('view:clear');
     return 'Application cache, config, route, and view cleared!';
 });
-Route::prefix('user')->middleware(['auth','is_user'])->group(function () { 
+Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::get('/patient-entry', [App\Http\Controllers\User\PatientEntryController::class, 'index'])->name('patient-entry');
     Route::post('/save-patient', [App\Http\Controllers\User\PatientEntryController::class, 'savepatient'])->name('save-patient');
@@ -90,7 +94,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/add-biomarker/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'addBiomarker'])->name('biomarker-add');
     Route::post('/save-test-reports', [App\Http\Controllers\User\BioMarkerController::class, 'savetestreports'])->name('save-test-reports');
     Route::get('/view-patient/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'viewPatient'])->name('view-patient');
-   
+
     Route::get('/doctor-form', [App\Http\Controllers\User\DoctorController::class, 'index'])->name('doctor-form');
     Route::get('/doctor-add/{id}', [App\Http\Controllers\User\DoctorController::class, 'addDoctor'])->name('doctor-add');
     Route::post('/save-doctor-reports', [App\Http\Controllers\User\DoctorController::class, 'savedoctorreports'])->name('save-doctor-reports');
@@ -105,5 +109,4 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/patients', [DataCollectorController::class, 'patients'])->name('patients-data-table');
     Route::get('/data-collector/{id}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
-    
 });

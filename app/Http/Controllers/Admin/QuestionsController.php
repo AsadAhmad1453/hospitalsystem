@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Question;
-use App\Models\Section; 
+use App\Models\Section;
 use App\Models\Dependency;
 use App\Models\Option;
 
@@ -49,7 +49,7 @@ class QuestionsController extends Controller
     {
         $sections = Section::all();
         $questions = Question::with('options')->get();
-        
+
         return view('admin.questions.question-add', get_defined_vars());
     }
 
@@ -59,7 +59,7 @@ class QuestionsController extends Controller
         $question = Question::create([
             'section_id' => $request->section_id,
             'question' => $request->question,
-            'question_type' => $request->question_type, 
+            'question_type' => $request->question_type,
             'has_dependency' => $request->has_dependency,
             'position' => $maxPosition + 1,
         ]);
@@ -93,6 +93,20 @@ class QuestionsController extends Controller
         $question->delete();
 
         return redirect()->back()->with('success', 'Question deleted successfully.');
+    }
+
+  public function delAllQuestions()
+    {
+        try {
+            \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            Dependency::truncate();
+            Option::truncate();
+            Question::truncate();
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+            return redirect()->back()->with('success', 'All questions deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete all questions: ' . $e->getMessage());
+        }
     }
 
     public function updateQuestionOrder(Request $request)

@@ -16,7 +16,12 @@ class PatientEntryController extends Controller
 {
     public function index()
     {
-        $patients = Patient::all();
+        $patients = Patient::where(function($query) {
+                $query->where('payment_status', '0')
+                    ->orWhereHas('round');
+            })
+            ->with('round')
+            ->get();
         return view('user.patient-entry.patient-entry', compact('patients'));
     }
     public function addPatient()
@@ -36,7 +41,7 @@ class PatientEntryController extends Controller
 
     public function savepatient(StorePatientRequest $request)
     {
-        
+        $patientexists = Patient::where('unique_number', $request->unique_number)->first();
         $validatedData = $request->validated();
         if(!$patientexists){
             $patient = Patient::create($validatedData);
@@ -63,18 +68,18 @@ class PatientEntryController extends Controller
         $invoices = Invoice::where('patient_id', $patientId)->with('service')->get();
         $services = Service::all();
 
-        
+
         $totalAmount = $invoices->sum(function($invoice) {
             return ($invoice->service ) ? (float)$invoice->service->amount : 0;
         });
 
-        
+
 
         return view('user.patient-entry.invoice', compact('patient', 'invoices', 'services', 'totalAmount'));
     }
 
     public function payed(Request $request, $id){
-        
+
         $patient = Patient::findOrFail($id);
         $patient->payment_status = '1';
         $patient->patient_status = '1';
@@ -91,7 +96,7 @@ class PatientEntryController extends Controller
     public function patientStatusToggle(Request $request)
     {
         $patient = Patient::findOrFail($request->id);
-        $patient->patient_status = $request->status; 
+        $patient->patient_status = $request->status;
         $patient->save();
         if($patient->patient_status == '1') {
             Round::create([
@@ -104,7 +109,7 @@ class PatientEntryController extends Controller
                 $round->delete();
             }
         }
-       
+
         return response()->json([
             'success' => true,
             'message' => 'Patient status updated successfully.',

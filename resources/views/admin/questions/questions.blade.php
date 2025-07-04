@@ -19,7 +19,7 @@
                                 <th>#</th>
                                 <th>Question Statement</th>
                                 <th>Section</th>
-                                <th>Actions</th>
+                                <th>Actions <a href="{{ route('del-all-questions') }}" class="float-right text-danger course-sure"><i class="fa fa-trash"></i> Delete all</a></th>
                             </tr>
                         </thead>
                         <tbody id="sortable">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <!-- Modal to add new record -->
-        
+
     </section>
 @endsection
 @section('custom-js')
@@ -145,6 +145,6 @@
         }
     });
 });
-   
+
 </script>
 @endsection

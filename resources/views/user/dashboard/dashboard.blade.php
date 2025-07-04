@@ -17,14 +17,14 @@
                                         <h1 class="mb-1 text-white">Welcome {{Auth::user()->name }}!</h1>
                                         <p class="card-text m-auto w-75">
                                             @foreach ($roles as $role)
-                                                
+
                                             @if(Auth::user()->role_id == $role->id && $role->name == 'Doctor')
-                                            
+
                                             You have  <strong>{{ $doctorRounds }}</strong> new patients in queue right now!.
                                             @elseif(Auth::user()->role_id == $role->id && $role->name == 'Nurse')
-                                            You have  <strong>{{ $nurseRounds }}</strong> new patients in queue right now!.                                            
+                                            You have  <strong>{{ $nurseRounds }}</strong> new patients in queue right now!.
                                             @endif
-                                            
+
                                             @endforeach
 
                                         </p>
@@ -68,7 +68,7 @@
                         <!-- Subscribers Chart Card ends -->
 
                         <!-- Orders Chart Card starts -->
-                 
+
                         <!-- Orders Chart Card ends -->
                     </div>
 

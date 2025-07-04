@@ -14,4 +14,18 @@ class PatientController extends Controller
         $patients = Patient::all();
         return view('admin.patients.patients', get_defined_vars());
     }
+
+    public function delPatient($id){
+        $patient = Patient::findOrFail($id);
+        $patient->delete();
+        return redirect()->back()->with('success', 'Patient deleted successfully');
+    }
+
+    public function delALL(){
+        $patients = Patient::all();
+        foreach ($patients as $patient) {
+            $patient->delete();
+        }
+        return redirect()->back()->with('success', 'All patients deleted successfully');
+    }
 }
