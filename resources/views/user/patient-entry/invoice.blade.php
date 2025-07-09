@@ -122,7 +122,7 @@
                                             <tr>
                                                 <td class="py-1">
                                                     <p class="card-text font-weight-bold mb-25">{{ $invoice->service->service_name }}</p>
-                                                    
+
                                                 </td>
                                                 <td class="py-1">
                                                     <span class="font-weight-bold">{{ $invoice->service->amount }}</span>
@@ -183,12 +183,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <button class="btn btn-primary btn-block mb-75"  data-toggle="modal" data-target="#exampleModalCenter">
-                                        Payment 
-                                    </button>   
+                                        Payment
+                                    </button>
                                     <form action="{{ route('pay-decline', $patient->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         <button type="submit" class="btn btn-danger w-100">Decline</button>
-                                    </form>                               
+                                    </form>
                                 </div>
                             </div>
                         </div>

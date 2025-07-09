@@ -321,6 +321,12 @@ h5, .h5 {
 h6, .h6 {
   font-size: 1rem; }
 
+.sidelink {
+    padding: 1.1rem 15px !important;
+    /* font-weight: bold !important; */
+    border-bottom: solid 1px rgb(227, 227, 227);
+}
+
 .lead {
   font-size: 1.14rem;
   font-weight: 400; }

@@ -13,7 +13,7 @@
                         <!-- Header starts -->
                         <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
                             <div>
-                                <h1 class="text-primary fw-bold my-2"><strong>{{ $patient->name }}</strong></h1>
+                                <h1 class="fw-bold my-2"><strong>Name: </strong>{{ $patient->name }}</h1>
                             </div>
                             {{-- <div class="mt-md-0 mt-2">
                                 <h4 class="invoice-title">

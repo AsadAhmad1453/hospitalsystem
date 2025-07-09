@@ -36,7 +36,7 @@
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/style.css')}}">
     <!-- END: Custom CSS-->
-
+    @yield('custom-css')
 </head>
 <!-- END: Head-->
 

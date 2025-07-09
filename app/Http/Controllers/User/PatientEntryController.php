@@ -18,7 +18,9 @@ class PatientEntryController extends Controller
     {
         $patients = Patient::where(function($query) {
                 $query->where('payment_status', '0')
-                    ->orWhereHas('round');
+                     ->orWhereHas('round', function($q) {
+                            $q->where('round_status', '1');
+                        });
             })
             ->with('round')
             ->get();
@@ -85,12 +87,26 @@ class PatientEntryController extends Controller
         $patient->patient_status = '1';
         $patient->save();
 
-        Round::create([
+        $token = Round::count() + 1;
+        $round = Round::create([
             'patient_id' => $patient->id,
+            'round_status' => '1',
             'visit_number' => 1,
+            'token' => $token,
         ]);
-
         return redirect()->route('patient-entry')->with(['success' => 'Payment Made Successfully']);
+    }
+
+    public function roundStatus($id)
+    {
+        $round = Round::where('patient_id', $id)->firstOrFail();
+        $round->round_status = '0';
+        $round->save();
+
+        $patient = Patient::findOrFail($id);
+        $patient->patient_status = '0';
+        $patient->save();
+        return redirect()->route('patient-entry')->with('success', 'Round status updated successfully.');
     }
 
     public function patientStatusToggle(Request $request)
@@ -148,5 +164,12 @@ class PatientEntryController extends Controller
         $patient = Patient::findOrFail($id);
         $patient->delete();
         return redirect()->route('patient-entry')->with('success', 'Patient deleted successfully.');
+    }
+
+    public function delAllRounds()
+    {
+        Patient::where('patient_status', 1)->update(['patient_status' => 0]);
+        Round::truncate();
+        return redirect()->route('user-dashboard')->with('success', 'All rounds deleted successfully.');
     }
 }

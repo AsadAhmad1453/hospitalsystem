@@ -29,13 +29,13 @@ class DoctorController extends Controller
             'answers'
         ])->findOrFail($id);
         $medicalRecord = $patient->medicalRecords->first();
-        
+
         return view('user.doctor.doctor-add',compact('patient', 'medicalRecord'));
     }
 
     public function savedoctorreports(Request $request)
     {
-        
+
         $request->validate([
             'final_diagnosis' => 'required|string|max:255',
             'recommended_medication' => 'required|string|max:255',
@@ -48,7 +48,7 @@ class DoctorController extends Controller
             $file = $request->file('reports');
             $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
         }
-        
+
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
         $patient->update([
@@ -60,12 +60,15 @@ class DoctorController extends Controller
             'further_investigation' => $request->further_investigation,
             'report_file' => $filePath,
         ]);
-        
+
         Patient::where('id', $request->patient_id)->update([
             'patient_status' => '0',
         ]);
-        $round = Round::where('patient_id', $request->patient_id)->delete();
-
+        $round = Round::where('patient_id', $request->patient_id)->first();
+        $round->update([
+            'doctor_status' => '0',
+            'round_status' => '0',
+        ]);
         return redirect()->route('patient-prescription', $request->patient_id)->with('success', 'Doctor report saved successfully.');
     }
 
@@ -77,10 +80,10 @@ class DoctorController extends Controller
         }
 
         public function appos()
-        {   
+        {
             $appointments = Appointment::with('patient')->get();
 
-            return view('user.patient-entry.appointment-requests', get_defined_vars()); 
+            return view('user.patient-entry.appointment-requests', get_defined_vars());
         }
 
         public function reqApp(Request $request, $patient_id)
@@ -107,11 +110,11 @@ class DoctorController extends Controller
 
         public function saveApp($patient_id)
         {
-          
+
             $appointment = Appointment::where('patient_id', (int)$patient_id)->first();
             // dd(storage_path('app/google-calendar/service-account-credentials.json'));
             $appointmentDate = Carbon::createFromFormat('Y-m-d', $appointment->appointment_date);
-            
+
              $event = Event::create([
                 'name' => 'All-Day Appointment',
                 'startDate' => $appointmentDate,                 // Pass Carbon instance
@@ -119,8 +122,8 @@ class DoctorController extends Controller
             ]);
 
             $appointment->delete();
-            
-            return redirect()->route('appointments');        
+
+            return redirect()->route('appointments');
         }
 
         public function delApp($id)

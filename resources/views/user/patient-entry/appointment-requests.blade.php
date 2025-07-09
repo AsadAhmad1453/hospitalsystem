@@ -28,9 +28,9 @@
                                 <tr>
                                     <td>{{$appointment->patient->name}}</td>
 
-                                    
+
                                     <td>{{$appointment->appointment_date}}</td>
-                                    
+
                                     <td>
                                         <a href="{{ route('save-appointment', $appointment->patient->id) }}" class="text-warning"><i class="fa fa-save"></i></a>
                                         <a type="button" data-toggle="modal" data-target="#exampleModalCenter-{{ $appointment->id }}" class="text-warning"><i class="fa fa-edit"></i></a>
@@ -73,8 +73,8 @@
         </div>
         <!-- Modal to add new record -->
         <!-- Send Invoice Sidebar -->
-        
-           
+
+
         <!-- /Send Invoice Sidebar -->
     </section>
 @endsection
@@ -82,7 +82,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
-<script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
+<script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.buttons.min.js')}}"></script>
+<script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 {{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
@@ -181,6 +182,6 @@
         }
     });
 });
-   
+
 </script>
 @endsection

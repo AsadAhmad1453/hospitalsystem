@@ -28,7 +28,7 @@ class DataCollectorController extends Controller
             ->unique('id')
             ->values();
             // Format for frontend
-       
+
 
         // Pass to view
         return view('user.data-collector.data-collector', get_defined_vars());
@@ -36,7 +36,8 @@ class DataCollectorController extends Controller
 
     public function submitAnswers(Request $request)
     {
-        
+        Answer::where('patient_id', $request->patient_id)->delete();
+
         foreach ($request->except(['_token', 'patient_id']) as $questionId => $answer) {
             $question = Question::find($questionId);
 
@@ -56,7 +57,7 @@ class DataCollectorController extends Controller
                 }
             } else {
                 // Text or date: store as is
-                
+
                 $answerString = is_array($answer) ? json_encode($answer) : $answer;
             }
 

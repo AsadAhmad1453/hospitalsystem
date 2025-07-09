@@ -1,8 +1,8 @@
-@extends('user.layouts.main')   
+@extends('user.layouts.main')
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('admin-assets/css/custom-css.css') }}">
 <style>
-    
+
 
 </style>
 @endsection
@@ -29,7 +29,65 @@
                                 </div>
                             </div>
                             <input type="hidden" id="patient_id" name="patient_id" value="{{ $patientId }}">
-                            @foreach ($questions as $index => $question)
+
+                            @foreach ($sections as $section)
+                            <div class="section-block" id="section-{{ $section->id }}" style="display: none;">
+                                @foreach ($questions->where('section.id', $section->id) as $question)
+                                    <div class="question-block mb-4" id="question-{{ $question->id }}">
+                                        <div class="question-step">
+                                            <div class="my-3 text-center">
+                                                <strong class="h4 ">{{ $question->question }}</strong>
+                                                <span id="answer-warning-{{ $question->id }}" class="text-danger mt-2 d-block" style="display: none;"></span>
+                                            </div>
+
+                                            @if($question->question_type == '0' || $question->question_type == '1')
+                                                <div class="options-grid">
+                                                    @foreach ($question->options as $option)
+                                                        @if($question->question_type == '0')
+                                                            <div class="option-box-wrapper">
+                                                                <input id="q{{ $question->id }}_{{ $option->id }}"
+                                                                    type="radio"
+                                                                    name="{{ $question->id }}"
+                                                                    value="{{ $option->id }}"
+                                                                    data-question-id="{{ $question->id }}"
+                                                                    data-option-id="{{ $option->id }}"
+                                                                    class="option-radio">
+                                                                <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
+                                                            </div>
+                                                        @elseif($question->question_type == '1')
+                                                            <div class="option-box-wrapper">
+                                                                <input id="q{{ $question->id }}_{{ $option->id }}"
+                                                                    type="checkbox"
+                                                                    name="{{ $question->id }}[]"
+                                                                    value="{{ $option->id }}"
+                                                                    data-question-id="{{ $question->id }}"
+                                                                    data-option-id="{{ $option->id }}"
+                                                                    class="option-checkbox">
+                                                                <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
+                                                            </div>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            @elseif($question->question_type == '2')
+                                                <input type="text"
+                                                    class="w-50 form-control"
+                                                    name="{{ $question->id }}"
+                                                    data-question-id="{{ $question->id }}"
+                                                    placeholder="Type your answer...">
+                                            @elseif($question->question_type == '3')
+                                                <input type="date"
+                                                    class="w-50 form-control"
+                                                    name="{{ $question->id }}"
+                                                    data-question-id="{{ $question->id }}">
+                                            @endif
+
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            @endforeach
+
+                            {{-- @foreach ($questions as $index => $question)
                                 <div class="question-block" id="question-{{ $index }}" style="{{ $index == 0 ? '' : 'display:none;' }}">
                                     <div class="question-step">
                                         <div class="my-3 text-center">
@@ -50,7 +108,7 @@
                                                     </div>
                                                 @endif
                                             @endforeach
-                                            
+
                                         </div>
                                         <span id="answer-warning{{ $question->id }}" class="d-block  text-danger my-2"></span>
 
@@ -65,7 +123,7 @@
                                         @endif
                                     </div>
                                 </div>
-                            @endforeach
+                            @endforeach --}}
 
                             <div class="formbold-form-btn-wrapper col-12 ">
                                 <div class="col-2 d-flex justify-content-between    ">
@@ -114,163 +172,211 @@
 @endsection
 
 @section('custom-js')
-
 <script>
-$(document).ready(function() {
+$(document).ready(function () {
+    var sections = @json($sections);
     var questions = @json($questions);
     var dependencies = @json($dependencies);
-    var current = 0;
-    var total = questions.length;
-    var skipped = {}; // {index: true} for skipped questions
 
-    function updateButtons() {
-        $('#prev-btn').toggle(current > 0);
-        $('#next-btn').toggle(current < total - 1);
-        $('#submit-btn').toggle(current === total - 1);
-    }
+    let currentSectionIndex = 0;
+    let skippedQuestions = {};
+    let selectedAnswers = {};
+    let activeDependencies = {}; // keeps track of trigger-question and selected option
 
-    function updateActiveSection(questionIdx) {
-        var sectionId = questions[questionIdx]?.section?.id;
-        if (!sectionId) return;
+    showSection(currentSectionIndex);
 
-       $('.section-item').removeClass('active');
-        var $activeItem = $('.section-item[data-section-id="' + sectionId + '"]');
-        $activeItem.addClass('active');
+    function showSection(idx) {
+        $('.section-block').hide();
+        let $section = $('#section-' + sections[idx].id);
+        $section.show();
 
-        // Smooth scroll into view (only horizontally)
-        $activeItem[0].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
- }
+        $section.find('.question-block').each(function () {
+            let qid = $(this).attr('id').replace('question-', '');
+            let $block = $(this);
 
-    function showQuestion(idx) {
-        $('.question-block').hide();
-        $('#question-' + idx).show();
-        updateButtons();
-        updateActiveSection(idx);
-    }
+            if (skippedQuestions[qid]) {
+                $block.hide().find('input,select,textarea').prop('disabled', true);
+            } else {
+                $block.show().find('input,select,textarea').prop('disabled', false);
 
-    function disableQuestion(idx) {
-        skipped[idx] = true;
-        $('#question-' + idx).find('input,select,textarea').prop('disabled', true);
-    }
-
-    function enableQuestion(idx) {
-        skipped[idx] = false;
-        $('#question-' + idx).find('input,select,textarea').prop('disabled', false);
-    }
-
-    // Next button logic
-    $('#next-btn').click(function(e) {
-        e.preventDefault();
-        var q = questions[current];
-        var answered = false;
-        if (q.question_type == 0) {
-            answered = $('input[name="' + q.id + '"]:checked').length > 0;
-        } else if (q.question_type == 1) {
-            answered = $('input[name="' + q.id + '[]"]:checked').length > 0;
-        } else if (q.question_type == 2 || q.question_type == 3) {
-            answered = $('input[name="' + q.id + '"]').val().trim() !== '';
-        }
-        if (!answered) {
-            $('#answer-warning' + q.id + '').text('Please answer this question before proceeding!').show();
-            return;
-        }
-        $('#answer-warning' + q.id + '').hide();
-
-        // Dependency jump for radio
-        var selectedOptionId = null;
-        if (q.question_type == 0) {
-            selectedOptionId = $('input[name="' + q.id + '"]:checked').data('option-id');
-            var jumpToQid = null;
-            dependencies.forEach(function(dep) {
-                if (dep.question_id == q.id && dep.option_id == selectedOptionId) {
-                    jumpToQid = dep.dependent_question_id;
+                let q = questions.find(q => q.id == qid);
+                if (q && selectedAnswers[qid] !== undefined) {
+                    if (q.question_type == 0) {
+                        $('input.option-radio[data-question-id="' + qid + '"][data-option-id="' + selectedAnswers[qid] + '"]').prop('checked', true);
+                    } else if (q.question_type == 1) {
+                        selectedAnswers[qid].forEach(optid => {
+                            $('input.option-checkbox[data-question-id="' + qid + '"][data-option-id="' + optid + '"]').prop('checked', true);
+                        });
+                    } else if (q.question_type == 2 || q.question_type == 3) {
+                        $block.find('input, textarea').val(selectedAnswers[qid]);
+                    }
                 }
-            });
-            if (jumpToQid) {
-                var depIdx = questions.findIndex(q => q.id == jumpToQid);
-                // Disable skipped questions between current and depIdx
-                var min = Math.min(current, depIdx), max = Math.max(current, depIdx);
-                for (var i = min + 1; i < max; i++) {
-                    skipped[i] = true;
-                    $('#question-' + i).find('input,select,textarea').prop('disabled', true);
-                }
-                current = depIdx;
-                showQuestion(current);
-                return;
-            }
-        }
-
-        // Default: next question
-        if (current < total - 1) {
-            current++;
-            showQuestion(current);
-        }
-    });
-
-    // Prev button logic
-    $('#prev-btn').click(function(e) {
-        e.preventDefault();
-        var prev = current - 1;
-        while (prev >= 0 && skipped[prev]) {
-            prev--;
-        }
-        if (prev >= 0) {
-            current = prev;
-            showQuestion(current);
-        }
-    });
-
-    // Dependency jump logic for radios
-    $('.option-radio').on('change', function() {
-        
-        var $this = $(this);
-        var qIdx = $('.question-block:visible').index('.question-block');
-        var qId = questions[qIdx].id;
-        var selectedOptId = $this.data('option-id');
-        var jumpToQid = null;
-        dependencies.forEach(function(dep) {
-            if (dep.question_id == qId && dep.option_id == selectedOptId) {
-                jumpToQid = dep.dependent_question_id;
             }
         });
-        if (jumpToQid) {
-            // Find the index of the dependent question
-            var depIdx = questions.findIndex(q => q.id == jumpToQid);
-            // Disable skipped questions between current and depIdx
-            var min = Math.min(qIdx, depIdx), max = Math.max(qIdx, depIdx);
-            for (var i = min + 1; i < max; i++) {
-                disableQuestion(i);
+
+        // Reapply dependency logic for all tracked dependencies
+        Object.keys(activeDependencies).forEach(triggerQid => {
+            applyDependencies(triggerQid, activeDependencies[triggerQid], true); // silent = true
+        });
+
+        $('.section-item').removeClass('active');
+        $('.section-item[data-section-id="' + sections[idx].id + '"]').addClass('active');
+
+        $('#prev-btn').toggle(idx > 0);
+        $('#next-btn').toggle(idx < sections.length - 1);
+        $('#submit-btn').toggle(idx === sections.length - 1);
+    }
+
+    function markQuestionSkipped(qid) {
+        skippedQuestions[qid] = true;
+        $('#question-' + qid).hide().find('input,select,textarea').prop('disabled', true);
+        delete selectedAnswers[qid];
+    }
+
+    function unskipQuestion(qid) {
+        skippedQuestions[qid] = false;
+        $('#question-' + qid).show().find('input,select,textarea').prop('disabled', false);
+    }
+
+    function validateCurrentSection() {
+        let valid = true;
+        $('#section-' + sections[currentSectionIndex].id + ' .question-block:visible').each(function () {
+            let qid = $(this).attr('id').replace('question-', '');
+            let q = questions.find(q => q.id == qid);
+            let answered = false;
+
+            if (q.question_type == 0) {
+                answered = $(this).find('input[type="radio"]:checked').length > 0;
+            } else if (q.question_type == 1) {
+                answered = $(this).find('input[type="checkbox"]:checked').length > 0;
+            } else {
+                answered = $(this).find('input, textarea').val().trim() !== '';
             }
-            current = depIdx;
-            showQuestion(current);
-        } else {
-            // No dependency: re-enable all skipped questions after current
-            for (var i = current + 1; i < total; i++) {
-                if (skipped[i]) {
-                    skipped[i] = false;
-                    $('#question-' + i).find('input,select,textarea').prop('disabled', false);
-                }
+
+            if (!answered) {
+                valid = false;
+                $('#answer-warning-' + qid).text('Please answer this question!').show();
+            } else {
+                $('#answer-warning-' + qid).hide();
             }
-            if (current < total - 1) {
-                showQuestion(++current);
-            }
+        });
+        return valid;
+    }
+
+    $('#next-btn').click(function (e) {
+        e.preventDefault();
+        if (validateCurrentSection()) {
+            currentSectionIndex++;
+            showSection(currentSectionIndex);
         }
     });
 
-    // On submit, remove disabled/skipped answers
-    $('#submit-btn').click(function(e) {
-        $('.question-block:visible input, .question-block:visible select, .question-block:visible textarea').prop('disabled', false);
-        $('.question-block').each(function(idx) {
-            if (skipped[idx]) {
+    $('#prev-btn').click(function (e) {
+        e.preventDefault();
+        currentSectionIndex--;
+        showSection(currentSectionIndex);
+    });
+
+    $('#submit-btn').click(function (e) {
+        if (!validateCurrentSection()) {
+            e.preventDefault();
+            return;
+        }
+
+        $('.question-block').each(function () {
+            let qid = $(this).attr('id').replace('question-', '');
+            if (!skippedQuestions[qid]) {
+                $(this).find('input,select,textarea').prop('disabled', false);
+            } else {
                 $(this).find('input,select,textarea').prop('disabled', true);
             }
         });
-        // Now submit the form or collect answers as needed
     });
 
-    // Initial show
-    showQuestion(current);
+    $(document).on('change keyup', 'input, select, textarea', function () {
+        let qid = $(this).data('question-id');
+        if (!qid) return;
+
+        let q = questions.find(q => q.id == qid);
+        $('#answer-warning-' + qid).hide();
+
+        if (q.question_type == 0) {
+            selectedAnswers[qid] = $(this).data('option-id');
+        } else if (q.question_type == 1) {
+            selectedAnswers[qid] = $('input[data-question-id="' + qid + '"]:checked').map(function () {
+                return $(this).data('option-id');
+            }).get();
+        } else {
+            selectedAnswers[qid] = $(this).val();
+        }
+    });
+
+    $(document).on('change', '.option-radio', function () {
+        let qid = $(this).data('question-id');
+        let optid = $(this).data('option-id');
+
+        selectedAnswers[qid] = optid;
+        activeDependencies[qid] = optid;
+
+        applyDependencies(qid, optid);
+    });
+
+    function applyDependencies(triggerQid, selectedOptionId, silent = false) {
+        let deps = dependencies.filter(dep => dep.question_id == triggerQid && dep.option_id == selectedOptionId);
+
+        // Always keep the trigger question visible
+        unskipQuestion(triggerQid);
+
+        if (deps.length === 0) {
+            if (!silent) {
+                questions.forEach(q => unskipQuestion(q.id));
+                showSection(currentSectionIndex);
+            }
+            return;
+        }
+
+        // Clear previous skips ONLY between questions
+        questions.forEach(q => {
+            if (!selectedAnswers[q.id]) {
+                unskipQuestion(q.id); // temporarily unskip everything
+            }
+        });
+
+        // Skip only between trigger and target
+        for (const dep of deps) {
+            const triggerIndex = questions.findIndex(q => q.id == triggerQid);
+            const targetIndex = questions.findIndex(q => q.id == dep.dependent_question_id);
+
+            const min = Math.min(triggerIndex, targetIndex);
+            const max = Math.max(triggerIndex, targetIndex);
+
+            for (let i = min + 1; i < max; i++) {
+                const betweenQid = questions[i].id;
+                if (betweenQid !== dep.dependent_question_id) {
+                    markQuestionSkipped(betweenQid);
+                }
+            }
+
+            unskipQuestion(dep.dependent_question_id);
+        }
+
+        // Decide section jump (if not silent)
+        if (!silent) {
+            let targetSectionIndex = currentSectionIndex;
+            deps.forEach(dep => {
+                let targetQ = questions.find(q => q.id == dep.dependent_question_id);
+                if (targetQ) {
+                    let idx = sections.findIndex(s => s.id == targetQ.section.id);
+                    if (idx > targetSectionIndex) {
+                        targetSectionIndex = idx;
+                    }
+                }
+            });
+
+            currentSectionIndex = targetSectionIndex;
+            showSection(currentSectionIndex);
+        }
+    }
 });
 </script>
 @endsection
-

@@ -17,7 +17,6 @@
                     <table class="datatables-basic table">
                         <thead>
                             <tr class="text-center">
-                                <th>token#</th>
                                 <th>Unique Number</th>
                                 <th>CNIC</th>
                                 <th>Name</th>
@@ -29,20 +28,15 @@
                         <tbody>
                             @foreach($patients as $patient)
                                 <tr class="text-center">
-                                    <td>@if($patient->round)#{{$patient->round->token}}@else N/A @endif</td>
                                     <td>{{$patient->unique_number}}</td>
                                     <td>{{$patient->cnic}}</td>
                                     <td>{{$patient->name}}</td>
                                     <td>{{ $patient->email }}</td>
                                     <td class="text-center">
-                                        @if($patient->payment_status == 1)
-                                            <span class="badge badge-success "><strong>Paid</strong></span>
-                                        @else
-                                            <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-danger">Make Payment</a>
-                                        @endif
+                                        <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-info">Invoice</a>
                                     </td>
-                                    <td>
-                                        <a href="{{route('round-status-update', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
+                                    <td class="text-center">
+                                        <a href="{{route('del-user', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -102,62 +96,62 @@
     $(function () {
     'use strict';
 
-        var dt_basic_table = $('.datatables-basic');
+    var dt_basic_table = $('.datatables-basic');
 
-        if (dt_basic_table.length) {
-            var dt_basic = dt_basic_table.DataTable({
-                // No ajax, use Blade-rendered data
-                order: [[0, 'asc']],
-                dom:
-                    '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
-                    '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                    't' +
-                    '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                displayLength: 10,
-                lengthMenu: [7, 10, 25, 50, 75, 100],
-                buttons: [
-                    {
-                        text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
-                        className: 'create-new btn btn-primary',
-                        action: function (e, dt, node, config) {
-                            window.location.href = "{{ route('patient-add') }}"; // <-- Change to your route
-                        }
-                    }
-                ],
-                responsive: true,
-                language: {
-                    paginate: {
-                        previous: '&nbsp;',
-                        next: '&nbsp;'
+    if (dt_basic_table.length) {
+        var dt_basic = dt_basic_table.DataTable({
+            // No ajax, use Blade-rendered data
+            order: [[0, 'asc']],
+            dom:
+                '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
+                '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                't' +
+                '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            displayLength: 10,
+            lengthMenu: [7, 10, 25, 50, 75, 100],
+            buttons: [
+                {
+                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
+                    className: 'create-new btn btn-primary',
+                    action: function (e, dt, node, config) {
+                        window.location.href = "{{ route('patient-add') }}"; // <-- Change to your route
                     }
                 }
-            });
-                $('.patient-status-toggle').bootstrapToggle();
-            $('div.head-label').html('<h4 class="mb-0 pl-1"><strong>PATIENTS</strong> </h4>');
-        }
+            ],
+            responsive: true,
+            language: {
+                paginate: {
+                    previous: '&nbsp;',
+                    next: '&nbsp;'
+                }
+            }
+        });
+            $('.patient-status-toggle').bootstrapToggle();
+        $('div.head-label').html('<h4 class="mb-0 pl-1 text-primary"><strong>Past PATIENTS</strong> </h4>');
+    }
 
     });
 
     $(document).on('click','.course-sure', function (event) {
-        event.preventDefault();
-        var approvalLink = $(this).attr('href');
-        Swal.fire({
-            icon: 'warning',
-            title: 'Are you sure?',
-            text: "You want to remove this Testimonial!",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, remove it!',
-            confirmButtonClass: 'btn btn-primary',
-            cancelButtonClass: 'btn btn-danger ml-1',
-            buttonsStyling: false,
-        }).then(function (result) {
-            if (result.value) {
-                window.location.href = approvalLink;
-            }
-        });
+    event.preventDefault();
+    var approvalLink = $(this).attr('href');
+    Swal.fire({
+        icon: 'warning',
+        title: 'Are you sure?',
+        text: "You want to remove this Testimonial!",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, remove it!',
+        confirmButtonClass: 'btn btn-primary',
+        cancelButtonClass: 'btn btn-danger ml-1',
+        buttonsStyling: false,
+    }).then(function (result) {
+        if (result.value) {
+            window.location.href = approvalLink;
+        }
     });
+});
 
 </script>
 @endsection

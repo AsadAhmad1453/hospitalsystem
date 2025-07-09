@@ -11,7 +11,7 @@
     <meta name="author" content="PIXINVENT">
     <title>Admin Panel</title>
 
-   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="apple-touch-icon" href="{{asset('admin-assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin-assets/images/ico/favicon.ico')}}">
@@ -20,7 +20,6 @@
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/vendors.min.css')}}">
     <!-- END: Vendor CSS-->
-    @yield('custom-css')
     <!-- BEGIN: Theme CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/bootstrap-extended.css')}}">
@@ -41,6 +40,7 @@
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/style.css')}}">
+    @yield('custom-css')
     <!-- END: Custom CSS-->
 
 </head>
@@ -53,7 +53,7 @@
     <!-- BEGIN: Header-->
     <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
         <div class="navbar-container d-flex content">
-        
+
             <ul class="nav navbar-nav align-items-center ml-auto">
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">{{Auth::user()->name }}</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="{{asset('admin-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
@@ -206,12 +206,12 @@
                 </li>
                 <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Questions</span></a>
                     <ul class="menu-content">
-                        
+
                         <li><a class="d-flex align-items-center {{Route::is('question-sections') ? 'active' : ''}}" href="{{route('question-sections')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Sections</span></a>
                         </li>
                         <li><a class="d-flex align-items-center {{Route::is('questions') || Route::is('question-add') ? 'active' : ''}}" href="{{route('questions')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Questions</span></a>
                         </li>
-                        
+
                     </ul>
                 </li>
             </ul>
@@ -226,7 +226,7 @@
         @yield('content')
         </div>
     </div>
-    
+
     <div class="sidenav-overlay"></div>
     <div class="drag-target"></div>
 
@@ -259,7 +259,7 @@
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <!-- END: Page JS-->
 
-    
+
     <script>
         $(window).on('load', function() {
             if (feather) {

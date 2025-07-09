@@ -79,6 +79,7 @@ Route::get('/clear-cache', function () {
 Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::get('/patient-entry', [App\Http\Controllers\User\PatientEntryController::class, 'index'])->name('patient-entry');
+    Route::get('/past-patients', [App\Http\Controllers\User\PastPatientsController::class, 'index'])->name('past-patients');
     Route::post('/save-patient', [App\Http\Controllers\User\PatientEntryController::class, 'savepatient'])->name('save-patient');
     Route::get('/add-patient', [App\Http\Controllers\User\PatientEntryController::class, 'addPatient'])->name('patient-add');
     Route::get('/edit-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'editPatient'])->name('patient-edit');
@@ -89,6 +90,8 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/patient-invoice/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'invoice'])->name('patient-invoice');
     Route::post('/made-payment/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'payed'])->name('made-payment');
     Route::post('/patient/decline/{id}', [PatientEntryController::class, 'paydecline'])->name('pay-decline');
+    Route::get('/del-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'roundStatus'])->name('round-status-update');
+    Route::get('/reset-token', [App\Http\Controllers\User\PatientEntryController::class, 'delAllRounds'])->name('del-all-rounds');
 
     Route::get('/biomarker', [App\Http\Controllers\User\BioMarkerController::class, 'index'])->name('biomarker');
     Route::get('/add-biomarker/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'addBiomarker'])->name('biomarker-add');
