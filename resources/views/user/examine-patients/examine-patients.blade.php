@@ -44,11 +44,54 @@
     <!-- Bootstrap CSS & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/style.css')}}">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
   <style>
     html {
         overflow-x: hidden;
+    }
+
+    .multiple-column-form {
+        padding: 30px;
+    }
+
+    .form-card {
+        background: #DFF5EF;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .form-card textarea {
+        background: #f1faf7;
+
+    }
+
+    .patient-info {
+        background: linear-gradient(230deg, #169978 0%, #024134 100%) !important;
+        padding: 25px;
+        border-radius: 15px;
+        color: #fff;
+        border: none
+    }
+
+    .bg-gradient {
+        background: radial-gradient(circle, #0f795e 0%, #000000 100%) !important;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* background: linear-gradient(135deg, #1cbe96 0%, #02493b 100%) !important; */
+    }
+    .bg-gradient::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        background: radial-gradient(circle, #1cbe96 0%, #011a15 100%);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
     }
 
     .buttons {
@@ -65,7 +108,7 @@
       top: 0;
       height: 100vh;
       overflow-y: auto;
-      background-color: #fff;
+      background-color: transparent;
       flex-shrink: 0;
       width: 350px;
     }
@@ -82,66 +125,148 @@
         max-height: 300px !important;
         background-color: rgb(231, 231, 231);
     }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 5px;
+    }
+
+    .form-group textarea {
+        border-radius: 10px
+    }
+
+    .btn-danger {
+        position: fixed;
+        left: 50px;
+        bottom: 15px;
+        width: 100px !important;
+        z-index: 9999;
+        text-align: center;ggggg
+        display: flex;
+    }
+
+    .btn-primary {
+        display: flex;
+        position: fixed;
+        right: 50px;
+        bottom:  15px;
+        width: 100px !important;
+        z-index: 9999;
+        text-align: center;
+        background:  linear-gradient(135deg, #118568 0%, #035544 100%) !important;
+        border: none;
+        height: 40px;
+    }
+
+    .nav-link {
+        color: #fff !important;
+        height: 50px;
+        margin: 0;
+    }
+
+    .nav-link:hover {
+        border: none;
+        background: rgba(255, 255, 255, 0.1) !important;
+
+    }
+
+    .nav-link.active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: none;
+    }
+
+    .navlink ::before {
+
+    }
+
+    .nav-tabs {
+        border: none;
+        border-radius: 10px;
+        height: 50px;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.1) !important;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        overflow: hidden;
+    }
   </style>
 </head>
-<body>
+<body class="bg-gradient">
   <div class="container-fluid p-0">
-    <section id="multiple-column-form">
-      <div class="d-flex">
+    <section id="multiple-column-form ">
+      <div class="d-flex p-4">
         <!-- Sidebar -->
-        <div class="sidebar card p-3 m-0">
-            <div class="d-flex justify-content-between align-items-center card p-5 token">
-                <h4><strong>Token #</strong>{{ $round->token }}</h4>
-            </div>
-            <h4 class="text-center mb-4" style="font-weight: bold">Patient Information</h4>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>Unique ID: </strong>
-                <span class="">{{ $patient->unique_number }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>CNIC: </strong>
-                <span class="">{{ $patient->cnic}}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>E-mail: </strong>
-                <span class="">{{ $patient->email}}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>Name: </strong>
-                <span class="">{{ $patient->name }}</span>
-                <strong>Age: </strong>
-                <span class="">{{ $patient->age }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>Weight: </strong>
-                <span class="">{{ $medicalRecord->weight }}</span>
-                <strong>Height: </strong>
-                <span class="">{{ $medicalRecord->height }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>Systolic BP: </strong>
-                <span class="">{{ $medicalRecord->systolic_blood_pressure}}</span>
-                <strong>Diastolic BP: </strong>
-                <span class="">{{ $medicalRecord->diasystolic_blood_pressure }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <strong>Temperature: </strong>
-                <span class="">{{ $medicalRecord->temperature}}</span>
-                <strong>Weather: </strong>
-                <span class="">{{ $medicalRecord->weather }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center buttons mb-3">
-                <a href="{{ route('doctor-form') }}" class="btn btn-danger w-25 float-left d-flex align-items-center" ><i data-feather="arrow-left" class="mx-2"></i> Exit</a>
-                <a id="submit-diagnosis-form" class="btn btn-primary w-25 float-right d-flex align-items-center" >Next <i data-feather="arrow-right" class="mx-2"></i></a>
+        <div class="sidebar  p-3 m-0">
+            <div class="d-flex justify-content-between align-items-center card p-5  patient-info">
+                <h4 class="text-white"><strong>Token #</strong>{{ $round->token }}</h4>
             </div>
 
+            <div class="card patient-info">
+                <h4 class="text-center text-white mb-4" style="font-weight: bold">Patient Information</h4>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <strong>Unique ID: </strong>
+                    <span class="">{{ $patient->unique_number }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <strong>CNIC: </strong>
+                    <span class="">{{ $patient->cnic}}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <strong>E-mail: </strong>
+                    <span class="">{{ $patient->email}}</span>
+                </div>
+                <div class="row d-flex justify-content-between align-items-center mb-3">
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Name: </strong>
+                        <span class="">{{ $patient->name }}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Age: </strong>
+                        <span class="">{{ $patient->age }}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Weight: </strong>
+                        <span class="">{{ $medicalRecord->weight }}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Height: </strong>
+                        <span class="">{{ $medicalRecord->height }}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Systolic BP: </strong>
+                        <span class="">{{ $medicalRecord->systolic_blood_pressure}}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Diastolic BP: </strong>
+                        <span class="">{{ $medicalRecord->diasystolic_blood_pressure }}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Temperature: </strong>
+                        <span class="">{{ $medicalRecord->temperature}}</span>
+                    </div>
+                    <div class="col-6 d-flex justify-content-between align-items-center mb-3">
+                        <strong>Weather: </strong>
+                        <span class="">{{ $medicalRecord->weather }}</span>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
+        <a href="{{ route('doctor-form') }}" class="btn btn-danger w-25 float-left d-flex align-items-center" ><i data-feather="arrow-left" class="mx-2"></i> Exit</a>
+        <a id="submit-diagnosis-form" class="btn btn-primary w-25 float-right d-flex align-items-center" >Next <i data-feather="arrow-right" class="mx-2"></i></a>
 
         <!-- Right-side Content -->
         <div class="flex-grow-1 ml-3 p-2">
           <!-- Tabs -->
           <ul class="nav nav-tabs mb-2" id="contentTabs" role="tablist">
-            <li class="nav-item">
+            <li class="nav-item ">
               <a class="nav-link active" id="diagnosis-tab" data-toggle="tab" href="#diagnosis-content" role="tab">Diagnosis</a>
             </li>
             <li class="nav-item">
@@ -161,9 +286,9 @@
               <div class="row">
                 <!-- Form -->
                 <div class="col-md-7 col-12">
-                  <div class="card p-3">
+                  <div class="card form-card p-3">
                         <div class="card-header">
-                            <h4 class="card-title">Fill the form</h4>
+                            <h3 class=""><strong>Fill the form</strong></h3>
                         </div>
                         <div class="card-body">
                             <form id="diagnosis-form" action="{{ route('save-doctor-reports') }}" method="POST" enctype="multipart/form-data" class="form form-horizontal">
@@ -228,6 +353,52 @@
 
                 <!-- AI Assistant -->
                 <div class="col-md-5 col-12">
+                    <div class="container card p-0">
+                        <header class="header">
+                            <div class="header-title">
+                                <h1>AI Assistant</h1>
+                                <div class="bot-status">
+                                    <div class="status-indicator"></div>
+                                    <span>Online</span>
+                                </div>
+                            </div>
+                            <div class="controls">
+                                <button class="theme-toggle" aria-label="Toggle theme">
+                                    <i class="fas fa-moon"></i>
+                                </button>
+                            </div>
+                        </header>
+
+                        <div class="chat-container" id="chatContainer">
+                            <!-- Messages will be added here -->
+                        </div>
+
+                        <div class="typing-indicator">
+                            <div class="typing-dots">
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                                <div class="typing-dot"></div>
+                            </div>
+                        </div>
+
+                        <div class="input-container">
+                            <div class="input-wrapper">
+                                <input type="text" class="message-input" placeholder="Type your message..." aria-label="Message input">
+                                <div class="action-buttons">
+                                    <button class="action-button" aria-label="Add attachment">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                    <button class="action-button" aria-label="Voice input">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <button class="send-button">
+                                        <span>Send</span>
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
               </div>
             </div>
@@ -235,10 +406,10 @@
             <!-- Data Collector Tab -->
             <div class="tab-pane fade" id="collector-content" role="tabpanel">
               <div class="card p-3">
-                <h5>Patient Answers</h5>
+                <h5 class="text-center my-2g"><strong>Patient Answers</strong></h5>
                 @if($patient->answers->isNotEmpty())
                   <div class="row">
-                    @foreach ($patient->answers as $answer)
+                    @foreach ($patient->answers as $answger)
                       <div class="col-md-6 col-12 mb-2">
                         <div class="form-group">
                           <label>{{ $answer->question }}</label>
@@ -445,6 +616,8 @@
     <script src="{{asset('admin-assets/js/core/app.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{asset('admin-assets/js/ai.js')}}"></script>
+
     <script>
         $(window).on('load', function() {
             if (feather) {

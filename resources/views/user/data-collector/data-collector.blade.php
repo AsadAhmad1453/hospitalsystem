@@ -69,16 +69,20 @@
                                                     @endforeach
                                                 </div>
                                             @elseif($question->question_type == '2')
+                                            <div class="d-flex justify-content-center ">
                                                 <input type="text"
                                                     class="w-50 form-control"
                                                     name="{{ $question->id }}"
                                                     data-question-id="{{ $question->id }}"
                                                     placeholder="Type your answer...">
+                                            </div>
                                             @elseif($question->question_type == '3')
+                                            <div class="d-flex justify-content-center ">
                                                 <input type="date"
                                                     class="w-50 form-control"
                                                     name="{{ $question->id }}"
                                                     data-question-id="{{ $question->id }}">
+                                            </div>
                                             @endif
 
                                         </div>

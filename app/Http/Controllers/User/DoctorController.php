@@ -158,4 +158,30 @@ class DoctorController extends Controller
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 
+        public function examinePatient($id)
+        {
+            $round = Round::where('doctor_status', '1')
+                ->where('round_status', '1')
+                ->where('patient_id', $id)
+                ->orderBy('token', 'asc')
+                ->with(['patient' => function ($query) {
+                    $query->with([
+                        'medicalRecords' => function ($q) {
+                            $q->orderBy('created_at', 'desc');
+                        },
+                        'answers'
+                    ]);
+                }])
+                ->first();
+            if (!$round) {
+                    return redirect()->route('doctor-form');
+                }
+
+            $patient = $round->patient;
+            $medicalRecord = $patient?->medicalRecords->first();
+
+
+            return view('user.examine-patients.examine-patients', get_defined_vars());
+        }
+
 }
