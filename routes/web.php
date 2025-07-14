@@ -107,6 +107,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/appointment-requests', [DoctorController::class, 'appos'])->name('appointments');
     Route::get('/del-appointment/{id}', [DoctorController::class, 'delApp'])->name('del-appointment');
     Route::get('/save-appointment/{id}', [DoctorController::class, 'saveApp'])->name('save-appointment');
+    Route::get('/examine-patients', [App\Http\Controllers\User\DoctorController::class, 'examinePatients'])->name('examine-patients');
 
 
     Route::get('/patients', [DataCollectorController::class, 'patients'])->name('patients-data-table');

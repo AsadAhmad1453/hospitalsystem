@@ -137,6 +137,10 @@
                 <li class="{{Route::is('doctor-form') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('doctor-form')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patient Form</span></a>
                 </li>
                 @endcan
+                @can('examine patients')
+                <li class="{{Route::is('examine-patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('examine-patients')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Examine Patients</span></a>
+                </li>
+                @endcan
             </ul>
         </div>
     </div>

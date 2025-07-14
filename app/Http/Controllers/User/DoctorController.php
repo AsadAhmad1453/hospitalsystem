@@ -16,7 +16,7 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $rounds = Round::where('doctor_status' , '1')->with('patient')->get();
+        $rounds = Round::where('doctor_status' , '1')->where('round_status', '1')->with('patient')->get();
         return view('user.doctor.doctor-form', compact('rounds'));
     }
 
@@ -64,12 +64,12 @@ class DoctorController extends Controller
         Patient::where('id', $request->patient_id)->update([
             'patient_status' => '0',
         ]);
-        $round = Round::where('patient_id', $request->patient_id)->first();
+        $round = Round::where('patient_id', $request->patient_id)->where('round_status', '1')->first();
         $round->update([
             'doctor_status' => '0',
             'round_status' => '0',
         ]);
-        return redirect()->route('patient-prescription', $request->patient_id)->with('success', 'Doctor report saved successfully.');
+        return redirect()->route('examine-patients')->with('success', 'Doctor report saved successfully.');
     }
 
         public function prescription($patient_id)
@@ -132,4 +132,30 @@ class DoctorController extends Controller
 
             return back();
         }
+
+        public function examinePatients()
+        {
+            $round = Round::where('doctor_status', '1')
+                ->where('round_status', '1')
+                ->orderBy('token', 'asc')
+                ->with(['patient' => function ($query) {
+                    $query->with([
+                        'medicalRecords' => function ($q) {
+                            $q->orderBy('created_at', 'desc');
+                        },
+                        'answers'
+                    ]);
+                }])
+                ->first();
+            if (!$round) {
+                    return redirect()->route('doctor-form');
+                }
+
+            $patient = $round->patient;
+            $medicalRecord = $patient?->medicalRecords->first();
+
+
+            return view('user.examine-patients.examine-patients', get_defined_vars());
+        }
+
 }

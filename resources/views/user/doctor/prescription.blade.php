@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-                   <section class="invoice-preview-wrapper">
+                <section class="invoice-preview-wrapper">
                     <div class="row invoice-preview">
                         <!-- Invoice -->
                         <div class="col-xl-12 col-md-12 col-12">
@@ -48,7 +48,7 @@
                                             <p class="card-text mb-25 mt-3">Address: Street 1 main boulevard, California</p>
                                             <p class="card-text mb-0">mb: {{ $patient->phone }}</p>
                                         </div>
-                                        
+
                                         <div class=" mt-2">
                                             <h4 class="invoice-title">
                                                 <span class="invoice-number">
@@ -89,10 +89,10 @@
                                         </div>
                                         <div class="col-12 p-0">
                                             <hr class="my-2">
-                                            <h6 class="mb-1"><strong>Diagnosis: </strong> </h6>  
-                                            <p class="ml-5">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>   
-                                            <h6 class="mb-1"><strong>Symptoms: </strong> </h6>  
-                                            <p class="ml-5">{{ $patient->latestMedicalRecord->symptoms }}</p>                                         
+                                            <h6 class="mb-1"><strong>Diagnosis: </strong> </h6>
+                                            <p class="ml-5">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>
+                                            <h6 class="mb-1"><strong>Symptoms: </strong> </h6>
+                                            <p class="ml-5">{{ $patient->latestMedicalRecord->symptoms }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                                     <span class="ml-5">{{ $patient->latestMedicalRecord->recommended_medication }}</span>
                                                 </td>
                                             </tr>
-                                           
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -141,10 +141,10 @@
                                 <div class="card-body">
                                     <button class="btn btn-primary btn-block mb-75" >
                                         Print
-                                    </button>   
-                                    
+                                    </button>
+
                                     <button type="button" class="btn btn-warning w-100" data-toggle="modal" data-target="#exampleModalCenter">Next Appointment</button>
-                                                                
+
                                 </div>
                             </div>
                         </div>
@@ -181,7 +181,7 @@
                     </div>
                 </div>
                 <!-- /Send Invoice Sidebar -->
-{{-- 
+{{--
                 <!-- Add Payment Sidebar -->
                 <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
                     <div class="modal-dialog sidebar-lg">

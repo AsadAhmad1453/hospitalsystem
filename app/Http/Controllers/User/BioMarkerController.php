@@ -40,12 +40,13 @@ class BioMarkerController extends Controller
     }
 
     public function savetestreports(Request $request)
-    {   
+    {
+
         $request->validate([
             'weight' => 'required',
             'height' => 'required',
         ]);
-        
+
         $filePath = null;
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
@@ -65,11 +66,13 @@ class BioMarkerController extends Controller
             'recommended_medication' => null,
             'further_investigation' => null,
         ]);
-        $round = Round::where('patient_id', $request->patient_id)->first();
+        $round = Round::where('patient_id', $request->patient_id)->where('round_status', '1')->first();
         $round->update([
             'nursing_status' => '1',
             'doctor_status' => '1',
         ]);
+
+
         return redirect()->route('biomarker')->with(['success', 'Test report saved successfully.']);
     }
 }

@@ -14,7 +14,7 @@ class UserController extends Controller
         $doctorRounds = Round::where('doctor_status' , '1')->count();
         $nurseRounds = Round::where('nursing_status' , '0')->count();
         $roles = Role::all();
-        $round = Round::where('doctor_status', '1')->orderBy('token', 'asc')->first();
+        $round = Round::where('doctor_status', '1')->where('round_status', '1')->orderBy('token', 'asc')->first();
         return view('user.dashboard.dashboard', get_defined_vars());
     }
 }

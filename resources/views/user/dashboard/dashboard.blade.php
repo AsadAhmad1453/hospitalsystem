@@ -85,7 +85,7 @@
                                             <i data-feather="user" class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="font-weight-bolder mt-1">#{{$round->token}}</h2>
+                                    <h2 class="font-weight-bolder mt-1">@if($round)#{{$round->token}}@else #0 @endif</h2>
                                     <p class="card-text">Current Token</p>
                                 </div>
                             </div>
