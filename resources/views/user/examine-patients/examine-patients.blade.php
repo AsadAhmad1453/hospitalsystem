@@ -8,7 +8,9 @@
     <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
     <title>Staff Dashboard</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="apple-touch-icon" href="{{asset('admin-assets/images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin-assets/images/ico/favicon.ico')}}">
@@ -47,12 +49,27 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
   <style>
+    * {
+        font-family: "Red Hat Display", sans-serif !important;
+    }
+
     html {
         overflow-x: hidden;
     }
 
     .multiple-column-form {
         padding: 30px;
+    }
+
+    .form-group.card {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 15px;
+        padding: 20px 30px !important;
+        border: none;
+    }
+
+    .form-group.card h5 {
+        font-weight: 600;
     }
 
     .form-card {
@@ -146,8 +163,9 @@
         bottom: 15px;
         width: 100px !important;
         z-index: 9999;
-        text-align: center;ggggg
+        text-align: center;
         display: flex;
+        height: 40px;
     }
 
     .btn-primary {
@@ -155,12 +173,20 @@
         position: fixed;
         right: 50px;
         bottom:  15px;
+        padding: 10px 20px;
         width: 100px !important;
         z-index: 9999;
         text-align: center;
         background:  linear-gradient(135deg, #118568 0%, #035544 100%) !important;
         border: none;
-        height: 40px;
+    }
+
+    .btn-block {
+        right: 160px;
+        text-align: center;
+        position: fixed;
+        width: 80px !important;
+        padding: 10px 25px;
     }
 
     .nav-link {
@@ -180,9 +206,7 @@
         border: none;
     }
 
-    .navlink ::before {
-
-    }
+ 
 
     .nav-tabs {
         border: none;
@@ -194,6 +218,19 @@
         justify-content: start;
         align-items: center;
         overflow: hidden;
+    }
+
+    .data-collector {
+        background: #035544;
+        border-radius: 15px;
+        margin-top: 20px;
+        padding: 20px 30px;
+    }
+
+    .invoice-preview-card {
+        background: #DFF5EF;
+        border-radius: 15px;
+        margin-top: 20px;
     }
   </style>
 </head>
@@ -405,21 +442,21 @@
 
             <!-- Data Collector Tab -->
             <div class="tab-pane fade" id="collector-content" role="tabpanel">
-              <div class="card p-3">
-                <h5 class="text-center my-2g"><strong>Patient Answers</strong></h5>
+              <div class="card data-collector ">
+                <h3 class="text-center text-white my-5"><strong>Patient's Collected Data</strong></h3>
                 @if($patient->answers->isNotEmpty())
                   <div class="row">
-                    @foreach ($patient->answers as $answger)
-                      <div class="col-md-6 col-12 mb-2">
-                        <div class="form-group">
-                          <label>{{ $answer->question }}</label>
-                          <input type="text" class="form-control" value="{{ $answer->answer }}" disabled />
+                    @foreach ($patient->answers as $answer)
+                      <div class="col-md-6 col-12 mb-2 ">
+                        <div class="form-group card p-2">
+                          <h5 class="text-white">{{ $answer->question }}</h5>
+                          <p class="text-start text-white mb-0">{{ $answer->answer }}</p>
                         </div>
                       </div>
                     @endforeach
                   </div>
                 @else
-                  <p>No data available.</p>
+                  <p class="text-center text-white">No data available.</p>
                 @endif
               </div>
             </div>
@@ -551,19 +588,11 @@
                     </div>
                     <!-- /Invoice -->
 
+                    <button class="btn btn-primary btn-block " >
+                        Print
+                    </button>
                     <!-- Invoice Actions -->
-                    <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
-                        <div class="card">
-                            <div class="card-body">
-                                <button class="btn btn-primary btn-block mb-75" >
-                                    Print
-                                </button>
-
-                                <button type="button" class="btn btn-warning w-100" data-toggle="modal" data-target="#exampleModalCenter">Next Appointment</button>
-
-                            </div>
-                        </div>
-                    </div>
+                  
                     <!-- /Invoice Actions -->
                 </div>
             </div>

@@ -33,8 +33,8 @@
                                     <td>{{ $round->patient->email }}</td>
 
                                     <td>
-                                        <a href="{{route('examine-specific-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary">Take Tests</a>
-                                        <a href="{{route('view-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-info">Patient Info</a>
+                                        <a href="{{route('examine-specific-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary">Examine</a>
+                                        <a href="{{route('view-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-info">Info</a>
                                     </td>
                                 </tr>
                             @endforeach
