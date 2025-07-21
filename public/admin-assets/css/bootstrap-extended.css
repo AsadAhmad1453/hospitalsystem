@@ -1377,7 +1377,7 @@ select:-webkit-autofill {
     min-height: 1px; } }
 
 .card-congratulations {
-  background: linear-gradient(118deg, #2e6e00, rgba(0, 153, 3, 0.7));
+  background: linear-gradient(135deg, #067a63, #035544);
   color: #fff; }
 
 .card-congratulations .congratulations-img-left {
@@ -2375,7 +2375,7 @@ ul.list-inline.list-inline-pipe > li + li:before {
 .page-item.active .page-link {
   z-index: 3;
   border-radius: 5rem;
-  background-color: #7367f0;
+  background-color: #;
   color: #fff !important;
   font-weight: 600; }
 

@@ -573,12 +573,12 @@ input:focus ~ .bg-light {
 
 .btn-primary {
   border-color: #3da35c !important;
-  background-color: #3da35c !important;
+  background-color: #067a63 !important;
   color: #fff !important; }
 
 .btn-primary:focus, .btn-primary:active, .btn-primary.active {
   color: #fff;
-  background-color: #3da35ce0 !important; }
+  background-color: #067a63 !important; }
 
 .btn-primary:hover:not(.disabled):not(:disabled) {
   box-shadow: 0 8px 25px -8px #3da35c; }
@@ -2193,8 +2193,8 @@ input:focus ~ .bg-success {
   background: rgba(0, 207, 232, 0.6); }
 
 .btn-info {
-  border-color: #00cfe8 !important;
-  background-color: #00cfe8 !important;
+  border-color: #008191e0 !important;
+  background-color: #008191e0 !important;
   color: #fff !important; }
 
 .btn-info:focus, .btn-info:active, .btn-info.active {
