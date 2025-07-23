@@ -34,6 +34,7 @@ class StorePatientRequest extends FormRequest
             'cnic' => 'required|string|max:20',
             'unique_number' => 'required|string|max:255|unique:patients,unique_number',
             'patient_status' => 'required|in:0,1',
+            'services' => 'required|array|min:1',
         ];
     }
 }

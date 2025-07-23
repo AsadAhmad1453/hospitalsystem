@@ -60,8 +60,8 @@
                             @endforeach
                         </span></div><span class="avatar"><img class="round" src="{{asset('admin-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user"><a class="dropdown-item" href="page-profile.html"><i class="mr-50" data-feather="user"></i> Profile</a><a class="dropdown-item" href="app-email.html"><i class="mr-50" data-feather="mail"></i> Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="mr-50" data-feather="check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="mr-50" data-feather="message-square"></i> Chats</a>
-                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings.html"><i class="mr-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="page-pricing.html"><i class="mr-50" data-feather="credit-card"></i> Pricing</a><a class="dropdown-item" href="page-faq.html"><i class="mr-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mr-50 fa fa-power-off"></i> Logout
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
+                        <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mr-50 fa fa-power-off"></i> Logout
                         </a>
                         <form id="logout-form" action={{ route('staff-logout') }} method="POST">@CSRF</form>
                     </div>
@@ -95,7 +95,7 @@
 
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="{{Route::is('user-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('user-dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
+                <li class="{{Route::is('user-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('user-dashboard')}}"><i data-feather="bar-chart-2"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
                 </li>
                 @can('patient entry')
                 <li class="{{ (Route::is('patient-entry') || Route::is('patient-add')) ? 'active' : '' }} nav-item">
@@ -108,7 +108,7 @@
                 @can('Appointment Schedule')
                 <li class="{{ Route::is('appointments') ? 'active' : '' }} nav-item">
                     <a class="d-flex align-items-center sidelink" href="{{ route('appointments') }}">
-                        <i data-feather="user"></i>
+                        <i data-feather="calendar"></i>
                         <span class="menu-title text-truncate" data-i18n="Dashboards">Appointment Schedule</span>
                     </a>
                 </li>
@@ -116,7 +116,7 @@
                 @can('Past Patients')
                 <li class="{{ Route::is('past-patients') ? 'active' : '' }} nav-item">
                     <a class="d-flex align-items-center sidelink" href="{{ route('past-patients') }}">
-                        <i data-feather="user"></i>
+                        <i data-feather="users"></i>
                         <span class="menu-title text-truncate" data-i18n="Dashboards">Past Patients</span>
                     </a>
                 </li>
@@ -124,7 +124,7 @@
                 @can('Data Collector')
                 <li class=" nav-item {{ Route::is('patients-data-table') || Route::is('data-collector') ? 'active' : '' }}">
                     <a class="d-flex align-items-center sidelink" href="{{ route('patients-data-table') }}">
-                        <i data-feather="user"></i>
+                        <i data-feather="file-text"></i>
                         <span class="menu-title text-truncate" data-i18n="Dashboards">Data Collector</span>
                     </a>
                 </li>
@@ -138,7 +138,7 @@
                 </li>
                 @endcan
                 @can('examine patients')
-                <li class="{{Route::is('examine-patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('examine-patients')}}"><i data-feather="clipboard"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Examine Patients</span></a>
+                <li class="{{Route::is('examine-patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('examine-patients')}}"><i data-feather="search"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Examine Patients</span></a>
                 </li>
                 @endcan
             </ul>
@@ -182,10 +182,6 @@
     <!-- BEGIN: Page JS-->
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <script src="{{ asset('admin-assets/js/scripts/forms/form-select2.js') }}"></script>
-    @yield('custom-js')
-    <!-- END: Page JS-->
-
-
     <script>
         $(window).on('load', function() {
             if (feather) {
@@ -196,6 +192,11 @@
             }
         })
     </script>
+    @yield('custom-js')
+    <!-- END: Page JS-->
+
+
+
 
 </body>
 <!-- END: Body-->

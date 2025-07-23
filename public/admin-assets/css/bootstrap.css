@@ -323,7 +323,8 @@ h6, .h6 {
 
 .sidelink {
     padding: 1.1rem 15px !important;
-    /* font-weight: bold !important; */
+    font-weight: bolder !important;
+    font-size: 13px;
     border-bottom: solid 1px rgb(227, 227, 227);
 }
 
@@ -2676,14 +2677,14 @@ input[type="button"].btn-block {
   border: 0; }
 
 .dropdown-item:hover, .dropdown-item:focus {
-  color: #3da35c;
+  color: #fff;
   text-decoration: none;
   background-color: rgba(115, 103, 240, 0.12); }
 
 .dropdown-item.active, .dropdown-item:active {
-  color: #fff;
+  color: #fff !important; 
   text-decoration: none;
-  background-color: #3da35c; }
+  background-color: #035544; }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: #b9b9c3;

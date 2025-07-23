@@ -6,6 +6,15 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
+<style>
+    .buttons-print {
+        display: none;
+    }
+    .btn {
+        padding: 5px;
+        font-size: 12px !important;
+    }
+</style>
 @endsection
 @section('content')
 <section id="basic-datatable">

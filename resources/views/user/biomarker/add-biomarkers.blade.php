@@ -1,4 +1,12 @@
 @extends('user.layouts.main')   
+@section('custom-css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    .dropify-wrapper .dropify-message span.file-icon p{
+        font-size: 16px;
+    }
+</style>
+@endsection
 @section('content')
    <section id="multiple-column-form">
         <div class="row">
@@ -98,7 +106,7 @@
                                             <label for="reports">Reports</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="file" id="reports" class="form-control" name="reports" placeholder="Reports File" />
+                                            <input type="file" id="reports" class="form-control file-input" name="reports" placeholder="Reports File" />
                                         </div>
                                     </div>
                                 </div>
@@ -119,67 +127,22 @@
                     <div class="card-body">
                         <form class="form form-horizontal">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <div class="col-sm-3 col-form-label">
-                                            <label for="fname-icon">Name</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="input-group input-group-merge">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i data-feather="user"></i></span>
-                                                </div>
-                                                <input type="text" id="fname-icon" class="form-control" value="{{ $patient->name }}" placeholder="First Name" disabled />
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 d-flex align-items-center justify-content-between" >
+                                    <h5>Unique Id: </h5>
+                                    <p class="float-right">{{ $patient->unique_number }}</p>    
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <div class="col-sm-3 col-form-label">
-                                            <label for="email-icon">Email</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="input-group input-group-merge">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i data-feather="mail"></i></span>
-                                                </div>
-                                                <input type="email" id="email-icon" class="form-control" value="{{ $patient->email }}" disabled/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 d-flex align-items-center justify-content-between" >
+                                    <h5>Name: </h5>
+                                    <p class="float-right">{{ $patient->name }}</p>    
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <div class="col-sm-3 col-form-label">
-                                            <label for="contact-icon">CNIC</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="input-group input-group-merge">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i data-feather="battery"></i></span>
-                                                </div>
-                                                <input type="text" id="contact-icon" class="form-control" value="{{ $patient->cnic }}" disabled/>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 d-flex align-items-center justify-content-between" >
+                                    <h5>E-mail: </h5>
+                                    <p class="float-right">{{ $patient->email }}</p>    
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group row">
-                                        <div class="col-sm-3 col-form-label">
-                                            <label for="pass-icon">Unique Number</label>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <div class="input-group input-group-merge">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i data-feather="command"></i></span>
-                                                </div>
-                                                <input type="text" id="pass-icon" class="form-control" value="{{ $patient->unique_number }}" disabled />
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-12 d-flex align-items-center justify-content-between" >
+                                    <h5>CNIC: </h5>
+                                    <p class="float-right">{{ $patient->cnic }}</p>    
                                 </div>
-                                
                             </div>
                         </form>
                     </div>
@@ -189,6 +152,7 @@
     </section>
 @endsection
 @section('custom-js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 $(document).ready(function() {
     function calculateBMI() {
@@ -243,6 +207,7 @@ $(document).ready(function() {
         $('#weather').val('Unable to get location');
     }
 
+    $('.file-input').dropify();
 });
 
 

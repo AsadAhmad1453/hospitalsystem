@@ -36,7 +36,7 @@
                                         <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-info">Invoice</a>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{route('del-user', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
+                                        <a href="{{route('del-user-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

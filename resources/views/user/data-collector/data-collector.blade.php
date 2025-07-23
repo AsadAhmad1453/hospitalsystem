@@ -33,10 +33,10 @@
                             @foreach ($sections as $section)
                             <div class="section-block" id="section-{{ $section->id }}" style="display: none;">
                                 @foreach ($questions->where('section.id', $section->id) as $question)
-                                    <div class="question-block mb-4" id="question-{{ $question->id }}">
+                                    <div class="question-block mb-3" id="question-{{ $question->id }}">
                                         <div class="question-step">
-                                            <div class="my-3 text-center">
-                                                <strong class="h4 ">{{ $question->question }}</strong>
+                                            <div class=" ">
+                                                <strong class="h4">{{ $question->question }}</strong>
                                                 <span id="answer-warning-{{ $question->id }}" class="text-danger mt-2 d-block" style="display: none;"></span>
                                             </div>
 
@@ -69,15 +69,15 @@
                                                     @endforeach
                                                 </div>
                                             @elseif($question->question_type == '2')
-                                            <div class="d-flex justify-content-center ">
+                                            <div class="d-flex justify-content-start ">
                                                 <input type="text"
-                                                    class="w-50 form-control"
+                                                    class="form-control"
                                                     name="{{ $question->id }}"
                                                     data-question-id="{{ $question->id }}"
                                                     placeholder="Type your answer...">
                                             </div>
                                             @elseif($question->question_type == '3')
-                                            <div class="d-flex justify-content-center ">
+                                            <div class="d-flex justify-content-start ">
                                                 <input type="date"
                                                     class="w-50 form-control"
                                                     name="{{ $question->id }}"
@@ -176,6 +176,8 @@
 @endsection
 
 @section('custom-js')
+
+
 <script>
 $(document).ready(function () {
     var sections = @json($sections);
@@ -318,6 +320,21 @@ $(document).ready(function () {
     $(document).on('change', '.option-radio', function () {
         let qid = $(this).data('question-id');
         let optid = $(this).data('option-id');
+        
+        $('input[name="' + qid + '"]').each(function () {
+            $(this).prev('i').attr('data-feather', 'circle');
+        });
+
+        // Set selected option's icon to 'check-circle'
+        $(this).prev('i').attr('data-feather', 'check-circle');
+
+        // Re-render feather icons
+        if (typeof feather !== 'undefined') {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
 
         selectedAnswers[qid] = optid;
         activeDependencies[qid] = optid;

@@ -6,6 +6,17 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
+<style>
+    .buttons-print {
+        display: none !important;
+    }
+
+    .btn {
+        padding: 5px;
+        font-size: 12px !important;
+    }
+</style>
+
 @endsection
 @section('content')
 <section id="basic-datatable">
@@ -33,8 +44,8 @@
                                     <td>{{ $round->patient->email }}</td>
 
                                     <td>
-                                        <a href="{{route('biomarker-add', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary">Take Tests</a>
-                                        <a href="{{route('view-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-info">Patient Info</a>
+                                        <a href="{{route('biomarker-add', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary">Examine</a>
+                                        <a href="{{route('view-patient', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-info">Info</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -54,11 +65,9 @@
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-
     $(function () {
     'use strict';
 

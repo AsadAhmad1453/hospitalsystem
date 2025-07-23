@@ -13,7 +13,7 @@ class BioMarkerController extends Controller
 {
     public function index()
     {
-        $rounds = Round::where('nursing_status', '0')->with('patient')->get();
+        $rounds = Round::where('nursing_status', '1')->where('doctor_status', '0')->where('round_status', '1')->with('patient')->get();
         return view('user.biomarker.biomarker',compact('rounds'));
     }
 
@@ -66,12 +66,11 @@ class BioMarkerController extends Controller
             'recommended_medication' => null,
             'further_investigation' => null,
         ]);
-        $round = Round::where('patient_id', $request->patient_id)->where('round_status', '1')->first();
-        $round->update([
+
+        Round::where('patient_id', $request->patient_id)->where('round_status', '1')->update([
             'nursing_status' => '1',
             'doctor_status' => '1',
         ]);
-
 
         return redirect()->route('biomarker')->with(['success', 'Test report saved successfully.']);
     }

@@ -5,6 +5,11 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
+<style>
+    .card-header {
+        display: none !important;
+    }
+</style>
 @endsection
 @section('content')
 
@@ -15,7 +20,7 @@
                     <table class="datatables-basic table">
                         <thead>
                             <tr class="text-center">
-                                <th>#</th>
+                                <th>Token#</th>
                                 <th>Name</th>
                                 <th></th>
                                 <th>Role</th>
@@ -23,13 +28,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($patients as $patient)
+                            @foreach($rounds as $round)
                                 <tr class="text-center">
-                                    <td>{{$loop->index+1}}</td>
-                                    <td>{{$patient->name}}</td>
+                                    <td>#{{$round->token}}</td>
+                                    <td>{{$round->patient->name}}</td>
                                     <td>Patient</td>
                                     <td>
-                                        <a href="{{route('data-collector', $patient->id)}}" data-jobs="sdadas" class="btn btn-primary float-center">Data Form</a>
+                                        <a href="{{route('data-collector', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary float-center">Data Form</a>
                                     </td>
                                 </tr>
                             @endforeach

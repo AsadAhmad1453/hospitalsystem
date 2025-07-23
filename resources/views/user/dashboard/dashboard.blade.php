@@ -2,12 +2,10 @@
 @section('custom-css')
 <style>
     .reset {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+     
+        /* width: 25%;  */
         border: none;
         z-index: 1;
-
     }
 
     .next {
@@ -73,20 +71,22 @@
 
                         <div class="col-lg-4 col-sm-6 col-12">
                             <div class="card">
-                                @can('reset token')
-                                <a href="{{ route('del-all-rounds') }}" class="reset text-warning course-sure" data-jobs="sdadas"><i data-feather="refresh-ccw" class="font-medium-5"></i></a>
-                                @endcan
-                                {{-- @can('next token')
-                                <a href="{{ route('del-all-rounds') }}" class="next text-success text-center">NEXT <i data-feather="arrow-right" class="ml-1 font-medium-5"></i></a>
-                                @endcan --}}
+                                
+                                
                                 <div class="card-header flex-column align-items-center ">
-                                    <div class="avatar bg-light-primary p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather="user" class="font-medium-5"></i>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <div class="avatar bg-light-primary p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i data-feather="tag" class="font-medium-5"></i>
+                                            </div>
                                         </div>
+                                        <h2 class="font-weight-bolder mt-1">&ensp;@if($round)#{{$round->token}}@else #0 @endif</h2>
                                     </div>
-                                    <h2 class="font-weight-bolder mt-1">@if($round)#{{$round->token}}@else #0 @endif</h2>
-                                    <p class="card-text">Current Token</p>
+                                    @can('reset token')
+                                    <a href="{{ route('del-all-rounds') }}" class="reset text-warning btn btn-warning align-items-center d-flex course-sure" data-jobs="sdadas">
+                                        <i data-feather="refresh-ccw" class="font-medium-5"></i>
+                                        &ensp;Token</a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

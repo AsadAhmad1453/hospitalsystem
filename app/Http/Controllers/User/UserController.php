@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Round;
+use App\Models\Patient;
 use App\Models\Role;
 
 class UserController extends Controller
@@ -16,5 +17,10 @@ class UserController extends Controller
         $roles = Role::all();
         $round = Round::where('doctor_status', '1')->where('round_status', '1')->orderBy('token', 'asc')->first();
         return view('user.dashboard.dashboard', get_defined_vars());
+    }
+
+    public function delPatient($id) {
+        Patient::where('id', $id)->delete();
+        return back()->with('success', 'Patient has been deleted successfully');
     }
 }

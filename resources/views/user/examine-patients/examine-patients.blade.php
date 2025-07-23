@@ -48,6 +48,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
     * {
         font-family: "Red Hat Display", sans-serif !important;
@@ -232,6 +234,15 @@
         border-radius: 15px;
         margin-top: 20px;
     }
+
+    .ck-editor__editable {
+        min-height: 300px;
+        color: black;
+        }
+
+    .dropify-wrapper .dropify-message span.file-icon p{
+        font-size: 16px;
+    }
   </style>
 </head>
 <body class="bg-gradient">
@@ -374,7 +385,7 @@
                                                 <label for="reports">Reports</label>
                                             </div>
                                             <div class="col-12">
-                                                <input type="file" id="reports" class="form-control" name="reports" placeholder="Reports File" />
+                                                <input type="file" id="reports" class="form-control file-input" name="reports" placeholder="Reports File" />
                                             </div>
                                         </div>
                                     </div>
@@ -646,6 +657,8 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('admin-assets/js/ai.js')}}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
         $(window).on('load', function() {
@@ -658,25 +671,26 @@
         });
 
         $(document).ready(function () {
+            $('.file-input').dropify();
             // Diagnosis field
-            $('#diagnosis').on('input', function () {
-            $('#display-diagnosis').text($(this).val());
-            });
+            // $('#diagnosis').on('input', function () {
+            // $('#display-diagnosis').text($(this).val());
+            // });
 
-            // Symptoms
-            $('#symptoms').on('input', function () {
-            $('#display-symptoms').text($(this).val());
-            });
+            // // Symptoms
+            // $('#symptoms').on('input', function () {
+            // $('#display-symptoms').text($(this).val());
+            // });
 
-            // Medication
-            $('#medication').on('input', function () {
-            $('#display-medication').text($(this).val());
-            });
+            // // Medication
+            // $('#medication').on('input', function () {
+            // $('#display-medication').text($(this).val());
+            // });
 
-            // Investigation
-            $('#investigation').on('input', function () {
-            $('#display-investigation').text($(this).val());
-            });
+            // // Investigation
+            // $('#investigation').on('input', function () {
+            // $('#display-investigation').text($(this).val());
+            // });
 
             $('#submit-diagnosis-form').on('click', function (e) {
                 e.preventDefault(); // prevent anchor default action
@@ -684,5 +698,64 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const editors = {};
+    
+            function bindEditor(id, targetSelector) {
+                ClassicEditor
+                    .create(document.querySelector(id))
+                    .then(editor => {
+                        editors[id] = editor;
+    
+                        // Sync changes to display element in real-time
+                        editor.model.document.on('change:data', () => {
+                            const value = editor.getData();
+                            $(targetSelector).html(value); // Use `.html()` to preserve formatting
+                        });
+                    })
+                    .catch(error => {
+                        console.error(`Error initializing editor for ${id}:`, error);
+                    });
+            }
+    
+            // Bind each field to its matching preview display
+            bindEditor('#complaint', null); // no preview for this?
+            bindEditor('#symptoms', '#display-symptoms');
+            bindEditor('#blood_pressure', null); // no preview for this?
+            bindEditor('#diagnosis', '#display-diagnosis');
+            bindEditor('#medication', '#display-medication');
+            bindEditor('#investigation', '#display-investigation');
+        });
+    </script>
+    
+    {{-- <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            ClassicEditor
+                .create(document.querySelector('#complaint'))
+                .catch(error => console.error(error));
+    
+            ClassicEditor
+                .create(document.querySelector('#symptoms'))
+                .catch(error => console.error(error));
+    
+            ClassicEditor
+                .create(document.querySelector('#blood_pressure'))
+                .catch(error => console.error(error));
+    
+            ClassicEditor
+                .create(document.querySelector('#diagnosis'))
+                .catch(error => console.error(error));
+    
+            ClassicEditor
+                .create(document.querySelector('#medication'))
+                .catch(error => console.error(error));
+    
+            ClassicEditor
+                .create(document.querySelector('#investigation'))
+                .catch(error => console.error(error));
+        });
+    </script> --}}
+    
 </body>
 </html>

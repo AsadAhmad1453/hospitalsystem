@@ -131,11 +131,16 @@
                                                     <td>{{ ($service->service_name) }}</td>
                                                     <td>
                                                         <input type="checkbox" name="services[]" value="{{ $service->id }} " {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }}>
+                                                        
                                                     </td>
                                                 </tr>
                                                 @endforeach
+                                                
                                             </tbody>
                                         </table>
+                                        @error('services')
+                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -151,6 +156,7 @@
     </section>
 @endsection
 @section('custom-js')
+
 <script>
 $(document).ready(function() {
     function generateUniqueNumber() {

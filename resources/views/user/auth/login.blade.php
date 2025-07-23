@@ -10,7 +10,7 @@
         }
 
         .form-label {
-            font-size: 18px;
+            font-size: 16px;
         }
     </style>
 @endsection
@@ -20,17 +20,13 @@
 <div class="content-body">
     <div class="auth-wrapper auth-v2">
         <div class="auth-inner row m-0">
-            <!-- Brand logo-->
-            {{-- <a class="brand-logo" href="javascript:void(0);">
-                <h1 class="brand-text fw-5  ml-1" style="font-weight: 700">STAFF PANEL</h1>
-            </a> --}}
-            <!-- /Brand logo-->
+            
 
             <!-- Login-->
             <div class="d-flex col-lg-6 align-items-center auth-bg px-2 p-lg-5">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-5 mx-auto">
-                    <h1 class="text-center mb-2" style="font-size: 25px; font-family: "><strong>Welcome Back.</strong></h1>
-                    <p class="card-text text-center mb-4" style="font-size: 25px">Please sign-in to your account.</p>
+                    <h1 class="text-center mb-2" style="font-size: 20px; font-family: "><strong>Welcome Back.</strong></h1>
+                    <p class="card-text text-center mb-4" style="font-size: 20px">Please sign-in to your account.</p>
                     <form class="auth-login-form mt-2" action="{{ route('staff.login') }}" method="POST">
                         @csrf
                         <div class="form-group">

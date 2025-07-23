@@ -47,6 +47,8 @@ class PatientEntryController extends Controller
         $validatedData = $request->validated();
         if(!$patientexists){
             $patient = Patient::create($validatedData);
+        }else {
+            return back()->with('error', 'Patient already exists in record');
         }
 
         foreach ($request->services as $service) {
@@ -168,7 +170,7 @@ class PatientEntryController extends Controller
 
     public function delAllRounds()
     {
-        Patient::where('patient_status', 1)->update(['patient_status' => 0]);
+        Patient::where('patient_status', '1')->update(['patient_status' => '0']);
         Round::truncate();
         return redirect()->route('user-dashboard')->with('success', 'All rounds deleted successfully.');
     }

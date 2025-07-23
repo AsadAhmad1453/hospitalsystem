@@ -92,6 +92,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::post('/patient/decline/{id}', [PatientEntryController::class, 'paydecline'])->name('pay-decline');
     Route::get('/del-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'roundStatus'])->name('round-status-update');
     Route::get('/reset-token', [App\Http\Controllers\User\PatientEntryController::class, 'delAllRounds'])->name('del-all-rounds');
+    Route::get('del-user-patient/{id}', [UserController::class, 'delPatient'])->name('del-user-patient');
 
     Route::get('/biomarker', [App\Http\Controllers\User\BioMarkerController::class, 'index'])->name('biomarker');
     Route::get('/add-biomarker/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'addBiomarker'])->name('biomarker-add');
