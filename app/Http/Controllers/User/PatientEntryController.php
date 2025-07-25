@@ -44,7 +44,7 @@ class PatientEntryController extends Controller
     public function savepatient(StorePatientRequest $request)
     {
         $patientexists = Patient::where('unique_number', $request->unique_number)->first();
-        $validatedData = $request->validated();
+        $validatedData = collect($request->validated())->except('services')->toArray();
         if(!$patientexists){
             $patient = Patient::create($validatedData);
         }else {
@@ -57,11 +57,6 @@ class PatientEntryController extends Controller
                 'service_id' => $service,
             ]);
         }
-
-        // Round::create([
-        //     'patient_id' => $patient->id,
-        //     'visit_number' => 1,
-        // ]);
 
         return redirect()->route('patient-invoice', $patient->id)->with('success', 'Patient added successfully.');
     }
@@ -95,6 +90,7 @@ class PatientEntryController extends Controller
             'round_status' => '1',
             'visit_number' => 1,
             'token' => $token,
+            'cost' => $request->cost
         ]);
         return redirect()->route('patient-entry')->with(['success' => 'Payment Made Successfully']);
     }

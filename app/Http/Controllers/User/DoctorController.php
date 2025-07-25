@@ -10,14 +10,23 @@ use App\Models\MedicalRecord;
 use App\Models\Appointment;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 
 class DoctorController extends Controller
 {
     public function index()
     {
-        $rounds = Round::where('doctor_status' , '1')->where('round_status', '1')->with('patient')->get();
-        return view('user.doctor.doctor-form', compact('rounds'));
+        $rounds = Round::where('doctor_status', '1')
+            ->where('round_status', '1')
+            ->whereHas('patient', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })
+            ->with('patient')
+            ->get();
+
+        $activeToken = $rounds->first()?->token;
+        return view('user.doctor.doctor-form', get_defined_vars());
     }
 
     public function addDoctor($id)

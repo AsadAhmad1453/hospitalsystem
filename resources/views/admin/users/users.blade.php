@@ -71,9 +71,8 @@
                             <label for="basicSelect">Role</label>
                             <select class="form-control" name="role_id" id="basicSelect">
                                 @foreach ($roles as $role)
-                                <option value="{{$role->id}}">{{ ucfirst($role->name) }}</option>
+                                    <option value="{{$role->id}}">{{ ucfirst($role->name) }}</option>
                                 @endforeach
-                                <input type="hidden" name="role" value="1">
                             </select>
                         </div>                     
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>

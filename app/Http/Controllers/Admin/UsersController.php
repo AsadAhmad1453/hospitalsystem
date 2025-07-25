@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-
 class UsersController extends Controller
 {
     public function index(){
@@ -20,10 +19,11 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => $request->role,
             'role_id' => $request->role_id,
+            'role' => '1'
         ]); 
         $role = Role::where('id', $request->role_id)->first();
+        
         $user->assignRole($role->name);
         return back()->with(['success', 'User Added']);
     }

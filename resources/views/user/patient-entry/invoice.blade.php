@@ -208,6 +208,7 @@
                             </div>
                             <form action="{{ route('made-payment', $patient->id) }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="cost" value="{{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="t-id">T.ID</label>

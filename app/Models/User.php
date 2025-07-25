@@ -51,9 +51,18 @@ class User extends Authenticatable
         return $this->role ? $this->role->name : null;
     }
 
-    public function role()
+    public function latestActiveRound()
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->hasOneThrough(
+            \App\Models\Round::class,
+            \App\Models\Patient::class,
+            'user_id',        // Foreign key on Patient (points to users table)
+            'patient_id',     // Foreign key on Round (points to patients table)
+            'id',             // Local key on User
+            'id'              // Local key on Patient
+        )
+        ->where('doctor_status', '1')
+        ->where('round_status', '1')
+        ->orderBy('token', 'asc');
     }
-
 }

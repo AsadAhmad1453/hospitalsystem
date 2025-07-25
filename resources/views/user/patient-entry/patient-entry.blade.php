@@ -7,6 +7,12 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/core/menu/menu-types/vertical-menu.css') }}">
+<style>
+    .make-payment {
+        padding: 5px;
+        font-size: 12px !important;
+    }
+</style>
 @endsection
 @section('content')
 
@@ -38,7 +44,7 @@
                                         @if($patient->payment_status == 1)
                                             <span class="badge badge-success "><strong>Paid</strong></span>
                                         @else
-                                            <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-danger">Make Payment</a>
+                                            <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-danger make-payment">Make Payment</a>
                                         @endif
                                     </td>
                                     <td>
