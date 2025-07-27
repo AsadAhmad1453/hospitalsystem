@@ -1,15 +1,26 @@
 @extends('admin.layouts.main')
 @section('custom-css')
+
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset("admin-assets/vendors/css/tables/datatable/responsive.bootstrap4.min.css")}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/buttons.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
+<style>
+    table.dataTable th {
+    white-space: nowrap;
+}
+table.dataTable td input[type="checkbox"] {
+    margin: 0 auto;
+    display: block;
+}
+</style>
 @endsection
 @section('content')
 <section id="basic-datatable">
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card p-1">
+                
             <form action="{{ route('roles.bulkUpdatePermissions') }}" method="POST">
                 @csrf
                 <table  class="datatables-basic table">
@@ -78,7 +89,9 @@
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
     $(document).ready(function() {
-        $('.datatables-basic').DataTable();
+        $('.datatables-basic').DataTable({
+        scrollX: true
+    });
     });
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
