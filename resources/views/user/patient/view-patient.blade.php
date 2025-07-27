@@ -11,9 +11,42 @@
                 <div class="card invoice-preview-card">
                     <div class="card-body invoice-padding pb-0">
                         <!-- Header starts -->
-                        <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing m-0">
-                            <div>
-                                <h3 class="fw-bold "><strong>Name: </strong>{{ $patient->name }}</h3>
+                        <h2 class="mb-3"><strong>Patient Info</strong></h2>
+                        <div class=" m-0">
+                            <div class="row">
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Unique Id: </strong></h5>
+                                        <p>{{ $patient->unique_number }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>CNIC: </strong></h5>
+                                        <p>{{ $patient->cnic }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Name: </strong></h5>
+                                        <p>{{ $patient->name }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Sex: </strong></h5>
+                                        <p>{{ $patient->sex }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Date of Birth: </strong></h5>
+                                        <p>{{ $patient->dateofbirth }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>E-mail: </strong></h5>
+                                        <p>{{ $patient->email }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Phone#: </strong></h5>
+                                        <p>{{ $patient->phone }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between col-6">
+                                        <h5 class="fw-bold "><strong>Address: </strong></h5>
+                                        <p>{{ $patient->address }}, {{ $patient->city }}</p>
+                                    </div>
+                                
                             </div>  
                         </div>
 
@@ -27,47 +60,71 @@
                         <div class="row invoice-spacing">
                         @if($patient->medicalRecords->count())
                             @foreach($patient->medicalRecords as $record)
-                                <div class="col-xl-12 p-0 mt-xl-0 my-4">
-                                    <h2 class="mb-2"><strong>Patient Visit #{{ $patient->medicalRecords->count() - $loop->index }}</strong> @if($loop->first)
-                                        <p class="badge badge-success ml-1">Most Recent</p>
-                                    @endif</h2>
-                                    <table style="border-collapse: separate; border-spacing: 0 20px; width: 100%; table-layout: fixed;">
-                                        <tbody>
-                                            <tr class="my-5 ">
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Weight:</strong></span></td>
-                                                <td class="text-center"><span class="font-weight-bold h4">{{ $record->weight }}</span></td>
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Height:</strong></span> </td>
-                                                <td class="text-center"><span class="font-weight-bold h4">{{ $record->height }}</span></td>
-                                            </tr>
-                                            <tr class="my-5 ">
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Heart Rate:</strong></span> </td>
-                                                <td class="text-center"><span class="font-weight-bold h4">{{ $record->heart_rate }}</span></td>
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Blood Pressure:</strong></span> </td>
-                                                <td class="text-center"><span class="font-weight-bold h4">{{ $record->blood_pressure }}</span></td>
-                                            </tr>
-                                            <tr>
-                                            </tr>
-                                            <tr>
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Final Diagnosis:</strong></span> </td>
-                                            </tr>
-                                            <tr class="py-2">
-                                                <td><span class="font-weight-bold h4 py-2 pl-5">{{ $record->final_diagnosis }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Prescription:</strong></span> </td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="font-weight-bold h4 pl-5">{{ $record->recommended_medication }}</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="pr-1"><span class="fw-bold h4"><strong>Further Investigation:</strong></span> </td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="font-weight-bold h4 pl-5">{{ $record->further_investigation }}</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="col-xl-12 p-0 mt-xl-0 my-2  ">
+                                    <h3 class="mb-2"><strong>Patient Visit #{{ $patient->medicalRecords->count() - $loop->index }}</strong></h3>
+                                    @if($loop->first)
+                                        <p class="badge badge-success ">Most Recent</p>
+                                    @endif         
+                                    <p class="float-right">{{ $record->created_at->format('F j, Y') }} | {{ $record->created_at->format('h:i A') }}</p>
+                                                            
                                 </div>
+                                 <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Age: </strong></h5>
+                                    <p>{{ $patient->age }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Weight (kg): </strong></h5>
+                                    <p>{{ $record->weight }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Height (m/cm): </strong></h5>
+                                    <p>{{ $record->height }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Pulse: </strong></h5>
+                                    <p>{{ $record->pulse }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Systolic BP: </strong></h5>
+                                    <p>{{ $record->systolic_blood_pressure }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Diastolic BP: </strong></h5>
+                                    <p>{{ $record->diasystolic_blood_pressure }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Temperature (C): </strong></h5>
+                                    <p>{{ $record->temperature }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between col-4">
+                                    <h5 class="fw-bold "><strong>Weather: </strong></h5>
+                                    <p>{{ $record->weather }}</p>
+                                </div> 
+
+                                <hr class="" style=" width: 100%; height: 1px; ">
+
+                                <div class=" col-12">
+                                    <h5 class="fw-bold "><strong>Problems / Complaint: </strong></h5>
+                                    {!! $record->complaint ?? 'N/A' !!}
+                                </div> 
+                                <div class=" col-12">
+                                    <h5 class="fw-bold "><strong>Symptoms: </strong></h5>
+                                    {!! $record->symptoms ?? 'N/A' !!}
+                                </div> 
+                                <div class=" col-12">
+                                    <h5 class="fw-bold "><strong>Diagnosis: </strong></h5>
+                                    {!! $record->final_diagnosis ?? 'N/A' !!}
+                                </div> 
+                                <div class=" col-12">
+                                    <h5 class="fw-bold "><strong>Prescription: </strong></h5>
+                                    {!! $record->recommended_medication ?? 'N/A' !!}
+                                </div> 
+                                <div class=" col-12">
+                                    <h5 class="fw-bold "><strong>Further Tests: </strong></h5>
+                                    {!! $record->further_investigation ?? 'N/A' !!}
+                                </div> 
+                                <hr class="mb-3" style="background-color: rgb(226, 226, 226); width: 100%; height: 2px; ">
+
                             @endforeach
                         @else
                             <div class="col-xl-12 p-0 mt-xl-0 my-4">

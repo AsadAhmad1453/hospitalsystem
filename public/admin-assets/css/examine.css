@@ -1,0 +1,193 @@
+
+    * {
+        font-family: "Red Hat Display", sans-serif !important;
+    }
+
+    html {
+        overflow-x: hidden;
+    }
+
+    .multiple-column-form {
+        padding: 30px;
+    }
+
+    .form-group.card {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 15px;
+        padding: 20px 30px !important;
+        border: none;
+    }
+
+    .form-group.card h5 {
+        font-weight: 600;
+    }
+
+    .form-card {
+        background: #DFF5EF;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .form-card textarea {
+        background: #f1faf7;
+
+    }
+
+    .patient-info {
+        background: linear-gradient(230deg, #169978 0%, #024134 100%) !important;
+        padding: 25px;
+        border-radius: 15px;
+        color: #fff;
+        border: none
+    }
+
+    .bg-gradient {
+        background: radial-gradient(circle, #0f795e 0%, #000000 100%) !important;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* background: linear-gradient(135deg, #1cbe96 0%, #02493b 100%) !important; */
+    }
+    .bg-gradient::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        background: radial-gradient(circle, #1cbe96 0%, #011a15 100%);
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+    }
+
+    .buttons {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        transform: translateX(-50%);
+        left: 50%;
+        padding: 0 20px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: transparent;
+      flex-shrink: 0;
+      width: 350px;
+    }
+
+    .input-container {
+      overflow: hidden;
+    }
+
+    .nav-tabs .nav-link {
+      cursor: pointer;
+    }
+
+    .token {
+        max-height: 300px !important;
+        background-color: rgb(231, 231, 231);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+        font-weight: 600;
+        padding-left: 5px;
+    }
+
+    .form-group textarea {
+        border-radius: 10px
+    }
+
+    .btn-danger {
+        position: fixed;
+        left: 50px;
+        bottom: 15px;
+        width: 100px !important;
+        z-index: 9999;
+        text-align: center;
+        display: flex;
+        height: 40px;
+    }
+
+    .btn-primary {
+        display: flex;
+        position: fixed;
+        right: 50px;
+        bottom:  15px;
+        padding: 10px 20px;
+        width: 100px !important;
+        z-index: 9999;
+        text-align: center;
+        background:  linear-gradient(135deg, #118568 0%, #035544 100%) !important;
+        border: none;
+    }
+
+    .btn-block {
+        right: 160px;
+        text-align: center;
+        position: fixed;
+        width: 80px !important;
+        padding: 10px 25px;
+    }
+
+    .nav-link {
+        color: #fff !important;
+        height: 50px;
+        margin: 0;
+    }
+
+    .nav-link:hover {
+        border: none;
+        background: rgba(255, 255, 255, 0.1) !important;
+
+    }
+
+    .nav-link.active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border: none;
+    }
+
+ 
+
+    .nav-tabs {
+        border: none;
+        border-radius: 10px;
+        height: 50px;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.1) !important;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .data-collector {
+        background: #035544;
+        border-radius: 15px;
+        margin-top: 20px;
+        padding: 20px 30px;
+    }
+
+    .invoice-preview-card {
+        background: #DFF5EF;
+        border-radius: 15px;
+        margin-top: 20px;
+    }
+
+    .ck-editor__editable {
+        min-height: 300px;
+        color: black;
+        }
+
+    .dropify-wrapper .dropify-message span.file-icon p{
+        font-size: 16px;
+    }

@@ -83,7 +83,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::post('/save-patient', [App\Http\Controllers\User\PatientEntryController::class, 'savepatient'])->name('save-patient');
     Route::get('/add-patient', [App\Http\Controllers\User\PatientEntryController::class, 'addPatient'])->name('patient-add');
     Route::get('/edit-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'editPatient'])->name('patient-edit');
-    Route::post('/update-patient', [App\Http\Controllers\User\PatientEntryController::class, 'updatePatient'])->name('update-patient');
+    Route::post('/update-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'updatePatient'])->name('update-patient');
     Route::get('/view-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'viewPatient'])->name('patient-view');
     Route::get('/delete-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'deletePatient'])->name('patient-delete');
     Route::get('patient-status-toggle', [App\Http\Controllers\User\PatientEntryController::class, 'patientStatusToggle'])->name('patient-status-toggle');

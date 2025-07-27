@@ -114,12 +114,12 @@
 
                                 <div class="col-12">
                                     <div class="card">
-                                        <table  class="datatables-basic table">
+                                        <table class="datatables-basic table">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    
                                                     <th>Service Name</th>
+                                                    <th>Cost</th>
                                                     <th>Check</th>
                                                     <th></th>
                                                 </tr>
@@ -129,9 +129,10 @@
                                                 <tr>
                                                     <td>{{$loop->index+1}}</td>
                                                     <td>{{ ($service->service_name) }}</td>
+                                                    <td>{{ ($service->amount) }}</td>
+
                                                     <td>
                                                         <input type="checkbox" name="services[]" value="{{ $service->id }} " {{ (is_array(old('services')) && in_array($service->id, old('services'))) ? 'checked' : '' }}>
-                                                        
                                                     </td>
                                                 </tr>
                                                 @endforeach

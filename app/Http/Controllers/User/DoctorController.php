@@ -147,6 +147,9 @@ class DoctorController extends Controller
             $round = Round::where('doctor_status', '1')
                 ->where('round_status', '1')
                 ->orderBy('token', 'asc')
+                ->whereHas('patient', function ($query) {
+                    $query->where('user_id', Auth::user()->id);
+                })
                 ->with(['patient' => function ($query) {
                     $query->with([
                         'medicalRecords' => function ($q) {

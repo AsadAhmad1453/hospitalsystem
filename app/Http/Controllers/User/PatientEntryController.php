@@ -61,6 +61,22 @@ class PatientEntryController extends Controller
         return redirect()->route('patient-invoice', $patient->id)->with('success', 'Patient added successfully.');
     }
 
+    public function updatePatient(Request $request, $patient_id)
+    {
+        $request->validate([
+            'services' => 'required|array|min:1',
+            'user_id' => 'required|exists:users,id',
+        ]);
+        foreach ($request->services as $service) {
+            Invoice::create([
+                'patient_id' => $patient_id,
+                'service_id' => $service,
+            ]);
+        }
+
+        return redirect()->route('patient-invoice', $patient_id)->with('success', 'Patient added successfully.');
+    }
+
     public function invoice($patientId)
     {
         $patient = Patient::findOrFail($patientId);
@@ -89,9 +105,13 @@ class PatientEntryController extends Controller
             'patient_id' => $patient->id,
             'round_status' => '1',
             'visit_number' => 1,
+            'nursing_status' => '0',
+            'doctor_status' => '0',
             'token' => $token,
             'cost' => $request->cost
         ]);
+
+        Invoice::where('patient_id', $id)->delete();
         return redirect()->route('patient-entry')->with(['success' => 'Payment Made Successfully']);
     }
 
@@ -133,25 +153,11 @@ class PatientEntryController extends Controller
     public function editPatient($id)
     {
         $patient = Patient::findOrFail($id);
-        $users = User::where('role_id','6')->get();
-        return view('user.patient-entry.edit-patient', compact('patient', 'users'));
+        $users = User::role('Doctor')->get();
+        $services = Service::all();
+        return view('user.patient-entry.update-patient', get_defined_vars());
     }
-    public function updatePatient(StorePatientRequest $request)
-    {
-        $patient = Patient::findOrFail($request->id);
-        $patient->Name = $request->name;
-        $patient->Email = $request->email;
-        $patient->Phone = $request->phone;
-        $patient->Address = $request->address;
-        $patient->DateOfBirth = $request->dateofbirth;
-        $patient->user_id = $request->user_id;
-        $patient->cnic = $request->cnic;
-        $patient->unique_number = $request->unique_number;
-        $patient->patient_status = $request->patient_status;
-        $patient->save();
-
-        return redirect()->route('patient-entry')->with('success', 'Patient updated successfully.');
-    }
+   
     public function viewPatient($id)
     {
         $patient = Patient::findOrFail($id);

@@ -7,6 +7,12 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/pickers/flatpickr/flatpickr.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/core/menu/menu-types/vertical-menu.css') }}">
+<style>
+    .btn-info {
+        padding: 5px;
+        font-size: 12px !important;
+    }
+</style>
 @endsection
 @section('content')
 
@@ -21,7 +27,6 @@
                                 <th>CNIC</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Payment Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -33,9 +38,7 @@
                                     <td>{{$patient->name}}</td>
                                     <td>{{ $patient->email }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('patient-invoice', $patient->id) }}" class="btn btn-info">Invoice</a>
-                                    </td>
-                                    <td class="text-center">
+                                        <a href="{{ route('patient-edit', $patient->id) }}" class="btn btn-info mr-1">Invoice</a>
                                         <a href="{{route('del-user-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

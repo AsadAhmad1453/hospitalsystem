@@ -45,64 +45,39 @@
                                             @elseif(Auth::user()->role_id == $role->id && $role->name == 'Nurse')
                                             You have  <strong>{{ $nurseRounds }}</strong> new patients in queue right now!.
                                             @endif
-
                                             @endforeach
-
                                         </p>
+                                        <h4 style="color: white">
+                                             Hope you're having a great day at work!                                        
+                                        </h4>
+                                        <br>
+                                         <h2 class="font-weight-bolder mt-1" id="weather-temp" style="color: white">Loading...</h2>
+                                        <p class="card-text" id="weather-desc">Fetching weather...</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                          <!-- Subscribers Chart Card starts -->
-                          <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-header flex-column align-items-start pb-0">
-                                    <div class="avatar bg-light-primary p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather="users" class="font-medium-5"></i>
-                                        </div>
-                                    </div>
-                                    <h2 class="font-weight-bolder mt-1">{{ $doctorRounds }}</h2>
-                                    <p class="card-text">Active Patients</p>
-                                </div>
-                                <div id="gained-chart"></div>
-                            </div>
-                        </div>
-                        <!-- Subscribers Chart Card ends -->
-
-                        <!-- Orders Chart Card starts -->
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-header flex-column align-items-start pb-0">
-                                    <div class="avatar bg-light-warning p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather="dollar-sign" class="font-medium-5"></i>
-                                        </div>
-                                    </div>
-                                    <h2 class="font-weight-bolder mt-1">${{$cost}}</h2>
-                                    <p class="card-text">Revenue Today</p>
-                                </div>
-                                <div id="order-chart"></div>
-                            </div>
-                        </div>
-                        <!-- Orders Chart Card ends -->
-
-                        <div class="col-lg-9 col-12">
+                         <div class="col-lg-6 col-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row pb-50">
                                         <div class="col-sm-6 col-12 d-flex justify-content-between flex-column order-sm-1 order-2 mt-1 mt-sm-0">
                                             <div class="mb-1 mb-sm-0">
-                                                <h2 class="font-weight-bolder mb-25">{{$activeToken->token ?? 'No Patient'}}</h2>
+                                                <h2 class="font-weight-bolder mb-25">
+                                                    {{ $activeToken ? ($activeToken->token ? "#{$activeToken->token}" : 'No Patient') : 'No Patient' }}
+                                                </h2>
+
                                                 <p class="card-text font-weight-bold mb-2">Active Token</p>
                                             </div>
                                             <div class="mb-1 mb-sm-0">
-                                                <h2 class="font-weight-bolder mb-25">{{ $totalToken->token}}</h2>
+                                                <h2 class="font-weight-bolder mb-25">
+                                                    {{ $totalToken ? ($totalToken->token ? "#{$totalToken->token}" : 'No Patient') : 'No Patient' }}
+                                                </h2>
                                                 <p class="card-text font-weight-bold mb-2">Total Token</p>
                                             </div>
                                             @can('reset token')
-                                                <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary">Reset Token</a>
+                                                <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary course-sure" data-jobs="sdadas">Reset Token</a>
                                             @endcan
                                         </div>
                                         <div class="col-sm-6 col-12 d-flex justify-content-between flex-column text-right order-sm-2 order-1">
@@ -113,7 +88,10 @@
                                     <div class="row avg-sessions pt-50">
                                         @foreach ($doctors as $doctor)
                                             <div class="col-6 mb-2">
-                                                <p class="mb-50">{{$doctor->name}}: {{ $doctor->latestActiveRound?->token ?? 'No round' }}</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="">{{$doctor->name}}: </p>
+                                                    <p>{{ $doctor->latestActiveRound?->token ?? 'No round' }}</p>
+                                                </div>
                                                 <div class="progress progress-bar-primary" style="height: 6px">
                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
                                                 </div>
@@ -141,9 +119,45 @@
                                 </div>
                             </div>
                         </div>
+                        
+                          <!-- Subscribers Chart Card starts -->
+                          {{-- <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-primary p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i data-feather="users" class="font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">{{ $doctorRounds }}</h2>
+                                    <p class="card-text">Active Patients</p>
+                                </div>
+                                <div id="gained-chart"></div>
+                            </div>
+                        </div> --}}
+                        <!-- Subscribers Chart Card ends -->
+
+                        <!-- Orders Chart Card starts -->
+                        {{-- <div class="col-lg-3 col-sm-6 col-12">
+                            <div class="card">
+                                <div class="card-header flex-column align-items-start pb-0">
+                                    <div class="avatar bg-light-warning p-50 m-0">
+                                        <div class="avatar-content">
+                                            <i data-feather="dollar-sign" class="font-medium-5"></i>
+                                        </div>
+                                    </div>
+                                    <h2 class="font-weight-bolder mt-1">${{$cost}}</h2>
+                                    <p class="card-text">Revenue Today</p>
+                                </div>
+                                <div id="order-chart"></div>
+                            </div>
+                        </div> --}}
+                        <!-- Orders Chart Card ends -->
+
+                       
 
 
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        {{-- <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card">
                                 <div class="card-header flex-column align-items-start pb-0">
                                     <div class="avatar bg-light-primary p-50 m-0">
@@ -156,7 +170,7 @@
                                 </div>
                                 <div id="gained-chart"></div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         {{-- <div class="col-lg-4 col-sm-6 col-12">
                             <div class="card">
