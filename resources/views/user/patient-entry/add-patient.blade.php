@@ -1,4 +1,4 @@
-@extends('user.layouts.main')   
+@extends('user.layouts.main')
 @section('content')
    <section id="multiple-column-form">
         <div class="row">
@@ -93,11 +93,22 @@
                                 <div class="col-md-6 mb-1">
                                     <label>Select Doctor</label>
                                     <select class="select2 form-control form-control-lg" name="user_id">
-                                        @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                        @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" {{ old('user_id') == $doctor->id ? 'selected' : '' }}>{{ $doctor->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('user_id')
+                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <label>Select Nurse</label>
+                                    <select class="select2 form-control form-control-lg" name="nurse_id">
+                                        @foreach($nurses as $nurse)
+                                            <option value="{{ $nurse->id }}" {{ old('nurse_id') == $nurse->id ? 'selected' : '' }}>{{ $nurse->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('nurse_id')
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -136,7 +147,7 @@
                                                     </td>
                                                 </tr>
                                                 @endforeach
-                                                
+
                                             </tbody>
                                         </table>
                                         @error('services')

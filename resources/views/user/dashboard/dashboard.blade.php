@@ -48,7 +48,7 @@
                                             @endforeach
                                         </p>
                                         <h4 style="color: white">
-                                             Hope you're having a great day at work!                                        
+                                             Hope you're having a great day at work!
                                         </h4>
                                         <br>
                                          <h2 class="font-weight-bolder mt-1" id="weather-temp" style="color: white">Loading...</h2>
@@ -65,7 +65,7 @@
                                         <div class="col-sm-6 col-12 d-flex justify-content-between flex-column order-sm-1 order-2 mt-1 mt-sm-0">
                                             <div class="mb-1 mb-sm-0">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    {{ $nurseRounds->first()->token }}
+                                                    {{ optional($nurseRounds->first())->token ?? 'No Token' }}
                                                 </h2>
 
                                                 <p class="card-text font-weight-bold mb-2">Nurse Rounds</p>
@@ -101,7 +101,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                           <!-- Subscribers Chart Card starts -->
                           {{-- <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card">
@@ -136,7 +136,7 @@
                         </div> --}}
                         <!-- Orders Chart Card ends -->
 
-                       
+
 
 
                         {{-- <div class="col-lg-3 col-sm-6 col-12">

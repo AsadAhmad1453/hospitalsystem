@@ -20,8 +20,9 @@ class UserController extends Controller
         $userRoleId = Auth::user()->role_id;
 
         $totalToken = Round::latest()->first();
-        
+
         $doctors = User::role('Doctor')->with('latestActiveRound')->get();
+        $nurses = User::role('Nurse')->with('latestActiveRound')->get();
 
         // Active token for the logged-in doctor
         $activeToken = Round::where('doctor_status', '1')

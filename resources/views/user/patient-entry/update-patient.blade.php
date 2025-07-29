@@ -1,4 +1,4 @@
-@extends('user.layouts.main')   
+@extends('user.layouts.main')
 @section('content')
    <section id="multiple-column-form">
         <div class="row">
@@ -19,6 +19,17 @@
                                         @endforeach
                                     </select>
                                     @error('user_id')
+                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-12 my-2">
+                                    <label>Select Nurse</label>
+                                    <select class="select2 form-control form-control-lg" name="nurse_id">
+                                        @foreach($nusrse as $nurse)
+                                        <option value="{{ $nurse->id }}" {{ old('nurse_id') == $nurse->id ? 'selected' : '' }}>{{ $nurse->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('nurse_id')
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -44,7 +55,7 @@
                                                     </td>
                                                 </tr>
                                                 @endforeach
-                                                
+
                                             </tbody>
                                         </table>
                                         @error('services')

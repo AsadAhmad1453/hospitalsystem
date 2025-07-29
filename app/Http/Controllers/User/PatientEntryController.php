@@ -29,9 +29,10 @@ class PatientEntryController extends Controller
     }
     public function addPatient()
     {
-        $users = User::where('role_id','6')->get();
+        $doctors = User::role('Doctor')->get();
+        $nurses = User::role('Nurse')->get();
         $services = Service::all();
-        return view('user.patient-entry.add-patient',compact('users', 'services'));
+        return view('user.patient-entry.add-patient', get_defined_vars());
     }
 
     public function paydecline($id)
@@ -158,7 +159,7 @@ class PatientEntryController extends Controller
         $services = Service::all();
         return view('user.patient-entry.update-patient', get_defined_vars());
     }
-   
+
     public function viewPatient($id)
     {
         $patient = Patient::findOrFail($id);

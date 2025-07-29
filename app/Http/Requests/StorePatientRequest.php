@@ -31,6 +31,7 @@ class StorePatientRequest extends FormRequest
             'address' => 'required|string|max:255',
             'dateofbirth' => 'required|date',
             'user_id' => 'required|exists:users,id',
+            'nurse_id' => 'required|exists:nurse,id',
             'cnic' => 'required|string|max:20|unique:patients,cnic',
             'unique_number' => 'required|string|max:255|unique:patients,unique_number',
             'patient_status' => 'required|in:0,1',
