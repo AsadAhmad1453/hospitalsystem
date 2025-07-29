@@ -26,6 +26,15 @@
                                 </div>
                                 
                                 <div class="col-md-6 mb-1">
+                                    <label>Select Form</label>
+                                    <select class="select2 form-control form-control-lg" id="section" name="form_id">
+                                        @foreach($forms as $form)
+                                            <option value="{{ $form->id }}" {{ old('form_id') == $form->id ? 'selected' : '' }}>{{ $form->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-1">
                                     <label>Select Section</label>
                                     <select class="select2 form-control form-control-lg" id="section" name="section_id">
                                         @foreach($sections as $section)

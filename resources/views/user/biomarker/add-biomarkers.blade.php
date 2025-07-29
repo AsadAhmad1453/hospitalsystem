@@ -16,7 +16,7 @@
                         <h4 class="card-title">Fill the form</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('save-test-reports') }}" method="POST" class="form form-horizontal">
+                        <form action="{{ route('save-test-reports') }}" method="POST"  enctype="multipart/form-data" class="form form-horizontal">
                             @csrf
                             <div class="row">
                                 <div class="col-12">

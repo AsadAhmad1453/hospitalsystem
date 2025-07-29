@@ -31,6 +31,7 @@ class PatientEntryController extends Controller
     {
         $doctors = User::role('Doctor')->get();
         $nurses = User::role('Nurse')->get();
+        $dcs = User::role('Data Collector')->get();
         $services = Service::all();
         return view('user.patient-entry.add-patient', get_defined_vars());
     }

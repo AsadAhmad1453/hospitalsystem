@@ -8,7 +8,7 @@
                         <h4 class="card-title">Add New Patient</h4>
                     </div>
                     <div class="card-body">
-                        <form class="form" method="POST" action="{{ route('save-patient') }}">
+                        <form class="form" method="POST" action="{{ route('save-patient') }}" >
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 col-12">
@@ -91,13 +91,13 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-1">
-                                    <label>Select Doctor</label>
-                                    <select class="select2 form-control form-control-lg" name="user_id">
-                                        @foreach($doctors as $doctor)
-                                        <option value="{{ $doctor->id }}" {{ old('user_id') == $doctor->id ? 'selected' : '' }}>{{ $doctor->name }}</option>
+                                    <label>Select Data Collector</label>
+                                    <select class="select2 form-control form-control-lg" name="dc_id">
+                                        @foreach($dcs as $dc)
+                                            <option value="{{ $dc->id }}" {{ old('dc_id') == $dc->id ? 'selected' : '' }}>{{ $dc->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('user_id')
+                                    @error('dc_id')
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -112,6 +112,18 @@
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>
+                                <div class="col-md-6 mb-1">
+                                    <label>Select Doctor</label>
+                                    <select class="select2 form-control form-control-lg" name="doctor_id">
+                                        @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" {{ old('user_id') == $doctor->id ? 'selected' : '' }}>{{ $doctor->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('doctor_id')
+                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                
                                 <input type="hidden" name="patient_status" value="1">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">

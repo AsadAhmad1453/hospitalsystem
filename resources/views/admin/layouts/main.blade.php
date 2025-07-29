@@ -184,6 +184,8 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
                 <li class="{{Route::is('admin-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin-dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
                 </li>
+                <li class="{{Route::is('roles') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('roles')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Roles</span></a>
+                </li>
                 <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
                 </li>
                 <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather='user-check'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Staff</span></a>
@@ -201,6 +203,8 @@
                     </ul>
                 </li>
                 <li class="{{Route::is('patients') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
+                </li>
+                <li class="{{Route::is('forms') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('forms')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Forms</span></a>
                 </li>
                 <li class="{{Route::is('services') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('services')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Services</span></a>
                 </li>

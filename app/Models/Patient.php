@@ -17,6 +17,11 @@ class Patient extends Model
         $this->attributes['unique_number'] = strtoupper($value);
     }
 
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
+
     public function round()
     {
         return $this->hasOne(Round::class);

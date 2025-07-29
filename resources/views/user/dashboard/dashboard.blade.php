@@ -58,39 +58,40 @@
                             </div>
                         </div>
 
-                         <div class="col-lg-6 col-12">
+                        <div class="col-lg-6 col-12">
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row pb-50">
-                                        <div class="col-sm-6 col-12 d-flex justify-content-between flex-column order-sm-1 order-2 mt-1 mt-sm-0">
-                                            <div class="mb-1 mb-sm-0">
+                                        <div class="col-12 d-flex justify-content-between">
+                                            <div class="col-4">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    {{ optional($nurseRounds->first())->token ?? 'No Token' }}
+                                                    #{{ optional($activeToken->first())->token ?? 'No Token' }}
                                                 </h2>
-
-                                                <p class="card-text font-weight-bold mb-2">Nurse Rounds</p>
+                                                <p class="card-text font-weight-bold mb-2">Active Rounds</p>
                                             </div>
-                                            <div class="mb-1 mb-sm-0">
+                                            <div class="col-4">
                                                 <h2 class="font-weight-bolder mb-25">
                                                     {{ $totalToken ? ($totalToken->token ? "#{$totalToken->token}" : 'No Patient') : 'No Patient' }}
                                                 </h2>
                                                 <p class="card-text font-weight-bold mb-2">Total Token</p>
                                             </div>
-                                            @can('reset token')
-                                                <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary course-sure" data-jobs="sdadas">Reset Token</a>
-                                            @endcan
-                                        </div>
-                                        <div class="col-sm-6 col-12 d-flex justify-content-between flex-column text-right order-sm-2 order-1">
-                                            <div id="avg-sessions-chart"></div>
+                                            <div class="col-4">
+                                                @can('reset token')
+                                                    <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary course-sure" data-jobs="sdadas"><i data-feather="refresh-cw"></i> &ensp; Token</a>
+                                                @endcan
+                                            </div>
                                         </div>
                                     </div>
                                     <hr />
                                     <div class="row avg-sessions pt-50">
-                                        @foreach ($doctors as $doctor)
+                                        <div class="col-12 mt-1 mb-2">
+                                            <h4>Data Collectors</h4>
+                                        </div>
+                                        @foreach ($dcs as $dc)
                                             <div class="col-6 mb-2">
                                                 <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="">{{$doctor->name}}: </p>
-                                                    <p>{{ $doctor->latestActiveRound?->token ?? 'No round' }}</p>
+                                                    <p class="">{{$dc->name}}: </p>
+                                                    <p>{{ $dc->latestActiveRoundAsDC?->token ?? 'No round' }}</p>
                                                 </div>
                                                 <div class="progress progress-bar-primary" style="height: 6px">
                                                     <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
@@ -98,6 +99,40 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    <div class="row avg-sessions pt-50">
+                                        <div class="col-12 mt-1 mb-2">
+                                            <h4>Nurses</h4>
+                                        </div>
+                                        @foreach ($nurses as $nurse)
+                                            <div class="col-6 mb-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="">{{$nurse->name}}: </p>
+                                                    <p>{{ $nurse->latestActiveRoundAsNurse?->token ?? 'No round' }}</p>
+                                                </div>
+                                                <div class="progress progress-bar-primary" style="height: 6px">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="row avg-sessions pt-50">
+                                        <div class="col-12 mb-2">
+                                            <h4>Doctors</h4>
+                                        </div>
+                                        @foreach ($doctors as $doctor)
+                                            <div class="col-6 mb-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="">{{$doctor->name}}: </p>
+                                                    <p>{{ $doctor->latestActiveRoundAsDoctor?->token ?? 'No round' }}</p>
+                                                </div>
+                                                <div class="progress progress-bar-primary" style="height: 6px">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>

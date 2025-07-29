@@ -8,6 +8,7 @@ use App\Models\Question;
 use App\Models\Section;
 use App\Models\Dependency;
 use App\Models\Option;
+use App\Models\Form;
 
 class QuestionsController extends Controller
 {
@@ -49,6 +50,7 @@ class QuestionsController extends Controller
     {
         $sections = Section::all();
         $questions = Question::with('options')->get();
+        $forms = Form::all();
 
         return view('admin.questions.question-add', get_defined_vars());
     }
@@ -60,6 +62,7 @@ class QuestionsController extends Controller
             'section_id' => $request->section_id,
             'question' => $request->question,
             'question_type' => $request->question_type,
+            'form_id' => $request->form_id,
             'has_dependency' => $request->has_dependency,
             'position' => $maxPosition + 1,
         ]);

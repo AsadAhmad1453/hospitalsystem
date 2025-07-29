@@ -34,7 +34,7 @@
                                     <td>{{$round->patient->name}}</td>
                                     <td>Patient</td>
                                     <td>
-                                        <a href="{{route('data-collector', $round->patient->id)}}" data-jobs="sdadas" class="btn btn-primary float-center">Data Form</a>
+                                        <a href="{{ route('data-collector', ['id' => $form->id, 'patientId' => $round->patient->id]) }}" data-jobs="sdadas" class="btn btn-primary float-center">{{ $form->name }}</a>
                                     </td>
                                 </tr>
                             @endforeach

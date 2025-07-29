@@ -51,17 +51,49 @@ class User extends Authenticatable
         return $this->role ? $this->role->name : null;
     }
 
-    public function latestActiveRound()
+    public function latestActiveRoundAsDoctor()
     {
         return $this->hasOneThrough(
             \App\Models\Round::class,
             \App\Models\Patient::class,
-            'user_id',        // Foreign key on Patient (points to users table)
+            'doctor_id',      // Foreign key on Patient (points to users table as doctor)
             'patient_id',     // Foreign key on Round (points to patients table)
             'id',             // Local key on User
             'id'              // Local key on Patient
         )
         ->where('doctor_status', '1')
+        ->where('round_status', '1')
+        ->orderBy('token', 'asc');
+    }
+
+    public function latestActiveRoundAsNurse()
+    {
+        return $this->hasOneThrough(
+            \App\Models\Round::class,
+            \App\Models\Patient::class,
+            'nurse_id',       // Foreign key on Patient (points to users table as nurse)
+            'patient_id',     // Foreign key on Round (points to patients table)
+            'id',             // Local key on User
+            'id'              // Local key on Patient
+        )
+        ->where('nursing_status', '1')
+        ->where('doctor_status', '0')
+        ->where('round_status', '1')
+        ->orderBy('token', 'asc');
+    }
+
+    public function latestActiveRoundAsDC()
+    {
+        return $this->hasOneThrough(
+            \App\Models\Round::class,
+            \App\Models\Patient::class,
+            'dc_id',       // Foreign key on Patient (points to users table as nurse)
+            'patient_id',     // Foreign key on Round (points to patients table)
+            'id',             // Local key on User
+            'id'              // Local key on Patient
+        )
+        ->where('nursing_status', '0')
+        ->where('doctor_status', '0')
         ->where('round_status', '1')
         ->orderBy('token', 'asc');
     }

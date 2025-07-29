@@ -11,17 +11,19 @@ use App\Models\Patient;
 use App\Models\Answer;
 use App\Models\Option;
 use App\Models\Round;
+use App\Models\Form;
 class DataCollectorController extends Controller
 {
-    public function patients(){
+    public function patients($id){
         $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')->with('patient')->get();
+        $form = Form::where('id', $id)->first();
         return view('user.data-collector.patients-data-table', get_defined_vars());
     }
 
-    public function showCollectorForm($patientId)
+    public function showCollectorForm($id, $patientId)
     {
         $patientId = $patientId;
-        $questions = Question::with(['options', 'section'])->orderBy('position')->get();
+        $questions = Question::where('form_id', $id)->with(['options', 'section'])->orderBy('position')->get();
         $dependencies = Dependency::all();
         $sections = $questions
             ->pluck('section')

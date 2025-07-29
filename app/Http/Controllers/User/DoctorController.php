@@ -20,12 +20,11 @@ class DoctorController extends Controller
         $rounds = Round::where('doctor_status', '1')
             ->where('round_status', '1')
             ->whereHas('patient', function ($query) {
-                $query->where('user_id', Auth::user()->id);
+                $query->where('doctor_id', Auth::user()->id);
             })
             ->with('patient')
             ->get();
-
-        $activeToken = $rounds->first()?->token;
+        
         return view('user.doctor.doctor-form', get_defined_vars());
     }
 
@@ -148,7 +147,7 @@ class DoctorController extends Controller
                 ->where('round_status', '1')
                 ->orderBy('token', 'asc')
                 ->whereHas('patient', function ($query) {
-                    $query->where('user_id', Auth::user()->id);
+                    $query->where('doctor_id', Auth::user()->id);
                 })
                 ->with(['patient' => function ($query) {
                     $query->with([

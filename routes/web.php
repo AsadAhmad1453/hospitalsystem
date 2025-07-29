@@ -65,6 +65,15 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-bank', [App\Http\Controllers\Admin\BankController::class, 'saveBank'])->name('save-bank');
     Route::get('/delete-bank/{id}', [App\Http\Controllers\Admin\BankController::class, 'deleteBank'])->name('del-bank');
 
+    Route::get('/roles', [App\Http\Controllers\Admin\RoleController::class, 'index'])->name('roles');
+    Route::post('/save-role', [App\Http\Controllers\Admin\RoleController::class, 'saveRole'])->name('save-role');
+    Route::get('/delete-role/{id}', [App\Http\Controllers\Admin\RoleController::class, 'deleteRole'])->name('del-role');
+
+    Route::get('/forms', [App\Http\Controllers\Admin\FormController::class, 'index'])->name('forms');
+    Route::post('/save-form', [App\Http\Controllers\Admin\FormController::class, 'saveForm'])->name('save-form');
+    Route::get('/delete-form/{id}', [App\Http\Controllers\Admin\FormController::class, 'deleteForm'])->name('del-form');
+
+
 });
 
 Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('staff-login');
@@ -115,8 +124,8 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/examine-patient/{id}', [App\Http\Controllers\User\DoctorController::class, 'examinePatient'])->name('examine-specific-patient');
 
 
-    Route::get('/patients', [DataCollectorController::class, 'patients'])->name('patients-data-table');
-    Route::get('/data-collector/{id}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
+    Route::get('/patients/{id}', [DataCollectorController::class, 'patients'])->name('patients-data-table');
+    Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
 
 

@@ -122,12 +122,14 @@
                 </li>
                 @endcan
                 @can('Data Collector')
-                <li class=" nav-item {{ Route::is('patients-data-table') || Route::is('data-collector') ? 'active' : '' }}">
-                    <a class="d-flex align-items-center sidelink" href="{{ route('patients-data-table') }}">
-                        <i data-feather="file-text"></i>
-                        <span class="menu-title text-truncate" data-i18n="Dashboards">Data Collector</span>
-                    </a>
-                </li>
+                @foreach ($forms as $form)
+                    <li class="nav-item {{ (Route::is('patients-data-table') && request()->get('form_id') == $form->id) || (Route::is('data-collector') && request()->get('form_id') == $form->id) ? 'active' : '' }}">
+                        <a class="d-flex align-items-center sidelink" href="{{ route('patients-data-table',  $form->id) }}">
+                            <i data-feather="file-text"></i>
+                            <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $form->name }}</span>
+                        </a>
+                    </li>
+                @endforeach
                 @endcan
                 @can('bio marker')
                 <li class="{{Route::is('biomarker') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center sidelink" href="{{route('biomarker')}}"><i data-feather="activity"></i><span class="menu-title text-truncate" data-i18n="Dashboards">BIO Markers Entry</span></a>

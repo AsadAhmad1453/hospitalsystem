@@ -21,8 +21,9 @@ class UserController extends Controller
 
         $totalToken = Round::latest()->first();
 
-        $doctors = User::role('Doctor')->with('latestActiveRound')->get();
-        $nurses = User::role('Nurse')->with('latestActiveRound')->get();
+        $doctors = User::role('Doctor')->with('latestActiveRoundAsDoctor')->get();
+        $nurses = User::role('Nurse')->with('latestActiveRoundAsNurse')->get();
+        $dcs = User::role('Data Collector')->with('latestActiveRoundAsDC')->get();
 
         // Active token for the logged-in doctor
         $activeToken = Round::where('doctor_status', '1')
@@ -47,22 +48,30 @@ class UserController extends Controller
         $cost = Round::sum('cost');
 
         // Count of rounds in queue for current user’s patients
-        $queue = Round::where('doctor_status', '1')
-            ->where('round_status', '1')
-            ->whereHas('patient', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
-            ->count();
+        // Determine the logged-in user's role and show their queue patients accordingly
+        $user = Auth::user();
+        $queue = 0;
 
-        // Get the next patient in queue for current user's patients
-        // $round = Round::where('doctor_status', '1')
-        //     ->where('round_status', '1')
-        //     ->whereHas('patient', function ($query) use ($userId) {
-        //         $query->where('user_id', $userId);
-        //     })
-        //     ->orderBy('token', 'asc')
-        //     ->with('patient')
-        //     ->first();
+        // Optimize: Only eager load what is needed, and use role_id for performance
+        if ($user->hasRole('Doctor')) {
+            // For doctors, show patients where doctor_id matches and round is active for doctor
+            $queue = Round::where('doctor_status', '1')
+                ->where('round_status', '1')
+                ->whereHas('patient', function ($query) use ($user) {
+                    $query->where('doctor_id', $user->id);
+                })
+                ->count();
+        } elseif ($user->hasRole('Nurse')) {
+            // For nurses, show patients where nurse_id matches and round is active for nurse
+            $queue = Round::where('nursing_status', '1')
+                ->where('round_status', '1')
+                ->whereHas('patient', function ($query) use ($user) {
+                    $query->where('nurse_id', $user->id);
+                })
+                ->count();
+        } 
+
+        
 
         return view('user.dashboard.dashboard', get_defined_vars());
     }
