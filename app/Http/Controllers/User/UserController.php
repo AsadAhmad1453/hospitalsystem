@@ -33,7 +33,9 @@ class UserController extends Controller
         $doctorRounds = Round::where('doctor_status', '1')->count();
 
         // Count of rounds pending for nurses
-        $nurseRounds = Round::where('nursing_status', '0')->count();
+        $nurseRounds = Round::where('nursing_status', '1')
+        ->where('doctor_status', '0')
+        ->get();
 
         // Fetch all roles
         $roles = Role::all();

@@ -214,6 +214,8 @@
 
                     </ul>
                 </li>
+                <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
+                </li>
             </ul>
         </div>
     </div>

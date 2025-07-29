@@ -61,6 +61,9 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-service', [ServiceController::class, 'saveService'])->name('save-service');
     Route::get('/delete-service/{id}', [ServiceController::class, 'deleteService'])->name('del-service');
 
+    Route::get('/banks', [App\Http\Controllers\Admin\BankController::class, 'index'])->name('banks');
+    Route::post('/save-bank', [App\Http\Controllers\Admin\BankController::class, 'saveBank'])->name('save-bank');
+    Route::get('/delete-bank/{id}', [App\Http\Controllers\Admin\BankController::class, 'deleteBank'])->name('del-bank');
 
 });
 
@@ -115,4 +118,6 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/patients', [DataCollectorController::class, 'patients'])->name('patients-data-table');
     Route::get('/data-collector/{id}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
+
+
 });

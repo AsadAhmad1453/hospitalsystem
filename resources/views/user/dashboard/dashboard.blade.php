@@ -43,7 +43,7 @@
 
                                             You have  <strong>{{ $queue }}</strong> new patients in queue right now!.
                                             @elseif(Auth::user()->role_id == $role->id && $role->name == 'Nurse')
-                                            You have  <strong>{{ $nurseRounds }}</strong> new patients in queue right now!.
+                                            You have  <strong>{{ $nurseRounds->count() }}</strong> new patients in queue right now!.
                                             @endif
                                             @endforeach
                                         </p>
@@ -65,10 +65,10 @@
                                         <div class="col-sm-6 col-12 d-flex justify-content-between flex-column order-sm-1 order-2 mt-1 mt-sm-0">
                                             <div class="mb-1 mb-sm-0">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    {{ $activeToken ? ($activeToken->token ? "#{$activeToken->token}" : 'No Patient') : 'No Patient' }}
+                                                    {{ $nurseRounds->first()->token }}
                                                 </h2>
 
-                                                <p class="card-text font-weight-bold mb-2">Active Token</p>
+                                                <p class="card-text font-weight-bold mb-2">Nurse Rounds</p>
                                             </div>
                                             <div class="mb-1 mb-sm-0">
                                                 <h2 class="font-weight-bolder mb-25">
@@ -97,24 +97,6 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        {{-- <div class="col-6 mb-2">
-                                            <p class="mb-50">Users: 100K</p>
-                                            <div class="progress progress-bar-warning" style="height: 6px">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="60" aria-valuemax="100" style="width: 60%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="mb-50">Retention: 90%</p>
-                                            <div class="progress progress-bar-danger" style="height: 6px">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="70" aria-valuemax="100" style="width: 70%"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <p class="mb-50">Duration: 1yr</p>
-                                            <div class="progress progress-bar-success" style="height: 6px">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90" aria-valuemax="100" style="width: 90%"></div>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>

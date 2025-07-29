@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Round;
 use App\Models\Service;
 use App\Models\Invoice;
+use App\Models\Bank;
 use Illuminate\Support\Facades\Auth;
 
 class PatientEntryController extends Controller
@@ -82,7 +83,7 @@ class PatientEntryController extends Controller
         $patient = Patient::findOrFail($patientId);
         $invoices = Invoice::where('patient_id', $patientId)->with('service')->get();
         $services = Service::all();
-
+        $banks = Bank::all();
 
         $totalAmount = $invoices->sum(function($invoice) {
             return ($invoice->service ) ? (float)$invoice->service->amount : 0;
@@ -90,7 +91,7 @@ class PatientEntryController extends Controller
 
 
 
-        return view('user.patient-entry.invoice', compact('patient', 'invoices', 'services', 'totalAmount'));
+        return view('user.patient-entry.invoice', get_defined_vars());
     }
 
     public function payed(Request $request, $id){

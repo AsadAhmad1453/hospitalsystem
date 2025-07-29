@@ -201,19 +201,35 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalCenterTitle">Transaction ID</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <buttson type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <form action="{{ route('made-payment', $patient->id) }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="cost" value="{{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="t-id">T.ID</label>
-                                        <input type="text" id="t-id" class="form-control" placeholder="Transaction ID" name="transaction_id" required value="{{ old('transaction_id') }}" />
-                                        @error('t-id')
-                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                <div class="modal-body d-flex">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="t-id">T.ID</label>
+                                            <input type="text" id="t-id" class="form-control" placeholder="Transaction ID" name="transaction_id" required value="{{ old('transaction_id') }}" />
+                                            @error('t-id')
+                                                <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-1">
+                                        <label>Select Bank</label>
+                                        <select class="select2 form-control form-control-lg" name="bank_id">
+                                            @foreach ($banks as $bank)
+                                                <option value="{{ $bank->id }}" data-logo="{{ $bank->bank_logo ? asset('storage/' . $bank->bank_logo) : '' }}">
+                                                    {{ $bank->bank_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('user_id')   
+                                                <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -227,7 +243,7 @@
                 <!-- /Send Invoice Sidebar -->
 
                 <!-- Add Payment Sidebar -->
-                <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
+                {{-- <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
                     <div class="modal-dialog sidebar-lg">
                         <div class="modal-content p-0">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
@@ -272,11 +288,48 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- /Add Payment Sidebar -->
 
 @endsection
 
 @section('custom-js')
-
+<script>
+$(document).ready(function() {
+    // Debug: Log the data-logo values
+    $('select[name="bank_id"] option').each(function() {
+        var logoUrl = $(this).data('logo');
+        console.log('Bank: ' + $(this).text() + ', Logo URL: ' + logoUrl);
+    });
+    
+    // Simple select2 with logo display
+    $('select[name="bank_id"]').select2({
+        templateResult: function(bank) {
+            if (!bank.id) return bank.text;
+            
+            var logoUrl = $(bank.element).data('logo');
+            console.log('Template Result - Bank: ' + bank.text + ', Logo: ' + logoUrl);
+            
+            if (logoUrl && logoUrl !== '') {
+                return '<img src="' + logoUrl + '" style="height: 1rem; width: auto; margin-right: 5px; vertical-align: middle;" onerror="this.style.display=\'none\';">' + bank.text;
+            }
+            return bank.text;
+        },
+        templateSelection: function(bank) {
+            if (!bank.id) return bank.text;
+            
+            var logoUrl = $(bank.element).data('logo');
+            console.log('Template Selection - Bank: ' + bank.text + ', Logo: ' + logoUrl);
+            
+            if (logoUrl && logoUrl !== '') {
+                return '<img src="' + logoUrl + '" style="height: 1rem; width: auto; margin-right: 5px; vertical-align: middle;" onerror="this.style.display=\'none\';">' + bank.text;
+            }
+            return bank.text;
+        },
+        escapeMarkup: function(markup) {
+            return markup;
+        }
+    });
+});
+</script>
 @endsection

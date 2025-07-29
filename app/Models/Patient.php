@@ -12,6 +12,11 @@ class Patient extends Model
     protected $guarded = [];
 
 
+    public function setUniqueNumberAttribute($value)
+    {
+        $this->attributes['unique_number'] = strtoupper($value);
+    }
+
     public function round()
     {
         return $this->hasOne(Round::class);
