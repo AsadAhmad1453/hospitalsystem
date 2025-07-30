@@ -52,8 +52,10 @@ class DoctorController extends Controller
         ]);
 
         $filePath = null;
+        $originalFilename = null;
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
+            $originalFilename = $file->getClientOriginalName(); // Get original filename
             $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
         }
 
@@ -67,6 +69,7 @@ class DoctorController extends Controller
             'recommended_medication' => $request->recommended_medication,
             'further_investigation' => $request->further_investigation,
             'report_file' => $filePath,
+            'original_filename' => $originalFilename,
         ]);
 
         Patient::where('id', $request->patient_id)->update([

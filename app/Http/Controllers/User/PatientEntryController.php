@@ -27,6 +27,7 @@ class PatientEntryController extends Controller
             ->get();
         return view('user.patient-entry.patient-entry', compact('patients'));
     }
+    
     public function addPatient()
     {
         $doctors = User::role('Doctor')->get();

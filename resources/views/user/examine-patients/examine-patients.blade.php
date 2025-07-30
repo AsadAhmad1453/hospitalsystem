@@ -7,6 +7,7 @@
     <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Staff Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,18 +51,56 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
-
+    
+    <style>
+        .report-image {
+            transition: transform 0.2s ease-in-out;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .report-image:hover {
+            transform: scale(1.05);
+            border-color: #007bff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .modal-lg {
+            max-width: 90%;
+        }
+        
+        .modal-body img {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .modal-header .close {
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .modal-header .close:hover {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body class="bg-gradient">
   <div class="container-fluid p-0">
     <section id="multiple-column-form ">
-      <div class="d-flex p-4">
+      <div class="d-flex ">
         <!-- Sidebar -->
-        <div class="sidebar  p-3 m-0">
-            <div class="d-flex justify-content-between align-items-center card p-5  patient-info">
-                <h4 class="text-white"><strong>Token #</strong>{{ $round->token }}</h4>
+        <div class="sidebar p-4">
+            <div class="d-flex justify-content-between align-items-center card token mb-2 patient-info">
+                <h4 class="text-white m-0"><strong>Token #</strong>{{ $round->token }}</h4>
             </div>
-            <div class="card patient-info">
+            <div class="card mt-3 patient-info">
                 <h4 class="text-center text-white mb-4" style="font-weight: bold">Patient Information</h4>
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <strong>Unique ID: </strong>
@@ -75,7 +114,7 @@
                     <strong>E-mail: </strong>
                     <span class="">{{ $patient->email}}</span>
                 </div>
-                <div class="row d-flex justify-content-between align-items-center mb-3">
+                <div class="row d-flex justify-content-between align-items-center mb-0">
                     <div class="col-6 d-flex justify-content-between align-items-center mb-3">
                         <strong>Name: </strong>
                         <span class="">{{ $patient->name }}</span>
@@ -110,6 +149,109 @@
                     </div>
                 </div>
             </div>
+            
+            <div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
+                <div class="card reports-card collapse-icon">
+                    <div class="collapse-default">
+                        @if(isset($patient->medicalRecords) && count($patient->medicalRecords))
+                            @foreach($patient->medicalRecords as $index => $record)
+                                <div class="card report">
+                                    <div id="heading{{ $index }}" class="card-header " data-toggle="collapse" role="button" data-target="#accordion{{ $index }}" aria-expanded="false" aria-controls="accordion{{ $index }}">
+                                        <span class="lead collapse-title">
+                                            Report File
+                                        </span>
+                                    </div>
+                                    <div id="accordion{{ $index }}" role="tabpanel" data-parent="#accordionWrapa1" aria-labelledby="heading{{ $index }}" class="collapse">
+                                        <div class="card-body">
+                                            @if(isset($record->report_file) && $record->report_file && \Illuminate\Support\Facades\Storage::disk('public')->exists($record->report_file))
+                                                @php
+                                                    $extension = strtolower(pathinfo($record->report_file, PATHINFO_EXTENSION));
+                                                    $isPdf = $extension === 'pdf';
+                                                    $isDoc = in_array($extension, ['doc', 'docx']);
+                                                    $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
+                                                    $fileUrl = asset('storage/' . $record->report_file);
+                                                    $modalId = "fileModal{$index}";
+                                                @endphp
+
+                                                @if($isImage)
+                                                    <!-- Image Preview with Modal -->
+                                                    <div class="text-center mb-3">
+                                                        <img src="{{ asset('storage/' . $record->report_file) }}" 
+                                                             alt="Medical Report" 
+                                                             class="img-fluid" 
+                                                             style="cursor: pointer; max-width: 200px; border: 2px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                                                             data-toggle="modal" 
+                                                             data-target="#imageModal{{ $index }}"
+                                                             title="Click to view full size">
+                                                        <p class="text-muted mt-2">{{ $record->original_filename ?? 'Medical Report Image' }}</p>
+                                                    </div>
+
+                                                    <!-- Image Modal -->
+                                                    <div class="modal fade" id="imageModal{{ $index }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ $index }}" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                                                    <h5 class="modal-title" id="imageModalLabel{{ $index }}">
+                                                                        {{ $record->original_filename ?? 'Medical Report' }}
+                                                                    </h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <img src="{{ asset('storage/' . $record->report_file) }}" 
+                                                                         alt="Medical Report" 
+                                                                         class="img-fluid" 
+                                                                         style="max-height: 70vh; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <a href="{{ asset('storage/' . $record->report_file) }}" 
+                                                                       target="_blank" 
+                                                                       class="btn btn-primary">
+                                                                        <i class="fas fa-external-link-alt"></i> Open in New Tab
+                                                                    </a>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @elseif($isPdf)
+                                                    <!-- PDF Link -->
+                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-danger d-flex align-items-center mb-2">
+                                                        <i class="fas fa-file-pdf fa-2x mr-2"></i>
+                                                        <span>{{ $record->original_filename ?? 'View PDF Report' }}</span>
+                                                    </a>
+                                                @elseif($isDoc)
+                                                    <!-- Word Document Link -->
+                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-primary d-flex align-items-center mb-2">
+                                                        <i class="fas fa-file-word fa-2x mr-2"></i>
+                                                        <span>{{ $record->original_filename ?? 'View Word Document' }}</span>
+                                                    </a>
+                                                @else
+                                                    <!-- Other File Types -->
+                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-secondary d-flex align-items-center mb-2">
+                                                        <i class="fas fa-file fa-2x mr-2"></i>
+                                                        <span>{{ $record->original_filename ?? 'View Report File' }}</span>
+                                                    </a>
+                                                @endif
+                                            @else
+                                                <p class="text-muted">No report file available.</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="lead collapse-title">No Medical Records Found</span>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            
 
 
         </div>
@@ -117,7 +259,7 @@
         <a id="submit-diagnosis-form" class="btn btn-primary w-25 float-right d-flex align-items-center" >Next <i data-feather="arrow-right" class="mx-2"></i></a>
 
         <!-- Right-side Content -->
-        <div class="flex-grow-1 ml-3 p-2">
+        <div class="flex-grow-1 ml-3 p-4">
           <!-- Tabs -->
           <ul class="nav nav-tabs mb-2" id="contentTabs" role="tablist">
             <li class="nav-item ">
@@ -141,9 +283,6 @@
                 <!-- Form -->
                 <div class="col-md-7 col-12">
                   <div class="card form-card p-3">
-                        <div class="card-header">
-                            <h3 class=""><strong>Fill the form</strong></h3>
-                        </div>
                         <div class="card-body">
                             <form id="diagnosis-form" action="{{ route('save-doctor-reports') }}" method="POST" enctype="multipart/form-data" class="form form-horizontal">
                                 @csrf
@@ -185,16 +324,6 @@
                                             <textarea class="form-control" id="investigation" rows="3" name="further_investigation" placeholder="Lab Investigation"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-12">
-                                        <div class="form-group row">
-                                            <div class="col-12 col-form-label">
-                                                <label for="reports">Reports</label>
-                                            </div>
-                                            <div class="col-12">
-                                                <input type="file" id="reports" class="form-control file-input" name="reports" placeholder="Reports File" />
-                                            </div>
-                                        </div>
-                                    </div>
                                     {{-- <div class="col-sm-9 mt-2">
                                         <button type="submit" class="btn btn-primary mr-1">Submit</button>
                                         <button type="reset" class="btn btn-outline-secondary">Reset</button>
@@ -206,50 +335,49 @@
                 </div>
 
                 <!-- AI Assistant -->
-                <div class="col-md-5 col-12">
-                    <div class="container card p-0">
-                        <header class="header">
-                            <div class="header-title">
-                                <h1>AI Assistant</h1>
-                                <div class="bot-status">
-                                    <div class="status-indicator"></div>
-                                    <span>Online</span>
-                                </div>
+
+                <div class="container card p-0 ai-assistant">
+                    <header class="header">
+                        <div class="header-title">
+                            <h1>AI Assistant</h1>
+                            <div class="bot-status">
+                                <div class="status-indicator"></div>
+                                <span>Online</span>
                             </div>
-                            <div class="controls">
-                                <button class="theme-toggle" aria-label="Toggle theme">
-                                    <i class="fas fa-moon"></i>
+                        </div>
+                        <div class="controls">
+                            <button class="theme-toggle" aria-label="Toggle theme">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </div>
+                    </header>
+
+                    <div class="chat-container" id="chatContainer">
+                        <!-- Messages will be added here -->
+                    </div>
+
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <div class="input-wrapper">
+                            <input type="text" class="message-input" id="prompt" placeholder="Type your message..." aria-label="Message input">
+                            <div class="action-buttons">
+                                <button class="action-button" aria-label="Add attachment">
+                                    <i class="fas fa-paperclip"></i>
                                 </button>
-                            </div>
-                        </header>
-
-                        <div class="chat-container" id="chatContainer">
-                            <!-- Messages will be added here -->
-                        </div>
-
-                        <div class="typing-indicator">
-                            <div class="typing-dots">
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                                <div class="typing-dot"></div>
-                            </div>
-                        </div>
-
-                        <div class="input-container">
-                            <div class="input-wrapper">
-                                <input type="text" class="message-input" placeholder="Type your message..." aria-label="Message input">
-                                <div class="action-buttons">
-                                    <button class="action-button" aria-label="Add attachment">
-                                        <i class="fas fa-paperclip"></i>
-                                    </button>
-                                    <button class="action-button" aria-label="Voice input">
-                                        <i class="fas fa-microphone"></i>
-                                    </button>
-                                    <button class="send-button">
-                                        <span>Send</span>
-                                        <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </div>
+                                <button class="action-button" aria-label="Voice input">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                                <button class="send-button" id="sendBtn">
+                                    <span>Send</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -466,8 +594,11 @@
     <script src="{{asset('admin-assets/js/core/app.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('admin-assets/js/ai.js')}}"></script>
+    {{-- <script src="{{asset('admin-assets/js/ai.js')}}"></script> --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script src="{{asset('admin-assets/js/scripts/components/components-collapse.js')}}"></script>
+    <script src="{{asset('admin-assets/js/scripts/components/components-collapse.min.js')}}"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
@@ -485,6 +616,43 @@
             e.preventDefault();
             $('#diagnosis-form').submit();
         });
+
+        $('.send-button').click(function() {
+            const prompt = $('.message-input').val();
+            if (!prompt) return;
+
+            // Append user message to chat (your existing code)
+
+            fetch('/user/ai/ask', {
+                method: 'POST',
+                headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Server response:', data);
+                
+                // ✅ Now safely use data.reply
+                $('.chat-container').append(`
+                <div class="message ai-message">${data.reply}</div>
+                `);
+
+                $('.message-input').val('');
+            })
+            .catch(err => {
+                console.error('Fetch error:', err);
+                $('.chat-container').append(`
+                <div class="message error-message">AI: Request failed.</div>
+                `);
+            });
+        });
+
+
+
 
         // ✅ Print only prescription tab
         $('#printButton').on('click', function () {
@@ -533,7 +701,46 @@
                 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
                 <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-                <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">                
+                <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
+                
+                <style>
+                    .report-image {
+                        transition: transform 0.2s ease-in-out;
+                        border: 2px solid #e0e0e0;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                    }
+                    
+                    .report-image:hover {
+                        transform: scale(1.05);
+                        border-color: #007bff;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    }
+                    
+                    .modal-lg {
+                        max-width: 90%;
+                    }
+                    
+                    .modal-body img {
+                        border-radius: 8px;
+                        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                    }
+                    
+                    .modal-header {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        color: white;
+                        border-bottom: none;
+                    }
+                    
+                    .modal-header .close {
+                        color: white;
+                        opacity: 0.8;
+                    }
+                    
+                    .modal-header .close:hover {
+                        opacity: 1;
+                    }
+                </style>
             `;
 
             // Open popup
@@ -588,86 +795,6 @@
 
     });
 </script>
-
-
-    {{-- <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        });
-
-        $(document).ready(function () {
-            $('.file-input').dropify();
-
-
-            $('#submit-diagnosis-form').on('click', function (e) {
-                e.preventDefault(); // prevent anchor default action
-                $('#diagnosis-form').submit(); // trigger the form submit
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const editors = {};
-    
-            function bindEditor(id, targetSelector) {
-                ClassicEditor
-                    .create(document.querySelector(id))
-                    .then(editor => {
-                        editors[id] = editor;
-    
-                        // Sync changes to display element in real-time
-                        editor.model.document.on('change:data', () => {
-                            const value = editor.getData();
-                            $(targetSelector).html(value); // Use `.html()` to preserve formatting
-                        });
-                    })
-                    .catch(error => {
-                        console.error(`Error initializing editor for ${id}:`, error);
-                    });
-            }
-    
-            // Bind each field to its matching preview display
-            bindEditor('#complaint', '#display-complaint'); // no preview for this?
-            bindEditor('#symptoms', '#display-symptoms');
-            bindEditor('#blood_pressure', null); // no preview for this?
-            bindEditor('#diagnosis', '#display-diagnosis');
-            bindEditor('#medication', '#display-medication');
-            bindEditor('#investigation', '#display-investigation');
-        });
-    </script> --}}
-    
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            ClassicEditor
-                .create(document.querySelector('#complaint'))
-                .catch(error => console.error(error));
-    
-            ClassicEditor
-                .create(document.querySelector('#symptoms'))
-                .catch(error => console.error(error));
-    
-            ClassicEditor
-                .create(document.querySelector('#blood_pressure'))
-                .catch(error => console.error(error));
-    
-            ClassicEditor
-                .create(document.querySelector('#diagnosis'))
-                .catch(error => console.error(error));
-    
-            ClassicEditor
-                .create(document.querySelector('#medication'))
-                .catch(error => console.error(error));
-    
-            ClassicEditor
-                .create(document.querySelector('#investigation'))
-                .catch(error => console.error(error));
-        });
-    </script> --}}
     
 </body>
 </html>

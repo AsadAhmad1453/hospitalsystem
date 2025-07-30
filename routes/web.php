@@ -14,6 +14,7 @@ use App\Http\Controllers\User\PatientEntryController;
 use App\Http\Controllers\Admin\QuestionsController;
 use App\Http\Controllers\User\DataCollectorController;
 use App\Http\Controllers\User\DoctorController;
+use App\Http\Controllers\User\AIChatController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -128,5 +129,6 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
 
-
+    Route::post('/ai/ask', [AIChatController::class, 'ask']);
+    
 });

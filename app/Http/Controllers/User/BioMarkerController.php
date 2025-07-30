@@ -20,7 +20,7 @@ class BioMarkerController extends Controller
     public function addBiomarker($id)
     {
         $patient = Patient::findOrFail($id);
-       return view('user.biomarker.add-biomarkers',compact('patient'));
+        return view('user.biomarker.add-biomarkers',compact('patient'));
     }
 
     public function editBiomarker($id)
