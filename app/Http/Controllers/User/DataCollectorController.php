@@ -17,6 +17,16 @@ class DataCollectorController extends Controller
     public function patients($id){
         $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')->with('patient')->get();
         $form = Form::where('id', $id)->first();
+        
+        // Check which patients have already submitted this form
+        $submittedPatients = [];
+        if ($form) {
+            $submittedPatients = Answer::where('form_id', $id)
+                ->distinct()
+                ->pluck('patient_id')
+                ->toArray();
+        }
+        
         return view('user.data-collector.patients-data-table', get_defined_vars());
     }
 
@@ -36,10 +46,12 @@ class DataCollectorController extends Controller
         return view('user.data-collector.data-collector', get_defined_vars());
     }
 
-    public function submitAnswers(Request $request)
+    public function submitAnswers(Request $request, $form_id)
     {
-        Answer::where('patient_id', $request->patient_id)->delete();
+        // Delete previous answers for this patient and form
+        Answer::where('patient_id', $request->patient_id)->where('form_id', $form_id)->delete();
 
+        // Save new answers
         foreach ($request->except(['_token', 'patient_id']) as $questionId => $answer) {
             $question = Question::find($questionId);
 
@@ -68,14 +80,31 @@ class DataCollectorController extends Controller
                 [
                     'patient_id' => $request->patient_id,
                     'question' => $question ? $question->question : '',
+                    'form_id' => $form_id,
                     'answer' => $answerString,
                 ],
             );
         }
 
-        Round::where('patient_id', $request->patient_id)->where('round_status', '1')->update([
-            'nursing_status' => '1',    
-        ]);
-        return redirect()->route('patients-data-table');
+        // Check if patient has submitted all forms
+        $allFormIds = Form::pluck('id')->toArray();
+        $answeredFormIds = Answer::where('patient_id', $request->patient_id)
+            ->distinct()
+            ->pluck('form_id')
+            ->filter() // remove nulls
+            ->toArray();
+
+        $hasSubmittedAllForms = empty(array_diff($allFormIds, $answeredFormIds));
+
+        if ($hasSubmittedAllForms) {
+            // Patient has submitted all forms, set nursing_status to 1
+            Round::where('patient_id', $request->patient_id)
+                ->where('round_status', '1')
+                ->update([
+                    'nursing_status' => '1',
+                ]);
+        }
+
+        return redirect()->route('patients-data-table', $request->patient_id);
     }
 }

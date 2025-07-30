@@ -13,7 +13,7 @@
             <div class="card shadow">
                 <div class="formbold-main-wrapper">
                     <div class="formbold-form-wrapper">
-                        <form action="{{ route('save-data-collector') }}" method="POST">
+                        <form action="{{ route('save-data-collector', $questions->first()->form_id) }}" method="POST">
                             @csrf
                             <div class="formbold-steps" >
                                 {{-- list all the sections --}}

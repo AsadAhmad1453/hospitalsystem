@@ -126,7 +126,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
 
     Route::get('/patients/{id}', [DataCollectorController::class, 'patients'])->name('patients-data-table');
     Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
-    Route::post('/data-collector/submit', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
+    Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
 
 
 });

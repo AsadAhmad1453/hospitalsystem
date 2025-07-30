@@ -34,7 +34,13 @@
                                     <td>{{$round->patient->name}}</td>
                                     <td>Patient</td>
                                     <td>
-                                        <a href="{{ route('data-collector', ['id' => $form->id, 'patientId' => $round->patient->id]) }}" data-jobs="sdadas" class="btn btn-primary float-center">{{ $form->name }}</a>
+                                        @if($form && $round->patient && !in_array($round->patient->id, $submittedPatients))
+                                            <a href="{{ route('data-collector', ['id' => $form->id, 'patientId' => $round->patient->id]) }}" data-jobs="sdadas" class="btn btn-primary float-center">{{ $form->name }}</a>
+                                        @elseif($form && $round->patient && in_array($round->patient->id, $submittedPatients))
+                                            <span class="badge badge-success">Form Submitted</span>
+                                        @else
+                                            <span class="badge badge-success">Form Submitted</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

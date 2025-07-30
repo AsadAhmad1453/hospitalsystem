@@ -123,8 +123,26 @@
                 @endcan
                 @can('Data Collector')
                 @foreach ($forms as $form)
-                    <li class="nav-item {{ (Route::is('patients-data-table') && request()->get('form_id') == $form->id) || (Route::is('data-collector') && request()->get('form_id') == $form->id) ? 'active' : '' }}">
-                        <a class="d-flex align-items-center sidelink" href="{{ route('patients-data-table',  $form->id) }}">
+                    @php
+                        // Try to get the form id from route parameters or query string
+                        $formId = null;
+                        // Check route parameters for both 'form' and 'id'
+                        $routeParams = request()->route() ? request()->route()->parameters() : [];
+                        if (isset($routeParams['form'])) {
+                            $formId = $routeParams['form'];
+                        } elseif (isset($routeParams['id'])) {
+                            $formId = $routeParams['id'];
+                        } elseif (request()->has('form_id')) {
+                            $formId = request()->get('form_id');
+                        }
+                        // Now check if this form is active
+                        $isActive = (
+                            (Route::is('patients-data-table') && $formId == $form->id) ||
+                            (Route::is('data-collector') && $formId == $form->id)
+                        );
+                    @endphp
+                    <li class="nav-item {{ $isActive ? 'active' : '' }}">
+                        <a class="d-flex align-items-center sidelink" href="{{ route('patients-data-table', $form->id) }}">
                             <i data-feather="file-text"></i>
                             <span class="menu-title text-truncate" data-i18n="Dashboards">{{ $form->name }}</span>
                         </a>
