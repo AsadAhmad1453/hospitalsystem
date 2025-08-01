@@ -222,6 +222,14 @@
                 </li>
                 <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
                 </li>
+                <li class="{{Route::is('blood-investigation') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('blood-investigation')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Blood Investigation</span></a>
+                </li>
+                <li class="{{Route::is('xrays') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('xrays')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Xrays</span></a>
+                </li>
+                <li class="{{Route::is('uss') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('uss')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ultrasounds</span></a>
+                </li>
+                <li class="{{Route::is('ctscans') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('ctscans')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ct Scans</span></a>
+                </li>
                 <li class="{{Route::is('medicines') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('medicines')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Medicines</span></a>
                 </li>
                 <li class="{{Route::is('dosage') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('dosage')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dosage</span></a>

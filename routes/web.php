@@ -85,6 +85,22 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::get('/dosage', [App\Http\Controllers\Admin\DoseController::class, 'index'])->name('dosage');
     Route::post('/save-dose', [App\Http\Controllers\Admin\DoseController::class, 'saveDose'])->name('save-dose');
     Route::get('/delete-dose/{id}', [App\Http\Controllers\Admin\DoseController::class, 'deleteDose'])->name('del-dose');
+
+    Route::get('/blood-investigation', [App\Http\Controllers\Admin\BloodInvController::class, 'index'])->name('blood-investigation');
+    Route::post('/save-blood-inv', [App\Http\Controllers\Admin\BloodInvController::class, 'saveBloodInv'])->name('save-blood-inv');
+    Route::get('/delete-blood-inv/{id}', [App\Http\Controllers\Admin\BloodInvController::class, 'deleteBloodInv'])->name('del-blood-inv');
+
+    Route::get('/x-rays', [App\Http\Controllers\Admin\XrayController::class, 'index'])->name('xrays');
+    Route::post('/save-xray', [App\Http\Controllers\Admin\XrayController::class, 'saveXray'])->name('save-xray');
+    Route::get('/delete-xray/{id}', [App\Http\Controllers\Admin\XrayController::class, 'deleteXray'])->name('del-xray');
+
+    Route::get('/ultrasounds', [App\Http\Controllers\Admin\UltrasoundController::class, 'index'])->name('uss');
+    Route::post('/save-ultrasound', [App\Http\Controllers\Admin\UltrasoundController::class, 'saveUltrasound'])->name('save-us');
+    Route::get('/delete-ultrasound/{id}', [App\Http\Controllers\Admin\UltrasoundController::class, 'deleteUltrasound'])->name('del-us');
+
+    Route::get('/ct-scans', [App\Http\Controllers\Admin\CtscanController::class, 'index'])->name('ctscans');
+    Route::post('/save-ctscan', [App\Http\Controllers\Admin\CtscanController::class, 'save'])->name('save-ctscan');
+    Route::get('/delete-ctscan/{id}', [App\Http\Controllers\Admin\CtscanController::class, 'delete'])->name('del-ctscan');
 });
 
 Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('staff-login');
@@ -140,7 +156,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
 
 
-    
+
     Route::post('/ai/ask', [AIChatController::class, 'ask']);
-    
+
 });

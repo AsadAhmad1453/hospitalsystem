@@ -51,7 +51,7 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
-    
+
     <style>
         .report-image {
             transition: transform 0.2s ease-in-out;
@@ -59,33 +59,33 @@
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        
+
         .report-image:hover {
             transform: scale(1.05);
             border-color: #007bff;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
+
         .modal-lg {
             max-width: 90%;
         }
-        
+
         .modal-body img {
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
-        
+
         .modal-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-bottom: none;
         }
-        
+
         .modal-header .close {
             color: white;
             opacity: 0.8;
         }
-        
+
         .modal-header .close:hover {
             opacity: 1;
         }
@@ -149,7 +149,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
                 <div class="card reports-card collapse-icon">
                     <div class="collapse-default">
@@ -176,11 +176,11 @@
                                                 @if($isImage)
                                                     <!-- Image Preview with Modal -->
                                                     <div class="text-center mb-3">
-                                                        <img src="{{ asset('storage/' . $record->report_file) }}" 
-                                                             alt="Medical Report" 
-                                                             class="img-fluid" 
+                                                        <img src="{{ asset('storage/' . $record->report_file) }}"
+                                                             alt="Medical Report"
+                                                             class="img-fluid"
                                                              style="cursor: pointer; max-width: 200px; border: 2px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                                                             data-toggle="modal" 
+                                                             data-toggle="modal"
                                                              data-target="#imageModal{{ $index }}"
                                                              title="Click to view full size">
                                                              <p class="text-muted mt-2">{{ $record->original_filename ?? 'Medical Report Image' }}</p>
@@ -199,14 +199,14 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body text-center">
-                                                                    <img src="{{ asset('storage/' . $record->report_file) }}" 
-                                                                         alt="Medical Report" 
-                                                                         class="img-fluid" 
+                                                                    <img src="{{ asset('storage/' . $record->report_file) }}"
+                                                                         alt="Medical Report"
+                                                                         class="img-fluid"
                                                                          style="max-height: 70vh; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <a href="{{ asset('storage/' . $record->report_file) }}" 
-                                                                       target="_blank" 
+                                                                    <a href="{{ asset('storage/' . $record->report_file) }}"
+                                                                       target="_blank"
                                                                        class="btn btn-primary new">
                                                                             Open in New Tab
                                                                     </a>
@@ -251,7 +251,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
 
         </div>
@@ -295,7 +295,7 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="symptoms">Symptoms</label>
+                                            <label for="symptoms">Sign & Symptoms</label>
                                             <textarea class="form-control" id="symptoms" rows="3" name="symptoms" placeholder="Symptoms"></textarea>
                                         </div>
                                     </div>
@@ -503,7 +503,7 @@
                                             <p class="card-text mb-25 mt-3">Address: Street 1 main boulevard, California</p>
                                             <p class="card-text mb-0">mb: {{ $patient->phone }}</p>
                                         </div>
-    
+
                                         <div class=" mt-2">
                                             <h4 class="invoice-title">
                                                 <span class="invoice-number">
@@ -522,9 +522,9 @@
                                     </div>
                                     <!-- Header ends -->
                                 </div>
-    
+
                                 <hr class="invoice-spacing mb-0" />
-    
+
                                 <!-- Address and Contact starts -->
                                 <div class="card-body invoice-padding pt-0">
                                     <div class="row invoice-spacing">
@@ -554,7 +554,7 @@
                                     </div>
                                 </div>
                                 <!-- Address and Contact ends -->
-    
+
                                 <!-- Invoice Description starts -->
                                 <div class="table-responsive">
                                     <table class="table">
@@ -573,9 +573,9 @@
                                     </table>
                                 </div>
                                 <!-- Invoice Description ends -->
-    
+
                                 <hr class="invoice-spacing" />
-    
+
                                 <!-- Invoice Note starts -->
                                 <div class="card-body invoice-padding pt-0">
                                     <div class="row">
@@ -589,12 +589,12 @@
                             </div>
                         </div>
                         <!-- /Invoice -->
-    
+
                         <button class="btn btn-primary btn-block " id="printButton" >
                             Print
                         </button>
                         <!-- Invoice Actions -->
-                      
+
                         <!-- /Invoice Actions -->
                     </div>
                 </div>
@@ -690,7 +690,7 @@
             .then(res => res.json())
             .then(data => {
                 console.log('Server response:', data);
-                
+
                 // ✅ Now safely use data.reply
                 $('.chat-container').append(`
                 <div class="message ai-message">${data.reply}</div>
@@ -757,7 +757,7 @@
                 <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
                 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
                 <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
-                
+
                 <style>
                     .report-image {
                         transition: transform 0.2s ease-in-out;
@@ -765,33 +765,33 @@
                         border-radius: 8px;
                         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
                     }
-                    
+
                     .report-image:hover {
                         transform: scale(1.05);
                         border-color: #007bff;
                         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
                     }
-                    
+
                     .modal-lg {
                         max-width: 90%;
                     }
-                    
+
                     .modal-body img {
                         border-radius: 8px;
                         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                     }
-                    
+
                     .modal-header {
                         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                         color: white;
                         border-bottom: none;
                     }
-                    
+
                     .modal-header .close {
                         color: white;
                         opacity: 0.8;
                     }
-                    
+
                     .modal-header .close:hover {
                         opacity: 1;
                     }
@@ -859,7 +859,7 @@
         $('.btn-add-medicine').on('click', function() {
             // Clone the template
             var $template = $('#medicine-dose-template').clone().removeClass('d-none').addClass('d-flex').removeAttr('id');
-            
+
             // Remove any extra dose selects except the first one
             // (But in the template, there should only be one medicine and one dose select)
             // To be safe, let's only keep the first medicine and first dose select
@@ -881,6 +881,6 @@
 
     });
 </script>
-    
+
 </body>
 </html>
