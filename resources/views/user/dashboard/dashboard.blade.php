@@ -65,7 +65,7 @@
                                         <div class="col-12 d-flex justify-content-between">
                                             <div class="col-4">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    #{{ optional($activeToken->first())->token ?? 'No Token' }}
+                                                    #{{ $activeToken?->token ?? 'No Token' }}
                                                 </h2>
                                                 <p class="card-text font-weight-bold mb-2">Active Rounds</p>
                                             </div>
@@ -131,8 +131,8 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                             </div>
                         </div>

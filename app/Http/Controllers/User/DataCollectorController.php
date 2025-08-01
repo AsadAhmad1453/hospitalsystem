@@ -17,7 +17,7 @@ class DataCollectorController extends Controller
     public function patients($id){
         $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')->with('patient')->get();
         $form = Form::where('id', $id)->first();
-        
+
         // Check which patients have already submitted this form
         $submittedPatients = [];
         if ($form) {
@@ -26,22 +26,27 @@ class DataCollectorController extends Controller
                 ->pluck('patient_id')
                 ->toArray();
         }
-        
+
         return view('user.data-collector.patients-data-table', get_defined_vars());
     }
 
     public function showCollectorForm($id, $patientId)
     {
-        $patientId = $patientId;
+        // Check if the form has any questions
+        $questionsCount = Question::where('form_id', $id)->count();
+
+        if ($questionsCount === 0) {
+            // Optionally, you can redirect back or show an error message
+            return redirect()->back()->with('error', 'This form does not have any questions.');
+        }
+
         $questions = Question::where('form_id', $id)->with(['options', 'section'])->orderBy('position')->get();
         $dependencies = Dependency::all();
         $sections = $questions
             ->pluck('section')
-            ->filter() 
+            ->filter()
             ->unique('id')
             ->values();
-
-
         // Pass to view
         return view('user.data-collector.data-collector', get_defined_vars());
     }
@@ -86,18 +91,22 @@ class DataCollectorController extends Controller
             );
         }
 
-        // Check if patient has submitted all forms
-        $allFormIds = Form::pluck('id')->toArray();
+        // Check if patient has submitted all forms that have at least one question
+        // Get all unique form_ids that have at least one question (from questions table)
+        $formIdsWithQuestions = \App\Models\Question::distinct()->pluck('form_id')->filter()->toArray();
+
+        // Get all form_ids for which this patient has submitted answers
         $answeredFormIds = Answer::where('patient_id', $request->patient_id)
+            ->whereIn('form_id', $formIdsWithQuestions)
             ->distinct()
             ->pluck('form_id')
-            ->filter() // remove nulls
+            ->filter()
             ->toArray();
 
-        $hasSubmittedAllForms = empty(array_diff($allFormIds, $answeredFormIds));
+        $hasSubmittedAllForms = empty(array_diff($formIdsWithQuestions, $answeredFormIds));
 
         if ($hasSubmittedAllForms) {
-            // Patient has submitted all forms, set nursing_status to 1
+            // Patient has submitted all forms with questions, set nursing_status to 1
             Round::where('patient_id', $request->patient_id)
                 ->where('round_status', '1')
                 ->update([

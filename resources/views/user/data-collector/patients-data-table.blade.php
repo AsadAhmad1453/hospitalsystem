@@ -35,7 +35,14 @@
                                     <td>Patient</td>
                                     <td>
                                         @if($form && $round->patient && !in_array($round->patient->id, $submittedPatients))
-                                            <a href="{{ route('data-collector', ['id' => $form->id, 'patientId' => $round->patient->id]) }}" data-jobs="sdadas" class="btn btn-primary float-center">{{ $form->name }}</a>
+                                            @php
+                                                $questionsCount = \App\Models\Question::where('form_id', $form->id)->count();
+                                            @endphp
+                                            @if($questionsCount > 0)
+                                                <a href="{{ route('data-collector', ['id' => $form->id, 'patientId' => $round->patient->id]) }}" data-jobs="sdadas" class="btn btn-primary float-center">{{ $form->name }}</a>
+                                            @else
+                                                <span class="badge badge-warning">No Questions Available</span>
+                                            @endif
                                         @elseif($form && $round->patient && in_array($round->patient->id, $submittedPatients))
                                             <span class="badge badge-success">Form Submitted</span>
                                         @else

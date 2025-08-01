@@ -61,8 +61,21 @@ class QuestionsController extends Controller
             'question' => 'required|string|max:1000',
             'question_type' => 'required|integer',
             'form_id' => 'required|exists:forms,id',
-            'options' => 'required|array|min:2',
         ]);
+
+        if($request->question_type == 0 || $request->question_type == 1) {
+
+            $request->validate([
+                'options' => 'required|array|min:2',
+            ]);
+            foreach ($request->options as $option) {
+                Option::create([
+                    'question_id' => $question->id,
+                    'option' => $option,
+                ]);
+            }
+        }
+
         $maxPosition = Question::max('position') ?? 0;
         $question = Question::create([
             'section_id' => $request->section_id,
@@ -72,14 +85,7 @@ class QuestionsController extends Controller
             'position' => $maxPosition + 1,
         ]);
 
-        if($request->question_type == 0 || $request->question_type == 1) {
-            foreach ($request->options as $option) {
-                Option::create([
-                    'question_id' => $question->id,
-                    'option' => $option,
-                ]);
-            }
-        }
+
 
         return redirect()->route('questions')->with('success', 'Question saved successfully.');
     }

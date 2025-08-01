@@ -289,12 +289,13 @@ $(document).ready(function () {
             return;
         }
 
+        // Disable all skipped questions before submission
         $('.question-block').each(function () {
             let qid = $(this).attr('id').replace('question-', '');
-            if (!skippedQuestions[qid]) {
-                $(this).find('input,select,textarea').prop('disabled', false);
-            } else {
+            if (skippedQuestions[qid]) {
                 $(this).find('input,select,textarea').prop('disabled', true);
+            } else {
+                $(this).find('input,select,textarea').prop('disabled', false);
             }
         });
     });
@@ -320,7 +321,7 @@ $(document).ready(function () {
     $(document).on('change', '.option-radio', function () {
         let qid = $(this).data('question-id');
         let optid = $(this).data('option-id');
-        
+
         $('input[name="' + qid + '"]').each(function () {
             $(this).prev('i').attr('data-feather', 'circle');
         });
@@ -356,39 +357,34 @@ $(document).ready(function () {
             return;
         }
 
-        // Clear previous skips ONLY between questions
+        // Clear previous skips
         questions.forEach(q => {
-            if (!selectedAnswers[q.id]) {
-                unskipQuestion(q.id); // temporarily unskip everything
-            }
+            unskipQuestion(q.id);
         });
 
-        // Skip only between trigger and target
+        // For each dependency, skip all questions between trigger and dependent question
         for (const dep of deps) {
             const triggerIndex = questions.findIndex(q => q.id == triggerQid);
             const targetIndex = questions.findIndex(q => q.id == dep.dependent_question_id);
 
-            const min = Math.min(triggerIndex, targetIndex);
-            const max = Math.max(triggerIndex, targetIndex);
-
-            for (let i = min + 1; i < max; i++) {
+            // Skip all questions between trigger and target (excluding both trigger and target)
+            for (let i = triggerIndex + 1; i < targetIndex; i++) {
                 const betweenQid = questions[i].id;
-                if (betweenQid !== dep.dependent_question_id) {
-                    markQuestionSkipped(betweenQid);
-                }
+                markQuestionSkipped(betweenQid);
             }
 
+            // Ensure dependent question is visible
             unskipQuestion(dep.dependent_question_id);
         }
 
-        // Decide section jump (if not silent)
+        // Jump to the section containing the dependent question (if not silent)
         if (!silent) {
             let targetSectionIndex = currentSectionIndex;
             deps.forEach(dep => {
                 let targetQ = questions.find(q => q.id == dep.dependent_question_id);
                 if (targetQ) {
                     let idx = sections.findIndex(s => s.id == targetQ.section.id);
-                    if (idx > targetSectionIndex) {
+                    if (idx !== -1) {
                         targetSectionIndex = idx;
                     }
                 }
