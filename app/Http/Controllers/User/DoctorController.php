@@ -8,6 +8,8 @@ use App\Models\Round;
 use App\Models\Patient;
 use App\Models\MedicalRecord;
 use App\Models\Appointment;
+use App\Models\Medicine;
+use App\Models\Dose;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -167,7 +169,8 @@ class DoctorController extends Controller
 
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
-
+            $medicines = Medicine::all();
+            $dosage = Dose::all(); 
 
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
@@ -193,7 +196,8 @@ class DoctorController extends Controller
 
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
-
+            $medicines = Medicine::all();
+            $dosage = Dose::all();        
 
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }

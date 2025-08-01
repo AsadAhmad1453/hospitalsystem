@@ -62,6 +62,10 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-service', [ServiceController::class, 'saveService'])->name('save-service');
     Route::get('/delete-service/{id}', [ServiceController::class, 'deleteService'])->name('del-service');
 
+    Route::get('/question-relations', [App\Http\Controllers\Admin\RelationController::class, 'index'])->name('relations');
+    Route::post('/save-question-relations', [App\Http\Controllers\Admin\RelationController::class, 'saveQuestionRelations'])->name('save-question-relations');
+
+
     Route::get('/banks', [App\Http\Controllers\Admin\BankController::class, 'index'])->name('banks');
     Route::post('/save-bank', [App\Http\Controllers\Admin\BankController::class, 'saveBank'])->name('save-bank');
     Route::get('/delete-bank/{id}', [App\Http\Controllers\Admin\BankController::class, 'deleteBank'])->name('del-bank');
@@ -74,7 +78,13 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/save-form', [App\Http\Controllers\Admin\FormController::class, 'saveForm'])->name('save-form');
     Route::get('/delete-form/{id}', [App\Http\Controllers\Admin\FormController::class, 'deleteForm'])->name('del-form');
 
+    Route::get('/medicines', [App\Http\Controllers\Admin\MedicController::class, 'index'])->name('medicines');
+    Route::post('/save-medic', [App\Http\Controllers\Admin\MedicController::class, 'saveMedic'])->name('save-medic');
+    Route::get('/delete-medic/{id}', [App\Http\Controllers\Admin\MedicController::class, 'deleteMedic'])->name('del-medic');
 
+    Route::get('/dosage', [App\Http\Controllers\Admin\DoseController::class, 'index'])->name('dosage');
+    Route::post('/save-dose', [App\Http\Controllers\Admin\DoseController::class, 'saveDose'])->name('save-dose');
+    Route::get('/delete-dose/{id}', [App\Http\Controllers\Admin\DoseController::class, 'deleteDose'])->name('del-dose');
 });
 
 Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('staff-login');
@@ -129,6 +139,8 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
 
+
+    
     Route::post('/ai/ask', [AIChatController::class, 'ask']);
     
 });

@@ -7,6 +7,8 @@
         overflow-x: hidden;
     }
 
+    
+
     .token {
         padding: 15px !important;
     }
@@ -76,7 +78,7 @@
     }
 
     .sidebar {
-        z-index: 99999999;
+        z-index: 10000;
       position: sticky;
       top: 0;
       height: 100vh;
@@ -119,18 +121,18 @@
         border-radius: 10px
     }
 
-    .btn-danger {
+    .btn-exit {
         position: fixed;
         left: 50px;
         bottom: 15px;
         width: 100px !important;
-        z-index: 9999;
+        z-index: 9999999999;
         text-align: center;
         display: flex;
         height: 40px;
     }
 
-    .btn-primary {
+    .btn-next {
         display: flex;
         position: fixed;
         right: 50px;
@@ -143,7 +145,7 @@
         border: none;
     }
 
-    .btn-block {
+    .btn-block.btn-primary {
         right: 160px;
         text-align: center;
         position: fixed;

@@ -186,6 +186,8 @@
                 </li>
                 <li class="{{Route::is('roles') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('roles')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Roles</span></a>
                 </li>
+                <li class="{{Route::is('relations') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('relations')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Relations</span></a>
+                </li>
                 <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
                 </li>
                 <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather='user-check'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Staff</span></a>
@@ -219,6 +221,10 @@
                     </ul>
                 </li>
                 <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
+                </li>
+                <li class="{{Route::is('medicines') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('medicines')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Medicines</span></a>
+                </li>
+                <li class="{{Route::is('dosage') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('dosage')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dosage</span></a>
                 </li>
             </ul>
         </div>

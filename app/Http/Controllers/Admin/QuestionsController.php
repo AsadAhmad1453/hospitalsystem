@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Section;
-use App\Models\Dependency;
 use App\Models\Option;
 use App\Models\Form;
 
@@ -57,26 +56,21 @@ class QuestionsController extends Controller
 
     public function saveQuestion(Request $request)
     {
+        $request->validate([
+            'section_id' => 'required',
+            'question' => 'required|string|max:1000',
+            'question_type' => 'required|integer',
+            'form_id' => 'required|exists:forms,id',
+            'options' => 'required|array|min:2',
+        ]);
         $maxPosition = Question::max('position') ?? 0;
         $question = Question::create([
             'section_id' => $request->section_id,
             'question' => $request->question,
             'question_type' => $request->question_type,
             'form_id' => $request->form_id,
-            'has_dependency' => $request->has_dependency,
             'position' => $maxPosition + 1,
         ]);
-
-        if($request->has_dependency == 'yes') {
-            foreach ($request->options_id as $option) {
-                Dependency::create([
-                    'question_id' => $request->dependent_question_id,
-                    'dependent_question_id' => $question->id,
-                    'option_id' => $option,
-                ]);
-            }
-        }
-
 
         if($request->question_type == 0 || $request->question_type == 1) {
             foreach ($request->options as $option) {
@@ -102,7 +96,7 @@ class QuestionsController extends Controller
     {
         try {
             \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-            Dependency::truncate();
+            // Dependency::truncate();
             Option::truncate();
             Question::truncate();
             \DB::statement('SET FOREIGN_KEY_CHECKS=1;');

@@ -183,7 +183,7 @@
                                                              data-toggle="modal" 
                                                              data-target="#imageModal{{ $index }}"
                                                              title="Click to view full size">
-                                                        <p class="text-muted mt-2">{{ $record->original_filename ?? 'Medical Report Image' }}</p>
+                                                             <p class="text-muted mt-2">{{ $record->original_filename ?? 'Medical Report Image' }}</p>
                                                     </div>
 
                                                     <!-- Image Modal -->
@@ -191,7 +191,7 @@
                                                         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                                             <div class="modal-content">
                                                                 <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                                                                    <h5 class="modal-title" id="imageModalLabel{{ $index }}">
+                                                                    <h5 class="modal-title text-white" id="imageModalLabel{{ $index }}">
                                                                         {{ $record->original_filename ?? 'Medical Report' }}
                                                                     </h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
@@ -207,8 +207,8 @@
                                                                 <div class="modal-footer">
                                                                     <a href="{{ asset('storage/' . $record->report_file) }}" 
                                                                        target="_blank" 
-                                                                       class="btn btn-primary">
-                                                                        <i class="fas fa-external-link-alt"></i> Open in New Tab
+                                                                       class="btn btn-primary new">
+                                                                            Open in New Tab
                                                                     </a>
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                                 </div>
@@ -255,8 +255,8 @@
 
 
         </div>
-        <a href="{{ route('doctor-form') }}" class="btn btn-danger w-25 float-left d-flex align-items-center" ><i data-feather="arrow-left" class="mx-2"></i> Exit</a>
-        <a id="submit-diagnosis-form" class="btn btn-primary w-25 float-right d-flex align-items-center" >Next <i data-feather="arrow-right" class="mx-2"></i></a>
+        <a href="{{ route('doctor-form') }}" class="btn btn-danger btn-exit w-25 float-left d-flex align-items-center" ><i data-feather="arrow-left" class="mx-2"></i> Exit</a>
+        <a id="submit-diagnosis-form" class="btn btn-primary btn-next w-25 float-right d-flex align-items-center" >Next <i data-feather="arrow-right" class="mx-2"></i></a>
 
         <!-- Right-side Content -->
         <div class="flex-grow-1 ml-3 p-4">
@@ -302,32 +302,86 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="blood_pressure">Blood Pressure</label>
-                                            <textarea class="form-control" id="blood_pressure" rows="1" name="blood_pressure" placeholder="Blood Pressure"></textarea>
+                                            <input type="number" class="form-control"  name="blood_pressure" placeholder="Blood Pressure">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="diagnosis">Provisional Diagnosis</label>
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <textarea class="form-control" id="diagnosis" rows="3" name="final_diagnosis" placeholder="Provisional Diagnosis"></textarea>
+                                            <textarea class="form-control" id="diagnosis" rows="3" name="provisional_diagnosis" placeholder="Provisional Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="medication">Prescription</label>
-                                            <textarea class="form-control" id="medication" rows="3" name="recommended_medication" placeholder="Prescription"></textarea>
+                                            <label for="final_diagnosis">Final Diagnosis</label>
+                                            <input type="hidden" name="patient_id" value="{{ $patient->id }}">
+                                            <textarea class="form-control" id="final_diagnosis" rows="3" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
                                         </div>
                                     </div>
+                                    <div class="col-12 mt-2  form-group">
+                                        <label for="medication">Prescription</label>
+                                        <div id="medicine-dose-list">
+                                            <div class="d-flex medicine-dose-row align-items-center mb-2">
+                                                <div class="col-6 p-0">
+                                                    <select class="select2 form-control form-control-lg w-50" name="medicine_id[]">
+                                                        @foreach($medicines as $medicine)
+                                                            <option value="{{ $medicine->id }}" {{ old('medicine_id') == $medicine->id ? 'selected' : '' }}>{{ $medicine->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('medicine_id')
+                                                        <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-6 p-0 ml-1">
+                                                    <select class="select2 form-control form-control-lg w-50" name="dose_id[]">
+                                                        @foreach($dosage as $dose)
+                                                            <option value="{{ $dose->id }}" {{ old('dose_id') == $dose->id ? 'selected' : '' }}>{{ $dose->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('dose_id')
+                                                        <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <!-- No delete button for the first row -->
+                                            </div>
+                                        </div>
+                                        <!-- Add button below the list -->
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-success btn-add-medicine"><i class="fas fa-plus"></i> Add Medicine</button>
+                                        </div>
+                                        <!-- Hidden template for new rows -->
+                                        <div class="medicine-dose-row align-items-center mb-2 d-none" id="medicine-dose-template">
+                                            <div class="col-6 p-0">
+                                                <select class="select2 form-control form-control-lg w-50" name="medicine_id[]">
+                                                    @foreach($medicines as $medicine)
+                                                        <option value="{{ $medicine->id }}">{{ $medicine->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-6 p-0 ml-1">
+                                                <select class="select2 form-control form-control-lg w-50" name="dose_id[]">
+                                                    @foreach($dosage as $dose)
+                                                        <option value="{{ $dose->id }}">{{ $dose->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button type="button" class="btn btn-danger btn-remove-medicine ml-2"><i class="fas fa-minus"></i></button>
+                                        </div>
+                                    </div>
+
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="investigation">Lab Investigation</label>
                                             <textarea class="form-control" id="investigation" rows="3" name="further_investigation" placeholder="Lab Investigation"></textarea>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-sm-9 mt-2">
-                                        <button type="submit" class="btn btn-primary mr-1">Submit</button>
-                                        <button type="reset" class="btn btn-outline-secondary">Reset</button>
-                                    </div> --}}
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="notes">Special Notes</label>
+                                            <textarea class="form-control" id="notes" rows="3" name="notes" placeholder="Special Notes"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -598,7 +652,8 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
     <script src="{{asset('admin-assets/js/scripts/components/components-collapse.js')}}"></script>
     <script src="{{asset('admin-assets/js/scripts/components/components-collapse.min.js')}}"></script>
-
+    <script src="{{ asset('admin-assets/vendors/js/forms/select/select2.full.min.js') }}"></script>
+    <script src="{{ asset('admin-assets/js/scripts/forms/form-select2.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
@@ -792,6 +847,37 @@
         bindEditor('#diagnosis', '#display-diagnosis');
         bindEditor('#medication', '#display-medication');
         bindEditor('#investigation', '#display-investigation');
+
+        // Dynamic add/remove medicine/dose rows
+        function reinitSelect2() {
+            $('#medicine-dose-list .select2').select2({
+                width: 'resolve'
+            });
+        }
+        reinitSelect2();
+        // Add new row
+        $('.btn-add-medicine').on('click', function() {
+            // Clone the template
+            var $template = $('#medicine-dose-template').clone().removeClass('d-none').addClass('d-flex').removeAttr('id');
+            
+            // Remove any extra dose selects except the first one
+            // (But in the template, there should only be one medicine and one dose select)
+            // To be safe, let's only keep the first medicine and first dose select
+            $template.find('select[name="medicine_id[]"]:not(:first)').remove();
+            $template.find('select[name="dose_id[]"]:not(:first)').remove();
+
+            // Clear values
+            $template.find('select').val('');
+            $template.find('span.text-danger').remove();
+
+            // Append to the list
+            $('#medicine-dose-list').append($template);
+            reinitSelect2();
+        });
+        // Remove row
+        $(document).on('click', '.btn-remove-medicine', function() {
+            $(this).closest('.medicine-dose-row').remove();
+        });
 
     });
 </script>
