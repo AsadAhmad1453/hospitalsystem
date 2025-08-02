@@ -27,6 +27,7 @@
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$form->name}}</td>
                                     <td>
+                                        <a href="#" class="text-warning edit-form-btn" data-form-id="{{$form->id}}" data-form-name="{{$form->name}}"><i class="fa fa-edit"></i></a>
                                         <a href="{{route('del-form', $form->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -41,6 +42,7 @@
             <div class="modal-dialog sidebar-sm">
                 <form action="{{route('save-form')}}" method="POST" class="add-new-record modal-content pt-0">
                     @csrf
+                    <input type="hidden" name="form_id" id="form_id" value="">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header mb-1">
                         <h5 class="modal-title" id="exampleModalLabel">New Form</h5>
@@ -87,6 +89,28 @@
             window.location.href = approvalLink;
         }
     });
+});
+
+// Handle edit form button click
+$(document).on('click', '.edit-form-btn', function(e) {
+    e.preventDefault();
+    var formId = $(this).data('form-id');
+    var formName = $(this).data('form-name');
+    
+    // Populate the modal with form data
+    $('#form_id').val(formId);
+    $('#name').val(formName);
+    $('#exampleModalLabel').text('Edit Form');
+    
+    // Open the modal
+    $('#modals-slide-in').modal('show');
+});
+
+// Reset modal when it's closed
+$('#modals-slide-in').on('hidden.bs.modal', function () {
+    $('#form_id').val('');
+    $('#name').val('');
+    $('#exampleModalLabel').text('New Form');
 });
    
 </script>

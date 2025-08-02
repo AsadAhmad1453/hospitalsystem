@@ -48,8 +48,10 @@ class BioMarkerController extends Controller
         ]);
 
         $filePath = null;
+        $originalFilename = null;
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
+            $originalFilename = $file->getClientOriginalName(); // Get original filename
             $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
         }
         MedicalRecord::create([
@@ -62,6 +64,7 @@ class BioMarkerController extends Controller
             'temperature' => $request->temperature,
             'weather' => $request->weather,
             'report_file' => $filePath,
+            'original_filename' => $originalFilename,
             'final_diagnosis' => null,
             'recommended_medication' => null,
             'further_investigation' => null,

@@ -15,6 +15,11 @@ class PatientController extends Controller
         return view('admin.patients.patients', get_defined_vars());
     }
 
+    public function patientInfo($id){
+        $patient = Patient::findOrFail($id)->with('medicalRecords')->first();
+        return view('admin.patients.patient-info', get_defined_vars());
+    }
+
     public function delPatient($id){
         $patient = Patient::findOrFail($id);
         $patient->delete();

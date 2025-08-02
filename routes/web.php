@@ -36,6 +36,7 @@ Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
+    Route::get('/patient-info/{id}', [App\Http\Controllers\Admin\PatientController::class, 'patientInfo'])->name('patient-info');
     Route::get('/question-sections', [QuestionsController::class, 'index'])->name('question-sections');
     Route::post('/save-section', [QuestionsController::class, 'saveSection'])->name('save-section');
     Route::get('/delete-section/{id}', [QuestionsController::class, 'deleteSection'])->name('del-section');
@@ -154,6 +155,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
     Route::get('/patients/{id}', [DataCollectorController::class, 'patients'])->name('patients-data-table');
     Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
     Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
+    Route::post('/upload-voice', [DataCollectorController::class, 'uploadVoice'])->name('upload-voice');
 
 
 

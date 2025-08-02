@@ -28,7 +28,8 @@
                                     <td>{{$loop->index+1}}</td>
                                     <td>{{$patient->name}}</td>
                                     <td>Patient</td>
-                                    <td>
+                                    <td>                                        
+                                        <a href="{{route('patient-info', $patient->id)}}" data-jobs="sdadas" class="btn btn-info">Info</a>
                                         <a href="{{route('del-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

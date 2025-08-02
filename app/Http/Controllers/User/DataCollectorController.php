@@ -116,4 +116,14 @@ class DataCollectorController extends Controller
 
         return redirect()->route('patients-data-table', $request->patient_id);
     }
+    public function uploadVoice(Request $request)
+    {
+        if ($request->hasFile('voice_recording')) {
+            $file = $request->file('voice_recording');
+            $path = $file->store('voice_recordings', 'public');
+            return response()->json(['path' => $path]);
+        }
+
+        return response()->json(['error' => 'No audio file received'], 400);
+    }
 }

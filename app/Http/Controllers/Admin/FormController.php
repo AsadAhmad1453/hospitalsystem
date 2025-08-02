@@ -20,11 +20,22 @@ class FormController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        Form::create([
-            'name' => $request->name,
-        ]);
+        if ($request->has('form_id') && $request->form_id) {
+            // Update existing form
+            $form = Form::findOrFail($request->form_id);
+            $form->update([
+                'name' => $request->name,
+            ]);
+            $message = 'Form updated successfully.';
+        } else {
+            // Create new form
+            Form::create([
+                'name' => $request->name,
+            ]);
+            $message = 'Form created successfully.';
+        }
 
-        return redirect()->back()->with('success', 'Form created successfully.');
+        return redirect()->back()->with('success', $message);
     }
 
     public function deleteForm($id)

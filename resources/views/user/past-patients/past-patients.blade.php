@@ -27,6 +27,7 @@
                                 <th>CNIC</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Last visit</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -37,6 +38,7 @@
                                     <td>{{$patient->cnic}}</td>
                                     <td>{{$patient->name}}</td>
                                     <td>{{ $patient->email }}</td>
+                                    <td>{{ $patient->latestMedicalRecord->created_at->format('d-m-Y') }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('patient-edit', $patient->id) }}" class="btn btn-info mr-1">Invoice</a>
                                         <a href="{{route('del-user-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>

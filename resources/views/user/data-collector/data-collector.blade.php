@@ -1,10 +1,7 @@
 @extends('user.layouts.main')
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('admin-assets/css/custom-css.css') }}">
-<style>
 
-
-</style>
 @endsection
 @section('content')
 <section id="multiple-column-form">
@@ -16,6 +13,12 @@
                         <form action="{{ route('save-data-collector', $questions->first()->form_id) }}" method="POST">
                             @csrf
                             <div class="formbold-steps" >
+                                <div class="d-flex align-items-center float-right mt-3 mb-2">
+                                    <button id="recordBtn" type="button" class="btn btn-sm p-1 btn-danger "><i data-feather="mic"></i></button>
+                                    <button id="pauseBtn" type="button" class="btn btn-sm p-1 btn-secondary ml-1" disabled><i data-feather="pause"></i></button>
+                                    <button id="stopBtn" type="button" class="btn btn-sm p-1 btn-dark ml-1" disabled><i data-feather="square"></i></button>
+                                    <audio id="audioPlayback" controls class="ml-3" style="display: none"></audio>
+                                </div>
                                 {{-- list all the sections --}}
                                 <div class="sections-slider-wrapper">
                                     <ul class="">
@@ -28,6 +31,7 @@
                                     </ul>
                                 </div>
                             </div>
+                           
                             <input type="hidden" id="patient_id" name="patient_id" value="{{ $patientId }}">
 
                             @foreach ($sections as $section)
@@ -177,7 +181,14 @@
 
 @section('custom-js')
 
+<script>
+    $(document).ready(function () {
 
+    
+       
+    });
+    </script>
+    
 <script>
 $(document).ready(function () {
     var sections = @json($sections);
@@ -188,6 +199,9 @@ $(document).ready(function () {
     let skippedQuestions = {};
     let selectedAnswers = {};
     let activeDependencies = {}; // keeps track of trigger-question and selected option
+    let mediaRecorder;
+    let audioChunks = [];
+    let audioBlob = null;
 
     showSection(currentSectionIndex);
 
@@ -394,6 +408,80 @@ $(document).ready(function () {
             showSection(currentSectionIndex);
         }
     }
+
+    $('#recordBtn').on('click', function () {
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+                mediaRecorder = new MediaRecorder(stream);
+                audioChunks = [];
+    
+                mediaRecorder.ondataavailable = function (event) {
+                    if (event.data.size > 0) {
+                        audioChunks.push(event.data);
+                    }
+                };
+    
+                mediaRecorder.onstop = function () {
+                    audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioURL = URL.createObjectURL(audioBlob);
+                    $('#audioPlayer').attr('src', audioURL).show();
+    
+                    // Optional: Upload the audioBlob
+                    uploadRecording(audioBlob);
+                };
+    
+                mediaRecorder.start();
+                $('#recordBtn').prop('disabled', true);
+                $('#pauseBtn').prop('disabled', false);
+                $('#stopBtn').prop('disabled', false);
+            }).catch(function (err) {
+                alert('Microphone access denied: ' + err.message);
+            });
+        });
+    
+        $('#pauseBtn').on('click', function () {
+            if (!mediaRecorder) return;
+    
+            if (mediaRecorder.state === 'recording') {
+                mediaRecorder.pause();
+                $(this).html('<i data-feather="play"></i>');
+                feather.replace();
+            } else if (mediaRecorder.state === 'paused') {
+                mediaRecorder.resume();
+                $(this).html('<i data-feather="pause"></i>');
+                feather.replace();
+            }
+        });
+    
+        $('#stopBtn').on('click', function () {
+            if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
+                mediaRecorder.stop();
+                $('#recordBtn').prop('disabled', false);
+                $('#pauseBtn').prop('disabled', true).html('<i data-feather="pause"></i>');
+                feather.replace(); 
+                $('#stopBtn').prop('disabled', true);
+            }
+        });
+    
+        // Optional: AJAX upload to Laravel
+        function uploadRecording(blob) {
+            let formData = new FormData();
+            formData.append('voice_recording', blob, 'recording.webm');
+    
+            $.ajax({
+                url: "{{ route('upload-voice') }}",
+                type: 'POST',
+                data: formData,
+                headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    console.log('Uploaded successfully:', response);
+                },
+                error: function (xhr) {
+                    console.error('Upload failed:', xhr.responseText);
+                }
+            });
+        }
 });
 </script>
 @endsection

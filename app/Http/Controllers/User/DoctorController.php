@@ -10,6 +10,10 @@ use App\Models\MedicalRecord;
 use App\Models\Appointment;
 use App\Models\Medicine;
 use App\Models\Dose;
+use App\Models\BloodInv;
+use App\Models\Xray;
+use App\Models\Ultrasound;
+use App\Models\Ctscan;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -47,19 +51,18 @@ class DoctorController extends Controller
     {
 
         $request->validate([
-            'final_diagnosis' => 'required|string|max:255',
-            'recommended_medication' => 'required|string|max:255',
-            'further_investigation' => 'required|string|max:255',
-            'reports' => 'nullable'
+            'complaint' => 'required|string',
+            'symptoms' => 'required|string',
+            'blood_pressure' => 'required|string',
+            'provisional_diagnosis' => 'required|string',
+            'final_diagnosis' => 'required|string',
+            'recommended_medication' => 'required|string',
+            'further_investigation' => 'required|string',
+            'special_notes' => 'nullable|string',
+
         ]);
 
-        $filePath = null;
-        $originalFilename = null;
-        if ($request->hasFile('reports')) {
-            $file = $request->file('reports');
-            $originalFilename = $file->getClientOriginalName(); // Get original filename
-            $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
-        }
+        
 
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
@@ -67,11 +70,11 @@ class DoctorController extends Controller
             'blood_pressure' => $request->blood_pressure,
             'symptoms' => $request->symptoms,
             'complaint' => $request->complaint,
+            'provisional_diagnosis' => $request->provisional_diagnosis,
             'final_diagnosis' => $request->final_diagnosis,
             'recommended_medication' => $request->recommended_medication,
             'further_investigation' => $request->further_investigation,
-            'report_file' => $filePath,
-            'original_filename' => $originalFilename,
+            'special_notes' => $request->special_notes
         ]);
 
         Patient::where('id', $request->patient_id)->update([
@@ -171,7 +174,11 @@ class DoctorController extends Controller
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
             $dosage = Dose::all(); 
-
+            $blood_tests = BloodInv::all();
+            $xrays = Xray::all();
+            $ultrasounds = Ultrasound::all();
+            $ctscans = Ctscan::all();
+            
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 
@@ -198,7 +205,10 @@ class DoctorController extends Controller
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
             $dosage = Dose::all();        
-
+            $blood_tests = BloodInv::all();
+            $xrays = Xray::all();
+            $ultrasounds = Ultrasound::all();
+            $ctscans = Ctscan::all();
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 

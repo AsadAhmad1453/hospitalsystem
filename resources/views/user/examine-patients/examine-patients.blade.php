@@ -53,6 +53,17 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
 
     <style>
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* For Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
         .report-image {
             transition: transform 0.2s ease-in-out;
             border: 2px solid #e0e0e0;
@@ -307,16 +318,15 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="diagnosis">Provisional Diagnosis</label>
+                                            <label for="provisional-diagnosis">Provisional Diagnosis</label>
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <textarea class="form-control" id="diagnosis" rows="3" name="provisional_diagnosis" placeholder="Provisional Diagnosis"></textarea>
+                                            <textarea class="form-control" id="provisional-diagnosis" rows="3" name="provisional_diagnosis" placeholder="Provisional Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="final_diagnosis">Final Diagnosis</label>
-                                            <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <textarea class="form-control" id="final_diagnosis" rows="3" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
+                                            <label for="final-diagnosis">Final Diagnosis</label>
+                                            <textarea class="form-control" id="final-diagnosis" rows="3" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-2  form-group">
@@ -336,7 +346,7 @@
                                                 <div class="col-6 p-0 ml-1">
                                                     <select class="select2 form-control form-control-lg w-50" name="dose_id[]">
                                                         @foreach($dosage as $dose)
-                                                            <option value="{{ $dose->id }}" {{ old('dose_id') == $dose->id ? 'selected' : '' }}>{{ $dose->name }}</option>
+                                                            <option value="{{ $dose->id }}" {{ old('dose_id') == $dose->id ? 'selected' : '' }}>{{ $dose->dose }}</option>
                                                         @endforeach
                                                     </select>
                                                     @error('dose_id')
@@ -353,33 +363,124 @@
                                         <!-- Hidden template for new rows -->
                                         <div class="medicine-dose-row align-items-center mb-2 d-none" id="medicine-dose-template">
                                             <div class="col-6 p-0">
-                                                <select class="select2 form-control form-control-lg w-50" name="medicine_id[]">
+                                                <select class="form-control form-control-lg w-100 medicine-select" name="medicine_id[]">
+                                                    <option value="">Select Medicine</option>
                                                     @foreach($medicines as $medicine)
                                                         <option value="{{ $medicine->id }}">{{ $medicine->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div class="col-6 p-0 ml-1">
-                                                <select class="select2 form-control form-control-lg w-50" name="dose_id[]">
+                                            <div class="col-5 p-0 ml-1">
+                                                <select class="form-control form-control-lg w-100 dose-select" name="dose_id[]">
+                                                    <option value="">Select Dose</option>
                                                     @foreach($dosage as $dose)
-                                                        <option value="{{ $dose->id }}">{{ $dose->name }}</option>
+                                                        <option value="{{ $dose->id }}">{{ $dose->dose }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-danger btn-remove-medicine ml-2"><i class="fas fa-minus"></i></button>
+                                            <div class="col-1 ">
+                                                <button type="button" class="btn btn-danger  btn-remove-medicine ml-2 d-flex align-items-center"><i data-feather="trash"></i></button>
+                                            </div>
                                         </div>
+                                        
                                     </div>
 
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="investigation">Lab Investigation</label>
-                                            <textarea class="form-control" id="investigation" rows="3" name="further_investigation" placeholder="Lab Investigation"></textarea>
+                                    <div class="col-12 mt-2 form-group">
+                                        <label for="lab_tests">Lab Investigation</label>
+                                    
+                                        <div id="lab-test-list">
+                                            <div class="container-fluid row gx-2 lab-test-row align-items-center mb-2">
+                                                <div class="col-6 p-2">
+                                                    <select class="form-control form-control-lg w-100 blood-test-select" name="blood_test_id[]">
+                                                        <option value="">Select Blood Test</option>
+                                                        @foreach($blood_tests as $test)
+                                                            <option value="{{ $test->id }}">{{ $test->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2">
+                                                    <select class="form-control form-control-lg w-100 xray-select" name="xray_id[]">
+                                                        <option value="">Select X-ray</option>
+                                                        @foreach($xrays as $xray)
+                                                            <option value="{{ $xray->id }}">{{ $xray->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2">
+                                                    <select class="form-control form-control-lg w-100 ultrasound-select" name="ultrasound_id[]">
+                                                        <option value="">Select Ultrasound</option>
+                                                        @foreach($ultrasounds as $ultrasound)
+                                                            <option value="{{ $ultrasound->id }}">{{ $ultrasound->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2">
+                                                    <select class="form-control form-control-lg w-100 ctscan-select" name="ctscan_id[]">
+                                                        <option value="">Select CT Scan</option>
+                                                        @foreach($ctscans as $ctscan)
+                                                            <option value="{{ $ctscan->id }}">{{ $ctscan->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                        <!-- Add button -->
+                                        <div class="mt-2">
+                                            <button type="button" class="btn btn-success btn-add-lab-test">
+                                                <i class="fas fa-plus"></i> Add Lab Test
+                                            </button>
+                                        </div>
+                                    
+                                        <!-- Hidden Template -->
+                                        <div class="d-none" id="lab-test-template">
+                                            <hr class="my-2">
+                                            <div class="container-fluid row lab-test-row align-items-center mb-2">
+                                                <div class="col-6 p-2">
+                                                    <select class="form-control form-control-lg w-100 blood-test-select" name="blood_test_id[]">
+                                                        <option value="">Select Blood Test</option>
+                                                        @foreach($blood_tests as $test)
+                                                            <option value="{{ $test->id }}">{{ $test->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2 ">
+                                                    <select class="form-control form-control-lg w-100 xray-select" name="xray_id[]">
+                                                        <option value="">Select X-ray</option>
+                                                        @foreach($xrays as $xray)
+                                                            <option value="{{ $xray->id }}">{{ $xray->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2 ">
+                                                    <select class="form-control form-control-lg w-100 ultrasound-select" name="ultrasound_id[]">
+                                                        <option value="">Select Ultrasound</option>
+                                                        @foreach($ultrasounds as $ultrasound)
+                                                            <option value="{{ $ultrasound->id }}">{{ $ultrasound->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-6 p-2 d-flex align-items-center">
+                                                    <select class="form-control form-control-lg w-100 ctscan-select" name="ctscan_id[]">
+                                                        <option value="">Select CT Scan</option>
+                                                        @foreach($ctscans as $ctscan)
+                                                            <option value="{{ $ctscan->id }}">{{ $ctscan->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-12 p-2">
+                                                    <button type="button" class="btn btn-danger w-100 d-flex align-items-center justify-content-center text-center py-2 btn-remove-lab-test ">
+                                                        <i class="text-center" data-feather="trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <label for="notes">Special Notes</label>
-                                            <textarea class="form-control" id="notes" rows="3" name="notes" placeholder="Special Notes"></textarea>
+                                            <label for="special_notes">Special Notes</label>
+                                            <textarea class="form-control" id="special_notes" rows="3" name="special_notes" placeholder="Special Notes"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -546,8 +647,12 @@
                                             <hr class="my-5">
                                             <h6 class="mb-1"><strong>Complaint: </strong> </h6>
                                             <p class="ml-5" id="display-complaint">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>
-                                            <h6 class="mb-1"><strong>Diagnosis: </strong> </h6>
-                                            <p class="ml-5" id="display-diagnosis">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>
+                                            <h6 class="mb-1"><strong>Provisional Diagnosis: </strong> </h6>
+                                            <p class="ml-5" id="display-provisional-diagnosis">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>
+                                            <h6 class="mb-1"><strong>Final Diagnosis: </strong> </h6>
+                                            <p class="ml-5" id="display-final-diagnosis">{{ $patient->latestMedicalRecord->final_diagnosis }}</p>
+                                            <h6 class="mb-1"><strong>Lab Investigation: </strong></h6>
+                                            <p class="ml-5" id="display-investigation"></p>
                                             <h6 class="mb-1"><strong>Symptoms: </strong> </h6>
                                             <p class="ml-5" id="display-symptoms">{{ $patient->latestMedicalRecord->symptoms }}</p>
                                         </div>
@@ -580,8 +685,8 @@
                                 <div class="card-body invoice-padding pt-0">
                                     <div class="row">
                                         <div class="col-12 p-0">
-                                            <span class="ml-0 pl-0"><strong>Further Tests:</strong></span>
-                                            <span id="display-investigation">{{ $patient->latestMedicalRecord->further_investigation }}</span>
+                                            <span class="ml-0 pl-0"><strong>Note:</strong></span>
+                                            <span id="display_special_notes">{{ $patient->latestMedicalRecord->further_investigation }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -590,9 +695,7 @@
                         </div>
                         <!-- /Invoice -->
 
-                        <button class="btn btn-primary btn-block " id="printButton" >
-                            Print
-                        </button>
+                        <button class="btn btn-primary btn-block d-flex align-items-center justify-content-center py-3" id="printButton" ><i data-feather="printer"></i></button>
                         <!-- Invoice Actions -->
 
                         <!-- /Invoice Actions -->
@@ -648,7 +751,6 @@
     <script src="{{asset('admin-assets/js/core/app.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    {{-- <script src="{{asset('admin-assets/js/ai.js')}}"></script> --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
     <script src="{{asset('admin-assets/js/scripts/components/components-collapse.js')}}"></script>
     <script src="{{asset('admin-assets/js/scripts/components/components-collapse.min.js')}}"></script>
@@ -657,6 +759,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
+        // Before submitting the diagnosis form, get the HTML content of the Lab Investigation and Prescription tab panels,
+        // store them in variables, and append them as hidden inputs to the form so they are sent in the request.
+
+        $('#submit-diagnosis-form').on('click', function (e) {
+            e.preventDefault();
+
+            // Get the HTML strings
+            var prescriptionHtml = getPrescriptionHtmlString();
+            var investigationHtml = getInvestigationHtmlString();
+
+            // Remove any previous hidden inputs to avoid duplicates
+            $('#diagnosis-form input[name="prescription_html"]').remove();
+            $('#diagnosis-form input[name="investigation_html"]').remove();
+
+            // Append as hidden inputs to the form
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'recommended_medication',
+                value: prescriptionHtml
+            }).appendTo('#diagnosis-form');
+
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'further_investigation',
+                value: investigationHtml
+            }).appendTo('#diagnosis-form');
+
+            $('#diagnosis-form').submit();
+        });
 
         // Feather icons
         if (typeof feather !== 'undefined') {
@@ -667,10 +798,7 @@
         $('.file-input').dropify();
 
         // Submit diagnosis form
-        $('#submit-diagnosis-form').on('click', function (e) {
-            e.preventDefault();
-            $('#diagnosis-form').submit();
-        });
+       
 
         $('.send-button').click(function() {
             const prompt = $('.message-input').val();
@@ -844,41 +972,185 @@
         bindEditor('#complaint', '#display-complaint');
         bindEditor('#symptoms', '#display-symptoms');
         bindEditor('#blood_pressure', null);
-        bindEditor('#diagnosis', '#display-diagnosis');
+        bindEditor('#provisional-diagnosis', '#display-provisional-diagnosis');
+        bindEditor('#final-diagnosis', '#display-final-diagnosis');
+        bindEditor('#final_diagnosis', '#display-diagnosis');
+        bindEditor('#special_notes', '#display_special_notes');
         bindEditor('#medication', '#display-medication');
         bindEditor('#investigation', '#display-investigation');
 
-        // Dynamic add/remove medicine/dose rows
-        function reinitSelect2() {
-            $('#medicine-dose-list .select2').select2({
-                width: 'resolve'
+
+        // Display prescription in the prescription tab
+
+            // If you want to update the prescription tab dynamically when the form changes,
+            // you can listen to changes on the medicine/dose selects and update the display.
+            // --- Prescription Display Logic ---
+            function getPrescriptionHtmlString() {
+                let prescriptionList = [];
+                $('#medicine-dose-list .medicine-dose-row').each(function() {
+                    let medicine = $(this).find('select[name="medicine_id[]"] option:selected').text();
+                    let dose = $(this).find('select[name="dose_id[]"] option:selected').text();
+                    if (medicine && dose) {
+                        prescriptionList.push(`<li>${medicine} - ${dose}</li>`);
+                    }
+                });
+                if (prescriptionList.length > 0) {
+                    return '<ul class="mb-0">' + prescriptionList.join('') + '</ul>';
+                } else {
+                    return '<span class="text-muted">No prescription added.</span>';
+                }
+            }
+
+            function updatePrescriptionDisplay() {
+                $('#display-medication').html(getPrescriptionHtmlString());
+            }
+
+            // --- Lab Investigation Display Logic ---
+            function getInvestigationHtmlString() {
+                let investigationList = [];
+                $('#lab-test-list .lab-test-row').each(function() {
+                    let bloodTest = $(this).find('select[name^="blood_test_id"] option:selected');
+                    let xray = $(this).find('select[name^="xray_id"] option:selected');
+                    let ultrasound = $(this).find('select[name^="ultrasound_id"] option:selected');
+                    let ctscan = $(this).find('select[name^="ctscan_id"] option:selected');
+
+                    let items = [];
+                    if (bloodTest.length && bloodTest.val() && bloodTest.text().trim() && !bloodTest.prop('disabled') && bloodTest.val() !== "") {
+                        if (bloodTest.val() !== "" && !/select/i.test(bloodTest.text())) {
+                            items.push(bloodTest.text().trim());
+                        }
+                    }
+                    if (xray.length && xray.val() && xray.text().trim() && !xray.prop('disabled') && xray.val() !== "") {
+                        if (xray.val() !== "" && !/select/i.test(xray.text())) {
+                            items.push(xray.text().trim());
+                        }
+                    }
+                    if (ultrasound.length && ultrasound.val() && ultrasound.text().trim() && !ultrasound.prop('disabled') && ultrasound.val() !== "") {
+                        if (ultrasound.val() !== "" && !/select/i.test(ultrasound.text())) {
+                            items.push(ultrasound.text().trim());
+                        }
+                    }
+                    if (ctscan.length && ctscan.val() && ctscan.text().trim() && !ctscan.prop('disabled') && ctscan.val() !== "") {
+                        if (ctscan.val() !== "" && !/select/i.test(ctscan.text())) {
+                            items.push(ctscan.text().trim());
+                        }
+                    }
+
+                    if (items.length > 0) {
+                        investigationList.push('<li>' + items.join(', ') + '</li>');
+                    }
+                });
+
+                if (investigationList.length > 0) {
+                    return '<ul class="mb-0">' + investigationList.join('') + '</ul>';
+                } else {
+                    return '<span class="text-muted">No lab investigation added.</span>';
+                }
+            }
+
+            function updateLabInvestigationDisplay() {
+                $('#display-investigation').html(getInvestigationHtmlString());
+            }
+
+            // Initial update
+            updatePrescriptionDisplay();
+            updateLabInvestigationDisplay();
+
+            // Update on change
+            $(document).on('change', '#medicine-dose-list select', updatePrescriptionDisplay);
+            $(document).on('change', '#lab-test-list select', updateLabInvestigationDisplay);
+
+            // Also update when a new medicine row is added or removed
+            $(document).on('click', '.btn-add-medicine, .btn-remove-medicine', function() {
+                setTimeout(updatePrescriptionDisplay, 100); // slight delay to allow DOM update
             });
+
+            // --- SUBMIT PRESCRIPTION/INVESTIGATION AS HTML STRING ON FORM SUBMIT ---
+            // Replace '#diagnosis-form' with your actual form ID or selector
+            $('#diagnosis-form').on('submit', function(e) {
+                // Before submit, set hidden fields with the HTML string
+                // If not present, create them
+                let $presc = $(this).find('input[name="prescription_html"]');
+                if ($presc.length === 0) {
+                    $presc = $('<input type="hidden" name="prescription_html">').appendTo(this);
+                }
+                $presc.val(getPrescriptionHtmlString());
+
+                let $invest = $(this).find('input[name="investigation_html"]');
+                if ($invest.length === 0) {
+                    $invest = $('<input type="hidden" name="investigation_html">').appendTo(this);
+                }
+                $invest.val(getInvestigationHtmlString());
+                // Now the form will submit these HTML strings as part of the POST data
+            });
+
+        // Also update when a new lab test row is added or removed
+        $(document).on('click', '.btn-add-lab-test, .btn-remove-lab-test', function() {
+            setTimeout(updateLabInvestigationDisplay, 100); // slight delay to allow DOM update
+        });
+        // Dynamic add/remove medicine/dose rows
+        function reinitSelect2(template) {
+            template.find('.medicine-select, .dose-select').select2({ width: 'resolve' });
         }
-        reinitSelect2();
-        // Add new row
-        $('.btn-add-medicine').on('click', function() {
-            // Clone the template
-            var $template = $('#medicine-dose-template').clone().removeClass('d-none').addClass('d-flex').removeAttr('id');
 
-            // Remove any extra dose selects except the first one
-            // (But in the template, there should only be one medicine and one dose select)
-            // To be safe, let's only keep the first medicine and first dose select
-            $template.find('select[name="medicine_id[]"]:not(:first)').remove();
-            $template.find('select[name="dose_id[]"]:not(:first)').remove();
+        $('.btn-add-medicine').on('click', function () {
+            var $template = $('#medicine-dose-template')
+                .clone()
+                .removeClass('d-none')
+                .addClass('d-flex')
+                .removeAttr('id');
 
-            // Clear values
+            // Clean any residual select2 junk
+            $template.find('select').each(function () {
+                $(this).removeAttr('data-select2-id').removeClass('select2-hidden-accessible').removeData('select2');
+            });
+            $template.find('.select2-container').remove();
+
+            // Clear values and errors
             $template.find('select').val('');
             $template.find('span.text-danger').remove();
 
-            // Append to the list
+            // Append and reinitialize select2
             $('#medicine-dose-list').append($template);
-            reinitSelect2();
+            reinitSelect2($template);
+            feather.replace();  
         });
-        // Remove row
-        $(document).on('click', '.btn-remove-medicine', function() {
+
+        // Optional: remove row
+        $(document).on('click', '.btn-remove-medicine', function () {
             $(this).closest('.medicine-dose-row').remove();
         });
 
+        function initLabSelects($context) {
+        $context.find('select').each(function () {
+            $(this).select2({ width: 'resolve' });
+        });
+    }
+
+    $('.btn-add-lab-test').on('click', function () {
+        let $template = $('#lab-test-template').clone().removeClass('d-none').removeAttr('id');
+
+        // Remove old Select2 data if any
+        $template.find('select').each(function () {
+            $(this).removeAttr('data-select2-id').removeClass('select2-hidden-accessible').removeData('select2');
+        });
+        $template.find('.select2-container').remove();
+
+        // Clear all selections
+        $template.find('select').val('');
+
+        // Append and re-init
+        $('#lab-test-list').append($template);
+        initLabSelects($template);
+    });
+
+    $(document).on('click', '.btn-remove-lab-test', function () {
+        $(this).closest('.lab-test-row').prev('hr').remove();
+        $(this).closest('.lab-test-row').remove();
+    });
+
+    // Initialize existing selects
+    initLabSelects($('#lab-test-list'));
     });
 </script>
 

@@ -147,10 +147,12 @@
 
     .btn-block.btn-primary {
         right: 160px;
+        bottom: 15px;
         text-align: center;
         position: fixed;
         width: 80px !important;
         padding: 10px 25px;
+
     }
 
     .nav-link {
