@@ -231,15 +231,7 @@
                 '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             displayLength: 10,
             lengthMenu: [7, 10, 25, 50, 75, 100],
-            buttons: [
-                {
-                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
-                    className: 'create-new btn btn-primary',
-                    action: function (e, dt, node, config) {
-                        window.location.href = "{{ route('question-add') }}"; // <-- Change to your route
-                    }
-                }
-            ],
+            buttons: [],
             responsive: true,
             language: {
                 paginate: {
@@ -249,7 +241,7 @@
             }
         });
             $('.patient-status-toggle').bootstrapToggle();
-        $('div.head-label').html('<h6 class="mb-0">Patients Table</h6>');
+        $('div.head-label').html('<h6 class="mb-0">Make Relations</h6>');
     }
 
     });

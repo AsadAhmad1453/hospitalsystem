@@ -16,6 +16,7 @@
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>Logo</th>
                                 <th>Banks</th>
                                 <th></th>
                                 <th>Actions</th>
@@ -25,6 +26,13 @@
                             @foreach($banks as $bank)
                                 <tr>
                                     <td>{{$loop->index+1}}</td>
+                                    <td>
+                                        @if($bank->bank_logo)
+                                            <img src="{{ asset('storage/' .$bank->bank_logo) }}" alt="Bank Logo" style="height:40px; max-width:80px;">
+                                        @else
+                                            <span class="text-muted">No Logo</span>
+                                        @endif
+                                    </td>
                                     <td>{{$bank->bank_name}}</td>
                                     <td>
                                         <a href="{{route('del-bank', $bank->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>

@@ -140,25 +140,25 @@
             displayLength: 10,
             lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [
-                {
-                    text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Scheduale an Appointment',
-                    className: 'create-new btn btn-primary',
-                    action: function (e, dt, node, config) {
-                        // Customize these parameters as needed
-                        const title = encodeURIComponent("Appointment with Patient");
-                        const details = encodeURIComponent("Schedule appointment through the platform.");
-                        const location = encodeURIComponent("Online or Clinic");
+                // {
+                //     text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Scheduale an Appointment',
+                //     className: 'create-new btn btn-primary',
+                //     action: function (e, dt, node, config) {
+                //         // Customize these parameters as needed
+                //         const title = encodeURIComponent("Appointment with Patient");
+                //         const details = encodeURIComponent("Schedule appointment through the platform.");
+                //         const location = encodeURIComponent("Online or Clinic");
                         
-                        // Example: Event from 9:00 to 10:00 on July 25, 2025 (UTC format)
-                        const start = "20250725T090000Z";
-                        const end = "20250725T100000Z";
+                //         // Example: Event from 9:00 to 10:00 on July 25, 2025 (UTC format)
+                //         const start = "20250725T090000Z";
+                //         const end = "20250725T100000Z";
 
-                        const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}`;
+                //         const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}&location=${location}`;
 
-                        // Open in a new tab
-                        window.open(url, '_blank');
-                    }
-                }
+                //         // Open in a new tab
+                //         window.open(url, '_blank');
+                //     }
+                // }
             ],
             responsive: true,
             language: {

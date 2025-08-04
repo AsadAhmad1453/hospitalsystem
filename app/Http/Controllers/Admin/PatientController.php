@@ -27,10 +27,7 @@ class PatientController extends Controller
     }
 
     public function delALL(){
-        $patients = Patient::all();
-        foreach ($patients as $patient) {
-            $patient->delete();
-        }
+        Patient::query()->delete();
         return redirect()->back()->with('success', 'All patients deleted successfully');
     }
 }

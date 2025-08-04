@@ -95,43 +95,7 @@
                             </div>
                             @endforeach
 
-                            {{-- @foreach ($questions as $index => $question)
-                                <div class="question-block" id="question-{{ $index }}" style="{{ $index == 0 ? '' : 'display:none;' }}">
-                                    <div class="question-step">
-                                        <div class="my-3 text-center">
-                                            <strong class="h2">{{ $question->question }}</strong>
-                                        </div>
-                                        @if($question->question_type == '0' || $question->question_type == '1')
-                                        <div class="options-grid">
-                                            @foreach ($question->options as $option)
-                                                @if($question->question_type == '0')
-                                                    <div class="option-box-wrapper">
-                                                        <input id="q{{ $question->id }}_{{ $option->id }}" type="radio" name="{{ $question->id }}" value="{{ $option->id }}" data-option-id="{{ $option->id }}" class="option-radio">
-                                                        <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
-                                                    </div>
-                                                @elseif($question->question_type == '1')
-                                                    <div class="option-box-wrapper">
-                                                        <input id="q{{ $question->id }}_{{ $option->id }}" type="checkbox" name="{{ $question->id }}[]" value="{{ $option->id }}" data-option-id="{{ $option->id }}" class="option-checkbox">
-                                                        <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-
-                                        </div>
-                                        <span id="answer-warning{{ $question->id }}" class="d-block  text-danger my-2"></span>
-
-                                        @elseif($question->question_type == '2')
-                                        <div class="d-flex justify-content-center">
-                                            <input type="text" class="w-50 form-control" name="{{ $question->id }}" placeholder="Type your answer...">
-                                        </div>
-                                        @elseif($question->question_type == '3')
-                                        <div class="d-flex justify-content-center">
-                                            <input type="date" class="w-50 form-control" name="{{ $question->id }}">
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endforeach --}}
+                            
 
                             <div class="formbold-form-btn-wrapper col-12 ">
                                 <div class="col-2 d-flex justify-content-between    ">
@@ -180,15 +144,6 @@
 @endsection
 
 @section('custom-js')
-
-<script>
-    $(document).ready(function () {
-
-    
-       
-    });
-    </script>
-    
 <script>
 $(document).ready(function () {
     var sections = @json($sections);
@@ -263,20 +218,27 @@ $(document).ready(function () {
         $('#section-' + sections[currentSectionIndex].id + ' .question-block:visible').each(function () {
             let qid = $(this).attr('id').replace('question-', '');
             let q = questions.find(q => q.id == qid);
-            let answered = false;
 
-            if (q.question_type == 0) {
-                answered = $(this).find('input[type="radio"]:checked').length > 0;
-            } else if (q.question_type == 1) {
-                answered = $(this).find('input[type="checkbox"]:checked').length > 0;
-            } else {
-                answered = $(this).find('input, textarea').val().trim() !== '';
-            }
+            // Only validate if priority is 1 (required)
+            if (q && q.priority == 1) {
+                let answered = false;
 
-            if (!answered) {
-                valid = false;
-                $('#answer-warning-' + qid).text('Please answer this question!').show();
+                if (q.question_type == 0) {
+                    answered = $(this).find('input[type="radio"]:checked').length > 0;
+                } else if (q.question_type == 1) {
+                    answered = $(this).find('input[type="checkbox"]:checked').length > 0;
+                } else {
+                    answered = $(this).find('input, textarea').val().trim() !== '';
+                }
+
+                if (!answered) {
+                    valid = false;
+                    $('#answer-warning-' + qid).text('Please answer this question!').show();
+                } else {
+                    $('#answer-warning-' + qid).hide();
+                }
             } else {
+                // Hide warning for optional questions
                 $('#answer-warning-' + qid).hide();
             }
         });
@@ -303,10 +265,25 @@ $(document).ready(function () {
             return;
         }
 
-        // Disable all skipped questions before submission
+        // Disable all skipped questions and unanswered questions before submission
         $('.question-block').each(function () {
             let qid = $(this).attr('id').replace('question-', '');
-            if (skippedQuestions[qid]) {
+            let q = questions.find(q => q.id == qid);
+            let isSkipped = skippedQuestions[qid];
+
+            // Determine if the question is answered
+            let answered = false;
+            if (q) {
+                if (q.question_type == 0) {
+                    answered = $(this).find('input[type="radio"]:checked').length > 0;
+                } else if (q.question_type == 1) {
+                    answered = $(this).find('input[type="checkbox"]:checked').length > 0;
+                } else {
+                    answered = $(this).find('input, textarea').val() && $(this).find('input, textarea').val().trim() !== '';
+                }
+            }
+
+            if (isSkipped || !answered) {
                 $(this).find('input,select,textarea').prop('disabled', true);
             } else {
                 $(this).find('input,select,textarea').prop('disabled', false);

@@ -33,9 +33,11 @@ class UsersController extends Controller
         return back()->with(['success', 'User Deleted']);
     }
 
-    public function rolestable($id){
-        $role = Role::where('id', $id)->first();
-        $users = User::where('role_id', $id)->with('roles')->get();
-        return view('admin.roles.rolestable', get_defined_vars( ));
+    public function rolestable($id)
+    {
+        $role = Role::findOrFail($id);
+        // Get all users that have this role assigned via Spatie's roles/permissions
+        $users = User::role($role->name)->with('roles')->get();
+        return view('admin.roles.rolestable', compact('role', 'users'));
     }
 }

@@ -33,6 +33,8 @@ Auth::routes();
 Route::prefix('admin')->middleware(['auth','is_admin'])->group(function () {
     Route::post('/roles/bulk-update-permissions', [StaffController::class, 'bulkUpdatePermissions'])->name('roles.bulkUpdatePermissions');
     Route::get('/', [AdminDashboardController::class, 'index'])->name('admin-dashboard');
+    Route::get('/manage-profile', [AdminDashboardController::class, 'profile'])->name('manage-profile');
+    Route::post('/update-profile', [AdminDashboardController::class, 'updateProfile'])->name('update-profile');
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/staff', [StaffController::class, 'index'])->name('staff');
     Route::get('/patients', [PatientController::class, 'index'])->name('patients');
