@@ -19,7 +19,7 @@
                                 <th>#</th>
                                 <th>Question Statement</th>
                                 <th>Section</th>
-                                <th>Actions <a href="{{ route('del-all-questions') }}" class="float-right text-danger course-sure"><i class="fa fa-trash"></i> Delete all</a></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="sortable">
@@ -107,7 +107,30 @@
                     text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
                     className: 'create-new btn btn-primary',
                     action: function (e, dt, node, config) {
-                        window.location.href = "{{ route('question-add') }}"; // <-- Change to your route
+                        window.location.href = "{{ route('question-add') }}";
+                    }
+                },
+                {
+                    text: '<i class="fa fa-trash"></i> Delete all',
+                    className: 'btn btn-danger del-all-questions',
+                    action: function (e, dt, node, config) {
+                        // Use the same confirmation as .course-sure
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Are you sure?',
+                            text: "You want to remove all Questions!",
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, remove all!',
+                            confirmButtonClass: 'btn btn-primary',
+                            cancelButtonClass: 'btn btn-danger ml-1',
+                            buttonsStyling: false,
+                        }).then(function (result) {
+                            if (result.value) {
+                                window.location.href = "{{ route('del-all-questions') }}";
+                            }
+                        });
                     }
                 }
             ],
@@ -120,7 +143,7 @@
             }
         });
             $('.patient-status-toggle').bootstrapToggle();
-        $('div.head-label').html('<h6 class="mb-0">Patients Table</h6>');
+        $('div.head-label').html('<h6 class="mb-0">Questions Table</h6>');
     }
 
     });

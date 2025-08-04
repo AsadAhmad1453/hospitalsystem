@@ -71,11 +71,14 @@
     </section>
 @endsection
 @section('custom-js')
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-<script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
+{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
@@ -98,6 +101,67 @@
             window.location.href = approvalLink;
         }
     });
+
+
+});
+
+var dt_basic_table = $('.datatables-basic');
+if (dt_basic_table.length) {
+    var dt_basic = dt_basic_table.DataTable({
+        // No ajax, use Blade-rendered data
+        order: [[0, 'asc']],
+        dom:
+            '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
+            '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+            't' +
+            '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        displayLength: 10,
+        lengthMenu: [7, 10, 25, 50, 75, 100],
+        buttons: [
+            {
+                text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
+                className: 'create-new btn btn-primary',
+                action: function (e, dt, node, config) {
+                    window.location.href = "{{ route('question-add') }}";
+                }
+            },
+            {
+                text: '<i class="fa fa-trash"></i> Delete all',
+                className: 'btn btn-danger del-all-questions',
+                action: function (e, dt, node, config) {
+                    // Use the same confirmation as .course-sure
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Are you sure?',
+                        text: "You want to remove all Questions!",
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, remove all!',
+                        confirmButtonClass: 'btn btn-primary',
+                        cancelButtonClass: 'btn btn-danger ml-1',
+                        buttonsStyling: false,
+                    }).then(function (result) {
+                        if (result.value) {
+                            window.location.href = "{{ route('del-all-questions') }}";
+                        }
+                    });
+                }
+            }
+        ],
+        responsive: true,
+        language: {
+            paginate: {
+                previous: '&nbsp;',
+                next: '&nbsp;'
+            }
+        }
+    });
+        $('.patient-status-toggle').bootstrapToggle();
+    $('div.head-label').html('<h6 class="mb-0">Questions Table</h6>');
+}   
+$(document).ready(function() {
+    feather.replace();
 });
    
 </script>

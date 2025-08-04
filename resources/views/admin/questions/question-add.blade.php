@@ -26,6 +26,19 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 mb-1">
+                                    <label for="priority">Select Priority</label>
+                                    <select class="select2 form-control form-control-lg" id="priority" name="priority">
+                                            <option value="1">Required</option>
+                                            <option value="0">Optional</option>
+                                    </select>
+                                    @if ($errors->has('priority'))
+                                        <div class="alert alert-warning mt-1 mb-0 py-1 px-2" style="font-size: 0.95em;">
+                                            Please select the priority of the question.
+                                        </div>
+                                    @endif
+                                </div>
                                 
                                 <div class="col-md-6 mb-1">
                                     <label>Select Form</label>
@@ -87,6 +100,8 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                
 
                                 <div class="col-12">
                                     <button type="submit" class="btn btn-primary mr-1">Submit</button>
