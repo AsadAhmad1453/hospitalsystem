@@ -22,7 +22,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th></th>
                                 <th>Role</th>
                                 <th>Actions</th>
                             </tr>
@@ -90,7 +89,7 @@
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script> --}}
+<script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
