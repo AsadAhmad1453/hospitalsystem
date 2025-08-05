@@ -240,7 +240,7 @@
 
                     </ul>
                 </li>
-                <li class=" nav-item {{Route::is('medicines') || Route::is('dosage')   ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Labs</span></a>
+                <li class=" nav-item {{Route::is('medicines') || Route::is('dosage')   ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Pharmacy</span></a>
                     <ul class="menu-content">
                         <li class="{{Route::is('medicines') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('medicines')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Medicines</span></a>
                         </li>

@@ -54,52 +54,7 @@
 
     <style>
 
-    input[type=number]::-webkit-outer-spin-button,
-    input[type=number]::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* For Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
-        .report-image {
-            transition: transform 0.2s ease-in-out;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .report-image:hover {
-            transform: scale(1.05);
-            border-color: #007bff;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        .modal-lg {
-            max-width: 90%;
-        }
-
-        .modal-body img {
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .modal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-bottom: none;
-        }
-
-        .modal-header .close {
-            color: white;
-            opacity: 0.8;
-        }
-
-        .modal-header .close:hover {
-            opacity: 1;
-        }
+    
     </style>
 </head>
 <body class="bg-gradient">
@@ -501,38 +456,28 @@
                                 <span>Online</span>
                             </div>
                         </div>
-                        <div class="controls">
-                            <button class="theme-toggle" aria-label="Toggle theme">
-                                <i class="fas fa-moon"></i>
-                            </button>
-                        </div>
+                        
                     </header>
 
                     <div class="chat-container" id="chatContainer">
                         <!-- Messages will be added here -->
                     </div>
 
-                    <div class="typing-indicator">
+                    {{-- <div class="typing-indicator">
                         <div class="typing-dots">
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
                             <div class="typing-dot"></div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="input-container">
                         <div class="input-wrapper">
                             <input type="text" class="message-input" id="prompt" placeholder="Type your message..." aria-label="Message input">
                             <div class="action-buttons">
-                                <button class="action-button" aria-label="Add attachment">
-                                    <i class="fas fa-paperclip"></i>
-                                </button>
-                                <button class="action-button" aria-label="Voice input">
-                                    <i class="fas fa-microphone"></i>
-                                </button>
                                 <button class="send-button" id="sendBtn">
                                     <span>Send</span>
-                                    <i class="fas fa-paper-plane"></i>
+                                    <i data-feather="send"></i>
                                 </button>
                             </div>
                         </div>

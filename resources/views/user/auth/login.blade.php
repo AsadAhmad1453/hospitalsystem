@@ -1,4 +1,4 @@
-@extends('auth.layouts.main')
+@extends('user.auth.layout.main')
 @section('custom-css')
     <style>
         .form-control {
