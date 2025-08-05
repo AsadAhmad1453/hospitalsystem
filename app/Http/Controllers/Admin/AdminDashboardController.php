@@ -41,7 +41,6 @@ class AdminDashboardController extends Controller
             $filename = time() . '_' . $file->getClientOriginalName();
             $path = $file->storeAs('profile_pics', $filename, 'public');
             // Ensure only the relative path is stored in the database
-
             $data['profile_pic'] = $path;
         }
         if (!empty($data)) {

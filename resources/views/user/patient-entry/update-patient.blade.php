@@ -14,8 +14,8 @@
                                  <div class="col-md-12 my-2">
                                     <label>Select Doctor</label>
                                     <select class="select2 form-control form-control-lg" name="user_id">
-                                        @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                                        @foreach($doctors as $doctor)
+                                        <option value="{{ $doctor->id }}" {{ old('user_id') == $doctor->id ? 'selected' : '' }}>{{ $doctor->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('user_id')
@@ -25,7 +25,7 @@
                                 <div class="col-md-12 my-2">
                                     <label>Select Nurse</label>
                                     <select class="select2 form-control form-control-lg" name="nurse_id">
-                                        @foreach($nusrse as $nurse)
+                                        @foreach($nurses as $nurse)
                                         <option value="{{ $nurse->id }}" {{ old('nurse_id') == $nurse->id ? 'selected' : '' }}>{{ $nurse->name }}</option>
                                         @endforeach
                                     </select>

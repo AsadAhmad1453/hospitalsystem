@@ -27,7 +27,6 @@
                                 <th>CNIC</th>
                                 <th>Name</th>
                                 <th>Email</th>
-                                <th>Last visit</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -38,7 +37,6 @@
                                     <td>{{$patient->cnic}}</td>
                                     <td>{{$patient->name}}</td>
                                     <td>{{ $patient->email }}</td>
-                                    <td>{{ $patient->latestMedicalRecord->created_at->format('d-m-Y') }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('patient-edit', $patient->id) }}" class="btn btn-info mr-1">Invoice</a>
                                         <a href="{{route('del-user-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
@@ -64,40 +62,7 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-    $(document).on('change', '#activetoggle', function () {
-        var patientId = $(this).data('id');
-        var status = $(this).prop('checked') ? '1' : '0';
-        $.ajax({
-            url: "{{ route('patient-status-toggle') }}",
-            method: 'GET',
-            data: {
-                id: patientId,
-                status: status
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Optionally show a success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status Updated',
-                        text: 'Patient status has been updated successfully.',
-                        confirmButtonClass: 'btn btn-success',
-                    });
-                } else {
-                    // Optionally show an error message
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message,
-                        confirmButtonClass: 'btn btn-danger',
-                    });
-                }
-            },
-            error: function(xhr) {
-                // Optionally handle error
-            }
-        });
-    });
+ 
     $(function () {
     'use strict';
 
@@ -131,8 +96,7 @@
                 }
             }
         });
-            $('.patient-status-toggle').bootstrapToggle();
-        $('div.head-label').html('<h4 class="mb-0 pl-1 "><strong>Past PATIENTS</strong> </h4>');
+        $('div.head-label').html('<h4 class="mb-0 pl-1 "><strong>Past Patients </strong> </h4>');
     }
 
     });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Round;
@@ -16,69 +17,35 @@ class UserController extends Controller
 
     public function index()
     {
-        $userId = Auth::id();
-        $userRoleId = Auth::user()->role_id;
+        try {
+            $user = Auth::user();
+            $userId = $user->id;
+            $userRoleId = $user->role_id;
 
-        $totalToken = Round::latest()->first();
+            $totalToken = Round::latest()->first();
+            $activeToken = Round::where('round_status', '1')->first();
 
-        $doctors = User::role('Doctor')->with('latestActiveRoundAsDoctor')->get();
-        $nurses = User::role('Nurse')->with('latestActiveRoundAsNurse')->get();
-        $dcs = User::role('Data Collector')->with('latestActiveRoundAsDC')->get();
+            $dcs = User::role('Data Collector')->with('latestActiveRoundAsDC')->get();
+            $doctors = User::role('Doctor')->with('latestActiveRoundAsDoctor')->get();
+            $nurses = User::role('Nurse')->with('latestActiveRoundAsNurse')->get();
 
-        // Active token for the logged-in doctor
-        $activeToken = Round::where('doctor_status', '1')
-            ->where('round_status', '1')
-            ->orderBy('token', 'asc')
-            ->with('patient')
-            ->first();
-        // Count of doctor-reviewed rounds
-        $doctorRounds = Round::where('doctor_status', '1')->count();
-
-        // Count of rounds pending for nurses
-        $nurseRounds = Round::where('nursing_status', '1')
-        ->where('doctor_status', '0')
-        ->get();
-
-        // Fetch all roles
-        $roles = Role::all();
-
-        // Get all users with doctor role (role_id = 4)
-
-        // Calculate total revenue from all rounds
-        $cost = Round::sum('cost');
-
-        // Count of rounds in queue for current user’s patients
-        // Determine the logged-in user's role and show their queue patients accordingly
-        $user = Auth::user();
-        $queue = 0;
-
-        // Optimize: Only eager load what is needed, and use role_id for performance
-        if ($user->hasRole('Doctor')) {
-            // For doctors, show patients where doctor_id matches and round is active for doctor
-            $queue = Round::where('doctor_status', '1')
-                ->where('round_status', '1')
-                ->whereHas('patient', function ($query) use ($user) {
-                    $query->where('doctor_id', $user->id);
-                })
-                ->count();
-        } elseif ($user->hasRole('Nurse')) {
-            // For nurses, show patients where nurse_id matches and round is active for nurse
-            $queue = Round::where('nursing_status', '1')
-                ->where('round_status', '1')
-                ->whereHas('patient', function ($query) use ($user) {
-                    $query->where('nurse_id', $user->id);
-                })
-                ->count();
-        } 
-
-        
-
-        return view('user.dashboard.dashboard', get_defined_vars());
+            return view('user.dashboard.dashboard', get_defined_vars());
+            
+        } catch (\Exception $e) {
+            \Log::error('Dashboard index error: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'Unable to load dashboard. Please try again later.']);
+        }
     }
 
 
     public function delPatient($id) {
-        Patient::where('id', $id)->delete();
-        return back()->with('success', 'Patient has been deleted successfully');
+         try {
+            $patient = Patient::findOrFail($id);
+            $patient->delete();
+            return back()->with('success', 'Patient has been deleted successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Error deleting patient: ' . $e->getMessage());
+            return back()->withErrors(['message' => 'An error occurred while deleting the patient.']);
+        }
     }
 }

@@ -1,11 +1,20 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\User\LoginController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\PatientController;
+use App\Http\Controllers\User\PatientEntryController;
+use App\Http\Controllers\User\PatientReportController;
+use App\Http\Controllers\User\PatientInvoiceController;
+use App\Http\Controllers\User\PatientPrescriptionController;
+use App\Http\Controllers\User\PatientHistoryController; 
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\User\WeatherController;
-use App\Http\Controllers\User\PatientEntryController;
+use App\Http\Controllers\User\PastPatientsController;
+use App\Http\Controllers\User\BioMarkerController;
 use App\Http\Controllers\User\DataCollectorController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\AIChatController;
@@ -25,9 +34,9 @@ use Illuminate\Support\Facades\Artisan;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\User\LoginController::class, 'showLoginForm'])->name('staff-login');
-Route::post('/staff/login',[App\Http\Controllers\User\LoginController::class, 'login'])->name('staff.login');
-Route::post('/staff-logout', [App\Http\Controllers\User\LoginController::class, 'logout'])->name('staff-logout');
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('staff-login');
+Route::post('/staff/login',[LoginController::class, 'login'])->name('staff.login');
+Route::post('/staff-logout', [LoginController::class, 'logout'])->name('staff-logout');
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');
@@ -37,47 +46,58 @@ Route::get('/clear-cache', function () {
     Artisan::call('view:clear');
     return 'Application cache, config, route, and view cleared!';
 });
+
+
 Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
-    Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
-    Route::get('/patient-entry', [App\Http\Controllers\User\PatientEntryController::class, 'index'])->name('patient-entry');
-    Route::get('/past-patients', [App\Http\Controllers\User\PastPatientsController::class, 'index'])->name('past-patients');
-    Route::post('/save-patient', [App\Http\Controllers\User\PatientEntryController::class, 'savepatient'])->name('save-patient');
-    Route::get('/add-patient', [App\Http\Controllers\User\PatientEntryController::class, 'addPatient'])->name('patient-add');
-    Route::get('/edit-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'editPatient'])->name('patient-edit');
-    Route::post('/update-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'updatePatient'])->name('update-patient');
-    Route::get('/view-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'viewPatient'])->name('patient-view');
-    Route::get('/delete-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'deletePatient'])->name('patient-delete');
-    Route::get('patient-status-toggle', [App\Http\Controllers\User\PatientEntryController::class, 'patientStatusToggle'])->name('patient-status-toggle');
-    Route::get('/patient-invoice/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'invoice'])->name('patient-invoice');
-    Route::post('/made-payment/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'payed'])->name('made-payment');
-    Route::post('/patient/decline/{id}', [PatientEntryController::class, 'paydecline'])->name('pay-decline');
-    Route::get('/del-patient/{id}', [App\Http\Controllers\User\PatientEntryController::class, 'roundStatus'])->name('round-status-update');
-    Route::get('/reset-token', [App\Http\Controllers\User\PatientEntryController::class, 'delAllRounds'])->name('del-all-rounds');
+
+    Route::controller(PatientEntryController::class)->group(function () {
+        Route::get('/patient-entry', 'index')->name('patient-entry');
+        Route::post('/save-patient', 'savepatient')->name('save-patient');
+        Route::get('/add-patient', 'addPatient')->name('patient-add');
+        Route::get('/edit-patient/{id}', 'editPatient')->name('patient-edit');
+        Route::post('/update-patient/{id}', 'updatePatient')->name('update-patient');
+        Route::get('/view-patient/{id}', 'viewPatient')->name('patient-view');
+        Route::get('/delete-patient/{id}', 'deletePatient')->name('patient-delete');
+        Route::get('/patient-invoice/{id}', 'invoice')->name('patient-invoice');
+        Route::post('/made-payment/{id}', 'payed')->name('made-payment');
+        Route::post('/patient/decline/{id}', 'paydecline')->name('pay-decline');
+        Route::get('/del-patient/{id}', 'roundStatus')->name('round-status-update');
+        Route::get('/past-patients', 'pastpatients')->name('past-patients');
+        Route::get('/reset-token', 'delAllRounds')->name('del-all-rounds');
+    });
+
+
     Route::get('del-user-patient/{id}', [UserController::class, 'delPatient'])->name('del-user-patient');
 
-    Route::get('/biomarker', [App\Http\Controllers\User\BioMarkerController::class, 'index'])->name('biomarker');
-    Route::get('/add-biomarker/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'addBiomarker'])->name('biomarker-add');
-    Route::post('/save-test-reports', [App\Http\Controllers\User\BioMarkerController::class, 'savetestreports'])->name('save-test-reports');
-    Route::get('/view-patient/{id}', [App\Http\Controllers\User\BioMarkerController::class, 'viewPatient'])->name('view-patient');
+    Route::controller(BioMarkerController::class)->group(function () {
+        Route::get('/biomarker', 'index')->name('biomarker');
+        Route::get('/add-biomarker/{id}', 'addBiomarker')->name('biomarker-add');
+        Route::post('/save-test-reports', 'savetestreports')->name('save-test-reports');
+        Route::get('/view-patient/{id}', 'viewPatient')->name('view-patient');
+    });
+    
+    Route::controller(DoctorController::class)->group(function () {
+        Route::get('/doctor-form', 'index')->name('doctor-form');
+        Route::get('/doctor-add/{id}', 'addDoctor')->name('doctor-add');
+        Route::post('/save-doctor-reports', 'savedoctorreports')->name('save-doctor-reports');
+        Route::get('/patient-prescription/{id}', 'prescription')->name('patient-prescription');
+        Route::post('/appointment-request/{id}', 'reqApp')->name('request-appointment');
+        Route::post('/appointment-update/{id}', 'updateApp')->name('update-appointment');
+        Route::get('/appointment-requests', 'appos')->name('appointments');
+        Route::get('/del-appointment/{id}', 'delApp')->name('del-appointment');
+        Route::get('/save-appointment/{id}', 'saveApp')->name('save-appointment');
+        Route::get('/examine-patients', 'examinePatients')->name('examine-patients');
+        Route::get('/examine-patient/{id}', 'examinePatient')->name('examine-specific-patient');
+    });
 
-    Route::get('/doctor-form', [App\Http\Controllers\User\DoctorController::class, 'index'])->name('doctor-form');
-    Route::get('/doctor-add/{id}', [App\Http\Controllers\User\DoctorController::class, 'addDoctor'])->name('doctor-add');
-    Route::post('/save-doctor-reports', [App\Http\Controllers\User\DoctorController::class, 'savedoctorreports'])->name('save-doctor-reports');
-    Route::get('/patient-prescription/{id}', [DoctorController::class, 'prescription'])->name('patient-prescription');
-    Route::post('/appointment-request/{id}', [DoctorController::class, 'reqApp'])->name('request-appointment');
-    Route::post('/appointment-update/{id}', [DoctorController::class, 'updateApp'])->name('update-appointment');
-    Route::get('/appointment-requests', [DoctorController::class, 'appos'])->name('appointments');
-    Route::get('/del-appointment/{id}', [DoctorController::class, 'delApp'])->name('del-appointment');
-    Route::get('/save-appointment/{id}', [DoctorController::class, 'saveApp'])->name('save-appointment');
-    Route::get('/examine-patients', [App\Http\Controllers\User\DoctorController::class, 'examinePatients'])->name('examine-patients');
-    Route::get('/examine-patient/{id}', [App\Http\Controllers\User\DoctorController::class, 'examinePatient'])->name('examine-specific-patient');
+    Route::controller(DataCollectorController::class)->group(function () {
+        Route::get('/patients/{id}', 'patients')->name('patients-data-table');
+        Route::get('/data-collector/{id}/{patientId}', 'showCollectorForm')->name('data-collector');
+        Route::post('/data-collector/submit/{form_id}', 'submitAnswers')->name('save-data-collector');
+        Route::post('/upload-voice', 'uploadVoice')->name('upload-voice');
+    });
 
-
-    Route::get('/patients/{id}', [DataCollectorController::class, 'patients'])->name('patients-data-table');
-    Route::get('/data-collector/{id}/{patientId}', [DataCollectorController::class, 'showCollectorForm'])->name('data-collector');
-    Route::post('/data-collector/submit/{form_id}', [DataCollectorController::class, 'submitAnswers'])->name('save-data-collector');
-    Route::post('/upload-voice', [DataCollectorController::class, 'uploadVoice'])->name('upload-voice');
-
+    Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::post('/ai/ask', [AIChatController::class, 'ask']);
 
 });
