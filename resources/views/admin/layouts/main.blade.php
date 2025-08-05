@@ -187,15 +187,15 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="{{Route::is('admin-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin-dashboard')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
+                <li class="{{Route::is('admin-dashboard') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('admin-dashboard')}}"><i data-feather="bar-chart-2"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboard</span></a>
                 </li>
                 <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
                 </li>
-                <li class="{{Route::is('roles') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('roles')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Roles</span></a>
+                <li class="{{Route::is('roles') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('roles')}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Roles</span></a>
                 </li>
                 <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather='user-check'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Permissions</span></a>
                 </li>
-                <li class="{{Route::is('patients') || Route::is('patient-info') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
+                <li class="{{Route::is('patients') || Route::is('patient-info') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='users'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
                 </li>
                 <li class="{{Route::is('services') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('services')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Services</span></a>
                 </li>
@@ -203,7 +203,7 @@
 
                 
 
-                <li class=" nav-item {{ request()->routeIs('roles-table*') ? 'active open' : '' }}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
+                <li class=" nav-item {{ request()->routeIs('roles-table*') ? 'active open' : '' }}"><a class="d-flex align-items-center" href="#"><i data-feather='award'></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
                     <ul class="menu-content">
                         @foreach ($roles as $role)
                         <li><a class="d-flex align-items-center {{ request()->routeIs('roles-table') && request()->route('id') == $role->id ? 'active' : '' }}" href="{{route('roles-table', $role->id)}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">{{ ucfirst($role->name) }}</span></a>
@@ -214,11 +214,11 @@
                 
                 
                 
-                <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add') || Route::is('forms') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Questions</span></a>
+                <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add') || Route::is('forms') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Invoice">Form Builder</span></a>
                     <ul class="menu-content">
-                        <li class="{{Route::is('forms') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('forms')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Forms</span></a>
+                        <li class="{{Route::is('forms') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('forms')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Forms</span></a>
                         </li>
-                        <li class="{{Route::is('relations') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('relations')}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Relations</span></a>
+                        <li class="{{Route::is('relations') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('relations')}}"><i data-feather="circle"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Relations</span></a>
                         </li>
                         <li><a class="d-flex align-items-center {{Route::is('question-sections') ? 'active' : ''}}" href="{{route('question-sections')}}"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">Sections</span></a>
                         </li>
@@ -227,28 +227,28 @@
 
                     </ul>
                 </li>
-                <li class=" nav-item {{Route::is('blood-investigation') || Route::is('xrays') || Route::is('uss') || Route::is('ctscans') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Labs</span></a>
+                <li class=" nav-item {{Route::is('blood-investigation') || Route::is('xrays') || Route::is('uss') || Route::is('ctscans') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='filter'></i><span class="menu-title text-truncate" data-i18n="Invoice">Labs</span></a>
                     <ul class="menu-content">
-                        <li class="{{Route::is('blood-investigation') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('blood-investigation')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Blood Investigation</span></a>
+                        <li class="{{Route::is('blood-investigation') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('blood-investigation')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Blood Investigation</span></a>
                         </li>
-                        <li class="{{Route::is('xrays') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('xrays')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Xrays</span></a>
+                        <li class="{{Route::is('xrays') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('xrays')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Xrays</span></a>
                         </li>
-                        <li class="{{Route::is('uss') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('uss')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ultrasounds</span></a>
+                        <li class="{{Route::is('uss') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('uss')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ultrasounds</span></a>
                         </li>
-                        <li class="{{Route::is('ctscans') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('ctscans')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ct Scans</span></a>
+                        <li class="{{Route::is('ctscans') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('ctscans')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Ct Scans</span></a>
                         </li>
 
                     </ul>
                 </li>
                 <li class=" nav-item {{Route::is('medicines') || Route::is('dosage')   ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='trello'></i><span class="menu-title text-truncate" data-i18n="Invoice">Pharmacy</span></a>
                     <ul class="menu-content">
-                        <li class="{{Route::is('medicines') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('medicines')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Medicines</span></a>
+                        <li class="{{Route::is('medicines') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('medicines')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Medicines</span></a>
                         </li>
-                        <li class="{{Route::is('dosage') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('dosage')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dosage</span></a>
+                        <li class="{{Route::is('dosage') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('dosage')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dosage</span></a>
                         </li>
                     </ul>
                 </li>
-                <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
+                <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='home'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
                 </li>
                 
                 

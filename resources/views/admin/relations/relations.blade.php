@@ -216,33 +216,33 @@
         }
     });
     $(function () {
-    'use strict';
+        'use strict';
 
-    var dt_basic_table = $('.datatables-basic');
+        var dt_basic_table = $('.datatables-basic');
 
-    if (dt_basic_table.length) {
-        var dt_basic = dt_basic_table.DataTable({
-            // No ajax, use Blade-rendered data
-            order: [[0, 'asc']],
-            dom:
-                '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
-                '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                't' +
-                '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            displayLength: 10,
-            lengthMenu: [7, 10, 25, 50, 75, 100],
-            buttons: [],
-            responsive: true,
-            language: {
-                paginate: {
-                    previous: '&nbsp;',
-                    next: '&nbsp;'
+        if (dt_basic_table.length) {
+            var dt_basic = dt_basic_table.DataTable({
+                // No ajax, use Blade-rendered data
+                order: [[0, 'asc']],
+                dom:
+                    '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
+                    '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    't' +
+                    '<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 10,
+                lengthMenu: [7, 10, 25, 50, 75, 100],
+                buttons: [],
+                responsive: true,
+                language: {
+                    paginate: {
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    }
                 }
-            }
-        });
-            $('.patient-status-toggle').bootstrapToggle();
-        $('div.head-label').html('<h6 class="mb-0">Make Relations</h6>');
-    }
+            });
+                $('.patient-status-toggle').bootstrapToggle();
+            $('div.head-label').html('<h6 class="mb-0">Make Relations</h6>');
+        }
 
     });
 
