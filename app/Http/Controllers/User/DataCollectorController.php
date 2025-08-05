@@ -12,13 +12,14 @@ use App\Models\Answer;
 use App\Models\Option;
 use App\Models\Round;
 use App\Models\Form;
+use App\Services\AnswerSubmissionService;
+
+
 class DataCollectorController extends Controller
 {
     public function patients($id){
         $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')->with('patient')->get();
         $form = Form::where('id', $id)->first();
-
-        // Check which patients have already submitted this form
         $submittedPatients = [];
         if ($form) {
             $submittedPatients = Answer::where('form_id', $id)
@@ -26,7 +27,6 @@ class DataCollectorController extends Controller
                 ->pluck('patient_id')
                 ->toArray();
         }
-
         return view('user.data-collector.patients-data-table', get_defined_vars());
     }
 
@@ -51,71 +51,13 @@ class DataCollectorController extends Controller
         return view('user.data-collector.data-collector', get_defined_vars());
     }
 
-    public function submitAnswers(Request $request, $form_id)
+    public function submitAnswers(Request $request, $form_id,AnswerSubmissionService $answerService)
     {
-        // Delete previous answers for this patient and form
-        Answer::where('patient_id', $request->patient_id)->where('form_id', $form_id)->delete();
+        $answerService->submit($request, $form_id);
 
-        // Save new answers
-        foreach ($request->except(['_token', 'patient_id']) as $questionId => $answer) {
-            $question = Question::find($questionId);
-
-            // Default: store as string
-            $answerString = '';
-
-            if ($question && in_array($question->question_type, [0, 1])) {
-                // Single or multi-select: convert option IDs to text
-                if (is_array($answer)) {
-                    // Multi-select: array of IDs
-                    $optionTexts = Option::whereIn('id', $answer)->pluck('option')->toArray();
-                    $answerString = implode(', ', $optionTexts);
-                } else {
-                    // Single-select: single ID
-                    $optionText = Option::where('id', $answer)->value('option');
-                    $answerString = $optionText ?? '';
-                }
-            } else {
-                // Text or date: store as is
-
-                $answerString = is_array($answer) ? json_encode($answer) : $answer;
-            }
-
-
-            Answer::updateOrCreate(
-                [
-                    'patient_id' => $request->patient_id,
-                    'question' => $question ? $question->question : '',
-                    'form_id' => $form_id,
-                    'answer' => $answerString,
-                ],
-            );
-        }
-
-        // Check if patient has submitted all forms that have at least one question
-        // Get all unique form_ids that have at least one question (from questions table)
-        $formIdsWithQuestions = \App\Models\Question::distinct()->pluck('form_id')->filter()->toArray();
-
-        // Get all form_ids for which this patient has submitted answers
-        $answeredFormIds = Answer::where('patient_id', $request->patient_id)
-            ->whereIn('form_id', $formIdsWithQuestions)
-            ->distinct()
-            ->pluck('form_id')
-            ->filter()
-            ->toArray();
-
-        $hasSubmittedAllForms = empty(array_diff($formIdsWithQuestions, $answeredFormIds));
-
-        if ($hasSubmittedAllForms) {
-            // Patient has submitted all forms with questions, set nursing_status to 1
-            Round::where('patient_id', $request->patient_id)
-                ->where('round_status', '1')
-                ->update([
-                    'nursing_status' => '1',
-                ]);
-        }
-
-        return redirect()->route('patients-data-table', $request->patient_id);
+        return redirect()->route('patients-data-table', $form_id);
     }
+
     public function uploadVoice(Request $request)
     {
         if ($request->hasFile('voice_recording')) {
