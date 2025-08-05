@@ -83,7 +83,6 @@
 @endsection
 @section('custom-js')
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
