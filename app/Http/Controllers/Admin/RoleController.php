@@ -15,17 +15,29 @@ class RoleController extends Controller
 
     public function saveRole(Request $request)
     {
+        $roleName = strtolower(trim($request->input('role_name')));
+
         $request->validate([
-            'role_name' => 'required|string|max:255|unique:roles,name',
+            'role_name' => [
+                'required',
+                'string',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    if (Role::whereRaw('LOWER(name) = ?', [strtolower(trim($value))])->exists()) {
+                        $fail('The role already exists.');
+                    }
+                },
+            ],
         ]);
 
         Role::create([
-            'name' => $request->role_name,
+            'name' => $roleName,
             'guard_name' => 'web',
         ]);
 
         return redirect()->route('roles')->with('success', 'Role created successfully.');
     }
+
 
     public function deleteRole($id)
     {

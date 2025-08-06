@@ -25,14 +25,14 @@
                             </thead>
                             <tbody>
                                 @foreach($users as $user)
-    
+
                                 @if($user->role == '1')
                                     <tr>
-                                        <td>{{$loop->index+1}}</td>
+                                        <td>{{$loop->index}}</td>
                                         <td>{{$user->name}}</td>
                                         <td>
                                             @foreach($user->roles as $role)
-                                                {{ $role->name }}
+                                                {{ ucfirst($role->name) }}
                                             @endforeach
                                         </td>
                                         <td>
@@ -76,7 +76,7 @@
                                     <option value="{{$role->id}}">{{ ucfirst($role->name) }}</option>
                                 @endforeach
                             </select>
-                        </div>                     
+                        </div>
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
                     </div>
@@ -86,14 +86,12 @@
     </section>
 @endsection
 @section('custom-js')
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 
@@ -151,7 +149,7 @@ $(document).ready(function () {
                     paginate: {
                         previous: '&nbsp;',
                         next: '&nbsp;'
-                    }   
+                    }
                 }
             });
                 $('.patient-status-toggle').bootstrapToggle();
@@ -160,6 +158,6 @@ $(document).ready(function () {
     })
 
 });
-   
+
 </script>
 @endsection

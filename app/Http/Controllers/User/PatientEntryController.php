@@ -20,12 +20,12 @@ class PatientEntryController extends Controller
         $patients = Patient::where('patient_status', '1')->get();
         return view('user.patient-entry.patient-entry', compact('patients'));
     }
-    
+
     public function addPatient()
     {
-        $doctors = User::role('Doctor')->get();
-        $nurses = User::role('Nurse')->get();
-        $dcs = User::role('Data Collector')->get();
+        $doctors = User::role('doctor')->get();
+        $nurses = User::role('nurse')->get();
+        $dcs = User::role('data collector')->get();
         $services = Service::all();
         return view('user.patient-entry.add-patient', get_defined_vars());
     }
@@ -113,7 +113,7 @@ class PatientEntryController extends Controller
         return redirect()->route('patient-entry')->with('success', 'Round status updated successfully.');
     }
 
-   
+
     public function editPatient($id)
     {
         $patient = Patient::findOrFail($id);

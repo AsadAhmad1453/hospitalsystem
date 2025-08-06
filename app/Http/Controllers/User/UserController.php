@@ -25,12 +25,12 @@ class UserController extends Controller
             $totalToken = Round::latest()->first();
             $activeToken = Round::where('round_status', '1')->first();
 
-            $dcs = User::role('Data Collector')->with('latestActiveRoundAsDC')->get();
-            $doctors = User::role('Doctor')->with('latestActiveRoundAsDoctor')->get();
-            $nurses = User::role('Nurse')->with('latestActiveRoundAsNurse')->get();
+            $dcs = User::role('data collector')->with('latestActiveRoundAsDC')->get();
+            $doctors = User::role('doctor')->with('latestActiveRoundAsDoctor')->get();
+            $nurses = User::role('nurse')->with('latestActiveRoundAsNurse')->get();
 
             return view('user.dashboard.dashboard', get_defined_vars());
-            
+
         } catch (\Exception $e) {
             \Log::error('Dashboard index error: ' . $e->getMessage());
             return back()->withErrors(['message' => 'Unable to load dashboard. Please try again later.']);

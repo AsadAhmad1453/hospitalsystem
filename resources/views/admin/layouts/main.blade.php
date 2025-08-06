@@ -55,7 +55,7 @@
         <div class="navbar-container d-flex content">
 
             <ul class="nav navbar-nav align-items-center ml-auto">
-                
+
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">{{Auth::user()->name }}</span><span class="user-status">Admin</span></div><span class="avatar">
                             <img class="round" src="{{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('admin-assets/images/portrait/small/avatar-s-11.jpg') }}" alt="avatar" height="40" width="40">
@@ -201,7 +201,7 @@
                 </li>
 
 
-                
+
 
                 <li class=" nav-item {{ request()->routeIs('roles-table*') ? 'active open' : '' }}"><a class="d-flex align-items-center" href="#"><i data-feather='award'></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
                     <ul class="menu-content">
@@ -211,9 +211,9 @@
                         @endforeach
                     </ul>
                 </li>
-                
-                
-                
+
+
+
                 <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add') || Route::is('forms') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Invoice">Form Builder</span></a>
                     <ul class="menu-content">
                         <li class="{{Route::is('forms') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('forms')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Forms</span></a>
@@ -250,8 +250,8 @@
                 </li>
                 <li class="{{Route::is('banks') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('banks')}}"><i data-feather='home'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Banks</span></a>
                 </li>
-                
-                
+
+
             </ul>
         </div>
     </div>

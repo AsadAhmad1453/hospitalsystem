@@ -27,7 +27,7 @@
                                 @foreach($roles as $role)
                                     <tr>
                                         <td>{{$loop->index+1}}</td>
-                                        <td>{{$role->name}}</td>
+                                        <td>{{ucfirst($role->name)}}</td>
                                         <td>
                                             <a href="{{route('del-role', $role->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                         </td>
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label class="form-label" for="role_name">Role Name</label>
                             <input type="text" name="role_name" class="form-control dt-full-name" id="role_name" placeholder="Role" aria-label="John Doe" />
-                        </div>                                        
+                        </div>
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
                     </div>
@@ -62,19 +62,18 @@
     </section>
 @endsection
 @section('custom-js')
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 
 <script>
-    $(document).ready(function () {
+    $(window).on('load', function () {
+    feather.replace();
         $(function () {
         'use strict';
 
@@ -105,7 +104,7 @@
                     paginate: {
                         previous: '&nbsp;',
                         next: '&nbsp;'
-                    }   
+                    }
                 }
             });
                 $('.patient-status-toggle').bootstrapToggle();
