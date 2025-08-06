@@ -103,7 +103,7 @@
                 }
             });
                 $('.patient-status-toggle').bootstrapToggle();
-            $('div.head-label').html('<h6 class="mb-0"></h6>');
+            $('div.head-label').html('<h6 class="mb-0">X-Rays</h6>');
         }
     });
     $(document).on('click','.course-sure', function (event) {

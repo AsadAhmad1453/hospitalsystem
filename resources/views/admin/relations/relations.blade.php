@@ -51,10 +51,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        
+
                             @csrf
                             <input type="hidden" id="selected_question_id" name="selected_question_id">
-                            
+
                             <div class="form-group">
                                 <label for="question_options">Select Options (Multiple)</label>
                                 <select class="form-control select2" id="question_options" name="question_options[]" multiple>
@@ -91,6 +91,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
@@ -110,7 +111,7 @@
 
         // Handle question row click to open modal
         $(document).on('click', '.question-row', function(e) {
-            
+
             // Don't trigger if clicking on action buttons
             if ($(e.target).closest('td:last-child').length) {
                 return;
@@ -118,7 +119,7 @@
 
             var questionId = $(this).data('question-id');
             var questionText = $(this).find('td:nth-child(2)').text();
-            
+
             // Set modal title and question ID
             $('#questionOptionsModalLabel').text('Options for: ' + questionText);
             $('#selected_question_id').val(questionId);
@@ -130,7 +131,7 @@
             var question = questionsData.find(function(q) {
                 return q.id == questionId;
             });
-            
+
             if (question && question.options && question.options.length > 0) {
                 question.options.forEach(function(option) {
                     optionsSelect.append(new Option(option.option, option.id));
