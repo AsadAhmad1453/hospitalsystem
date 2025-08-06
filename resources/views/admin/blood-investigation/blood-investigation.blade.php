@@ -102,7 +102,6 @@ $(function () {
                     }
                 }
             });
-                $('.patient-status-toggle').bootstrapToggle();
             $('div.head-label').html('<h6 class="mb-0">Blood Tests</h6>');
         }
     });
@@ -112,7 +111,7 @@ $(function () {
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove {{$test->name ?? ''}}!",
+        text: "You want to remove this blood investigation!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

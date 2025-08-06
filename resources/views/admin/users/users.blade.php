@@ -51,37 +51,63 @@
         <!-- Modal to add new record -->
         <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-user')}}" method="POST" class="add-new-record modal-content pt-0">
-                    @csrf
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                    <div class="modal-header mb-1">
-                        <h5 class="modal-title" id="exampleModalLabel">New Person</h5>
+            <form action="{{route('save-user')}}" id="userForm" method="POST" class="add-new-record modal-content pt-0">
+                @csrf
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                <div class="modal-header mb-1">
+                    <h5 class="modal-title" id="exampleModalLabel">New Person</h5>
+                </div>
+                <div class="modal-body flex-grow-1">
+
+                    {{-- Name --}}
+                    <div class="form-group">
+                        <label class="form-label" for="name">Person Name</label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="John Doe" value="{{ old('name') }}">
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="modal-body flex-grow-1">
-                        <div class="form-group">
-                            <label class="form-label" for="basic-icon-default-fullname">Person Name</label>
-                            <input type="text" name="name" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="basic-icon-default-fullname">Email</label>
-                            <input type="email" name="email" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="E-mail" aria-label="John Doe" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="basic-icon-default-fullname">Password</label>
-                            <input type="password" name="password" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="Password" aria-label="John Doe" />
-                        </div>
-                        <div class="form-group">
-                            <label for="basicSelect">Role</label>
-                            <select class="form-control" name="role_id" id="basicSelect">
-                                @foreach ($roles as $role)
-                                    <option value="{{$role->id}}">{{ ucfirst($role->name) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
-                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+
+                    {{-- Email --}}
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="E-mail" value="{{ old('email') }}">
+                        @error('email')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                </form>
+
+                    {{-- Password --}}
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Password">
+                        @error('password')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Role --}}
+                    <div class="form-group">
+                        <label for="role_id">Role</label>
+                        <select class="form-control @error('role_id') is-invalid @enderror" name="role_id" id="role_id">
+                            <option value="">Select Role</option>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}" {{ old('role_id') == $role->id ? 'selected' : '' }}>
+                                    {{ ucfirst($role->name) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('role_id')
+                            <small class="text-danger">Select Role</small>
+                        @enderror
+                    </div>
+
+                    {{-- Submit Buttons --}}
+                    <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
+                    <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+
             </div>
         </div>
     </section>
@@ -120,6 +146,11 @@
 });
 
 $(document).ready(function () {
+        $('#userForm').on('submit', function () {
+            const submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.text('Submitting...');
+        });
         $(function () {
         'use strict';
 

@@ -112,7 +112,7 @@
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove {{$xray->name ?? ''}}!",
+        text: "You want to remove X-Ray!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

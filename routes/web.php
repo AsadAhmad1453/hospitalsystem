@@ -9,7 +9,7 @@ use App\Http\Controllers\User\PatientEntryController;
 use App\Http\Controllers\User\PatientReportController;
 use App\Http\Controllers\User\PatientInvoiceController;
 use App\Http\Controllers\User\PatientPrescriptionController;
-use App\Http\Controllers\User\PatientHistoryController; 
+use App\Http\Controllers\User\PatientHistoryController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\User\WeatherController;
@@ -75,7 +75,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
         Route::post('/save-test-reports', 'savetestreports')->name('save-test-reports');
         Route::get('/view-patient/{id}', 'viewPatient')->name('view-patient');
     });
-    
+
     Route::controller(DoctorController::class)->group(function () {
         Route::get('/doctor-form', 'index')->name('doctor-form');
         Route::get('/doctor-add/{id}', 'addDoctor')->name('doctor-add');
@@ -99,5 +99,4 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
 
     Route::get('/dashboard', [UserController::class, 'index'])->name('user-dashboard');
     Route::post('/ai/ask', [AIChatController::class, 'ask']);
-
 });

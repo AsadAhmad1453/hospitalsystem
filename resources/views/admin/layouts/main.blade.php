@@ -191,18 +191,12 @@
                 </li>
                 <li class="{{Route::is('users') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('users')}}"><i data-feather="users"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Users</span></a>
                 </li>
-                <li class="{{Route::is('roles') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('roles')}}"><i data-feather="settings"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Roles</span></a>
-                </li>
                 <li class="{{Route::is('staff') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('staff')}}"><i data-feather='user-check'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Manage Permissions</span></a>
                 </li>
                 <li class="{{Route::is('patients') || Route::is('patient-info') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('patients')}}"><i data-feather='users'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Patients</span></a>
                 </li>
                 <li class="{{Route::is('services') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('services')}}"><i data-feather='phone'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Services</span></a>
                 </li>
-
-
-
-
                 <li class=" nav-item {{ request()->routeIs('roles-table*') ? 'active open' : '' }}"><a class="d-flex align-items-center" href="#"><i data-feather='award'></i><span class="menu-title text-truncate" data-i18n="Invoice">Roles</span></a>
                     <ul class="menu-content">
                         @foreach ($roles as $role)
@@ -211,9 +205,6 @@
                         @endforeach
                     </ul>
                 </li>
-
-
-
                 <li class=" nav-item {{Route::is('question-sections') || Route::is('questions') || Route::is('question-add') || Route::is('forms') || Route::is('relations')  ? 'active open' : ''}}"><a class="d-flex align-items-center" href="#"><i data-feather='clipboard'></i><span class="menu-title text-truncate" data-i18n="Invoice">Form Builder</span></a>
                     <ul class="menu-content">
                         <li class="{{Route::is('forms') ? 'active' : ''}} nav-item"><a class="d-flex align-items-center" href="{{route('forms')}}"><i data-feather='circle'></i><span class="menu-title text-truncate" data-i18n="Dashboards">Forms</span></a>

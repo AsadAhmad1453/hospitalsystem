@@ -17,18 +17,25 @@ class QuestionsController extends Controller
         return view('admin.questions.sections', get_defined_vars());
     }
 
+
+
     public function saveSection(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
-        Section::create([
-            'name' => $request->name,
-        ]);
+        try {
+            Section::create([
+                'name' => $request->name,
+            ]);
 
-        return redirect()->back()->with('success', 'Section created successfully.');
+            return redirect()->back()->with('success', 'Section created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to create section. Please try again.');
+        }
     }
+
 
     public function deleteSection($id)
     {
@@ -99,7 +106,7 @@ class QuestionsController extends Controller
         return redirect()->back()->with('success', 'Question deleted successfully.');
     }
 
-  public function delAllQuestions()
+    public function delAllQuestions()
     {
         try {
             \DB::statement('SET FOREIGN_KEY_CHECKS=0;');

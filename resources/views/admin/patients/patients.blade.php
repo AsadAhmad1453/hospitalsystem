@@ -60,7 +60,7 @@
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove Patient {{$patient->name ?? ''}}!",
+        text: "You want to remove this Patient!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
