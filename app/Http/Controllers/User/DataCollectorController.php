@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Question;
 use App\Models\Dependency;
@@ -18,7 +19,11 @@ use App\Services\AnswerSubmissionService;
 class DataCollectorController extends Controller
 {
     public function patients($id){
-        $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')->with('patient')->get();
+        $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')
+            ->whereHas('patient', function ($query) {
+                $query->where('doctor_id', Auth::user()->id);
+            })
+            ->with('patient')->get();
         $form = Form::where('id', $id)->first();
         $submittedPatients = [];
         if ($form) {

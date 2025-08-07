@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Modesls\BioMarker;
 use App\Models\Patient;
@@ -13,7 +14,11 @@ class BioMarkerController extends Controller
 {
     public function index()
     {
-        $rounds = Round::where('nursing_status', '1')->where('doctor_status', '0')->where('round_status', '1')->with('patient')->get();
+        $rounds = Round::where('nursing_status', '1')->where('doctor_status', '0')->where('round_status', '1')
+            ->whereHas('patient', function ($query) {
+                $query->where('nurse_id', Auth::user()->id);
+            })
+            ->with('patient')->get();
         return view('user.biomarker.biomarker',compact('rounds'));
     }
 
@@ -21,12 +26,6 @@ class BioMarkerController extends Controller
     {
         $patient = Patient::findOrFail($id);
         return view('user.biomarker.add-biomarkers',compact('patient'));
-    }
-
-    public function editBiomarker($id)
-    {
-        $biomarker = BioMarker::findOrFail($id);
-        return view('user.biomarker.edit', compact('biomarker'));
     }
 
     public function viewPatient($id)
@@ -41,7 +40,6 @@ class BioMarkerController extends Controller
 
     public function savetestreports(Request $request)
     {
-
         $request->validate([
             'weight' => 'required',
             'height' => 'required',
@@ -58,18 +56,18 @@ class BioMarkerController extends Controller
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        
+
             // Define destination path in the public folder
             $destinationPath = public_path('uploads/reports');
-        
+
             // Create the folder if it doesn't exist
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0777, true);
             }
-        
+
             // Move the file to the public/uploads/reports directory
             $file->move($destinationPath, $originalFilename);
-        
+
             // If you want to store the relative path (e.g., in DB)
             $filePath = 'uploads/reports/' . $originalFilename;
         }

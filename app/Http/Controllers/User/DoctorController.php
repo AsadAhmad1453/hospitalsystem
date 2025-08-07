@@ -30,7 +30,7 @@ class DoctorController extends Controller
             })
             ->with('patient')
             ->get();
-        
+
         return view('user.doctor.doctor-form', get_defined_vars());
     }
 
@@ -167,12 +167,12 @@ class DoctorController extends Controller
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
-            $dosage = Dose::all(); 
+            $dosage = Dose::all();
             $blood_tests = BloodInv::all();
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();
             $ctscans = Ctscan::all();
-            
+
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 
@@ -198,7 +198,7 @@ class DoctorController extends Controller
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
-            $dosage = Dose::all();        
+            $dosage = Dose::all();
             $blood_tests = BloodInv::all();
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();

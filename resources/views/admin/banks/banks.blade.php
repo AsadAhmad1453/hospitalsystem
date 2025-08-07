@@ -26,7 +26,7 @@
                                     <td>{{$loop->index+1}}</td>
                                     <td>
                                         @if($bank->bank_logo)
-                                            <img src="{{ asset('storage/' .$bank->bank_logo) }}" alt="Bank Logo" style="height:40px; max-width:80px;">
+                                            <img src="{{ asset($bank->bank_logo) }}" alt="Bank Logo" style="height:40px; max-width:80px;">
                                         @else
                                             <span class="text-muted">No Logo</span>
                                         @endif
