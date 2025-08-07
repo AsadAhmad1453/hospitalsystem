@@ -8,10 +8,12 @@ $(document).ready(function () {
         // Get the HTML strings
         var prescriptionHtml = getPrescriptionHtmlString();
         var investigationHtml = getInvestigationHtmlString();
+        var appointmentDate = $('#appointment_date').val();
 
         // Remove any previous hidden inputs to avoid duplicates
         $('#diagnosis-form input[name="prescription_html"]').remove();
         $('#diagnosis-form input[name="investigation_html"]').remove();
+        $('#diagnosis-form input[name="appointment_date"]').remove(); // avoid duplicates
 
         // Append as hidden inputs to the form
         $('<input>').attr({
@@ -26,7 +28,14 @@ $(document).ready(function () {
             value: investigationHtml
         }).appendTo('#diagnosis-form');
 
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'appointment_date',
+            value: appointmentDate
+        }).appendTo('#diagnosis-form');
+
         $('#diagnosis-form').submit();
+
     });
 
     // Feather icons

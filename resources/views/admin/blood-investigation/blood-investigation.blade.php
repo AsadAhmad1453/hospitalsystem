@@ -38,7 +38,7 @@
         <!-- Modal to add new record -->
         <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-blood-inv')}}" method="POST" class="add-new-record modal-content pt-0">
+                <form action="{{route('save-blood-inv')}}" id="form" method="POST" class="add-new-record modal-content pt-0">
                     @csrf
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header mb-1">
@@ -47,7 +47,12 @@
                     <div class="modal-body flex-grow-1">
                         <div class="form-group">
                             <label class="form-label" for="name">Name</label>
-                            <input type="text" name="name" class="form-control dt-full-name" id="name" placeholder="Name" aria-label="John Doe" />
+                            <input type="text" name="name" class="form-control dt-full-name @error('name') is-invalid @enderror" id="name" placeholder="Name" aria-label="John Doe" />
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
@@ -69,6 +74,14 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
+    $(document).ready(function () {
+        $('#form').on('submit', function () {
+            const submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.text('Submitting...');
+        });
+    });
+
 $(function () {
         'use strict';
 

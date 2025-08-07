@@ -283,7 +283,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-     <script src="{{ asset('admin-assets/js/scripts/pages/dashboard-analytics.js') }}"></script>
+     {{-- <script src="{{ asset('admin-assets/js/scripts/pages/dashboard-analytics.js') }}"></script> --}}
     <script src="{{ asset('admin-assets/js/scripts/pages/app-invoice-list.js') }}"></script>
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <!-- END: Page JS-->

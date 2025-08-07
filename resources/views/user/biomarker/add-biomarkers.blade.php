@@ -5,6 +5,17 @@
     .dropify-wrapper .dropify-message span.file-icon p{
         font-size: 16px;
     }
+
+    input[type=number]::-webkit-outer-spin-button,
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* For Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
 </style>
 @endsection
 @section('content')
@@ -26,7 +37,12 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <input type="text" id="weight" class="form-control" name="weight" placeholder="Weight" />
+                                            <input type="number" id="weight" class="form-control @error('weight') is-invalid @enderror" value="{{ old('weight') }}" name="weight" placeholder="Weight" />
+                                            @error('weight')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -36,7 +52,12 @@
                                             <label for="height">Height (cm / m)</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="height" class="form-control" name="height" placeholder="Height" />
+                                            <input type="number" id="height" class="form-control @error('height') is-invalid @enderror" value="{{ old('height') }}" name="height" placeholder="Height" />
+                                            @error('height')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +77,12 @@
                                             <label for="pulse">Pulse</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="pulse" class="form-control" name="pulse" placeholder="Pulse" />
+                                            <input type="number" id="pulse" class="form-control @error('pulse') is-invalid @enderror" name="pulse" value="{{ old('pulse') }}" placeholder="Pulse" />
+                                            @error('pulse')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +92,12 @@
                                             <label for="systolic_blood_pressure">Systolic Blood Pressure</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="systolic_blood_pressure" class="form-control" name="systolic_blood_pressure" placeholder="Systolic Blood Pressure" />
+                                            <input type="number" id="systolic_blood_pressure" class="form-control @error('systolic_blood_pressure') is-invalid @enderror" name="systolic_blood_pressure" value="{{ old('systolic_blood_pressure') }}" placeholder="Systolic Blood Pressure" />
+                                            @error('systolic_blood_pressure')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +107,12 @@
                                             <label for="diastlic-blood-preesure">Diastolic Blood Pressure</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="diastolic-blood-pressure" class="form-control" name="diastolic_blood_pressure" placeholder="Diastolic Blood Pressure" />
+                                            <input type="number" id="diastolic-blood-pressure" class="form-control @error('diastolic_blood_pressure') is-invalid @enderror" value="{{ old('diastolic_blood_pressure') }}" name="diastolic_blood_pressure" placeholder="Diastolic Blood Pressure" />
+                                            @error('diastolic_blood_pressure')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +122,12 @@
                                             <label for="temperature">Temperature</label>
                                         </div>
                                         <div class="col-sm-9">
-                                            <input type="text" id="temperature" class="form-control" name="temperature" placeholder="Temperature" />
+                                            <input type="number" id="temperature" class="form-control @error('temperature') is-invalid @enderror" value="{{ old('temperature') }}" name="temperature" placeholder="Temperature" />
+                                            @error('temperature')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -106,7 +147,12 @@
                                             <label for="reports">Reports</label>
                                         </div>
                                         <div class="col-9">
-                                            <input type="file" id="reports" class="form-control file-input" name="reports" placeholder="Reports File" />
+                                            <input type="file" id="reports" class="form-control file-input @error('reports') is-invalid @enderror" value="{{ old('reports') }}" name="reports" placeholder="Reports File" />
+                                            @error('reports')
+                                                <span class="invalid-feedback d-block" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>

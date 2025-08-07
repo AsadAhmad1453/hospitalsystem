@@ -39,32 +39,32 @@
                                 </tr>
 
                                      <div class="modal fade" id="exampleModalCenter-{{ $appointment->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-{{ $appointment->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Next Appointment</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form action="{{ route('update-appointment', $appointment->id) }}" method="POST">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="form-group mt-1">
-                                        <label for="appointment_date">Appointment Scheduale</label>
-                                        <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required value="{{ old('appointment_date') }}">
-                                        @error('appointment_date')
-                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
-                                        @enderror
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Next Appointment</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ route('update-appointment', $appointment->id) }}" method="POST">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="form-group mt-1">
+                                                            <label for="appointment_date">Appointment Scheduale</label>
+                                                            <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('appointment_date') }}">
+                                                            @error('appointment_date')
+                                                                <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" >Accept</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" >Accept</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                             @endforeach
                         </tbody>
                     </table>

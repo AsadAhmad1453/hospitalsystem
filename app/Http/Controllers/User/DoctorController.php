@@ -62,7 +62,13 @@ class DoctorController extends Controller
 
         ]);
 
-        
+        if($request->appointment_date != null) {
+            Appointment::Create([
+                'patient_id' => $request->patient_id,
+                'appointment_date' => $request->appointment_date,
+            ]);
+        }
+
 
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
@@ -98,19 +104,7 @@ class DoctorController extends Controller
         public function appos()
         {
             $appointments = Appointment::with('patient')->get();
-
             return view('user.patient-entry.appointment-requests', get_defined_vars());
-        }
-
-        public function reqApp(Request $request, $patient_id)
-        {
-
-            Appointment::Create([
-                'patient_id' => $patient_id,
-                'appointment_date' => $request->appointment_date,
-            ]);
-
-            return redirect()->back()->with('success', 'Appointment scheduled successfully.');
         }
 
         public function updateApp(Request $request, $id)

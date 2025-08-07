@@ -29,7 +29,7 @@ class StorePatientRequest extends FormRequest
             'sex' => 'required|string|max:20',
             'city' => 'required|string|max:50',
             'address' => 'required|string|max:255',
-            'dateofbirth' => 'required|date',
+            'dateofbirth' => 'required|date|before_or_equal:today',
             'doctor_id' => 'required|exists:users,id',
             'nurse_id' => 'required|exists:users,id',
             'dc_id' => 'required|exists:users,id',

@@ -51,11 +51,6 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/css/ai.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('admin-assets/css/examine.css') }}">
-
-    <style>
-
-    
-    </style>
 </head>
 <body class="bg-gradient">
   <div class="container-fluid p-0">
@@ -120,93 +115,85 @@
                 <div class="card reports-card collapse-icon">
                     <div class="collapse-default">
                         @if(isset($patient->medicalRecords) && count($patient->medicalRecords))
-                            @foreach($patient->medicalRecords as $index => $record)
-                                <div class="card report">
-                                    <div id="heading{{ $index }}" class="card-header " data-toggle="collapse" role="button" data-target="#accordion{{ $index }}" aria-expanded="false" aria-controls="accordion{{ $index }}">
-                                        <span class="lead collapse-title">
-                                            {{$record->original_filename ?? 'Report File'}}
-                                        </span>
-                                    </div>
-                                    <div id="accordion{{ $index }}" role="tabpanel" data-parent="#accordionWrapa1" aria-labelledby="heading{{ $index }}" class="collapse">
-                                        <div class="card-body">
-                                            @if(isset($record->report_file) && $record->report_file && \Illuminate\Support\Facades\Storage::disk('public')->exists($record->report_file))
-                                                @php
-                                                    $extension = strtolower(pathinfo($record->report_file, PATHINFO_EXTENSION));
-                                                    $isPdf = $extension === 'pdf';
-                                                    $isDoc = in_array($extension, ['doc', 'docx']);
-                                                    $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp']);
-                                                    $fileUrl = asset('storage/' . $record->report_file);
-                                                    $modalId = "fileModal{$index}";
-                                                @endphp
-
-                                                @if($isImage)
-                                                    <!-- Image Preview with Modal -->
-                                                    <div class="text-center mb-3">
-                                                        <img src="{{ asset('storage/' . $record->report_file) }}"
-                                                             alt="Medical Report"
-                                                             class="img-fluid"
-                                                             style="cursor: pointer; max-width: 200px; border: 2px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                                                             data-toggle="modal"
-                                                             data-target="#imageModal{{ $index }}"
-                                                             title="Click to view full size">
-                                                             {{-- <p class="text-muted mt-2">{{ $record->original_filename ?? 'Medical Report Image' }}</p> --}}
-                                                    </div>
-
-                                                    <!-- Image Modal -->
-                                                    <div class="modal fade" id="imageModal{{ $index }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ $index }}" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                                                                    <h5 class="modal-title text-white" id="imageModalLabel{{ $index }}">
-                                                                        {{ $record->original_filename ?? 'Medical Report' }}
-                                                                    </h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body text-center">
-                                                                    <img src="{{ asset('storage/' . $record->report_file) }}"
-                                                                         alt="Medical Report"
-                                                                         class="img-fluid"
-                                                                         style="max-height: 70vh; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <a href="{{ asset('storage/' . $record->report_file) }}"
-                                                                       target="_blank"
-                                                                       class="btn btn-primary new">
-                                                                            Open in New Tab
-                                                                    </a>
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                </div>
+                        @foreach($patient->medicalRecords as $index => $record)
+                            <div class="card report">
+                                <div id="heading{{ $index }}" class="card-header" data-toggle="collapse" role="button"
+                                    data-target="#accordion{{ $index }}" aria-expanded="false" aria-controls="accordion{{ $index }}">
+                                    <span class="lead collapse-title">
+                                        {{ $record->original_filename ?? 'Report File' }}
+                                    </span>
+                                </div>
+                        
+                                <div id="accordion{{ $index }}" role="tabpanel" data-parent="#accordionWrapa1"
+                                    aria-labelledby="heading{{ $index }}" class="collapse">
+                                    <div class="card-body">
+                                        @if($record->report_file)
+                                            @if($record->isImage())
+                                                <!-- Image Preview with Modal -->
+                                                <div class="text-center mb-3">
+                                                    <img src="{{ $record->fileUrl() }}"
+                                                        alt="Medical Report"
+                                                        class="img-fluid"
+                                                        style="cursor: pointer; max-width: 200px; border: 2px solid #e0e0e0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                                                        data-toggle="modal"
+                                                        data-target="#{{ $record->modalId($index) }}"
+                                                        title="Click to view full size">
+                                                    <p class="text-muted mt-2 text-break">{{ $record->original_filename ?? 'Medical Report Image' }}</p>
+                                                </div>
+                        
+                                                <!-- Image Modal -->
+                                                <div class="modal fade" id="{{ $record->modalId($index) }}" tabindex="-1" role="dialog"
+                                                    aria-labelledby="imageModalLabel{{ $index }}" aria-hidden="true">
+                                                    <div class="modal-dialog  modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                                                <h5 class="modal-title text-white" id="imageModalLabel{{ $index }}">
+                                                                    {{ $record->original_filename ?? 'Medical Report' }}
+                                                                </h5>
+                                                            </div>
+                                                            <div class="modal-body text-center">
+                                                                <img src="{{ $record->fileUrl() }}"
+                                                                    alt="Medical Report"
+                                                                    class="img-fluid"
+                                                                    style="max-height: 70vh; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <a href="{{ $record->fileUrl() }}"
+                                                                    target="_blank"
+                                                                    class="btn btn-primary">Open in New Tab</a>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                @elseif($isPdf)
-                                                    <!-- PDF Link -->
-                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-danger d-flex align-items-center mb-2">
-                                                        <i class="fas fa-file-pdf fa-2x mr-2"></i>
-                                                        <span>{{ $record->original_filename ?? 'View PDF Report' }}</span>
-                                                    </a>
-                                                @elseif($isDoc)
-                                                    <!-- Word Document Link -->
-                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-primary d-flex align-items-center mb-2">
-                                                        <i class="fas fa-file-word fa-2x mr-2"></i>
-                                                        <span>{{ $record->original_filename ?? 'View Word Document' }}</span>
-                                                    </a>
-                                                @else
-                                                    <!-- Other File Types -->
-                                                    <a href="{{ $fileUrl }}" target="_blank" class="btn btn-outline-secondary d-flex align-items-center mb-2">
-                                                        <i class="fas fa-file fa-2x mr-2"></i>
-                                                        <span>{{ $record->original_filename ?? 'View Report File' }}</span>
-                                                    </a>
-                                                @endif
+                                                </div>
+                        
+                                            @elseif($record->isPdf())
+                                                <a href="{{ $record->fileUrl() }}" target="_blank" class="btn btn-outline-danger d-flex align-items-center mb-2">
+                                                    <i class="fas fa-file-pdf fa-2x mr-2"></i>
+                                                    <span>{{ $record->original_filename ?? 'View PDF Report' }}</span>
+                                                </a>
+                        
+                                            @elseif($record->isDoc())
+                                                <a href="{{ $record->fileUrl() }}" target="_blank" class="btn btn-outline-primary d-flex align-items-center mb-2">
+                                                    <i class="fas fa-file-word fa-2x mr-2"></i>
+                                                    <span>{{ $record->original_filename ?? 'View Word Document' }}</span>
+                                                </a>
+                        
                                             @else
-                                                <p class="text-muted">No report file available.</p>
+                                                <a href="{{ $record->fileUrl() }}" target="_blank" class="btn btn-outline-secondary d-flex align-items-center mb-2">
+                                                    <i class="fas fa-file fa-2x mr-2"></i>
+                                                    <span>{{ $record->original_filename ?? 'View Report File' }}</span>
+                                                </a>
                                             @endif
-                                        </div>
+                                        @else
+                                            <p class="text-muted">No report file available.</p>
+                                        @endif
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
+                        @endforeach
+                    
                         @else
                             <div class="card">
                                 <div class="card-header">
@@ -257,32 +244,32 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="complaint">Present Complaint</label>
-                                            <textarea class="form-control" id="complaint" rows="3" name="complaint" placeholder="Present Complaint"></textarea>
+                                            <textarea class="form-control" id="complaint" rows="3" value="{{ old('complaint') }}" name="complaint" placeholder="Present Complaint"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="symptoms">Sign & Symptoms</label>
-                                            <textarea class="form-control" id="symptoms" rows="3" name="symptoms" placeholder="Symptoms"></textarea>
+                                            <textarea class="form-control" id="symptoms" rows="3" value="{{ old('symptoms') }}" name="symptoms" placeholder="Symptoms"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="blood_pressure">Blood Pressure</label>
-                                            <input type="number" class="form-control"  name="blood_pressure" placeholder="Blood Pressure">
+                                            <input type="number" class="form-control" value="{{ old('blood_pressure') }}" name="blood_pressure" placeholder="Blood Pressure">
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="provisional-diagnosis">Provisional Diagnosis</label>
                                             <input type="hidden" name="patient_id" value="{{ $patient->id }}">
-                                            <textarea class="form-control" id="provisional-diagnosis" rows="3" name="provisional_diagnosis" placeholder="Provisional Diagnosis"></textarea>
+                                            <textarea class="form-control" id="provisional-diagnosis" rows="3" value="{{ old('provisional_diagnosis') }}" name="provisional_diagnosis" placeholder="Provisional Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="final-diagnosis">Final Diagnosis</label>
-                                            <textarea class="form-control" id="final-diagnosis" rows="3" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
+                                            <textarea class="form-control" id="final-diagnosis" rows="3" value="{{ old('final_diagnosis') }}" name="final_diagnosis" placeholder="Final Diagnosis"></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-2  form-group">
@@ -436,7 +423,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="special_notes">Special Notes</label>
-                                            <textarea class="form-control" id="special_notes" rows="3" name="special_notes" placeholder="Special Notes"></textarea>
+                                            <textarea class="form-control" id="special_notes" rows="3" value="{{ old('special_notes') }}" name="special_notes" placeholder="Special Notes"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -507,6 +494,7 @@
               </div>
             </div>
 
+            <!-- Prescription Tab -->
             <div class="tab-pane fade" id="prescription-content"  role="tabpanel">
                 <div id="printSection">
                     <div class="row invoice-preview" >
@@ -648,6 +636,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Appointment Tab -->
             <div class="tab-pane fade" id="appointment-content" role="tabpanel">
                 <div class="col-12 invoice-actions mt-md-0 mt-2">
                     <div class="card">
@@ -663,25 +652,24 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-white" id="exampleModalCenterTitle">Next Appointment</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                                
                             </div>
-                            <form action="{{ route('request-appointment', $patient->id) }}" method="POST">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="form-group mt-1">
-                                        <label for="appointment_date">Appointment Scheduale</label>
-                                        <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required value="{{ old('appointment_date') }}">
-                                        @error('appointment_date')
-                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
-                                        @enderror
-                                    </div>
+                            <div class="modal-body">
+                                <div class="form-group mt-1">
+                                    <label for="appointment_date">Appointment Scheduale</label>
+                                    <div class="alert alert-info mt-2" role="alert">
+                                        <i data-feather="info"></i>
+                                        Your appointment request will be forwarded to the receptionist for confirmation once you proceed to the next patient.
+                                    </div> 
+                                    <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required value="{{ old('appointment_date') }}">
+                                    @error('appointment_date')
+                                        <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" >Accept</button>
-                                </div>
-                            </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" data-dismiss="modal" class="btn btn-primary" >Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>

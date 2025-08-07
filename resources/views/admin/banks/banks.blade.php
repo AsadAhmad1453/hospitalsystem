@@ -7,7 +7,6 @@
 <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')}}">
 @endsection
 @section('content')
-
     <section id="basic-datatable">
         <div class="row">
             <div class="col-12">
@@ -46,7 +45,7 @@
         <!-- Modal to add new record -->
         <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-bank')}}" method="POST" enctype="multipart/form-data" class="add-new-record modal-content pt-0">
+                <form action="{{route('save-bank')}}" id="form" method="POST" enctype="multipart/form-data" class="add-new-record modal-content pt-0">
                     @csrf
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header mb-1">
@@ -55,11 +54,21 @@
                     <div class="modal-body flex-grow-1">
                         <div class="form-group">
                             <label class="form-label" for="service_name">Bank Name</label>
-                            <input type="text" name="bank_name" class="form-control dt-full-name" id="bank_name" placeholder="Bank" aria-label="John Doe" />
+                            <input type="text" name="bank_name" class="form-control dt-full-name @error('bank_name') is-invalid @enderror" id="bank_name" placeholder="Bank" aria-label="John Doe" />
+                            @error('bank_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="bank_logo">Bank Logo</label>
-                            <input type="file" name="bank_logo" class="form-control dt-full-name" id="bank_logo" placeholder="Bank Logo" aria-label="John Doe" />
+                            <input type="file" name="bank_logo" class="form-control dt-full-name @error('bank_logo') is-invalid @enderror" id="bank_logo" accept="image/*" placeholder="Bank Logo" aria-label="John Doe" />
+                            @error('bank_logo')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
@@ -81,7 +90,13 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-
+    $(document).ready(function () {
+        $('#form').on('submit', function () {
+            const submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.text('Submitting...');
+        });
+    });
     $(function () {
         'use strict';
 

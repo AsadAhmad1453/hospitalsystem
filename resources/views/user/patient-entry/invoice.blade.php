@@ -83,23 +83,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="pr-1">Total Due:</td>
-                                                        <td><span class="font-weight-bold">{{ $totalAmount }}$</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">Bank name:</td>
-                                                        <td>American Bank</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">Country:</td>
-                                                        <td>United States</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">IBAN:</td>
-                                                        <td>ETD95476213874685</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">SWIFT code:</td>
-                                                        <td>BR91905</td>
+                                                        <td><span class="font-weight-bold">Rs. {{ $totalAmount }}</span></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -125,7 +109,7 @@
 
                                                 </td>
                                                 <td class="py-1">
-                                                    <span class="font-weight-bold">{{ $invoice->service->amount }}</span>
+                                                    <span class="font-weight-bold">Rs. {{ $invoice->service->amount }}</span>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -144,7 +128,7 @@
                                             <div class="invoice-total-wrapper">
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Subtotal:</p>
-                                                    <p class="invoice-total-amount">{{ $totalAmount }}$</p>
+                                                    <p class="invoice-total-amount">Rs. {{ $totalAmount }}</p>
                                                 </div>
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Tax:</p>
@@ -153,7 +137,7 @@
                                                 <hr class="my-50" />
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Total:</p>
-                                                    <p class="invoice-total-amount">{{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}$</p>
+                                                    <p class="invoice-total-amount">Rs. {{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}</p>
                                                 </div>
                                             </div>
                                         </div>

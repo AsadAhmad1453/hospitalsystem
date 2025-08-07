@@ -45,14 +45,33 @@ class BioMarkerController extends Controller
         $request->validate([
             'weight' => 'required',
             'height' => 'required',
+            'pulse' => 'required',
+            'systolic_blood_pressure' => 'required',
+            'diastolic_blood_pressure' => 'required',
+            'temperature' => 'required',
+            'weather' => 'required',
+            'reports' => 'required|file|max:2048',
         ]);
 
         $filePath = null;
         $originalFilename = null;
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
-            $originalFilename = $file->getClientOriginalName(); // Get original filename
-            $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        
+            // Define destination path in the public folder
+            $destinationPath = public_path('uploads/reports');
+        
+            // Create the folder if it doesn't exist
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+        
+            // Move the file to the public/uploads/reports directory
+            $file->move($destinationPath, $originalFilename);
+        
+            // If you want to store the relative path (e.g., in DB)
+            $filePath = 'uploads/reports/' . $originalFilename;
         }
         MedicalRecord::create([
             'patient_id' => $request->patient_id,

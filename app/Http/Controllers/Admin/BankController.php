@@ -21,7 +21,7 @@ class BankController extends Controller
         // Validate the request
         $request->validate([
             'bank_name' => 'required|string|max:255',
-            'bank_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB max
+            'bank_logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB max
         ]);
 
         try {
