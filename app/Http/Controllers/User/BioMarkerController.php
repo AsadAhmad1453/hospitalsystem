@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Modesls\BioMarker;
 use App\Models\Patient;
@@ -13,7 +14,11 @@ class BioMarkerController extends Controller
 {
     public function index()
     {
-        $rounds = Round::where('nursing_status', '1')->where('doctor_status', '0')->where('round_status', '1')->with('patient')->get();
+        $rounds = Round::where('nursing_status', '1')->where('doctor_status', '0')->where('round_status', '1')
+            ->whereHas('patient', function ($query) {
+                $query->where('nurse_id', Auth::user()->id);
+            })
+            ->with('patient')->get();
         return view('user.biomarker.biomarker',compact('rounds'));
     }
 
@@ -21,12 +26,6 @@ class BioMarkerController extends Controller
     {
         $patient = Patient::findOrFail($id);
         return view('user.biomarker.add-biomarkers',compact('patient'));
-    }
-
-    public function editBiomarker($id)
-    {
-        $biomarker = BioMarker::findOrFail($id);
-        return view('user.biomarker.edit', compact('biomarker'));
     }
 
     public function viewPatient($id)
@@ -41,18 +40,36 @@ class BioMarkerController extends Controller
 
     public function savetestreports(Request $request)
     {
-
         $request->validate([
             'weight' => 'required',
             'height' => 'required',
+            'pulse' => 'required',
+            'systolic_blood_pressure' => 'required',
+            'diastolic_blood_pressure' => 'required',
+            'temperature' => 'required',
+            'weather' => 'required',
+            'reports' => 'required|file|max:2048',
         ]);
 
         $filePath = null;
         $originalFilename = null;
         if ($request->hasFile('reports')) {
             $file = $request->file('reports');
-            $originalFilename = $file->getClientOriginalName(); // Get original filename
-            $filePath = $file->store('uploads/reports', 'public'); // returns path like uploads/reports/filename.ext
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            // Define destination path in the public folder
+            $destinationPath = public_path('uploads/reports');
+
+            // Create the folder if it doesn't exist
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0777, true);
+            }
+
+            // Move the file to the public/uploads/reports directory
+            $file->move($destinationPath, $originalFilename);
+
+            // If you want to store the relative path (e.g., in DB)
+            $filePath = 'uploads/reports/' . $originalFilename;
         }
         MedicalRecord::create([
             'patient_id' => $request->patient_id,

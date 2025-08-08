@@ -1,4 +1,18 @@
 @extends('user.layouts.main')
+@section('custom-css')
+    <style>
+            input[type=number]::-webkit-outer-spin-button,
+            input[type=number]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            /* For Firefox */
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+    </style>
+@endsection
 @section('content')
    <section id="multiple-column-form">
         <div class="row">
@@ -23,7 +37,7 @@
                                  <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="patient-age">Patient Age</label>
-                                        <input type="text" id="patient-age" class="form-control " placeholder="patient age" name="age" value="{{ old('age') }}" />
+                                        <input type="number" id="patient-age" class="form-control " placeholder="patient age" name="age" value="{{ old('age') }}" />
                                         @error('name')
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                         @enderror
@@ -66,7 +80,7 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="patient-phone">Phone</label>
-                                        <input type="text" id="patient-phone" class="form-control" name="phone" placeholder="contact no " value="{{ old('phone') }}" />
+                                        <input type="number" id="patient-phone" class="form-control" name="phone" placeholder="contact no " value="{{ old('phone') }}" />
                                         @error('phone')
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                         @enderror
@@ -84,9 +98,18 @@
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
                                         <label for="email-id-column">Date of birth</label>
-                                        <input type="date" id="email-id-column" class="form-control" name="dateofbirth" placeholder="Email" value="{{ old('dateofbirth') }}" />
+                                        <input
+                                        type="date"
+                                        id="email-id-column"
+                                        class="form-control @error('dateofbirth') is-invalid @enderror"
+                                        name="dateofbirth"
+                                        placeholder="Date of Birth"
+                                        value="{{ old('dateofbirth') }}"
+                                        max="{{ date('Y-m-d') }}" />     
                                         @error('dateofbirth')
-                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>

@@ -48,9 +48,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 
@@ -94,7 +94,7 @@
         if (dt_basic_table.length) {
             var dt_basic = dt_basic_table.DataTable({
                 // No ajax, use Blade-rendered data
-                order: [[0, 'asc']],
+                ordering: false,
                 dom:
                     '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
                     '<"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
@@ -143,7 +143,7 @@
                 }
             });
                 $('.patient-status-toggle').bootstrapToggle();
-            $('div.head-label').html('<h6 class="mb-0">Questions Table</h6>');
+            $('div.head-label').html('<h6 class="mb-0">Questions</h6>');
         }
 
     });

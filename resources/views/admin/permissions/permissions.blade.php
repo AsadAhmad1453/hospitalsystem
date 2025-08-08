@@ -32,7 +32,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
                         <label class="form-label" for="basic-icon-default-fullname">Permission Name</label>
                         <input type="text" name="name" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
                     <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
                 </div>
@@ -60,11 +60,14 @@
 </section>
 @endsection
 @section('custom-js')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
+
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-<script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
@@ -88,6 +91,6 @@
         }
     });
 });
-   
+
 </script>
 @endsection

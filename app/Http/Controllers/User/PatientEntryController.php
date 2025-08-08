@@ -17,22 +17,15 @@ class PatientEntryController extends Controller
 {
     public function index()
     {
-        $patients = Patient::where(function($query) {
-                $query->where('payment_status', '0')
-                     ->orWhereHas('round', function($q) {
-                            $q->where('round_status', '1');
-                        });
-            })
-            ->with('round')
-            ->get();
+        $patients = Patient::where('patient_status', '1')->get();
         return view('user.patient-entry.patient-entry', compact('patients'));
     }
-    
+
     public function addPatient()
     {
-        $doctors = User::role('Doctor')->get();
-        $nurses = User::role('Nurse')->get();
-        $dcs = User::role('Data Collector')->get();
+        $doctors = User::role('doctor')->get();
+        $nurses = User::role('nurse')->get();
+        $dcs = User::role('data collector')->get();
         $services = Service::all();
         return view('user.patient-entry.add-patient', get_defined_vars());
     }
@@ -47,21 +40,14 @@ class PatientEntryController extends Controller
 
     public function savepatient(StorePatientRequest $request)
     {
-        $patientexists = Patient::where('unique_number', $request->unique_number)->first();
         $validatedData = collect($request->validated())->except('services')->toArray();
-        if(!$patientexists){
-            $patient = Patient::create($validatedData);
-        }else {
-            return back()->with('error', 'Patient already exists in record');
-        }
-
+        $patient = Patient::create($validatedData);
         foreach ($request->services as $service) {
             Invoice::create([
                 'patient_id' => $patient->id,
                 'service_id' => $service,
             ]);
         }
-
         return redirect()->route('patient-invoice', $patient->id)->with('success', 'Patient added successfully.');
     }
 
@@ -91,9 +77,6 @@ class PatientEntryController extends Controller
         $totalAmount = $invoices->sum(function($invoice) {
             return ($invoice->service ) ? (float)$invoice->service->amount : 0;
         });
-
-
-
         return view('user.patient-entry.invoice', get_defined_vars());
     }
 
@@ -108,56 +91,35 @@ class PatientEntryController extends Controller
         $round = Round::create([
             'patient_id' => $patient->id,
             'round_status' => '1',
-            'visit_number' => 1,
             'nursing_status' => '0',
             'doctor_status' => '0',
             'token' => $token,
             'cost' => $request->cost
         ]);
-
         Invoice::where('patient_id', $id)->delete();
         return redirect()->route('patient-entry')->with(['success' => 'Payment Made Successfully']);
     }
 
     public function roundStatus($id)
     {
-        $round = Round::where('patient_id', $id)->firstOrFail();
-        $round->round_status = '0';
-        $round->save();
-
+        $round = Round::where('patient_id', $id)->first();
+        if($round){
+            $round->round_status = '0';
+            $round->save();
+        }
         $patient = Patient::findOrFail($id);
         $patient->patient_status = '0';
         $patient->save();
         return redirect()->route('patient-entry')->with('success', 'Round status updated successfully.');
     }
 
-    public function patientStatusToggle(Request $request)
-    {
-        $patient = Patient::findOrFail($request->id);
-        $patient->patient_status = $request->status;
-        $patient->save();
-        if($patient->patient_status == '1') {
-            Round::create([
-                'patient_id' => $patient->id,
-                'visit_number' => 1,
-            ]);
-        } else {
-           $round = Round::where('patient_id', $patient->id)->first();
-            if ($round) {
-                $round->delete();
-            }
-        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Patient status updated successfully.',
-            'patient_status' => $patient->patient_status
-        ]);
-    }
     public function editPatient($id)
     {
         $patient = Patient::findOrFail($id);
-        $users = User::role('Doctor')->get();
+        $doctors = User::role('Doctor')->get();
+        $nurses = User::role('Nurse')->get();
+        $dcs = User::role('Data Collector')->get();
         $services = Service::all();
         return view('user.patient-entry.update-patient', get_defined_vars());
     }
@@ -179,5 +141,11 @@ class PatientEntryController extends Controller
         Patient::where('patient_status', '1')->update(['patient_status' => '0']);
         Round::truncate();
         return redirect()->route('user-dashboard')->with('success', 'All rounds deleted successfully.');
+    }
+
+    public function pastpatients()
+    {
+        $patients = Patient::where('patient_status', '0')->get();
+        return view('user.patient-entry.past-patients', get_defined_vars());
     }
 }

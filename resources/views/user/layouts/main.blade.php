@@ -55,7 +55,7 @@
                         <div class="user-nav d-sm-flex d-none"><span class="user-name font-weight-bolder">{{Auth::user()->name}}</span><span class="user-status">
                             @foreach ($roles as $role)
                                 @if($role->id == Auth::user()->role_id)
-                                    <span>{{ $role->name }}</span>
+                                    <span>{{ ucfirst($role->name) }}</span>
                                 @endif
                             @endforeach
                         </span></div><span class="avatar"><img class="round" src="{{asset('admin-assets/images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 @endcan
-                @can('Appointment Schedule')
+                @can('appointment schedule')
                 <li class="{{ Route::is('appointments') ? 'active' : '' }} nav-item">
                     <a class="d-flex align-items-center sidelink" href="{{ route('appointments') }}">
                         <i data-feather="calendar"></i>
@@ -113,7 +113,7 @@
                     </a>
                 </li>
                 @endcan
-                @can('Past Patients')
+                @can('past patients')
                 <li class="{{ Route::is('past-patients') ? 'active' : '' }} nav-item">
                     <a class="d-flex align-items-center sidelink" href="{{ route('past-patients') }}">
                         <i data-feather="users"></i>
@@ -121,7 +121,7 @@
                     </a>
                 </li>
                 @endcan
-                @can('Data Collector')
+                @can('fill form')
                 @foreach ($forms as $form)
                     @php
                         // Try to get the form id from route parameters or query string

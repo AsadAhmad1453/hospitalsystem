@@ -30,7 +30,7 @@ class DoctorController extends Controller
             })
             ->with('patient')
             ->get();
-        
+
         return view('user.doctor.doctor-form', get_defined_vars());
     }
 
@@ -62,7 +62,13 @@ class DoctorController extends Controller
 
         ]);
 
-        
+        if($request->appointment_date != null) {
+            Appointment::Create([
+                'patient_id' => $request->patient_id,
+                'appointment_date' => $request->appointment_date,
+            ]);
+        }
+
 
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
@@ -98,19 +104,7 @@ class DoctorController extends Controller
         public function appos()
         {
             $appointments = Appointment::with('patient')->get();
-
             return view('user.patient-entry.appointment-requests', get_defined_vars());
-        }
-
-        public function reqApp(Request $request, $patient_id)
-        {
-
-            Appointment::Create([
-                'patient_id' => $patient_id,
-                'appointment_date' => $request->appointment_date,
-            ]);
-
-            return redirect()->back()->with('success', 'Appointment scheduled successfully.');
         }
 
         public function updateApp(Request $request, $id)
@@ -173,12 +167,12 @@ class DoctorController extends Controller
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
-            $dosage = Dose::all(); 
+            $dosage = Dose::all();
             $blood_tests = BloodInv::all();
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();
             $ctscans = Ctscan::all();
-            
+
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 
@@ -204,7 +198,7 @@ class DoctorController extends Controller
             $patient = $round->patient;
             $medicalRecord = $patient?->medicalRecords->first();
             $medicines = Medicine::all();
-            $dosage = Dose::all();        
+            $dosage = Dose::all();
             $blood_tests = BloodInv::all();
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();

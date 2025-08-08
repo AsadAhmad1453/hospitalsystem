@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Role;
+use Illuminate\Support\Facades\Auth;        
+use App\Models\Round;
+use App\Models\Patient;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -85,8 +89,8 @@ class User extends Authenticatable
     public function latestActiveRoundAsDC()
     {
         return $this->hasOneThrough(
-            \App\Models\Round::class,
-            \App\Models\Patient::class,
+            Round::class,
+            Patient::class,
             'dc_id',       // Foreign key on Patient (points to users table as nurse)
             'patient_id',     // Foreign key on Round (points to patients table)
             'id',             // Local key on User

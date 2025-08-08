@@ -39,32 +39,32 @@
                                 </tr>
 
                                      <div class="modal fade" id="exampleModalCenter-{{ $appointment->id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle-{{ $appointment->id }}" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalCenterTitle">Next Appointment</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form action="{{ route('update-appointment', $appointment->id) }}" method="POST">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="form-group mt-1">
-                                        <label for="appointment_date">Appointment Scheduale</label>
-                                        <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required value="{{ old('appointment_date') }}">
-                                        @error('appointment_date')
-                                            <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
-                                        @enderror
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalCenterTitle">Next Appointment</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ route('update-appointment', $appointment->id) }}" method="POST">
+                                                    @csrf
+                                                    <div class="modal-body">
+                                                        <div class="form-group mt-1">
+                                                            <label for="appointment_date">Appointment Scheduale</label>
+                                                            <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('appointment_date') }}">
+                                                            @error('appointment_date')
+                                                                <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" >Accept</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary" >Accept</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -89,40 +89,7 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-    $(document).on('change', '#activetoggle', function () {
-        var patientId = $(this).data('id');
-        var status = $(this).prop('checked') ? '1' : '0';
-        $.ajax({
-            url: "{{ route('patient-status-toggle') }}",
-            method: 'GET',
-            data: {
-                id: patientId,
-                status: status
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Optionally show a success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status Updated',
-                        text: 'Patient status has been updated successfully.',
-                        confirmButtonClass: 'btn btn-success',
-                    });
-                } else {
-                    // Optionally show an error message
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message,
-                        confirmButtonClass: 'btn btn-danger',
-                    });
-                }
-            },
-            error: function(xhr) {
-                // Optionally handle error
-            }
-        });
-    });
+  
     $(function () {
     'use strict';
 
@@ -168,7 +135,6 @@
                 }
             }
         });
-            $('.patient-status-toggle').bootstrapToggle();
         $('div.head-label').html('<h4 class="mb-0 pl-1">Appointments</h6>');
     }
 
@@ -180,7 +146,7 @@
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove this Testimonial!",
+        text: "You want to remove this !",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

@@ -36,17 +36,7 @@
                                     </div>
                                     <div class="text-center">
                                         <h1 class="mb-1 text-white">Welcome {{Auth::user()->name }}!</h1>
-                                        <p class="card-text m-auto w-75">
-                                            @foreach ($roles as $role)
-
-                                            @if(Auth::user()->role_id == $role->id && $role->name == 'Doctor')
-
-                                            You have  <strong>{{ $queue }}</strong> new patients in queue right now!.
-                                            @elseif(Auth::user()->role_id == $role->id && $role->name == 'Nurse')
-                                            You have  <strong>{{ $nurseRounds->count() }}</strong> new patients in queue right now!.
-                                            @endif
-                                            @endforeach
-                                        </p>
+                                      
                                         <h4 style="color: white">
                                              Hope you're having a great day at work!
                                         </h4>
@@ -65,13 +55,13 @@
                                         <div class="col-12 d-flex justify-content-between">
                                             <div class="col-4">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    #{{ $activeToken?->token ?? 'No Token' }}
+                                                   {{ $activeToken?->token ?? ' No Token' }}
                                                 </h2>
-                                                <p class="card-text font-weight-bold mb-2">Active Rounds</p>
+                                                <p class="card-text font-weight-bold mb-2">Current Token </p>
                                             </div>
                                             <div class="col-4">
                                                 <h2 class="font-weight-bolder mb-25">
-                                                    {{ $totalToken ? ($totalToken->token ? "#{$totalToken->token}" : 'No Patient') : 'No Patient' }}
+                                                    {{ $totalToken ? ($totalToken->token ? "{$totalToken->token}" : 'No Patient') : 'No Patient' }}
                                                 </h2>
                                                 <p class="card-text font-weight-bold mb-2">Total Token</p>
                                             </div>

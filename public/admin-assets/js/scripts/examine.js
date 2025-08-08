@@ -8,10 +8,12 @@ $(document).ready(function () {
         // Get the HTML strings
         var prescriptionHtml = getPrescriptionHtmlString();
         var investigationHtml = getInvestigationHtmlString();
+        var appointmentDate = $('#appointment_date').val();
 
         // Remove any previous hidden inputs to avoid duplicates
         $('#diagnosis-form input[name="prescription_html"]').remove();
         $('#diagnosis-form input[name="investigation_html"]').remove();
+        $('#diagnosis-form input[name="appointment_date"]').remove(); // avoid duplicates
 
         // Append as hidden inputs to the form
         $('<input>').attr({
@@ -26,7 +28,14 @@ $(document).ready(function () {
             value: investigationHtml
         }).appendTo('#diagnosis-form');
 
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'appointment_date',
+            value: appointmentDate
+        }).appendTo('#diagnosis-form');
+
         $('#diagnosis-form').submit();
+
     });
 
     // Feather icons
@@ -38,45 +47,66 @@ $(document).ready(function () {
     $('.file-input').dropify();
 
     // Submit diagnosis form
-   
+    $('.message-input').keydown(function(event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // prevent newline in input
+            $('.send-button').click(); // trigger the send button
+        }
+    });
 
-    $('.send-button').click(function() {
-        const prompt = $('.message-input').val();
+    $('.send-button').click(function () {
+        const prompt = $('.message-input').val().trim();
         if (!prompt) return;
-
-        // Append user message to chat (your existing code)
-
+    
+        // Append user's message
+        $('.chat-container').append(`
+            <div class="message user-message">${prompt}</div>
+        `);
+    
+        $('.message-input').val('');
+        $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+    
+        // Append typing indicator as a message placeholder
+        const typingId = 'typing-' + Date.now(); // Unique ID for this placeholder
+        $('.chat-container').append(`
+            <div class="message ai-message typing-placeholder" id="${typingId}">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        `);
+    
+        $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+    
+        // Fetch the AI response
         fetch('/user/ai/ask', {
             method: 'POST',
             headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({ prompt })
         })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Server response:', data);
-
-            // ✅ Now safely use data.reply
-            $('.chat-container').append(`
-            <div class="message ai-message">${data.reply}</div>
-            `);
-
-            $('.message-input').val('');
-        })
-        .catch(err => {
-            console.error('Fetch error:', err);
-            $('.chat-container').append(`
-            <div class="message error-message">AI: Request failed.</div>
-            `);
-        });
+            .then(res => res.json())
+            .then(data => {
+                // Replace typing indicator with actual response
+                $('#' + typingId).replaceWith(`
+                    <div class="message ai-message">${data.reply}</div>
+                `);
+                $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+            })
+            .catch(err => {
+                console.error('Fetch error:', err);
+                $('#' + typingId).replaceWith(`
+                    <div class="message error-message">AI: Request failed.</div>
+                `);
+            });
     });
-
-
-
-
+    
+    
     // ✅ Print only prescription tab
     $('#printButton').on('click', function () {
         var printContents = $('#printSection').html();

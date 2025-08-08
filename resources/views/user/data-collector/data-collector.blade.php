@@ -85,7 +85,8 @@
                                                 <input type="date"
                                                     class="w-50 form-control"
                                                     name="{{ $question->id }}"
-                                                    data-question-id="{{ $question->id }}">
+                                                    data-question-id="{{ $question->id }}"
+                                                    max="{{ date('Y-m-d') }}" >
                                             </div>
                                             @endif
 

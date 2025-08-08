@@ -29,7 +29,7 @@
                                         <td>{{$loop->index+1}}</td>
                                         <td>{{$patient->name}}</td>
                                         <td>Patient</td>
-                                        <td>                                        
+                                        <td>
                                             <a href="{{route('del-patient', $patient->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                             <a href="{{route('patient-info', $patient->id)}}" data-jobs="sdadas" class=""><i data-feather="info"></i></a>
                                         </td>
@@ -44,17 +44,15 @@
     </section>
 @endsection
 @section('custom-js')
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-{{-- <script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script> --}}
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
@@ -62,7 +60,7 @@
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove this Testimonial!",
+        text: "You want to remove this Patient!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -130,10 +128,10 @@ $(document).ready(function() {
             });
                 $('.patient-status-toggle').bootstrapToggle();
             $('div.head-label').html('<h6 class="mb-0">All Patients</h6>');
-        }   
+        }
     });
     // feather.replace();
 });
-   
+
 </script>
 @endsection

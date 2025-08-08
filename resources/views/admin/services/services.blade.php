@@ -17,7 +17,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Service</th>
-                                <th></th>
                                 <th>Price</th>
                                 <th>Actions</th>
                             </tr>
@@ -41,22 +40,46 @@
         <!-- Modal to add new record -->
         <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-service')}}" method="POST" class="add-new-record modal-content pt-0">
+                <form action="{{route('save-service')}}" id="servicesForm" method="POST" class="add-new-record modal-content pt-0">
                     @csrf
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header mb-1">
                         <h5 class="modal-title" id="exampleModalLabel">New Service</h5>
                     </div>
                     <div class="modal-body flex-grow-1">
-                        <div class="form-group">
-                            <label class="form-label" for="service_name">Service Name</label>
-                            <input type="text" name="service_name" class="form-control dt-full-name" id="service_name" placeholder="Service" aria-label="John Doe" />
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label" for="amount">Price</label>
-                            <input type="text" name="amount" class="form-control dt-full-name" id="amount" placeholder="Price" aria-label="John Doe" />
-                        </div>
-                                        
+                            {{-- Service Name --}}
+                    <div class="form-group">
+                        <label class="form-label" for="service_name">Service Name</label>
+                        <input
+                            type="text"
+                            name="service_name"
+                            id="service_name"
+                            class="form-control dt-full-name @error('service_name') is-invalid @enderror"
+                            placeholder="Service"
+                            value="{{ old('service_name') }}"
+                        />
+                        @error('service_name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    {{-- Amount --}}
+                    <div class="form-group">
+                        <label class="form-label" for="amount">Price</label>
+                        <input
+                            type="text"
+                            name="amount"
+                            id="amount"
+                            class="form-control dt-full-name @error('amount') is-invalid @enderror"
+                            placeholder="Price"
+                            value="{{ old('amount') }}"
+                        />
+                        @error('amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
                         <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
                     </div>
@@ -66,21 +89,67 @@
     </section>
 @endsection
 @section('custom-js')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
+<script src="{{ asset('admin-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js') }}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-<script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
+    $(document).ready(function () {
+        $('#servicesForm').on('submit', function () {
+            const submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.text('Submitting...');
+        });
+    });
+
+    $(function () {
+        'use strict';
+
+        var dt_basic_table = $('.datatables-basic');
+
+        if (dt_basic_table.length) {
+            var dt_basic = dt_basic_table.DataTable({
+                // No ajax, use Blade-rendered data
+                order: [[0, 'asc']],
+                dom:
+                    '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
+                    '<"d-flex justify-content-between align-items-center mx-1 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    't' +
+                    '<"d-flex justify-content-between mx-1 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 10,
+                lengthMenu: [7, 10, 25, 50, 75, 100],
+                buttons: [
+                    {
+                        text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
+                        className: 'create-new btn btn-primary',
+                        action: function (e, dt, node, config) {
+                            $('#modals-slide-in').modal('show');
+                        }
+                    }
+                ],
+                responsive: true,
+                language: {
+                    paginate: {
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    }
+                }
+            });
+            $('div.head-label').html('<h6 class="mb-0">Services</h6>');
+        }
+    });
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
     var approvalLink = $(this).attr('href');
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove this Testimonial!",
+        text: "You want to remove this service!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -94,6 +163,6 @@
         }
     });
 });
-   
+
 </script>
 @endsection

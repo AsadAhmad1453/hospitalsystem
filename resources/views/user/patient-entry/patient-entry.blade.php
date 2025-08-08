@@ -71,40 +71,7 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-    $(document).on('change', '#activetoggle', function () {
-        var patientId = $(this).data('id');
-        var status = $(this).prop('checked') ? '1' : '0';
-        $.ajax({
-            url: "{{ route('patient-status-toggle') }}",
-            method: 'GET',
-            data: {
-                id: patientId,
-                status: status
-            },
-            success: function(response) {
-                if (response.success) {
-                    // Optionally show a success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status Updated',
-                        text: 'Patient status has been updated successfully.',
-                        confirmButtonClass: 'btn btn-success',
-                    });
-                } else {
-                    // Optionally show an error message
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message,
-                        confirmButtonClass: 'btn btn-danger',
-                    });
-                }
-            },
-            error: function(xhr) {
-                // Optionally handle error
-            }
-        });
-    });
+   
     $(function () {
     'use strict';
 
@@ -138,7 +105,6 @@
                     }
                 }
             });
-                $('.patient-status-toggle').bootstrapToggle();
             $('div.head-label').html('<h4 class="mb-0 pl-1"><strong>PATIENTS</strong> </h4>');
         }
 
@@ -150,7 +116,7 @@
         Swal.fire({
             icon: 'warning',
             title: 'Are you sure?',
-            text: "You want to remove this Testimonial!",
+            text: "You want to remove this Patient!",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',

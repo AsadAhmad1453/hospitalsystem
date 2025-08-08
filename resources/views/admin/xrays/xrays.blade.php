@@ -17,7 +17,6 @@
                             <tr>
                                 <th>#</th>
                                 <th>Xray</th>
-                                <th></th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -39,7 +38,7 @@
         <!-- Modal to add new record -->
         <div class="modal modal-slide-in fade" id="modals-slide-in">
             <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-xray')}}" method="POST" class="add-new-record modal-content pt-0">
+                <form action="{{route('save-xray')}}" id="form" method="POST" class="add-new-record modal-content pt-0">
                     @csrf
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
                     <div class="modal-header mb-1">
@@ -48,7 +47,12 @@
                     <div class="modal-body flex-grow-1">
                         <div class="form-group">
                             <label class="form-label" for="name">Xray Name</label>
-                            <input type="text" name="name" class="form-control dt-full-name" id="name" placeholder="Xray Name" aria-label="John Doe" />
+                            <input type="text" name="name" class="form-control dt-full-name @error('name') is-invalid @enderror" id="name" placeholder="Xray Name" aria-label="John Doe" />
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
@@ -60,21 +64,66 @@
     </section>
 @endsection
 @section('custom-js')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/dataTables.responsive.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/datatables.buttons.min.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
-<script src="{{asset('admin-assets/js/scripts/tables/table-datatables-basic.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
+    $(document).ready(function () {
+        $('#form').on('submit', function () {
+            const submitButton = $(this).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.text('Submitting...');
+        });
+    });
+    $(function () {
+        'use strict';
+
+        var dt_basic_table = $('.datatables-basic');
+
+        if (dt_basic_table.length) {
+            var dt_basic = dt_basic_table.DataTable({
+                // No ajax, use Blade-rendered data
+                order: [[0, 'asc']],
+                dom:
+                    '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-right"B>>' +
+                    '<"d-flex justify-content-between align-items-center mx-1 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    't' +
+                    '<"d-flex justify-content-between mx-1 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                displayLength: 10,
+                lengthMenu: [7, 10, 25, 50, 75, 100],
+                buttons: [
+                    {
+                        text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
+                        className: 'create-new btn btn-primary',
+                        action: function (e, dt, node, config) {
+                            $('#modals-slide-in').modal('show');
+                        }
+                    }
+                ],
+                responsive: true,
+                language: {
+                    paginate: {
+                        previous: '&nbsp;',
+                        next: '&nbsp;'
+                    }
+                }
+            });
+                $('.patient-status-toggle').bootstrapToggle();
+            $('div.head-label').html('<h6 class="mb-0">X-Rays</h6>');
+        }
+    });
     $(document).on('click','.course-sure', function (event) {
     event.preventDefault();
     var approvalLink = $(this).attr('href');
     Swal.fire({
         icon: 'warning',
         title: 'Are you sure?',
-        text: "You want to remove this Testimonial!",
+        text: "You want to remove X-Ray!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',

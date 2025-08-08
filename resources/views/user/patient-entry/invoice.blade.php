@@ -83,23 +83,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="pr-1">Total Due:</td>
-                                                        <td><span class="font-weight-bold">{{ $totalAmount }}$</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">Bank name:</td>
-                                                        <td>American Bank</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">Country:</td>
-                                                        <td>United States</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">IBAN:</td>
-                                                        <td>ETD95476213874685</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="pr-1">SWIFT code:</td>
-                                                        <td>BR91905</td>
+                                                        <td><span class="font-weight-bold">Rs. {{ $totalAmount }}</span></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -125,7 +109,7 @@
 
                                                 </td>
                                                 <td class="py-1">
-                                                    <span class="font-weight-bold">{{ $invoice->service->amount }}</span>
+                                                    <span class="font-weight-bold">Rs. {{ $invoice->service->amount }}</span>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -144,7 +128,7 @@
                                             <div class="invoice-total-wrapper">
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Subtotal:</p>
-                                                    <p class="invoice-total-amount">{{ $totalAmount }}$</p>
+                                                    <p class="invoice-total-amount">Rs. {{ $totalAmount }}</p>
                                                 </div>
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Tax:</p>
@@ -153,7 +137,7 @@
                                                 <hr class="my-50" />
                                                 <div class="invoice-total-item">
                                                     <p class="invoice-total-title">Total:</p>
-                                                    <p class="invoice-total-amount">{{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}$</p>
+                                                    <p class="invoice-total-amount">Rs. {{ ((0.3 * (float)$totalAmount) + (float)$totalAmount) }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -223,12 +207,12 @@
                                         <label>Select Bank</label>
                                         <select class="select2 form-control form-control-lg" name="bank_id">
                                             @foreach ($banks as $bank)
-                                                <option value="{{ $bank->id }}" data-logo="{{ $bank->bank_logo ? asset('storage/' . $bank->bank_logo) : '' }}">
+                                                <option value="{{ $bank->id }}" data-logo="{{ $bank->bank_logo ? asset($bank->bank_logo) : '' }}">
                                                     {{ $bank->bank_name }}
                                                 </option>
                                             @endforeach
                                         </select>
-                                        @error('user_id')   
+                                        @error('user_id')
                                                 <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                         @enderror
                                     </div>
@@ -242,55 +226,6 @@
                 </div>
                 <!-- /Send Invoice Sidebar -->
 
-                <!-- Add Payment Sidebar -->
-                {{-- <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
-                    <div class="modal-dialog sidebar-lg">
-                        <div class="modal-content p-0">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                            <div class="modal-header mb-1">
-                                <h5 class="modal-title">
-                                    <span class="align-middle">Add Payment</span>
-                                </h5>
-                            </div>
-                            <div class="modal-body flex-grow-1">
-                                <form>
-                                    <div class="form-group">
-                                        <input id="balance" class="form-control" type="text" value="Invoice Balance: 5000.00" disabled />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="amount">Payment Amount</label>
-                                        <input id="amount" class="form-control" type="number" placeholder="$1000" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="payment-date">Payment Date</label>
-                                        <input id="payment-date" class="form-control date-picker" type="text" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="payment-method">Payment Method</label>
-                                        <select class="form-control" id="payment-method">
-                                            <option value="" selected disabled>Select payment method</option>
-                                            <option value="Cash">Cash</option>
-                                            <option value="Bank Transfer">Bank Transfer</option>
-                                            <option value="Debit">Debit</option>
-                                            <option value="Credit">Credit</option>
-                                            <option value="Paypal">Paypal</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label" for="payment-note">Internal Payment Note</label>
-                                        <textarea class="form-control" id="payment-note" rows="5" placeholder="Internal Payment Note"></textarea>
-                                    </div>
-                                    <div class="form-group d-flex flex-wrap mb-0">
-                                        <button type="button" class="btn btn-primary mr-1" data-dismiss="modal">Send</button>
-                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-                <!-- /Add Payment Sidebar -->
-
 @endsection
 
 @section('custom-js')
@@ -301,15 +236,15 @@ $(document).ready(function() {
         var logoUrl = $(this).data('logo');
         console.log('Bank: ' + $(this).text() + ', Logo URL: ' + logoUrl);
     });
-    
+
     // Simple select2 with logo display
     $('select[name="bank_id"]').select2({
         templateResult: function(bank) {
             if (!bank.id) return bank.text;
-            
+
             var logoUrl = $(bank.element).data('logo');
             console.log('Template Result - Bank: ' + bank.text + ', Logo: ' + logoUrl);
-            
+
             if (logoUrl && logoUrl !== '') {
                 return '<img src="' + logoUrl + '" style="height: 1rem; width: auto; margin-right: 5px; vertical-align: middle;" onerror="this.style.display=\'none\';">' + bank.text;
             }
@@ -317,10 +252,10 @@ $(document).ready(function() {
         },
         templateSelection: function(bank) {
             if (!bank.id) return bank.text;
-            
+
             var logoUrl = $(bank.element).data('logo');
             console.log('Template Selection - Bank: ' + bank.text + ', Logo: ' + logoUrl);
-            
+
             if (logoUrl && logoUrl !== '') {
                 return '<img src="' + logoUrl + '" style="height: 1rem; width: auto; margin-right: 5px; vertical-align: middle;" onerror="this.style.display=\'none\';">' + bank.text;
             }

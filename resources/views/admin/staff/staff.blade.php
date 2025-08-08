@@ -20,7 +20,7 @@ table.dataTable td input[type="checkbox"] {
     <div class="row">
         <div class="col-12">
             <div class="card p-1">
-                
+
             <form action="{{ route('roles.bulkUpdatePermissions') }}" method="POST">
                 @csrf
                 <table  class="datatables-basic table">
