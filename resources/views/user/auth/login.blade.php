@@ -19,7 +19,7 @@
 </div>
 <div class="content-body">
     <div class="auth-wrapper auth-v2">
-        <div class="auth-inner row m-0">
+        <div class="auth-inner py-0 row m-0">
             
 
             <!-- Login-->
