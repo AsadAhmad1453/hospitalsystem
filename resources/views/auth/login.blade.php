@@ -44,7 +44,7 @@
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                     <h2 class="card-title font-weight-bold mb-1">Welcome to Admin Panel! 👋</h2>
                     <p class="card-text mb-2">Please sign-in to your account and start the adventure</p>
-                    <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
+                    <form class="auth-login-form mt-2" action="{{ route('admin.login') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label class="form-label" for="login-email">Email</label>

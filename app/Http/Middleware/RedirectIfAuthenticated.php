@@ -25,7 +25,7 @@ class RedirectIfAuthenticated
                     0 => 'admin-dashboard',
                     1 => 'user-dashboard',
                     2 => 'customer-dashboard',
-                    default => 'login',
+                    default => 'staff-login',
                 });
             }
         }

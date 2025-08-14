@@ -16,22 +16,27 @@ class LoginController extends Controller
     /**
      * Override the login method to control redirection based on role.
      */
+    public function adminLoginForm()
+    {
+        return view('auth.login');
+    }
+
     public function login(Request $request)
     {
         $this->validateLogin($request);
 
         if ($this->attemptLogin($request)) {
             $request->session()->regenerate();
-    
+
             return to_route('admin-dashboard');
         }
-    
+
         $this->incrementLoginAttempts($request);
-    
+
         throw ValidationException::withMessages([
             $this->username() => [trans('auth.failed')],
         ]);
-       
+
     }
 
     /**

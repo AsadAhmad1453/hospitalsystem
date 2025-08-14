@@ -17,12 +17,12 @@ class IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
          if (!Auth::check()) {
-            return redirect()->route('login')->withErrors(['email' => 'Please login to access admin panel.']);
+            return redirect()->route('admin-login')->withErrors(['email' => 'Please login to access admin panel.']);
         }
 
         if (Auth::user()->role !== '0') {
             Auth::logout();
-            return redirect()->route('login')->withErrors(['email' => 'You are not authorized.']);
+            return redirect()->route('staff-login')->withErrors(['email' => 'You are not authorized.']);
         }
 
         return $next($request);

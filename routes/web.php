@@ -18,6 +18,7 @@ use App\Http\Controllers\User\BioMarkerController;
 use App\Http\Controllers\User\DataCollectorController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\AIChatController;
+use App\Http\Controllers\Website\HomePageController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +34,13 @@ use Illuminate\Support\Facades\Artisan;
 
 
 Auth::routes();
+// website routes
+Route::get('/', [HomePageController::class, 'index'])->name('home');
+Route::get('/about-us', [HomePageController::class, 'about'])->name('about');
 
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('staff-login');
+
+// portal routes
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('staff-login');
 Route::post('/staff/login',[LoginController::class, 'login'])->name('staff.login');
 Route::post('/staff-logout', [LoginController::class, 'logout'])->name('staff-logout');
 
