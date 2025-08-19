@@ -159,6 +159,10 @@ $(document).ready(function () {
     let audioChunks = [];
     let audioBlob = null;
 
+
+    dependencies.forEach(dep => {
+        markQuestionSkipped(dep.dependent_question_id);
+    });
     showSection(currentSectionIndex);
 
     function showSection(idx) {
@@ -300,15 +304,36 @@ $(document).ready(function () {
         $('#answer-warning-' + qid).hide();
 
         if (q.question_type == 0) {
+            // Single-select (radio)
             selectedAnswers[qid] = $(this).data('option-id');
+            activeDependencies[qid] = $(this).data('option-id');
+            applyDependencies(qid, selectedAnswers[qid]);
+
         } else if (q.question_type == 1) {
+            // Multi-select (checkbox)
             selectedAnswers[qid] = $('input[data-question-id="' + qid + '"]:checked').map(function () {
                 return $(this).data('option-id');
             }).get();
+
+            // Remove old dependencies of this question
+            Object.keys(activeDependencies).forEach(depQid => {
+                if (depQid == qid) {
+                    delete activeDependencies[depQid];
+                }
+            });
+
+            // Reapply dependencies for all selected options
+            selectedAnswers[qid].forEach(optid => {
+                activeDependencies[qid] = optid;
+                applyDependencies(qid, optid);
+            });
+
         } else {
+            // Text or Date input
             selectedAnswers[qid] = $(this).val();
         }
     });
+
 
     $(document).on('change', '.option-radio', function () {
         let qid = $(this).data('question-id');
@@ -335,57 +360,34 @@ $(document).ready(function () {
         applyDependencies(qid, optid);
     });
 
-    function applyDependencies(triggerQid, selectedOptionId, silent = false) {
-        let deps = dependencies.filter(dep => dep.question_id == triggerQid && dep.option_id == selectedOptionId);
+    function applyDependencies(triggerQid, selectedOptionId, silent = false)
+    {
+        // Get all dependencies for the trigger question
+        let allDeps = dependencies.filter(dep => dep.question_id == triggerQid);
 
-        // Always keep the trigger question visible
-        unskipQuestion(triggerQid);
+        // Get all currently selected options for the question
+        let selectedOptionIds = $('input[data-question-id="' + triggerQid + '"]:checked').map(function () {
+            return $(this).data('option-id');
+        }).get();
 
-        if (deps.length === 0) {
-            if (!silent) {
-                questions.forEach(q => unskipQuestion(q.id));
-                showSection(currentSectionIndex);
+        // Loop through all dependencies related to this trigger
+        allDeps.forEach(dep => {
+            const targetQid = dep.dependent_question_id;
+
+            if (selectedOptionIds.includes(dep.option_id)) {
+                // If this option is selected, show the dependent question
+                unskipQuestion(targetQid);
+            } else {
+                // If not selected, hide it
+                markQuestionSkipped(targetQid);
             }
-            return;
-        }
-
-        // Clear previous skips
-        questions.forEach(q => {
-            unskipQuestion(q.id);
         });
 
-        // For each dependency, skip all questions between trigger and dependent question
-        for (const dep of deps) {
-            const triggerIndex = questions.findIndex(q => q.id == triggerQid);
-            const targetIndex = questions.findIndex(q => q.id == dep.dependent_question_id);
-
-            // Skip all questions between trigger and target (excluding both trigger and target)
-            for (let i = triggerIndex + 1; i < targetIndex; i++) {
-                const betweenQid = questions[i].id;
-                markQuestionSkipped(betweenQid);
-            }
-
-            // Ensure dependent question is visible
-            unskipQuestion(dep.dependent_question_id);
-        }
-
-        // Jump to the section containing the dependent question (if not silent)
         if (!silent) {
-            let targetSectionIndex = currentSectionIndex;
-            deps.forEach(dep => {
-                let targetQ = questions.find(q => q.id == dep.dependent_question_id);
-                if (targetQ) {
-                    let idx = sections.findIndex(s => s.id == targetQ.section.id);
-                    if (idx !== -1) {
-                        targetSectionIndex = idx;
-                    }
-                }
-            });
-
-            currentSectionIndex = targetSectionIndex;
             showSection(currentSectionIndex);
         }
     }
+
 
     $('#recordBtn').on('click', function () {
             navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {

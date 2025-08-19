@@ -21,7 +21,7 @@ class DataCollectorController extends Controller
     public function patients($id){
         $rounds = Round::where('nursing_status' , '0')->where('round_status', '1')
             ->whereHas('patient', function ($query) {
-                $query->where('doctor_id', Auth::user()->id);
+                $query->where('dc_id', Auth::user()->id);
             })
             ->with('patient')->get();
         $form = Form::where('id', $id)->first();
