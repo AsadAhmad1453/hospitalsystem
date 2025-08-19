@@ -37,6 +37,7 @@ Auth::routes();
 // website routes
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/about-us', [HomePageController::class, 'about'])->name('about');
+Route::get('/services', [HomePageController::class, 'services'])->name('web-services');
 
 
 // portal routes

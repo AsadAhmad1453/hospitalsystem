@@ -16,4 +16,9 @@ class HomePageController extends Controller
     {
         return view('website.about.about');
     }
+
+    public function services()
+    {
+        return view('website.services.services');
+    }
 }

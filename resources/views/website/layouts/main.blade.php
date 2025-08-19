@@ -248,9 +248,9 @@
                                                         <a href="{{ route('about') }}">About Us</a>
                                                     </li>
                                                     <li>
-                                                        <a href="services.html">services<i class="fa-solid fa-angle-down"></i></a>
+                                                        <a href="{{route("web-services")}}">services<i class="fa-solid fa-angle-down"></i></a>
                                                         <ul class="submenu">
-                                                            <li><a href="services.html">Services</a></li>
+                                                            <li><a href="{{route("web-services")}}">Services</a></li>
                                                             <li><a href="services-details.html">Services Details</a></li>
                                                         </ul>
                                                     </li>
@@ -393,7 +393,7 @@
                                                     <a href="doctor.html"><i class="fa-solid fa-chevron-right"></i> Doctors</a>
                                                 </li>
                                                 <li>
-                                                    <a href="services.html"><i class="fa-solid fa-chevron-right"></i> Services</a>
+                                                    <a href="{{route("web-services")}}"><i class="fa-solid fa-chevron-right"></i> Services</a>
                                                 </li>
                                                 <li>
                                                     <a href="contact.html"><i class="fa-solid fa-chevron-right"></i> Contact</a>
