@@ -19,6 +19,7 @@ use App\Http\Controllers\User\DataCollectorController;
 use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\AIChatController;
 use App\Http\Controllers\Website\HomePageController;
+use App\Http\Controllers\Website\OpenDataCollectorController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +39,14 @@ Auth::routes();
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/about-us', [HomePageController::class, 'about'])->name('about');
 Route::get('/services', [HomePageController::class, 'services'])->name('web-services');
-
+Route::controller(OpenDataCollectorController::class)->group(function () {
+    Route::get('/add-patient', 'addPatient')->name('open-patients');
+    Route::post('/save-patient', 'savePatient')->name('save-open-patient');
+    Route::get('/forms/{patient_id}', 'dataCollectorForms')->name('dc-forms');
+    Route::get('/data-collector/{form_id}/{patient_id}', 'showCollectorForm')->name('open-data-collector');
+    Route::post('/data-collector/submit/{form_id}', 'submitAnswers')->name('save-open-data-collector');
+    Route::post('/upload-voice', 'uploadVoice')->name('upload-voice');
+});
 
 // portal routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('staff-login');

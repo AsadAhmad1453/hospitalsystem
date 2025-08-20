@@ -25,7 +25,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 // Place all your admin routes here.
 Route::get('/admin/login', [LoginController::class, 'adminLoginForm'])->name('admin-login');
-Route::post('/admin/authenticating',[LoginController::class, 'login'])->name('adming.login');
+Route::post('/admin/authenticating',[LoginController::class, 'login'])->name('admin.login');
 
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     Route::controller(AdminDashboardController::class)->group(function () {
