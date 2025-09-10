@@ -17,6 +17,7 @@ class PermissionSeeder extends Seeder
             'patient entry',
             'appointment schedule',
             'past patients',
+            'website requests',
             'fill form',
             'bio marker',
             'patient form',

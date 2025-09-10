@@ -18,15 +18,23 @@
 @section('content')
     <div class="container-fluid">
         <div class="row">
-            @foreach ($forms as $form )
-            <div class="col-6">
-                <a href="{{ route('open-data-collector', ['form_id' => $form->id, 'patient_id' => $patient_id]) }}">
-                    <div class="card card-body d-flex justify-content-center align-items-center">
-                        <h4 class="text-center">{{$form->name}}</h4>
+            @if($forms->isEmpty())
+                <div class="col-12">
+                    <div class="alert alert-info text-center mt-4 py-3">
+                        No forms are available at the moment.
                     </div>
-                </a>
-            </div>
-            @endforeach
+                </div>
+            @else
+                @foreach ($forms as $form )
+                <div class="col-6">
+                    <a href="{{ route('open-data-collector', ['form_id' => $form->id, 'patient_id' => $patient_id]) }}">
+                        <div class="card card-body d-flex justify-content-center align-items-center">
+                            <h4 class="text-center">{{$form->name}}</h4>
+                        </div>
+                    </a>
+                </div>
+                @endforeach
+            @endif
         </div>
     </div>
 @endsection

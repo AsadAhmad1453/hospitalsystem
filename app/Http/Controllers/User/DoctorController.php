@@ -14,6 +14,8 @@ use App\Models\BloodInv;
 use App\Models\Xray;
 use App\Models\Ultrasound;
 use App\Models\Ctscan;
+use App\Models\Service;
+use App\Models\AppointmentService;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +51,6 @@ class DoctorController extends Controller
 
     public function savedoctorreports(Request $request)
     {
-
         $request->validate([
             'complaint' => 'required|string',
             'symptoms' => 'required|string',
@@ -59,16 +60,26 @@ class DoctorController extends Controller
             'recommended_medication' => 'required|string',
             'further_investigation' => 'required|string',
             'special_notes' => 'nullable|string',
-
+            'appointment_services' => 'nullable|array',
+            'appointment_services.*' => 'exists:services,id',
         ]);
 
-        if($request->appointment_date != null) {
-            Appointment::Create([
+        $appointment = null;
+        if ($request->appointment_date != null) {
+            $appointment = Appointment::create([
                 'patient_id' => $request->patient_id,
                 'appointment_date' => $request->appointment_date,
             ]);
+            // Store services in appointment_services table
+            if ($appointment && $request->has('appointment_services')) {
+                foreach ($request->appointment_services as $service_id) {
+                    AppointmentService::create([
+                        'appointment_id' => $appointment->id,
+                        'service_id' => $service_id,
+                    ]);
+                }
+            }
         }
-
 
         // Update or create the medical record for the patient
         $patient = MedicalRecord::where('patient_id', $request->patient_id)->orderBy('created_at', 'desc')->first();
@@ -103,9 +114,17 @@ class DoctorController extends Controller
 
         public function appos()
         {
-            $appointments = Appointment::with('patient')->get();
-            return view('user.patient-entry.appointment-requests', get_defined_vars());
+            // Get all appointments with their patient and services
+            $appointments = Appointment::with(['patient', 'services'])
+                ->where('status', '0')
+                ->get();
+        
+            // Get all services
+            $services = Service::all();
+        
+            return view('user.patient-entry.appointment-requests', compact('appointments', 'services'));
         }
+        
 
         public function updateApp(Request $request, $id)
         {
@@ -125,13 +144,16 @@ class DoctorController extends Controller
             // dd(storage_path('app/google-calendar/service-account-credentials.json'));
             $appointmentDate = Carbon::createFromFormat('Y-m-d', $appointment->appointment_date);
 
-             $event = Event::create([
-                'name' => 'All-Day Appointment',
-                'startDate' => $appointmentDate,                 // Pass Carbon instance
-                'endDate' => $appointmentDate->copy()->addDay(), // Pass Carbon instance
+            $event = Event::create([
+                'name' => "Appointment: {$appointment->patient->name} ({$appointment->service->name})",
+                'startDateTime' => Carbon::parse($appointment->appointment_date . ' ' . $appointment->appointment_time),
+                'endDateTime' => Carbon::parse($appointment->appointment_date . ' ' . $appointment->appointment_time)->addMinutes(30),
+                'description' => "Patient ID: {$appointment->patient_id}\nService: {$appointment->service->name}\nPhone: {$appointment->patient->phone}",
             ]);
 
-            $appointment->delete();
+            $appointment->update([
+                'status' => '1'
+            ]);
 
             return redirect()->route('appointments');
         }
@@ -172,7 +194,7 @@ class DoctorController extends Controller
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();
             $ctscans = Ctscan::all();
-
+            $services = Service::all();
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 
@@ -203,6 +225,7 @@ class DoctorController extends Controller
             $xrays = Xray::all();
             $ultrasounds = Ultrasound::all();
             $ctscans = Ctscan::all();
+            $services = Service::all();
             return view('user.examine-patients.examine-patients', get_defined_vars());
         }
 

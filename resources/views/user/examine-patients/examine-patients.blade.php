@@ -660,9 +660,22 @@
                                     <div class="alert alert-info mt-2" role="alert">
                                         <i data-feather="info"></i>
                                         Your appointment request will be forwarded to the receptionist for confirmation once you proceed to the next patient.
-                                    </div> 
+                                    </div>  
                                     <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" min="{{ date('Y-m-d', strtotime('+1 day')) }}" required value="{{ old('appointment_date') }}">
                                     @error('appointment_date')
+                                        <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label for="appointment_services">Select Services</label>
+                                    <select class="form-control select2" name="appointment_services[]" id="appointment_services" multiple required>
+                                        @foreach($services ?? [] as $service)
+                                            <option value="{{ $service->id }}"
+                                                @if(collect(old('appointment_services'))->contains($service->id)) selected @endif
+                                            >{{ $service->service_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('appointment_services')
                                         <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>

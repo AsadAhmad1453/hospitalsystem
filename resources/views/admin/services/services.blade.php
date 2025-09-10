@@ -28,6 +28,7 @@
                                     <td>{{$service->service_name}}</td>
                                     <td>{{ $service->amount }}</td>
                                     <td>
+                                        <a href="{{route('edit-service', $service->id)}}" class="text-primary" ><i class="fa fa-edit"></i></a>
                                         <a href="{{route('del-service', $service->id)}}" data-jobs="sdadas" class="text-danger course-sure"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -37,55 +38,8 @@
                 </div>
             </div>
         </div>
-        <!-- Modal to add new record -->
-        <div class="modal modal-slide-in fade" id="modals-slide-in">
-            <div class="modal-dialog sidebar-sm">
-                <form action="{{route('save-service')}}" id="servicesForm" method="POST" class="add-new-record modal-content pt-0">
-                    @csrf
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
-                    <div class="modal-header mb-1">
-                        <h5 class="modal-title" id="exampleModalLabel">New Service</h5>
-                    </div>
-                    <div class="modal-body flex-grow-1">
-                            {{-- Service Name --}}
-                    <div class="form-group">
-                        <label class="form-label" for="service_name">Service Name</label>
-                        <input
-                            type="text"
-                            name="service_name"
-                            id="service_name"
-                            class="form-control dt-full-name @error('service_name') is-invalid @enderror"
-                            placeholder="Service"
-                            value="{{ old('service_name') }}"
-                        />
-                        @error('service_name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
 
-                    {{-- Amount --}}
-                    <div class="form-group">
-                        <label class="form-label" for="amount">Price</label>
-                        <input
-                            type="text"
-                            name="amount"
-                            id="amount"
-                            class="form-control dt-full-name @error('amount') is-invalid @enderror"
-                            placeholder="Price"
-                            value="{{ old('amount') }}"
-                        />
-                        @error('amount')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-
-
-                        <button type="submit" class="btn btn-primary data-submit mr-1">Submit</button>
-                        <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+   
     </section>
 @endsection
 @section('custom-js')
@@ -128,7 +82,31 @@
                         text: feather.icons['plus'].toSvg({ class: 'mr-50 font-small-4' }) + 'Add New Record',
                         className: 'create-new btn btn-primary',
                         action: function (e, dt, node, config) {
-                            $('#modals-slide-in').modal('show');
+                            window.location.href = "{{ route('add-service') }}";
+                        }
+                    },
+                    ,
+                    {
+                        text: '<i class="fa fa-trash"></i> Delete all',
+                        className: 'btn btn-danger del-all-questions',
+                        action: function (e, dt, node, config) {
+                            // Use the same confirmation as .course-sure
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Are you sure?',
+                                text: "You want to remove all Services!",
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, remove all!',
+                                confirmButtonClass: 'btn btn-primary',
+                                cancelButtonClass: 'btn btn-danger ml-1',
+                                buttonsStyling: false,
+                            }).then(function (result) {
+                                if (result.value) {
+                                    window.location.href = "{{ route('del-all-services') }}";
+                                }
+                            });
                         }
                     }
                 ],

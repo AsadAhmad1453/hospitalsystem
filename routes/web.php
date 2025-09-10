@@ -20,6 +20,7 @@ use App\Http\Controllers\User\DoctorController;
 use App\Http\Controllers\User\AIChatController;
 use App\Http\Controllers\Website\HomePageController;
 use App\Http\Controllers\Website\OpenDataCollectorController;
+use App\Http\Controllers\LMS\RegisterController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -36,16 +37,27 @@ use Illuminate\Support\Facades\Artisan;
 
 Auth::routes();
 // website routes
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/register', 'index')->name('register-student');
+});
+
+
 Route::get('/', [HomePageController::class, 'index'])->name('home');
 Route::get('/about-us', [HomePageController::class, 'about'])->name('about');
 Route::get('/services', [HomePageController::class, 'services'])->name('web-services');
+Route::get('/service-detail/{id}', [HomePageController::class, 'serviceDetail'])->name('service-detail');
+Route::post('/save-web-req', [PatientEntryController::class, 'saveWebReq'])->name('save-web-req');
+Route::get('/contact-us', [HomePageController::class, 'contact'])->name('contact');
+Route::post('/query-submit', [HomePageController::class, 'querySubmit'])->name('query-submit');
+
+
 Route::controller(OpenDataCollectorController::class)->group(function () {
     Route::get('/add-patient', 'addPatient')->name('open-patients');
     Route::post('/save-patient', 'savePatient')->name('save-open-patient');
     Route::get('/forms/{patient_id}', 'dataCollectorForms')->name('dc-forms');
     Route::get('/data-collector/{form_id}/{patient_id}', 'showCollectorForm')->name('open-data-collector');
     Route::post('/data-collector/submit/{form_id}', 'submitAnswers')->name('save-open-data-collector');
-    Route::post('/upload-voice', 'uploadVoice')->name('upload-voice');
 });
 
 // portal routes
@@ -79,6 +91,7 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
         Route::get('/del-patient/{id}', 'roundStatus')->name('round-status-update');
         Route::get('/past-patients', 'pastpatients')->name('past-patients');
         Route::get('/reset-token', 'delAllRounds')->name('del-all-rounds');
+        Route::get('/web-reqs', 'webreqs')->name('web-reqs');
     });
 
 

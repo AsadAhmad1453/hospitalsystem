@@ -74,8 +74,12 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
 
     Route::controller(ServiceController::class)->group(function () {
         Route::get('/services', 'index')->name('services');
+        Route::get('/add-service', 'addService')->name('add-service');
+        Route::get('/edit-service/{id}', 'editService')->name('edit-service');
+        Route::post('/update-service', 'updateService')->name('update-service');
         Route::post('/save-service', 'saveService')->name('save-service');
         Route::get('/delete-service/{id}', 'deleteService')->name('del-service');
+        Route::get('/delete-all-services', 'deleteAllServices')->name('del-all-services');
     });
 
     Route::controller(RelationController::class)->group(function () {

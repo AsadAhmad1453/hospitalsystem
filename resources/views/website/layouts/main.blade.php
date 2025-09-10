@@ -31,6 +31,7 @@
         <link rel="stylesheet" href="{{ asset('website-assets/css/main.css') }}">
         <!-- style css -->
         <link rel="stylesheet" href="{{ asset('website-assets/css/style.css') }}">
+        @yield('custom-css')
     </head>
 
     <body>
@@ -250,12 +251,17 @@
                                                     <li>
                                                         <a href="{{route("web-services")}}">services<i class="fa-solid fa-angle-down"></i></a>
                                                         <ul class="submenu">
-                                                            <li><a href="{{route("web-services")}}">Services</a></li>
-                                                            <li><a href="services-details.html">Services Details</a></li>
+                                                            @foreach($services as $service)
+                                                                <li>
+                                                                    <a href="{{ route('service-detail', ['id' => $service->id]) }}">
+                                                                        {{ $service->service_name }}
+                                                                    </a>
+                                                                </li>
+                                                            @endforeach
                                                         </ul>
                                                     </li>
                                                     <li>
-                                                        <a href="contact.html">Contact Us</a>
+                                                        <a href="{{route('contact')}}">Contact Us</a>
                                                     </li>
                                                 </ul>
                                             </nav>
@@ -267,8 +273,8 @@
                                     <div class="header-right d-flex align-items-center gap-lg-4 gap-3">
                                         <!-- header button -->
                                         <div class="header-button">
-                                            <a href="{{ route('staff-login') }}" class="theme-button style-1" aria-label="Book Appointment">
-                                                <span data-text="Login">Login</span>
+                                            <a href="{{ route('register-student') }}" class="theme-button style-1" aria-label="Book Appointment">
+                                                <span data-text="Sign Up">Sign Up</span>
                                                 <i class="fa-solid fa-arrow-right"></i>
                                             </a>
                                         </div>
@@ -396,7 +402,7 @@
                                                     <a href="{{route("web-services")}}"><i class="fa-solid fa-chevron-right"></i> Services</a>
                                                 </li>
                                                 <li>
-                                                    <a href="contact.html"><i class="fa-solid fa-chevron-right"></i> Contact</a>
+                                                    <a href="{{route('contact')}}"><i class="fa-solid fa-chevron-right"></i> Contact</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -476,8 +482,8 @@
                                 <div class="col-lg-6 text-lg-end">
                                     <!-- footer bottom nav start -->
                                     <ul class="footer-bottom-nav wow fadeInUp" data-wow-delay=".3s">
-                                        <li><a class="line-effect" href="contact.html">Terms and Conditions</a></li>
-                                        <li><a class="line-effect" href="contact.html">Privacy Policy</a></li>
+                                        <li><a class="line-effect" href="{{route('contact')}}">Terms and Conditions</a></li>
+                                        <li><a class="line-effect" href="{{route('contact')}}">Privacy Policy</a></li>
                                     </ul>
                                     <!-- footer bottom nav end -->
                                 </div>
@@ -518,6 +524,7 @@
         <script src="{{ asset('website-assets/js/SmoothScroll.js') }}"></script>
         <!-- main Js -->
         <script src="{{ asset('website-assets/js/main.js') }}"></script>
+        @yield('custom-js')
     </body>
 
 </html>

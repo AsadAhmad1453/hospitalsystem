@@ -9,11 +9,19 @@ $(document).ready(function () {
         var prescriptionHtml = getPrescriptionHtmlString();
         var investigationHtml = getInvestigationHtmlString();
         var appointmentDate = $('#appointment_date').val();
+        var appointmentServices = $('#appointment_services').val() || [];
+        // Get the selected appointment services as an array
 
+        // Remove any previous hidden inputs for appointment_services to avoid duplicates
+        
+        // Append each selected service as a hidden input
+        
+        
         // Remove any previous hidden inputs to avoid duplicates
         $('#diagnosis-form input[name="prescription_html"]').remove();
         $('#diagnosis-form input[name="investigation_html"]').remove();
         $('#diagnosis-form input[name="appointment_date"]').remove(); // avoid duplicates
+        $('#diagnosis-form input[name="appointment_services[]"]').remove();
 
         // Append as hidden inputs to the form
         $('<input>').attr({
@@ -34,6 +42,13 @@ $(document).ready(function () {
             value: appointmentDate
         }).appendTo('#diagnosis-form');
 
+        appointmentServices.forEach(function(serviceId) {
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'appointment_services[]',
+                value: serviceId
+            }).appendTo('#diagnosis-form');
+        });
         $('#diagnosis-form').submit();
 
     });

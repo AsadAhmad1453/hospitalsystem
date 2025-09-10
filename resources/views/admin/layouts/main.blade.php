@@ -268,7 +268,7 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="{{asset('admin-assets/vendors/js/vendors.min.js')}}"></script>
-    @yield('custom-js')
+
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
@@ -287,7 +287,7 @@
     <script src="{{ asset('admin-assets/js/scripts/pages/app-invoice-list.js') }}"></script>
     <script src="{{asset('admin-assets/js/scripts/pages/page-profile.js')}}"></script>
     <!-- END: Page JS-->
-
+    @yield('custom-js')
 
     <script>
         $(window).on('load', function() {
@@ -299,7 +299,6 @@
             }
         })
     </script>
-
 </body>
 <!-- END: Body-->
 

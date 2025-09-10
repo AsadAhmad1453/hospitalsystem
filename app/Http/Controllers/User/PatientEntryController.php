@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Round;
 use App\Models\Service;
 use App\Models\Invoice;
+use App\Models\WebReq;
 use App\Models\Bank;
 use Illuminate\Support\Facades\Auth;
 
@@ -147,5 +148,29 @@ class PatientEntryController extends Controller
     {
         $patients = Patient::where('patient_status', '0')->get();
         return view('user.patient-entry.past-patients', get_defined_vars());
+    }
+
+    public function saveWebReq(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'date' => 'required|date',
+            'services' => 'required|string|max:255',
+        ]);
+
+        $webReq = new WebReq();
+        $webReq->name = $validated['name'];
+        $webReq->phone = $validated['phone'];
+        $webReq->date = $validated['date'];
+        $webReq->services = $validated['services'];
+        $webReq->save();
+
+        return back();
+    }
+
+    public function webreqs(){
+        $webreqs = WebReq::all();
+        return view('user.patient-entry.web-reqs', get_defined_vars());
     }
 }

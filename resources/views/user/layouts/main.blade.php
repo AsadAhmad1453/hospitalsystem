@@ -121,6 +121,14 @@
                     </a>
                 </li>
                 @endcan
+                @can('website requests')
+                <li class="{{ Route::is('web-reqs') ? 'active' : '' }} nav-item">
+                    <a class="d-flex align-items-center sidelink" href="{{ route('web-reqs') }}">
+                        <i data-feather="users"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">Website Requests</span>
+                    </a>
+                </li>
+                @endcan
                 @can('fill form')
                 @foreach ($forms as $form)
                     @php

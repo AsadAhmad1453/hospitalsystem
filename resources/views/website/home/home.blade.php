@@ -1,4 +1,8 @@
 @extends('website.layouts.main')
+@section('custom-css')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@endsection
 @section('content')
     <main class="main">
         <!-- hero section start -->
@@ -17,20 +21,26 @@
                         <div class="hero-content wow fadeInUp" data-wow-delay=".2s">
                             <!-- section title start -->
                             <div class="section-title">
-                                <span class="sub-title">Welcome Carenix</span>
-                                <h1>Your eye health our priority</h1>
+                                <span class="sub-title">Welcome Shafayaat</span>
+                                <h1>Shaping the Future of Healthcare</h1>
                                 <p class="text-black">
-                                    Experience healthcare you can rely on. Our compassionate and skilled team is committed to providing you with exceptional care, ensuring your well-being is always our top priority.
+                                    We bring modern, affordable, and patient-centered healthcare that blends technology with natural solutions. With a focus on prevention and personalized care, we empower you to take control of your health.
                                 </p>
                             </div>
                             <!-- section title end -->
                             <!-- hero button wappper start -->
                             <div class="hero-button-wappper">
-                                <a href="appointment.html" class="theme-button style-1" aria-label="Book Appointment">
+                                <button 
+                                    type="button"
+                                    class="theme-button style-1 book-appointment-btn"
+                                    aria-label="Book Appointment"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#bookAppointmentModal"
+                                >
                                     <span data-text="Book Appointment">Book Appointment</span>
                                     <i class="fa-solid fa-calendar-days"></i>
-                                </a>
-                                <a href="services.html" class="theme-button style-2" aria-label="Our Services">
+                                </button>
+                                <a href="{{route('home')}}#services" class="theme-button style-2" aria-label="Our Services">
                                     <span data-text="Our Services">Our Services</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
@@ -47,7 +57,7 @@
                                     <!-- hero image left start -->
                                     <div class="hero-image-left">
                                         <figure class="image-anime">
-                                            <img src="{{ asset('website-assets/images/hero/hero-1-1.jpg') }}" alt="hero image one">
+                                            <img src="{{ asset('website-assets/images/hero/hero1.jpg') }}" alt="hero image one">
                                         </figure>
                                     </div>
                                     <!-- hero image left end -->
@@ -100,7 +110,14 @@
                                 <h2>Book Appointment</h2>
                                 <p>Choose a date and time that works for you we'll take care of the rest.</p>
                                 <div class="micon-button">
-                                    <a href="appointment.html" class="read-more-btn">Request an Appointment</a>
+                                    <a
+                                        type="button"
+                                        class="read-more-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#bookAppointmentModal"
+                                    >
+                                        Request an Appointment
+                                </a>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +135,7 @@
                                 <h2>Qualified Doctors</h2>
                                 <p>Our team of expert doctors ensures top-quality treatment every time.</p>
                                 <div class="micon-button">
-                                    <a href="doctor.html" class="read-more-btn">View All Doctor</a>
+                                    <a href="{{route('home')}}#doctors" class="read-more-btn">View All Doctor</a>
                                 </div>
                             </div>
                         </div>
@@ -136,7 +153,7 @@
                                 <h2>24/7 Services</h2>
                                 <p>24/7 care you can count on anybody, anytime, anywhere.</p>
                                 <div class="micon-button">
-                                    <a href="contact.html" class="read-more-btn">Contact Us</a>
+                                    <a href="{{route('home')}}#contact" class="read-more-btn">Contact Us</a>
                                 </div>
                             </div>
                         </div>
@@ -165,8 +182,8 @@
                         <!-- section title start -->
                         <div class="section-title wow fadeInUp" data-wow-delay=".2s">
                             <span class="sub-title">About Us</span>
-                            <h2>Personalized vision care with a patient first approach</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                            <h2>A New Era of Patient-Centered Care</h2>
+                            <p>We are a modern healthcare facility committed to delivering high-quality, affordable, and patient-focused care. By integrating technology, research, and natural solutions, we provide holistic health management for individuals and families.</p>
                         </div>
                         <!-- section title end -->
                     </div>
@@ -198,8 +215,8 @@
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
-                                        <h3>Personalized eye exams</h3>
-                                        <p>There are many variations of pasrsfgses of Lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Diabetes</h3>
+                                        <p>Lifestyle support, digital monitoring, and personalized plans for effective management.</p>
                                     </div>
                                 </div>
                                 <!-- about features item end -->
@@ -211,8 +228,8 @@
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
-                                        <h3>Chronic eye conditions</h3>
-                                        <p>There are many variations of pasrsfgses of Lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Heart Disease</h3>
+                                        <p>Preventive care and tailored treatments to ensure long-term heart health.</p>
                                     </div>
                                 </div>
                                 <!-- about features item end -->
@@ -224,8 +241,21 @@
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
-                                        <h3>Based vision planning</h3>
-                                        <p>There are many variations of pasrsfgses of Lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Kidney Disease</h3>
+                                        <p>Early detection and sustainable management to protect kidney function.</p>
+                                    </div>
+                                </div>
+                                <!-- about features item end -->
+                                <!-- about features item start -->
+                                <div class="about-features-item">
+                                    <div class="about-features-icon">
+                                        <figure>
+                                            <img src="{{ asset('website-assets/images/about/icon-about-3.png') }}" alt="icon about three">
+                                        </figure>
+                                    </div>
+                                    <div class="about-features-title">
+                                        <h3>Mental Health</h3>
+                                        <p>Compassionate support and therapy for emotional and mental well-being.</p>
                                     </div>
                                 </div>
                                 <!-- about features item end -->
@@ -233,7 +263,7 @@
                             <!-- about features wappper end-->
                             <!-- hero button wappper start -->
                             <div class="about-button-wappper">
-                                <a href="about.html" class="theme-button style-1" aria-label="More About Us">
+                                <a href="{{route('about')}}" class="theme-button style-1" aria-label="More About Us">
                                     <span data-text="More About Us">More About Us</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
@@ -261,7 +291,7 @@
         <!-- about section end -->
 
         <!-- services section start -->
-        <section class="services-section-1 background-one pt-100 md-pt-80 pb-100 md-pb-80" data-img-src="{{ asset('website-assets/images/shape/bg-shape-1.png') }}">
+        <section id="services" class="services-section-1 background-one pt-100 md-pt-80 pb-100 md-pb-80" data-img-src="{{ asset('website-assets/images/shape/bg-shape-1.png') }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -269,10 +299,10 @@
                         <div class="section-title-area">
                             <div class="section-title wow fadeInLeft" data-wow-delay=".2s">
                                 <span class="sub-title">Our Services</span>
-                                <h2>Best explore our wellness services</h2>
+                                <h2>Comprehensive Solutions for Every Stage of Health</h2>
                             </div>
                             <div class="section-title-content wow fadeInRight" data-wow-delay=".2s">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <p>From chronic disease management to everyday care, our services are designed to meet your health needs at every stage of life. We combine technology, expertise, and compassion to ensure the best outcomes.</p>
                             </div>
                         </div>
                         <!-- section title area end -->
@@ -284,24 +314,7 @@
                         <div class="swiper services-slider">
                             <!-- swiper wrapper start -->
                             <div class="swiper-wrapper">
-                                <!-- swiper slide start -->
-                                <div class="swiper-slide">
-                                    <!-- service items start -->
-                                    <div class="service-items">
-                                        <div class="service-icon">
-                                            <figure>
-                                                <img src="{{ asset('website-assets/images/services/icon-service-1.png') }}" alt="icon service one">
-                                            </figure>
-                                        </div>
-                                        <div class="service-content">
-                                            <h2><a href="services-details.html">Cataract evaluation</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
-                                        </div>
-                                    </div>
-                                    <!-- service items end -->
-                                </div>
-                                <!-- swiper slide end -->
+                                @foreach ($services as $service)
                                 <!-- swiper slide start -->
                                 <div class="swiper-slide">
                                     <!-- service items start -->
@@ -312,86 +325,32 @@
                                             </figure>
                                         </div>
                                         <div class="service-content">
-                                            <h2><a href="services-details.html">Contact lens fitting</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
+                                            <div class="h-100">
+                                                <h2><a href="{{route('service-detail', $service->id)}}">{{$service->service_name}}</a></h2>
+                                                <p>{{$service->description}}</p>
+                                            </div>
+                                            
+                                            <!-- Book Appointment Button -->
+                                            <div class="d-flex flex-column align-items-start mt-4 ">
+                                                <button 
+                                                    type="button"
+                                                    class="btn book-appointment-btn my-2" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#bookAppointmentModal" 
+                                                    data-service-id="{{$service->id}}" 
+                                                    data-service-name="{{$service->service_name}}">
+                                                    Book Appointment
+                                                </button>
+                                                <a href="{{route('service-detail', $service->id)}}" class="read-more-btn mt-2">More Details</a>
+                                            </div>
+                                    
+                                            
                                         </div>
                                     </div>
                                     <!-- service items end -->
                                 </div>
                                 <!-- swiper slide end -->
-                                <!-- swiper slide start -->
-                                <div class="swiper-slide">
-                                    <!-- service items start -->
-                                    <div class="service-items">
-                                        <div class="service-icon">
-                                            <figure>
-                                                <img src="{{ asset('website-assets/images/services/icon-service-3.png') }}" alt="icon service three">
-                                            </figure>
-                                        </div>
-                                        <div class="service-content">
-                                            <h2><a href="services-details.html">Dry eye treatment</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
-                                        </div>
-                                    </div>
-                                    <!-- service items end -->
-                                </div>
-                                <!-- swiper slide end -->
-                                <!-- swiper slide start -->
-                                <div class="swiper-slide">
-                                    <!-- service items start -->
-                                    <div class="service-items">
-                                        <div class="service-icon">
-                                            <figure>
-                                                <img src="{{ asset('website-assets/images/services/icon-service-4.png') }}" alt="icon service four">
-                                            </figure>
-                                        </div>
-                                        <div class="service-content">
-                                            <h2><a href="services-details.html">Pediatric eye care</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
-                                        </div>
-                                    </div>
-                                    <!-- service items end -->
-                                </div>
-                                <!-- swiper slide end -->
-                                <!-- swiper slide start -->
-                                <div class="swiper-slide">
-                                    <!-- service items start -->
-                                    <div class="service-items">
-                                        <div class="service-icon">
-                                            <figure>
-                                                <img src="{{ asset("website-assets/images/services/icon-service-5.png") }}" alt="icon service five">
-                                            </figure>
-                                        </div>
-                                        <div class="service-content">
-                                            <h2><a href="services-details.html">Glaucoma surgery</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
-                                        </div>
-                                    </div>
-                                    <!-- service items end -->
-                                </div>
-                                <!-- swiper slide end -->
-                                <!-- swiper slide start -->
-                                <div class="swiper-slide">
-                                    <!-- service items start -->
-                                    <div class="service-items">
-                                        <div class="service-icon">
-                                            <figure>
-                                                <img src="{{ asset('website-assets/images/services/icon-service-6.png') }}" alt="icon service six">
-                                            </figure>
-                                        </div>
-                                        <div class="service-content">
-                                            <h2><a href="services-details.html">Glaucoma &amp; cornea</a></h2>
-                                            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout</p>
-                                            <a href="services-details.html" class="read-more-btn">More Details</a>
-                                        </div>
-                                    </div>
-                                    <!-- service items end -->
-                                </div>
-                                <!-- swiper slide end -->
+                                @endforeach
                             </div>
                             <!-- swiper wrapper end -->
                             <!-- swiper actions start -->
@@ -406,6 +365,56 @@
             </div>
         </section>
         <!-- services section end -->
+        <div class="modal fade" id="bookAppointmentModal" tabindex="-1" aria-labelledby="bookAppointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form id="bookAppointmentForm" method="POST" action="{{route('save-web-req')}}" >
+                    @csrf
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bookAppointmentModalLabel">Book Appointment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="appointment_name">Name</label>
+                                <input type="text" class="form-control" id="appointment_name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment_phone">Phone No.</label>
+                                <input type="text" class="form-control" id="appointment_phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment_date">Date</label>
+                                <input type="date" class="form-control" id="appointment_date" name="appointment_date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
+                            </div>
+
+                            <div class="form-group mt-2 ">
+                                <label for="appointment_services">Select Services</label>
+                                <select class="form-select" name="appointment_services[]" id="appointment_services" multiple required>
+                                    @foreach($services ?? [] as $srv)
+                                        <option value="{{ $srv->service_name }}"
+                                            @if(collect(old('appointment_services'))->contains($srv->service_name)) selected @endif
+                                        >{{ $srv->service_name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('appointment_services')
+                                    <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <!-- Hidden fields to store converted values -->
+                            <input type="hidden" name="date" id="converted_date">
+                            <input type="hidden" name="services" id="converted_services">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="theme-button style-2">Book</button>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+
 
         <!-- why-section start -->
         <section class="why-choose-section-1 pt-100 md-pt-80 pb-100 md-pb-80">
@@ -417,8 +426,8 @@
                             <!-- section-title start -->
                             <div class="section-title wow fadeInUp" data-wow-delay=".2s">
                                 <span class="sub-title">Why Choose Us</span>
-                                <h2>Compassion and expertise, perfectly combined</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <h2>Where Innovation Meets Compassion</h2>
+                                <p>Our goal is to make healthcare accessible, affordable, and effective. By using digital innovation and focusing on patients first, we deliver solutions that improve lives.</p>
                             </div>
                             <!-- section-title end -->
                             <!-- why choose box list start -->
@@ -431,8 +440,8 @@
                                         </figure>
                                     </div>
                                     <div class="why-choose-box-content">
-                                        <h3>Patient centered</h3>
-                                        <p>There are many variations of lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Patient-Centered Excellence</h3>
+                                        <p>Every decision and treatment is built around your needs.</p>
                                     </div>
                                 </div>
                                 <!-- why choose box end -->
@@ -444,8 +453,8 @@
                                         </figure>
                                     </div>
                                     <div class="why-choose-box-content">
-                                        <h3>Emergency support</h3>
-                                        <p>There are many variations of lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Smart Healthcare Technology</h3>
+                                        <p>Electronic records, telemedicine, and monitoring for seamless care.</p>
                                     </div>
                                 </div>
                                 <!-- why choose box end -->
@@ -454,8 +463,8 @@
                             <!-- why choose list start -->
                             <div class="why-choose-list wow fadeInUp" data-wow-delay=".4s">
                                 <ul>
-                                    <li>Strategic eye care planning</li>
                                     <li>Highly skilled medical team</li>
+                                    <li>Affordable & accessible care</li>
                                 </ul>
                             </div>
                             <!-- why choose list end -->
@@ -481,7 +490,7 @@
                             <!-- why choose img 2 end -->
                             <!-- why choose about circle start -->
                             <div class="why-choose-about-circle">
-                                <a class="about-circle" href="about.html" aria-label="about circle">
+                                <a class="about-circle" href="{{route('about')}}" aria-label="about circle">
                                     <img src="{{ asset('website-assets/images/shape/round-about-us.png') }}" alt="round about us">
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
@@ -496,7 +505,7 @@
         <!-- why-section end -->
 
         <!-- appointment section start -->
-        <section class="appointment-section-1">
+        <section id="contact" class="appointment-section-1">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 order-lg-1 order-2">
@@ -513,68 +522,68 @@
                         <div class="appointment-wapper">
                             <!-- section-title start -->
                             <div class="section-title wow fadeInUp" data-wow-delay=".2s">
-                                <span class="sub-title">Book Appointment</span>
-                                <h2>Book an Appointment</h2>
+                                <span class="sub-title">General Queries</span>
+                                <h2>Ask Us Anything</h2>
                             </div>
                             <!-- section-title end -->
                             <!-- default form start -->
                             <div class="default-form appointment-form wow fadeInUp" data-wow-delay=".3s">
-                                <form action="#">
+                                <form action="{{ route('query-submit') }}" method="POST" id="appointmentForm" novalidate>
+                                    @csrf
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-floating field-inner">
-                                                    <input class="form-control" id="fullname" name="fullname" type="text" placeholder="Full Name Here" autocomplete="off" required="required">
-                                                    <label for="fullname">Name</label>
+                                                    <input class="form-control" id="name" name="name" type="text" placeholder="Full Name Here" autocomplete="off" required value="{{ old('name') }}">
+                                                    <label for="name">Name*</label>
+                                                    <span class="error" id="name-error">
+                                                        @error('name') {{ $message }} @enderror
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-12">
                                             <div class="form-group">
                                                 <div class="form-floating field-inner">
-                                                    <input class="form-control" id="email" name="email" type="email" placeholder="Email Here" autocomplete="off" required="required">
-                                                    <label for="email">Email</label>
+                                                    <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone Here" autocomplete="off" required value="{{ old('phone') }}">
+                                                    <label for="phone">Phone*</label>
+                                                    <span class="error" id="phone-error">
+                                                        @error('phone') {{ $message }} @enderror
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-floating field-inner">
-                                                    <input class="form-control" id="phone" name="phone" type="text" placeholder="Phone Number Here" autocomplete="off" required="required">
-                                                    <label for="phone">Phone Number</label>
+                                                    <textarea class="form-control" id="message" name="message" placeholder="Type your message here" style="height: 120px;" required>{{ old('message') }}</textarea>
+                                                    <label for="message">Message*</label>
+                                                    <span class="error" id="message-error">
+                                                        @error('message') {{ $message }} @enderror
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-floating">
-                                                    <select class="form-select" id="choosedoctor" aria-label="Choose Doctor">
-                                                        <option selected="selected">Choose Doctor</option>
-                                                        <option value="Dr. Catherine Denuve">Dr. Catherine Denuve</option>
-                                                        <option value="Dr. Laurence Olivier">Dr. Laurence Olivier</option>
-                                                        <option value="Dr. Susan Hopkins">Dr. Susan Hopkins</option>
-                                                    </select>
-                                                    <label for="choosedoctor">Choose Doctor</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="form-group">
-                                                <div class="form-floating field-inner">
-                                                    <input class="form-control" id="appointmentdate" name="appointmentdate" type="date" autocomplete="off" required="required">
-                                                    <label for="appointmentdate">Appointment Date</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-12">
-                                            <div class="appointment-btn-wapper">
-                                                <button type="submit" class="theme-button style-1" data-text="Book Appointment">
-                                                    <span data-text="Book Appointment">Book Appointment</span>
+                                        <div class="col-12">
+                                            <div class="appointment-btn-wapper mt-10">
+                                                <button type="submit" class="theme-button style-1" data-text="Send Message" id="submitBtn">
+                                                    <span data-text="Send Message">Send Message</span>
                                                     <i class="fa-solid fa-arrow-right"></i>
                                                 </button>
                                             </div>
                                         </div>
+                                        
                                     </div>
+                                    @if(session('success'))
+                                        <div class="alert alert-success mt-3">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+                                    @if(session('error'))
+                                        <div class="alert alert-danger mt-3">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                 </form>
                             </div>
                             <!-- default form end -->
@@ -849,7 +858,7 @@
                                     </ul>
                                 </div>
                                 <div class="portfolio-button-wapper">
-                                    <a href="services-details.html" class="portfolio-button-icon" aria-label="portfolio button icon">
+                                    <a href="" class="portfolio-button-icon" aria-label="portfolio button icon">
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
@@ -874,7 +883,7 @@
                                     </ul>
                                 </div>
                                 <div class="portfolio-button-wapper">
-                                    <a href="services-details.html" class="portfolio-button-icon" aria-label="portfolio button icon">
+                                    <a href="" class="portfolio-button-icon" aria-label="portfolio button icon">
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
@@ -899,7 +908,7 @@
                                     </ul>
                                 </div>
                                 <div class="portfolio-button-wapper">
-                                    <a href="services-details.html" class="portfolio-button-icon" aria-label="portfolio button icon">
+                                    <a href="" class="portfolio-button-icon" aria-label="portfolio button icon">
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
@@ -924,7 +933,7 @@
                                     </ul>
                                 </div>
                                 <div class="portfolio-button-wapper">
-                                    <a href="services-details.html" class="portfolio-button-icon" aria-label="portfolio button icon">
+                                    <a href="" class="portfolio-button-icon" aria-label="portfolio button icon">
                                         <i class="fa-solid fa-arrow-right"></i>
                                     </a>
                                 </div>
@@ -982,7 +991,7 @@
                             <!-- section title start -->
                             <div class="section-title wow fadeInUp" data-wow-delay=".2s">
                                 <span class="sub-title">Our Testimonials</span>
-                                <h2>What our patient think about services</h2>
+                                <h2>Voices of Trust and Care</h2>
                             </div>
                             <!-- section title end -->
                             <!-- testimonials slider start -->
@@ -1008,7 +1017,7 @@
                                                 </div>
                                             </div>
                                             <div class="testimonials-content">
-                                                <p>"Doctean is the best medical in the world I have great experience with them the provide authentic results & have the best environment the inside here. I can't express enough gratitude for the exceptional care experienced at doctean kudos to the remarkable team for press support!, I highly recommend them."</p>
+                                                <p>"The personalized care I received here made managing my diabetes so much easier. The doctors explained everything clearly, and the continuous monitoring gave me peace of mind. I finally feel in control of my health."</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -1017,8 +1026,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h3>Charlotte Walker</h3>
-                                                    <p>Founder</p>
+                                                    <h3>Ayesha</h3>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1044,7 +1053,7 @@
                                                 </div>
                                             </div>
                                             <div class="testimonials-content">
-                                                <p>"Doctean is the best medical in the world I have great experience with them the provide authentic results & have the best environment the inside here. I can't express enough gratitude for the exceptional care experienced at doctean kudos to the remarkable team for press support!, I highly recommend them."</p>
+                                                <p>“Their telemedicine service allowed me to get help quickly without leaving home. The consultation was smooth, and I felt like I was given the same attention as if I were in the hospital. Truly a modern approach to healthcare.”</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -1053,8 +1062,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h3>James Martin</h3>
-                                                    <p>CO Founder</p>
+                                                    <h3>Ali</h3>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1080,7 +1089,7 @@
                                                 </div>
                                             </div>
                                             <div class="testimonials-content">
-                                                <p>"Doctean is the best medical in the world I have great experience with them the provide authentic results & have the best environment the inside here. I can't express enough gratitude for the exceptional care experienced at doctean kudos to the remarkable team for press support!, I highly recommend them."</p>
+                                                <p>“Affordable, reliable, and compassionate care—I couldn’t ask for better. They guided me through every step of my treatment and also helped me access affordable medicines. It feels like they genuinely care about patients, not just numbers.”</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -1089,8 +1098,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h3>Ava Lee</h3>
-                                                    <p>Head of Operations</p>
+                                                    <h3>Fatima</h3>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1116,7 +1125,7 @@
                                                 </div>
                                             </div>
                                             <div class="testimonials-content">
-                                                <p>"Doctean is the best medical in the world I have great experience with them the provide authentic results & have the best environment the inside here. I can't express enough gratitude for the exceptional care experienced at doctean kudos to the remarkable team for press support!, I highly recommend them."</p>
+                                                <p>“The doctors here truly listen and provide long-term solutions, not just quick fixes. I’ve never felt rushed in appointments, and the support staff is equally kind and professional. It feels like a place built for patients, not just treatments.”</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -1125,8 +1134,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h3>Ethan Clark</h3>
-                                                    <p>Chief Designer</p>
+                                                    <h3>Hassan</h3>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1221,7 +1230,7 @@
         <!-- marquee ticker section end -->
 
         <!-- doctor section start -->
-        <section class="doctor-section-1 pt-100 md-pt-80 pb-100 md-pb-80">
+        <section id="doctors" class="doctor-section-1 pt-100 md-pt-80 pb-100 md-pb-80">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -1229,10 +1238,10 @@
                         <div class="section-title-area">
                             <div class="section-title wow fadeInLeft" data-wow-delay=".2s">
                                 <span class="sub-title">Our Doctor</span>
-                                <h2>Meet our expert eye specialists</h2>
+                                <h2>The Experts Behind Your Care</h2>
                             </div>
                             <div class="section-title-content wow fadeInRight" data-wow-delay=".2s">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <p>Our team of highly qualified doctors combines expertise with compassion to deliver trusted, high-quality care for patients of all ages.</p>
                             </div>
                         </div>
                         <!-- section title area end -->
@@ -1249,8 +1258,8 @@
                                 </figure>
                                 <div class="doctor-overlay">
                                     <div class="doctor-overlay-content">
-                                        <h3><a href="doctor-details.html">Dr. Catherine Denuve</a></h3>
-                                        <p>Optegra Eye</p>
+                                        <h3><a href="doctor-details.html">Dr. Sarah Khan</a></h3>
+                                        <p>Endocrinologist (Diabetes Specialist)</p>
                                         <div class="doctor-overlay-meta">
                                             <div class="doctor-social-media">
                                                 <ul>
@@ -1293,8 +1302,8 @@
                                     </figure>
                                 </div>
                                 <div class="doctor-item-content">
-                                    <h3><a href="doctor-details.html">Dr. Catherine Denuve</a></h3>
-                                    <p>Optegra Eye</p>
+                                    <h3><a href="doctor-details.html">Dr. Ahmed Malik</a></h3>
+                                    <p>Cardiologist</p>
                                 </div>
                             </div>
                             <!-- doctor item end -->
@@ -1306,8 +1315,8 @@
                                     </figure>
                                 </div>
                                 <div class="doctor-item-content">
-                                    <h3><a href="doctor-details.html">Dr. Laurence Olivier</a></h3>
-                                    <p>Lens replacement</p>
+                                    <h3><a href="doctor-details.html">Dr. Rabia Shah</a></h3>
+                                    <p>Nephrologist (Kidney Specialist)</p>
                                 </div>
                             </div>
                             <!-- doctor item end -->
@@ -1319,8 +1328,8 @@
                                     </figure>
                                 </div>
                                 <div class="doctor-item-content">
-                                    <h3><a href="doctor-details.html">Dr. Susan Hopkins</a></h3>
-                                    <p>Cataract Surgery</p>
+                                    <h3><a href="doctor-details.html">Dr. Usman Ali</a></h3>
+                                    <p>Psychiatrist</p>
                                 </div>
                             </div>
                             <!-- doctor item end -->
@@ -1354,16 +1363,22 @@
                             <!-- section title start -->
                             <div class="section-title">
                                 <span class="sub-title">Get In Touch</span>
-                                <h2>Best eye care &amp; health clinic near your city</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <h2>Your Health Journey Starts Here</h2>
+                                <p>Whether you need medical advice, an appointment, or just more information, we’re here to help. Reach out today and take the first step toward better health.</p>
                             </div>
                             <!-- section title end -->
                             <!-- cta button wapper start -->
                             <div class="cta-button-wapper">
-                                <a href="appointment.html" class="theme-button style-4" aria-label="Get Appointment">
+                                <button 
+                                    type="button"
+                                    class="theme-button style-4 book-appointment-btn"
+                                    aria-label="Get Appointment"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#bookAppointmentModal"
+                                >
                                     <span data-text="Get Appointment">Get Appointment</span>
                                     <i class="fa-solid fa-calendar-days"></i>
-                                </a>
+                                </button>
                                 <a href="contact.html" class="theme-button style-5" aria-label="Explore More">
                                     <span data-text="Explore More">Explore More</span>
                                     <i class="fa-solid fa-arrow-right"></i>
@@ -1396,8 +1411,8 @@
                             <!-- section title start -->
                             <div class="section-title wow fadeInUp" data-wow-delay=".2s">
                                 <span class="sub-title">Faq's</span>
-                                <h2>Clear answers to your questions</h2>
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <h2>Your Questions, Answered</h2>
+                                <p>Here are answers to some frequently asked questions about our healthcare services and approach.</p>
                             </div>
                             <!-- section title end -->
                             <!-- faq image start -->
@@ -1418,7 +1433,7 @@
                                         <!-- accordion-header start -->
                                         <h2 class="accordion-header" id="headingOne">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                What are common signs of serious eye problems?
+                                                Do you provide online consultations?
                                             </button>
                                         </h2>
                                         <!-- accordion header end -->
@@ -1429,8 +1444,7 @@
                                                 <div class="inner">
                                                     <div class="accordion-content">
                                                         <p>
-                                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-                                                            more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English
+                                                            Yes, we offer telemedicine services so you can consult doctors from home through your phone or computer. This makes it easier for patients with chronic conditions, mobility challenges, or busy schedules to get timely care without visiting the hospital.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1445,7 +1459,7 @@
                                         <!-- accordion-header start -->
                                         <h2 class="accordion-header" id="headingTwo">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                Are contact lenses better than glasses?
+                                                Are your services affordable?
                                             </button>
                                         </h2>
                                         <!-- accordion header end -->
@@ -1456,8 +1470,7 @@
                                                 <div class="inner">
                                                     <div class="accordion-content">
                                                         <p>
-                                                            It depends on your lifestyle. Contact lenses offer convenience for sports and aesthetics, while glasses are easier to maintain and cost-effective over time. An eye doctor
-                                                            can help you decide what suits you best.
+                                                            Affordability is at the core of our mission. By working directly with producers and using efficient systems, we reduce costs on medicines and services. We also provide flexible insurance options to ensure patients from different backgrounds can access quality care.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1472,7 +1485,7 @@
                                         <!-- accordion-header start -->
                                         <h2 class="accordion-header" id="headingThree">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                Are contact lenses safe to wear every day?
+                                                Do you provide mental health support?
                                             </button>
                                         </h2>
                                         <!-- accordion header end -->
@@ -1482,7 +1495,7 @@
                                             <div class="accordion-body">
                                                 <div class="inner">
                                                     <div class="accordion-content">
-                                                        <p>Yes, as long as you follow proper hygiene and your eye doctor’s instructions. Always clean and store lenses properly, and never sleep in them unless advised.</p>
+                                                        <p>Yes, we have dedicated mental health professionals who provide counseling, therapy, and psychiatric care. Whether it’s stress, anxiety, or long-term challenges, our team ensures patients receive the right support in a safe and compassionate environment.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1496,7 +1509,7 @@
                                         <!-- accordion-header start -->
                                         <h2 class="accordion-header" id="headingFour">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                                How often should I get my eyes checked?
+                                                What makes you different from other hospitals?
                                             </button>
                                         </h2>
                                         <!-- accordion-header end -->
@@ -1507,8 +1520,7 @@
                                                 <div class="inner">
                                                     <div class="accordion-content">
                                                         <p>
-                                                            Adults should get a comprehensive eye exam every 1 to 2 years, even if they have no vision issues. Children, seniors, and individuals with existing conditions may need more
-                                                            frequent visits.
+                                                            We combine modern digital healthcare—like electronic medical records and remote monitoring—with natural and preventive solutions. Our approach is holistic, focusing not only on treatment but also on long-term well-being and affordability.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1523,7 +1535,7 @@
                                         <!-- accordion-header start -->
                                         <h2 class="accordion-header" id="headingFive">
                                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                                Why do we respect your time and prioritize you?
+                                                Can patients without financial means get treatment?
                                             </button>
                                         </h2>
                                         <!-- accordion-header end -->
@@ -1534,8 +1546,7 @@
                                                 <div class="inner">
                                                     <div class="accordion-content">
                                                         <p>
-                                                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-                                                            more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English
+                                                            Yes, we support underprivileged patients through charity programs and donations. Our goal is to make sure financial difficulties never prevent anyone from receiving the care they need.
                                                         </p>
                                                     </div>
                                                 </div>
@@ -1990,4 +2001,131 @@
         </section>
         <!-- blog section end -->
     </main>
+@endsection
+@section('custom-js')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+<script>
+    $(document).ready(function () {
+        $('#bookAppointmentModal').on('shown.bs.modal', function () {
+            $('#appointment_services').select2({
+                dropdownParent: $('#bookAppointmentModal'),
+                placeholder: "Select services",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+
+        // Attach click event to all .book-appointment-btn to open modal and handle service selection
+        $(document).on('click', '.book-appointment-btn', function (e) {
+            // If the button has a data-service-name, preselect it
+            var serviceName = $(this).attr('data-service-name');
+            var $select = $('#appointment_services');
+            if ($select.length) {
+                // Deselect all
+                $select.find('option').prop('selected', false);
+                if (serviceName) {
+                    $select.find('option').each(function () {
+                        if ($(this).val() == serviceName) {
+                            $(this).prop('selected', true);
+                        }
+                    });
+                }
+                // If using select2, trigger change for UI update
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.trigger('change');
+                }
+            }
+            // Open the modal (in case not opened by data-bs-toggle)
+            $('#bookAppointmentModal').modal('show');
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('bookAppointmentForm');
+        form.addEventListener('submit', function (e) {
+            // Convert date to string (YYYY-MM-DD to readable format)
+            const dateInput = document.getElementById('appointment_date');
+            const dateValue = dateInput.value;
+            if (dateValue) {
+                const dateObj = new Date(dateValue);
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('converted_date').value = dateObj.toLocaleDateString(undefined, options);
+            } else {
+                document.getElementById('converted_date').value = '';
+            }
+
+            // Convert selected services to comma-separated string
+            const servicesSelect = document.getElementById('appointment_services');
+            const selected = Array.from(servicesSelect.selectedOptions).map(opt => opt.value);
+            document.getElementById('converted_services').value = selected.join(', ');
+        });
+    });
+</script>
+<script>
+    // Fix for submit button not working
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('appointmentForm');
+        var btn = document.getElementById('submitBtn');
+        if(form && btn) {
+            btn.addEventListener('click', function(e) {
+                // Let the form submit normally
+                form.submit();
+            });
+        }
+    });
+</script>
+{{-- 
+<script>
+    // Optional: If you want to pre-select the service in the modal when clicking "Book Appointment"
+    document.addEventListener('DOMContentLoaded', function () {
+        var bookButtons = document.querySelectorAll('.book-appointment-btn');
+        var serviceSelect = document.getElementById('appointment_services');
+        bookButtons.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var serviceName = btn.getAttribute('data-service-name');
+                if(serviceSelect) {
+                    for (var i = 0; i < serviceSelect.options.length; i++) {
+                        serviceSelect.options[i].selected = (serviceSelect.options[i].value === serviceName);
+                    }
+                }
+            });
+        });
+    });
+</script> 
+--}}
+{{--     
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // When the Book Appointment button is clicked
+        $('.book-appointment-btn').on('click', function () {
+            var serviceName = $(this).data('service-name');
+            // Set the selected service in the modal's select
+            $('#appointment_services option').prop('selected', false);
+            $('#appointment_services option').each(function() {
+                if ($(this).val() === serviceName) {
+                    $(this).prop('selected', true);
+                }
+            });
+            $('#appointment_services').trigger('change');
+        });
+
+        // On form submit, join selected services as comma separated string
+        $('#bookAppointmentForm').on('submit', function(e) {
+            // Before submit, convert selected services to comma separated string
+            var selected = $('#appointment_services').val() || [];
+            // Remove the name attribute from the select to avoid sending as array
+            $('#appointment_services').removeAttr('name');
+            // Add a hidden input with comma separated services
+            $(this).find('input[name="services"]').remove();
+            $('<input>').attr({
+                type: 'hidden',
+                name: 'services',
+                value: selected.join(', ')
+            }).appendTo(this);
+        });
+    });
+</script> 
+--}}
 @endsection

@@ -51,9 +51,27 @@
                                                     @csrf
                                                     <div class="modal-body">
                                                         <div class="form-group mt-1">
-                                                            <label for="appointment_date">Appointment Scheduale</label>
-                                                            <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('appointment_date') }}">
+                                                            <label for="appointment_date">Appointment Schedule</label>
+                                                            <input type="date" class="my-1 form-control" name="appointment_date" id="appointment_date" required min="{{ date('Y-m-d', strtotime('+1 day')) }}" value="{{ old('appointment_date', $appointment->appointment_date) }}">
                                                             @error('appointment_date')
+                                                                <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="form-group mt-1">
+                                                            <label for="services">Select Services</label>
+                                                            <select class="form-control select2" name="services[]" id="services-{{ $appointment->id }}" multiple required>
+                                                                @foreach($services as $service)
+                                                                    <option value="{{ $service->id }}"
+                                                                        @if(
+                                                                            (is_array(old('services')) && in_array($service->id, old('services'))) ||
+                                                                            (!is_array(old('services')) && $appointment->services->contains('id', $service->id))
+                                                                        )
+                                                                            selected
+                                                                        @endif
+                                                                    >{{ $service->service_name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('services')
                                                                 <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                                             @enderror
                                                         </div>
@@ -65,6 +83,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                             @endforeach
                         </tbody>
                     </table>
@@ -89,7 +108,14 @@
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 <script>
-  
+                                      
+    $(document).ready(function() {
+        $('#services-{{ $appointment->id }}').select2({
+            width: '100%',
+            dropdownParent: $('#exampleModalCenter-{{ $appointment->id }}')
+        });
+    });
+
     $(function () {
     'use strict';
 
