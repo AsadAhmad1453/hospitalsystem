@@ -242,7 +242,7 @@
                                         <div class="main-menu">
                                             <nav id="mobile-menu">
                                                 <ul>
-                                                    <li class="menu-thumb">
+                                                    <li class="menu-thumb ">
                                                         <a href="{{ route('home') }}">Home</a>
                                                     </li>
                                                     <li>
@@ -273,8 +273,8 @@
                                     <div class="header-right d-flex align-items-center gap-lg-4 gap-3">
                                         <!-- header button -->
                                         <div class="header-button">
-                                            <a href="{{ route('register-student') }}" class="theme-button style-1" aria-label="Book Appointment">
-                                                <span data-text="Sign Up">Sign Up</span>
+                                            <a href="{{ route('staff-login') }}" class="theme-button style-1" aria-label="Book Appointment">
+                                                <span data-text="Log In">Log in</span>
                                                 <i class="fa-solid fa-arrow-right"></i>
                                             </a>
                                         </div>
@@ -311,10 +311,13 @@
                                 <div class="col-lg-4 col-md-12">
                                     <!-- footer logo start -->
                                     <div class="footer-logo wow fadeInUp" data-wow-delay=".2s">
-                                        <a href="{{ route('home') }}">
-                                            <figure>
-                                                <img src="{{ asset("website-assets/images/logo/logo-white.svg") }}" alt="footer logo">
-                                            </figure>
+                                        <a href="{{ route('home') }}" style="text-decoration: none;">
+                                            <div style="display: flex; align-items: center; gap: 12px;">
+                                                <figure style="margin: 0;">
+                                                    <img src="{{ asset('website-assets/images/logo/Shafayaat.png') }}" width="50" alt="footer logo">
+                                                </figure>
+                                                <span class="text-uppercase" style="color: #035e58; font-size: 1.5rem; font-weight: 600; letter-spacing: 1px;">Shafayaat</span>
+                                            </div>
                                         </a>
                                     </div>
                                     <!-- footer logo end -->
@@ -360,7 +363,7 @@
                                 <div class="col-xl-4 col-lg-12">
                                     <!-- footer widget start -->
                                     <div class="footer-widget footer-widget-about wow fadeInUp" data-wow-delay=".2s">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor asin cididunt ut labore et dolore magna ali qua. Lorem ipsum dolor sit amet.</p>
+                                        <p>We are committed to delivering modern, affordable, and patient-centered healthcare powered by innovation and compassion. Together, we aim to build a healthier future for every community we serve.</p>
                                         <!-- footer social icon start -->
                                         <div class="footer-social-icon">
                                             <ul class="social-icon">

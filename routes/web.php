@@ -21,6 +21,8 @@ use App\Http\Controllers\User\AIChatController;
 use App\Http\Controllers\Website\HomePageController;
 use App\Http\Controllers\Website\OpenDataCollectorController;
 use App\Http\Controllers\LMS\RegisterController;
+use App\Http\Controllers\Patient\PatientLoginController;
+use App\Http\Controllers\Patient\PatientHomeController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,10 @@ use Illuminate\Support\Facades\Artisan;
 
 Auth::routes();
 // website routes
+
+Route::get('/patient/login', [PatientLoginController::class, 'index'])->name('patient.login');
+Route::get('/patient/home', [PatientHomeController::class, 'index'])->name('patient.home');
+
 
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'index')->name('register-student');

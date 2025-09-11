@@ -67,12 +67,12 @@
                                     <div class="hero-image-right">
                                         <div class="hero-image-right-top">
                                             <figure class="image-anime">
-                                                <img src="{{ asset('website-assets/images/hero/hero-1-2.jpg') }}" alt="hero image two">
+                                                <img src="{{ asset('website-assets/images/hero/hero2.jpg') }}" alt="hero image two">
                                             </figure>
                                         </div>
                                         <div class="hero-image-right-bottom">
                                             <figure class="image-anime">
-                                                <img src="{{ asset('website-assets/images/hero/hero-1-3.jpg') }}" alt="hero image three">
+                                                <img src="{{ asset('website-assets/images/hero/hero3.jpg') }}" alt="hero image three">
                                             </figure>
                                         </div>
                                     </div>
@@ -385,8 +385,141 @@
                             </div>
                             <div class="form-group">
                                 <label for="appointment_date">Date</label>
-                                <input type="date" class="form-control" id="appointment_date" name="appointment_date" required min="{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}">
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="appointment_date" 
+                                    name="appointment_date" 
+                                    required 
+                                    autocomplete="off"
+                                    placeholder="Select a date"
+                                >
                             </div>
+                            <style>
+                                /* Minimalistic, modern, lush Flatpickr calendar styles */
+                                .flatpickr-calendar {
+                                    background: #fff;
+                                    border: 1px solid #0e9a8c;
+                                    border-radius: 12px;
+                                    box-shadow: 0 4px 24px rgba(3,94,88,0.10);
+                                    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+                                    z-index: 99999 !important;
+                                    min-width: 240px;
+                                    max-width: 280px;
+                                    width: 100%;
+                                    padding: 0;
+                                    transition: box-shadow 0.2s;
+                                }
+                                .flatpickr-calendar.open {
+                                    animation: fadeInScale 0.18s cubic-bezier(.4,0,.2,1);
+                                }
+                                @keyframes fadeInScale {
+                                    from { opacity: 0; transform: scale(0.97);}
+                                    to { opacity: 1; transform: scale(1);}
+                                }
+                                .flatpickr-months {
+                                    background: #035E58;
+                                    color: #fff !important;
+                                    border-radius: 12px 12px 0 0;
+                                    padding: 0.3em 0;
+                                }
+                                .flatpickr-month {
+                                    font-weight: 600;
+                                    font-size: 1em;
+                                    letter-spacing: 0.2px;
+                                }
+                                .flatpickr-weekdays {
+                                    background: #f4fbfa;
+                                    border-bottom: 1px solid #e6f7f5;
+                                    border-radius: 0 0 6px 6px;
+                                }
+                                .flatpickr-weekday {
+                                    color: #0e9a8c;
+                                    font-weight: 500;
+                                    font-size: 0.95em;
+                                    letter-spacing: 0.1em;
+                                    text-transform: uppercase;
+                                }
+                                .flatpickr-days {
+                                    padding: 0.2em 0.3em 0.3em 0.3em;
+                                }
+                                .flatpickr-day {
+                                    border-radius: 7px;
+                                    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+                                    font-size: 0.98em;
+                                    color: #035E58;
+                                    font-weight: 500;
+                                    margin: 1.5px 0;
+                                    position: relative;
+                                    width: 32px;
+                                    height: 32px;
+                                    line-height: 32px;
+                                    max-width: 32px;
+                                    max-height: 32px;
+                                }
+                                .flatpickr-day:hover, .flatpickr-day:focus {
+                                    background: #0e9a8c;
+                                    color: #fff;
+                                    box-shadow: 0 1px 4px rgba(3,94,88,0.08);
+                                    cursor: pointer;
+                                }
+                                .flatpickr-day.today {
+                                    background: #e6f7f5;
+                                    color: #035E58;
+                                    border: 1.5px solid #0e9a8c;
+                                    font-weight: 600;
+                                }
+                                .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+                                    background: linear-gradient(90deg, #035E58 80%, #0e9a8c 100%);
+                                    color: #fff;
+                                    font-weight: 600;
+                                    box-shadow: 0 1px 6px rgba(3,94,88,0.10);
+                                }
+                                .flatpickr-day.inRange {
+                                    background: #b2e6e2;
+                                    color: #035E58;
+                                }
+                                .flatpickr-day.disabled, .flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay {
+                                    color: #b0b0b0;
+                                    background: #fafbfb;
+                                    cursor: not-allowed;
+                                    opacity: 0.6;
+                                }
+                                .flatpickr-current-month input.cur-year {
+                                    background: transparent;
+                                    color: #fff;
+                                    font-weight: 500;
+                                    border: none;
+                                    font-size: 1em;
+                                }
+                                .flatpickr-calendar.arrowTop:before, .flatpickr-calendar.arrowTop:after {
+                                    border-bottom-color: #0e9a8c;
+                                }
+                                .flatpickr-time {
+                                    border-top: 1px solid #e6f7f5;
+                                    background: #f8f8f8;
+                                    border-radius: 0 0 12px 12px;
+                                }
+                                .flatpickr-time input, .flatpickr-time .flatpickr-am-pm {
+                                    font-size: 0.98em;
+                                    color: #035E58;
+                                }
+                                /* Remove custom close button for minimalism */
+                                .flatpickr-close {
+                                    display: none !important;
+                                }
+                            </style>
+                            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    flatpickr("#appointment_date", {
+                                        minDate: "{{ \Carbon\Carbon::tomorrow()->format('Y-m-d') }}",
+                                        dateFormat: "Y-m-d",
+                                        disableMobile: true
+                                    });
+                                });
+                            </script>
 
                             <div class="form-group mt-2 ">
                                 <label for="appointment_services">Select Services</label>
@@ -406,8 +539,8 @@
                             <input type="hidden" name="services" id="converted_services">
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="theme-button style-2">Book</button>
+                            <button type="button" class="theme-button style-2 btn-cross" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="theme-button style-1">Book</button>
                         </div>
                     </div>
                 </form>

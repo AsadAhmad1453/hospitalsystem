@@ -43,7 +43,7 @@
                         <!-- section title start -->
                         <div class="section-title mb-20 wow fadeInUp" data-wow-delay=".2s">
                             <span class="sub-title">About Us</span>
-                            <h2>We're on a mission to change view of eye.</h2>
+                            <h2>Redefining Healthcare with Compassion and Innovation.</h2>
                         </div>
                         <!-- section title end -->
                     </div>
@@ -53,16 +53,13 @@
                             <!-- about content text start -->
                             <div class="about-content-text">
                                 <p>
-                                    It doesn't matter how organized you are — a surplus of toys will always ensure your house is a mess waiting to happen. Fortunately, getting kids on board with the idea of ditching their stuff is a
-                                    lot easier than it sounds.
+                                    We are redefining healthcare with a focus on accessibility, affordability, and innovation. Our vision is to create a patient-centered ecosystem that combines modern medical practices with natural solutions, ensuring every individual has the opportunity to manage their health with confidence.
                                 </p>
                                 <p>
-                                    Maecenas quis viverra metus, et efficitur ligula. Nam congue augue et ex congue, sed luctus lectus congue. Integer convallis condimentum sem. Duis elementum tortor eget condimentum tempor.
-                                    Praesent sollicitudin lectus ut pharetra pulvinar.
+                                    By integrating the latest digital technologies, we provide smarter healthcare solutions such as electronic medical records, telemedicine, and remote monitoring. These tools not only improve the quality of care but also make it easier for patients to stay informed and actively involved in their health journey.
                                 </p>
                                 <p>
-                                    There are many variations of pass of lorem ipsum available but the majority have suffered alteration in some form. Injected humour randomised words which don't look even slightly believable you
-                                    need to be sure there isn't anything embarrassing. Praesent arcu gravida vehicula est node maecenas loareet.
+                                    Beyond treatment, we are dedicated to continuous research, education, and community support. From developing preventive strategies to offering affordable natural health products, our mission is to empower patients with knowledge and choices that improve both their physical and mental well-being.
                                 </p>
                             </div>
                             <!-- about content text end -->
@@ -75,8 +72,8 @@
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
-                                        <h3>Personalized Eye Exams</h3>
-                                        <p>There are many variations of pasrsfgses of Lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Patient-First Approach</h3>
+                                        <p>Every decision, service, and treatment is designed around the needs of our patients.</p>
                                     </div>
                                 </div>
                                 <div class="about-features-item">
@@ -86,8 +83,8 @@
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
-                                        <h3>Chronic Eye Conditions</h3>
-                                        <p>There are many variations of pasrsfgses of Lorem Ipsum btmred ine form injected humour.</p>
+                                        <h3>Innovation for Better Care</h3>
+                                        <p>We use advanced technologies and evidence-based methods to provide healthcare that is modern, reliable, and affordable.</p>
                                     </div>
                                 </div>
                             </div>
@@ -108,11 +105,11 @@
                         <!-- section title area start -->
                         <div class="section-title-area">
                             <div class="section-title wow fadeInLeft" data-wow-delay=".2s">
-                                <span class="sub-title">Our Doctor</span>
-                                <h2>Meet The Talented Team Driving Our Doctors</h2>
+                                <span class="sub-title">Our Doctors</span>
+                                <h2>The Experts Behind Your Care</h2>
                             </div>
                             <div class="section-title-content wow fadeInRight" data-wow-delay=".2s">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                                <p>Our team of highly qualified doctors combines expertise with compassion to deliver trusted, high-quality care for patients of all ages.</p>
                             </div>
                         </div>
                         <!-- section title area end -->
@@ -152,8 +149,8 @@
                             <!-- doctor image end -->
                             <!-- doctor content start -->
                             <div class="doctor-content">
-                                <h3><a href="doctor-details.html">Dr. Catherine Denuve</a></h3>
-                                <p>Optegra Eye</p>
+                                <h3><a href="doctor-details.html">Dr. Rabia Shah</a></h3>
+                                <p>Cardiologist</p>
                             </div>
                             <!-- doctor content end -->
                         </div>
@@ -192,8 +189,8 @@
                             <!-- doctor image end -->
                             <!-- doctor content start -->
                             <div class="doctor-content">
-                                <h3><a href="doctor-details.html">Dr. Laurence Olivier</a></h3>
-                                <p>Lens replacement</p>
+                                <h3><a href="doctor-details.html">Dr. Ahmed Malik</a></h3>
+                                <p>Nephrologist (Kidney Specialist)</p>
                             </div>
                             <!-- doctor content end -->
                         </div>
@@ -232,8 +229,8 @@
                             <!-- doctor image end -->
                             <!-- doctor content start -->
                             <div class="doctor-content">
-                                <h3><a href="doctor-details.html">Dr. Susan Hopkins</a></h3>
-                                <p>Cataract surgery</p>
+                                <h3><a href="doctor-details.html">Dr. Usman Ali</a></h3>
+                                <p>Psychiatrist</p>
                             </div>
                             <!-- doctor content end -->
                         </div>
@@ -272,8 +269,8 @@
                             <!-- doctor image end -->
                             <!-- doctor content start -->
                             <div class="doctor-content">
-                                <h3><a href="doctor-details.html">Dr. Keanu Reeves</a></h3>
-                                <p>Clarivu eye</p>
+                                <h3><a href="doctor-details.html">Dr. Sarah Khan</a></h3>
+                                <p>Endocrinologist (Diabetes Specialist)</p>
                             </div>
                             <!-- doctor content end -->
                         </div>
@@ -340,7 +337,7 @@
                         <div class="section-title text-center wow fadeInUp" data-wow-delay=".2s">
                             <span class="sub-title">Our Testimonials</span>
                             <h2>Real Experiences Exceptional Healthcare</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
+                            <p>Our patients’ experiences reflect the care, compassion, and commitment we bring to every interaction. Here’s what they have to say about their journey with us</p>
                         </div>
                         <!-- section title end -->
                     </div>
@@ -371,8 +368,8 @@
                                                         </figure>
                                                     </div>
                                                 </div>
-                                                <h3>Patient Centered Care</h3>
-                                                <p class="desc">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,</p>
+                                                <h3>Diabetes Care</h3>
+                                                <p class="desc">I was struggling to manage my diabetes for years, but the team here gave me the right guidance and constant support. Their digital monitoring system made it so much easier to track my progress. I finally feel in control of my health.</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -381,8 +378,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h4>Mia Scott</h4>
-                                                    <p>Head of Director</p>
+                                                    <h4>Hassan Ali</h4>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -410,8 +407,8 @@
                                                         </figure>
                                                     </div>
                                                 </div>
-                                                <h3>Dry Eye Treatment</h3>
-                                                <p class="desc">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,</p>
+                                                <h3>Telemedicine</h3>
+                                                <p class="desc">The telemedicine service saved me so much time and effort. I was able to connect with a specialist from home and still received the same level of care as an in-person visit. It’s healthcare made simple.</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -420,8 +417,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h4>Liam Rodri</h4>
-                                                    <p>Product Manager</p>
+                                                    <h4>Hania Aslam</h4>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -449,8 +446,8 @@
                                                         </figure>
                                                     </div>
                                                 </div>
-                                                <h3>Contact Lens Fitting</h3>
-                                                <p class="desc">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here,</p>
+                                                <h3>Heart Disease Care</h3>
+                                                <p class="desc">I’ve visited many hospitals, but this one stands out because of its compassion. The doctors take time to listen, explain everything clearly, and ensure you’re comfortable with your treatment plan. That human touch makes all the difference.</p>
                                             </div>
                                             <div class="testimonials-author">
                                                 <div class="testimonials-author-image">
@@ -459,8 +456,8 @@
                                                     </figure>
                                                 </div>
                                                 <div class="testimonials-author-content">
-                                                    <h4>Lucas Jackson</h4>
-                                                    <p>Lead Enginee</p>
+                                                    <h4>Iftikhar Ahmad</h4>
+                                                    <p>Patient</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -484,168 +481,168 @@
         <!-- testimonials section end -->
 
         <!-- faq section start -->
-        <section class="faq-section-3 pt-100 md-pt-80 pb-100 md-pb-80">
+        <section class="faq-section-1 pt-100 md-pt-80">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <!-- section title start -->
-                        <div class="section-title wow fadeInUp" data-wow-delay=".2s">
-                            <span class="sub-title">Faq's</span>
-                            <h2>Clear Answers To Your Questions</h2>
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem voluptates modi omnis dolore et mollitia dolorem alias voluptatibus tempora soluta ut officia ullam magnam obcaecati accusantium.</p>
-                        </div>
-                        <!-- section title end -->
-                        <!-- faq image start -->
-                        <div class="faq-image wow fadeInUp" data-wow-delay=".3s">
-                            <figure class="image-anime">
-                                <img src="{{ asset('website-assets/images/faqs/faqs-3-1.jpg') }}" alt="faq image">
-                            </figure>
-                        </div>
-                        <!-- faq image end -->
-                    </div>
-                    <div class="col-lg-6">
-                        <!-- faq-content start -->
-                        <div class="faq-content wow fadeInUp" data-wow-delay=".2s">
-                            <!-- accordion start -->
-                            <div class="accordion" id="accordionExample">
-                                <!-- accordion item start -->
-                                <div class="accordion-item">
-                                    <!-- accordion-header start -->
-                                    <h2 class="accordion-header" id="headingOne">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            What are common signs of serious eye problems?
-                                        </button>
-                                    </h2>
-                                    <!-- accordion header end -->
-                                    <!-- accordion collapse start -->
-                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                        <!-- accordion body start -->
-                                        <div class="accordion-body">
-                                            <div class="inner">
-                                                <div class="accordion-content">
-                                                    <p>
-                                                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-                                                        more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- accordion body end -->
-                                    </div>
-                                    <!-- accordion collapse end -->
-                                </div>
-                                <!-- accordion item end -->
-                                <!-- accordion item start -->
-                                <div class="accordion-item">
-                                    <!-- accordion-header start -->
-                                    <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Are contact lenses better than glasses?
-                                        </button>
-                                    </h2>
-                                    <!-- accordion header end -->
-                                    <!-- accordion collapse start -->
-                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                        <!-- accordion body start -->
-                                        <div class="accordion-body">
-                                            <div class="inner">
-                                                <div class="accordion-content">
-                                                    <p>
-                                                        It depends on your lifestyle. Contact lenses offer convenience for sports and aesthetics, while glasses are easier to maintain and cost-effective over time. An eye doctor can
-                                                        help you decide what suits you best.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- accordion body end -->
-                                    </div>
-                                    <!-- accordion collapse end -->
-                                </div>
-                                <!-- accordion item end -->
-                                <!-- accordion item start -->
-                                <div class="accordion-item">
-                                    <!-- accordion-header start -->
-                                    <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                            Are contact lenses safe to wear every day?
-                                        </button>
-                                    </h2>
-                                    <!-- accordion header end -->
-                                    <!-- accordion collapse start -->
-                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                        <!-- accordion body start -->
-                                        <div class="accordion-body">
-                                            <div class="inner">
-                                                <div class="accordion-content">
-                                                    <p>Yes, as long as you follow proper hygiene and your eye doctor’s instructions. Always clean and store lenses properly, and never sleep in them unless advised.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- accordion body end -->
-                                    </div>
-                                    <!-- accordion collapse end -->
-                                </div>
-                                <!-- accordion item end -->
-                                <!-- accordion item start -->
-                                <div class="accordion-item">
-                                    <!-- accordion-header start -->
-                                    <h2 class="accordion-header" id="headingFour">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                            How often should I get my eyes checked?
-                                        </button>
-                                    </h2>
-                                    <!-- accordion-header end -->
-                                    <!-- accordion collapse start -->
-                                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                        <!-- accordion body start -->
-                                        <div class="accordion-body">
-                                            <div class="inner">
-                                                <div class="accordion-content">
-                                                    <p>
-                                                        Adults should get a comprehensive eye exam every 1 to 2 years, even if they have no vision issues. Children, seniors, and individuals with existing conditions may need more
-                                                        frequent visits.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- accordion body end -->
-                                    </div>
-                                    <!-- accordion collapse end-->
-                                </div>
-                                <!-- accordion item end -->
-                                <!-- accordion item start -->
-                                <div class="accordion-item">
-                                    <!-- accordion-header start -->
-                                    <h2 class="accordion-header" id="headingFive">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                            Why do we respect your time and prioritize you?
-                                        </button>
-                                    </h2>
-                                    <!-- accordion-header end -->
-                                    <!-- accordion collapse start -->
-                                    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-                                        <!-- accordion body start -->
-                                        <div class="accordion-body">
-                                            <div class="inner">
-                                                <div class="accordion-content">
-                                                    <p>
-                                                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a
-                                                        more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- accordion body end -->
-                                    </div>
-                                    <!-- accordion collapse end-->
-                                </div>
-                                <!-- accordion item end -->
+                <!-- faq wapper start -->
+                <div class="faq-wapper">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <!-- section title start -->
+                            <div class="section-title wow fadeInUp" data-wow-delay=".2s">
+                                <span class="sub-title">Faq's</span>
+                                <h2>Your Questions, Answered</h2>
+                                <p>Here are answers to some frequently asked questions about our healthcare services and approach.</p>
                             </div>
-                            <!-- accordion end -->
+                            <!-- section title end -->
+                            <!-- faq image start -->
+                            <div class="faq-image wow fadeInUp" data-wow-delay=".3s">
+                                <figure class="image-anime">
+                                    <img src="{{ asset('website-assets/images/faqs/faqs-1-1.jpg') }}" alt="faq image one">
+                                </figure>
+                            </div>
+                            <!-- faq image end -->
                         </div>
-                        <!-- faq-content end -->
+                        <div class="col-lg-6">
+                            <!-- faq-content start -->
+                            <div class="faq-content wow fadeInUp" data-wow-delay=".2s">
+                                <!-- accordion start -->
+                                <div class="accordion" id="accordionExample">
+                                    <!-- accordion item start -->
+                                    <div class="accordion-item">
+                                        <!-- accordion-header start -->
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Do you provide online consultations?
+                                            </button>
+                                        </h2>
+                                        <!-- accordion header end -->
+                                        <!-- accordion collapse start -->
+                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                            <!-- accordion body start -->
+                                            <div class="accordion-body">
+                                                <div class="inner">
+                                                    <div class="accordion-content">
+                                                        <p>
+                                                            Yes, we offer telemedicine services so you can consult doctors from home through your phone or computer. This makes it easier for patients with chronic conditions, mobility challenges, or busy schedules to get timely care without visiting the hospital.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion body end -->
+                                        </div>
+                                        <!-- accordion collapse end -->
+                                    </div>
+                                    <!-- accordion item end -->
+                                    <!-- accordion item start -->
+                                    <div class="accordion-item">
+                                        <!-- accordion-header start -->
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Are your services affordable?
+                                            </button>
+                                        </h2>
+                                        <!-- accordion header end -->
+                                        <!-- accordion collapse start -->
+                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                            <!-- accordion body start -->
+                                            <div class="accordion-body">
+                                                <div class="inner">
+                                                    <div class="accordion-content">
+                                                        <p>
+                                                            Affordability is at the core of our mission. By working directly with producers and using efficient systems, we reduce costs on medicines and services. We also provide flexible insurance options to ensure patients from different backgrounds can access quality care.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion body end -->
+                                        </div>
+                                        <!-- accordion collapse end -->
+                                    </div>
+                                    <!-- accordion item end -->
+                                    <!-- accordion item start -->
+                                    <div class="accordion-item">
+                                        <!-- accordion-header start -->
+                                        <h2 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Do you provide mental health support?
+                                            </button>
+                                        </h2>
+                                        <!-- accordion header end -->
+                                        <!-- accordion collapse start -->
+                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <!-- accordion body start -->
+                                            <div class="accordion-body">
+                                                <div class="inner">
+                                                    <div class="accordion-content">
+                                                        <p>Yes, we have dedicated mental health professionals who provide counseling, therapy, and psychiatric care. Whether it’s stress, anxiety, or long-term challenges, our team ensures patients receive the right support in a safe and compassionate environment.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion body end -->
+                                        </div>
+                                        <!-- accordion collapse end -->
+                                    </div>
+                                    <!-- accordion item end -->
+                                    <!-- accordion item start -->
+                                    <div class="accordion-item">
+                                        <!-- accordion-header start -->
+                                        <h2 class="accordion-header" id="headingFour">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                What makes you different from other hospitals?
+                                            </button>
+                                        </h2>
+                                        <!-- accordion-header end -->
+                                        <!-- accordion collapse start -->
+                                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                            <!-- accordion body start -->
+                                            <div class="accordion-body">
+                                                <div class="inner">
+                                                    <div class="accordion-content">
+                                                        <p>
+                                                            We combine modern digital healthcare—like electronic medical records and remote monitoring—with natural and preventive solutions. Our approach is holistic, focusing not only on treatment but also on long-term well-being and affordability.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion body end -->
+                                        </div>
+                                        <!-- accordion collapse end-->
+                                    </div>
+                                    <!-- accordion item end -->
+                                    <!-- accordion item start -->
+                                    <div class="accordion-item">
+                                        <!-- accordion-header start -->
+                                        <h2 class="accordion-header" id="headingFive">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                Can patients without financial means get treatment?
+                                            </button>
+                                        </h2>
+                                        <!-- accordion-header end -->
+                                        <!-- accordion collapse start -->
+                                        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                            <!-- accordion body start -->
+                                            <div class="accordion-body">
+                                                <div class="inner">
+                                                    <div class="accordion-content">
+                                                        <p>
+                                                            Yes, we support underprivileged patients through charity programs and donations. Our goal is to make sure financial difficulties never prevent anyone from receiving the care they need.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- accordion body end -->
+                                        </div>
+                                        <!-- accordion collapse end-->
+                                    </div>
+                                    <!-- accordion item end -->
+                                </div>
+                                <!-- accordion end -->
+                            </div>
+                            <!-- faq-content end -->
+                        </div>
                     </div>
                 </div>
+                <!-- faq wapper end -->
             </div>
         </section>
         <!-- faq section end -->
