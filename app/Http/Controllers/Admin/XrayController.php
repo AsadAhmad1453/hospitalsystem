@@ -34,4 +34,32 @@ class XrayController extends Controller
 
         return redirect()->back()->with('success', 'X-ray deleted successfully.');
     }
+
+    // New admin panel methods
+    public function indexNew()
+    {
+        $xrays = Xray::all();
+        return view('admin-new.laboratory.xrays', compact('xrays'));
+    }
+
+    public function saveXrayNew(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $xray = new Xray();
+        $xray->name = $request->name;
+        $xray->save();
+
+        return redirect()->back()->with('success', 'X-ray added successfully.');
+    }
+
+    public function deleteXrayNew($id)
+    {
+        $xray = Xray::findOrFail($id);
+        $xray->delete();
+
+        return redirect()->back()->with('success', 'X-ray deleted successfully.');
+    }
 }

@@ -33,4 +33,32 @@ class CtscanController extends Controller
 
         return redirect()->route('ctscans')->with('success', 'CT Scan deleted successfully.');
     }
+
+    // New admin panel methods
+    public function indexNew()
+    {
+        $ctscans = Ctscan::all();
+        return view('admin-new.laboratory.ctscans', compact('ctscans'));
+    }
+
+    public function saveNew(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Ctscan::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->back()->with('success', 'CT Scan created successfully.');
+    }
+
+    public function deleteNew($id)
+    {
+        $ctscan = Ctscan::findOrFail($id);
+        $ctscan->delete();
+
+        return redirect()->back()->with('success', 'CT Scan deleted successfully.');
+    }
 }

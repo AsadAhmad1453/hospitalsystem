@@ -1,65 +1,189 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
+
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use App\Models\User;
+use App\Services\Admin\UserService;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 class UsersController extends Controller
 {
-    public function index(){
-        $roles = Role::with('permissions')->get();
-        $users = User::with('roles')->get();
-        return view('admin.users.users', get_defined_vars());
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
     }
 
+    /**
+     * Display users listing (old admin panel)
+     */
+    public function index()
+    {
+        $roles = Role::with('permissions')->get();
+        $users = $this->userService->getAllUsers();
+        
+        return view('admin.users.users', compact('roles', 'users'));
+    }
+
+    /**
+     * Save user (old admin panel)
+     */
     public function saveuser(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'role_id' => 'required|exists:roles,id',
-        ]);
-
-        DB::beginTransaction();
-
         try {
-            // Double-check email existence in case of race condition
-            if (User::where('email', $request->email)->exists()) {
-                return back()->with('error', 'User with this email already exists.');
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'role_id' => $request->role_id,
-                'role' => '1'
-            ]);
-
-            $role = Role::find($request->role_id);
-            $user->assignRole($role->name);
-
-            DB::commit();
-            return back()->with('success', 'User Added');
+            $this->userService->createUser($request);
+            return back()->with('success', 'User Added Successfully');
         } catch (\Exception $e) {
-            DB::rollBack();
+            Log::error('Error creating user: ' . $e->getMessage());
             return back()->with('error', 'Something went wrong. Please try again.');
         }
     }
 
-    public function deluser($id){
-        User::where('id', $id)->delete();
-        return back()->with(['success', 'User Deleted']);
+    /**
+     * Delete user (old admin panel)
+     */
+    public function deluser($id)
+    {
+        try {
+            $this->userService->deleteUser($id);
+            return back()->with('success', 'User Deleted Successfully');
+        } catch (\Exception $e) {
+            Log::error('Error deleting user: ' . $e->getMessage());
+            return back()->with('error', 'Error deleting user');
+        }
     }
 
+    /**
+     * Show users by role (old admin panel)
+     */
     public function rolestable($id)
     {
         $role = Role::findOrFail($id);
-        $users = User::role($role->name)->with('roles')->get();
+        $users = $this->userService->getUsersByRole($id);
+        
         return view('admin.roles.rolestable', compact('role', 'users'));
+    }
+
+    /**
+     * Display users listing (new admin panel)
+     */
+    public function indexNew()
+    {
+        $roles = Role::with('permissions')->get();
+        $users = $this->userService->getAllUsers();
+        
+        return view('admin-new.users.users', compact('roles', 'users'));
+    }
+
+    /**
+     * Save user (new admin panel)
+     */
+    public function saveuserNew(Request $request)
+    {
+        try {
+            $this->userService->createUser($request);
+            return response()->json([
+                'success' => true, 
+                'message' => 'User Added Successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error creating user: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Something went wrong. Please try again.'
+            ]);
+        }
+    }
+
+    /**
+     * Delete user (new admin panel)
+     */
+    public function deluserNew($id)
+    {
+        try {
+            $this->userService->deleteUser($id);
+            return response()->json([
+                'success' => true, 
+                'message' => 'User Deleted Successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error deleting user: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Error deleting user'
+            ]);
+        }
+    }
+
+    /**
+     * Show users by role (new admin panel)
+     */
+    public function rolestableNew($id)
+    {
+        $role = Role::findOrFail($id);
+        $users = $this->userService->getUsersByRole($id);
+        
+        return view('admin-new.users.roles-table', compact('role', 'users'));
+    }
+
+    /**
+     * Show user details (new admin panel)
+     */
+    public function showNew($id)
+    {
+        try {
+            $user = $this->userService->getAllUsers()->find($id);
+            
+            if (!$user) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+            $userData = $user->toArray();
+            $userData['role_id'] = $user->role_id;
+            $userData['role'] = $user->roles->first() ? $user->roles->first()->name : 'No Role';
+            
+            return response()->json($userData);
+        } catch (\Exception $e) {
+            Log::error('Error fetching user: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Error fetching user details'
+            ]);
+        }
+    }
+
+    /**
+     * Update user (new admin panel)
+     */
+    public function updateNew(Request $request, $id)
+    {
+        try {
+            $this->userService->updateUser($request, $id);
+            return response()->json([
+                'success' => true, 
+                'message' => 'User updated successfully'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Error updating user: ' . $e->getMessage());
+            return response()->json([
+                'success' => false, 
+                'message' => 'Error updating user: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Show add user form (new admin panel)
+     */
+    public function addUserNew()
+    {
+        $roles = Role::all();
+        return view('admin-new.users.add-user', compact('roles'));
     }
 }

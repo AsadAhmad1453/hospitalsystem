@@ -24,7 +24,7 @@ class PatientEntryController extends Controller
 
     public function addPatient()
     {
-        $doctors = User::role('doctor')->get();
+        $doctors = User::role('doctors')->get();
         $nurses = User::role('nurse')->get();
         $dcs = User::role('data collector')->get();
         $services = Service::all();
@@ -118,9 +118,9 @@ class PatientEntryController extends Controller
     public function editPatient($id)
     {
         $patient = Patient::findOrFail($id);
-        $doctors = User::role('Doctor')->get();
-        $nurses = User::role('Nurse')->get();
-        $dcs = User::role('Data Collector')->get();
+        $doctors = User::role('doctors')->get();
+        $nurses = User::role('nurse')->get();
+        $dcs = User::role('data collector')->get();
         $services = Service::all();
         return view('user.patient-entry.update-patient', get_defined_vars());
     }

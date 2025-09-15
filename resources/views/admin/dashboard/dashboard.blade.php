@@ -6,19 +6,17 @@
     <div class="admin-page-header">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="admin-page-title">
-                    <i class="fas fa-tachometer-alt me-3"></i>
-                    Welcome back, {{Auth::user()->name}}!
-                </h1>
-                <p class="admin-page-subtitle">
-                    Here's a comprehensive overview of your hospital management system
-                </p>
+                <div class="card p-2" style="background-color: #f8f9fa; border-radius: 10px;">
+                    <h1 class="admin-page-title">
+                        Welcome back, {{Auth::user()->name}}!
+                    </h1>
+                    <p class="admin-page-subtitle">
+                        Here's a comprehensive overview of Shafayaat
+                    </p>
+                </div>
             </div>
             <div class="col-md-4 text-right">
-                <div class="admin-stats-card text-center">
-                    <div class="admin-stats-icon primary mx-auto mb-2">
-                        <i class="fas fa-hospital"></i>
-                    </div>
+                <div class="card text-center p-2" style="background-color: #f8f9fa; border-radius: 10px;">
                     <h3 class="admin-stats-value mb-1" id="currentTime">{{ date('H:i') }}</h3>
                     <p class="admin-stats-label mb-0">Current Time</p>
                 </div>
@@ -27,82 +25,62 @@
     </div>
 
     <!-- System Overview Stats -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="admin-stats-card">
+    <div class="row ">
+        <div class="col-lg-3 col-md-6 mb-2">
+            <div class="card  p-2" style="background-color: #067a63  ; border-radius: 10px; color: white">
                 <div class="d-flex align-items-center">
-                    <div class="admin-stats-icon primary me-3">
-                        <i class="fas fa-user-md"></i>
+                    <div class="admin-stats-icon primary ">
+                        <i class="fas fa-user-md" style="font-size: 50px"></i>
                     </div>
-                    <div>
-                        <div class="admin-stats-value">{{ $doctorscount ?? 0 }}</div>
-                        <div class="admin-stats-label">Total Doctors</div>
-                        <div class="d-flex align-items-center mt-2">
-                            <span class="badge badge-success me-2">
-                                <i class="fas fa-arrow-up me-1"></i> Active
-                            </span>
-                            <small class="text-muted">On duty</small>
-                        </div>
+                    <div class="p-1">
+                        <div class="admin-stats-value text-center" style="font-size: 24px; font-weight: 600">{{ $doctorscount ?? 0 }}</div>
+                        <div class="admin-stats-label text-center" style="font-size: 14px; font-weight: 600">Total Doctors</div>
+                       
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="col-lg-3 col-md-6 mb-4">
-            <div class="admin-stats-card">
+            <div class="card p-2" style="background-color: #067a63  ; border-radius: 10px; color: white">
                 <div class="d-flex align-items-center">
-                    <div class="admin-stats-icon success me-3">
-                        <i class="fas fa-users"></i>
+                    <div class="admin-stats-icon primary">
+                        <i class="fas fa-users" style="font-size: 50px"></i>
                     </div>
-                    <div>
-                        <div class="admin-stats-value">{{ $patientscount ?? 0 }}</div>
-                        <div class="admin-stats-label">Total Patients</div>
-                        <div class="d-flex align-items-center mt-2">
-                            <span class="badge badge-info me-2">
-                                <i class="fas fa-calendar me-1"></i> Today
-                            </span>
-                            <small class="text-muted">Registered</small>
-                        </div>
+                    <div class="p-1">
+                        <div class="admin-stats-value text-center" style="font-size: 24px; font-weight: 600">{{ $patientscount ?? 0 }}</div>
+                        <div class="admin-stats-label text-center" style="font-size: 14px; font-weight: 600">Total Patients</div>
+                       
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="col-lg-3 col-md-6 mb-4">
-            <div class="admin-stats-card">
+            <div class="card p-2" style="background-color: #067a63  ; border-radius: 10px; color: white">
                 <div class="d-flex align-items-center">
-                    <div class="admin-stats-icon warning me-3">
-                        <i class="fas fa-user-nurse"></i>
+                    <div class="admin-stats-icon primary">
+                        <i class="fas fa-user-nurse" style="font-size: 50px"></i>
                     </div>
-                    <div>
-                        <div class="admin-stats-value">{{ $nursescount ?? 0 }}</div>
-                        <div class="admin-stats-label">Nurses</div>
-                        <div class="d-flex align-items-center mt-2">
-                            <span class="badge badge-warning me-2">
-                                <i class="fas fa-clock me-1"></i> Active
-                            </span>
-                            <small class="text-muted">On duty</small>
-                        </div>
+                    <div class="p-1">
+                        <div class="admin-stats-value text-center" style="font-size: 24px; font-weight: 600">{{ $nursescount ?? 0 }}</div>
+                        <div class="admin-stats-label text-center" style="font-size: 14px; font-weight: 600">Total Nurses</div>
+                       
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="col-lg-3 col-md-6 mb-4">
-            <div class="admin-stats-card">
+            <div class="card p-2" style="background-color: #067a63 ; border-radius: 10px; color: white">
                 <div class="d-flex align-items-center">
-                    <div class="admin-stats-icon danger me-3">
-                        <i class="fas fa-clipboard-list"></i>
+                    <div class="admin-stats-icon primary">
+                        <i class="fas fa-clipboard-list" style="font-size: 50px"></i>
                     </div>
-                    <div>
-                        <div class="admin-stats-value">{{ $formscount ?? 0 }}</div>
-                        <div class="admin-stats-label">Active Forms</div>
-                        <div class="d-flex align-items-center mt-2">
-                            <span class="badge badge-primary me-2">
-                                <i class="fas fa-file-alt me-1"></i> Available
-                            </span>
-                            <small class="text-muted">For patients</small>
-                        </div>
+                    <div class="p-1 justify-content-center">
+                        <div class="admin-stats-value text-center" style="font-size: 24px; font-weight: 600">{{ $formscount ?? 0 }}</div>
+                        <div class="admin-stats-label text-center" style="font-size: 14px; font-weight: 600">Active Forms</div>
+                       
                     </div>
                 </div>
             </div>
@@ -114,13 +92,13 @@
         <!-- System Management Overview -->
         <div class="col-lg-8 mb-4">
             <div class="card">
-                <div class="card-header" style="background: var(--admin-gradient); color: white;">
-                    <h5 class="card-title mb-0">
+                <div class="card-header" style="background-color: #067a63; color: white;">
+                    <h5 class="card-title mb-0" style="color: white">
                         <i class="fas fa-chart-line me-2"></i>
                         System Management Overview
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-2">
                     <div class="row">
                         <div class="col-md-6">
                             <h6 class="font-weight-bold mb-3">
@@ -422,11 +400,7 @@
 $(document).ready(function() {
     'use strict';
     
-    // Add fade-in animation to cards
-    $('.admin-stats-card, .card').each(function(index) {
-        $(this).css('animation-delay', (index * 0.1) + 's').addClass('admin-fade-in-up');
-    });
-    
+   
     // Real-time clock update
     function updateClock() {
         const now = new Date();
@@ -496,4 +470,4 @@ $(document).ready(function() {
     }, 30000);
 });
 </script>
-            @endsection
+@endsection

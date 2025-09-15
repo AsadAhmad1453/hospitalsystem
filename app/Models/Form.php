@@ -17,5 +17,8 @@ class Form extends Model
         return $this->hasMany(Question::class, 'form_id');
     }
 
-
+    public function sections()
+    {
+        return $this->belongsToMany(Section::class, 'form_sections', 'form_id', 'section_id');
+    }
 }

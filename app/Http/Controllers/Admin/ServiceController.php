@@ -141,4 +141,122 @@ class ServiceController extends Controller
             return redirect()->route('services')->with('error', 'Failed to delete all services. Please try again.');
         }
     }
+
+    // New admin panel methods
+    public function indexNew()
+    {
+        $services = Service::all();
+        $categories = ['General', 'Emergency', 'Surgery', 'Consultation', 'Diagnostic', 'Therapy'];
+        return view('admin-new.services.services', get_defined_vars());
+    }
+
+    public function saveServiceNew(Request $request)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+            'amount' => 'required|string',
+            'description' => 'required|string',
+            'detail_description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $imagePath = null;
+
+            // Handle image upload to public/service-images
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('service-images');
+
+                // Create directory if it doesn't exist
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+
+                $image->move($destinationPath, $imageName);
+
+                // Save path as 'service-images/image_name'
+                $imagePath = 'service-images/' . $imageName;
+            }
+
+            Service::create([
+                'service_name' => $request->service_name,
+                'description' => $request->description,
+                'amount' => $request->amount,
+                'detail_description' => $request->detail_description,
+                'image' => $imagePath,
+            ]);
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Service saved successfully.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Something went wrong. Please try again.']);
+        }
+    }
+
+    public function updateServiceNew(Request $request)
+    {
+        $request->validate([
+            'service_name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'amount' => 'required|string',
+            'detail_description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $service = Service::findOrFail($request->input('id'));
+            $service->service_name = $request->input('service_name');
+            $service->description = $request->input('description');
+            $service->amount = $request->input('amount');
+            $service->detail_description = $request->input('detail_description');
+
+            // Handle image upload to public/service-images
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('service-images');
+
+                // Create directory if it doesn't exist
+                if (!file_exists($destinationPath)) {
+                    mkdir($destinationPath, 0755, true);
+                }
+
+                $image->move($destinationPath, $imageName);
+
+                // Optionally, delete old image if exists
+                if ($service->image && file_exists(public_path($service->image))) {
+                    @unlink(public_path($service->image));
+                }
+
+                // Store the path as 'service-images/image_name'
+                $service->image = 'service-images/' . $imageName;
+            }
+
+            $service->save();
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Service updated successfully.']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Something went wrong. Please try again.']);
+        }
+    }
+
+    public function deleteServiceNew($id)
+    {
+        try {
+            $service = Service::findOrFail($id);
+            $service->delete();
+            return response()->json(['success' => true, 'message' => 'Service deleted successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error deleting service.']);
+        }
+    }
 }

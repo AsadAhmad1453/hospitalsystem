@@ -275,6 +275,7 @@
       <script src="{{ asset('admin-assets/vendors/js/charts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('admin-assets/vendors/js/extensions/toastr.min.js') }}"></script>
     <script src="{{ asset('admin-assets/vendors/js/extensions/moment.min.js') }}"></script>
+    <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
   <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -298,6 +299,125 @@
                 });
             }
         })
+
+        // Global SweetAlert Helper Functions
+        function showSuccess(message, title = 'Success!') {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'success',
+                    title: title,
+                    text: message,
+                    timer: 3000,
+                    showConfirmButton: false,
+                    toast: true,
+                    position: 'top-end',
+                    timerProgressBar: true
+                });
+            } else {
+                alert(message);
+            }
+        }
+
+        function showError(message, title = 'Error!') {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: message,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+            } else {
+                alert(message);
+            }
+        }
+
+        function showWarning(message, title = 'Warning!') {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: title,
+                    text: message,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ffc107'
+                });
+            } else {
+                alert(message);
+            }
+        }
+
+        function showInfo(message, title = 'Information') {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'info',
+                    title: title,
+                    text: message,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#17a2b8'
+                });
+            } else {
+                alert(message);
+            }
+        }
+
+        function showLoading(message = 'Processing...') {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: message,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            }
+        }
+
+        function hideLoading() {
+            if (typeof Swal !== 'undefined') {
+                Swal.close();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            if (typeof Swal !== 'undefined') {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                Toast.fire({
+                    icon: type,
+                    title: message
+                });
+            } else {
+                alert(message);
+            }
+        }
+
+        function confirmDelete(message = 'Are you sure you want to delete this item?') {
+            if (typeof Swal !== 'undefined') {
+                return Swal.fire({
+                    title: 'Are you sure?',
+                    text: message,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                });
+            } else {
+                return Promise.resolve({ isConfirmed: confirm(message) });
+            }
+        }
     </script>
 </body>
 <!-- END: Body-->

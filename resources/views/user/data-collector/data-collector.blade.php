@@ -414,7 +414,17 @@ $(document).ready(function () {
                 $('#pauseBtn').prop('disabled', false);
                 $('#stopBtn').prop('disabled', false);
             }).catch(function (err) {
-                alert('Microphone access denied: ' + err.message);
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Microphone Access Denied',
+                        text: err.message,
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#d33'
+                    });
+                } else {
+                    alert('Microphone access denied: ' + err.message);
+                }
             });
         });
     

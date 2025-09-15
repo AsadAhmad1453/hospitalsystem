@@ -38,4 +38,32 @@ class DoseController extends Controller
 
         return redirect()->back()->with('success', 'Dose deleted successfully.');
     }
+
+    // New admin panel methods
+    public function indexNew()
+    {
+        $dosage = Dose::all();
+        return view('admin-new.pharmacy.dosage', compact('dosage'));
+    }
+
+    public function saveDoseNew(Request $request)
+    {
+        $request->validate([
+            'dose' => 'required|string|max:255',
+        ]);
+
+        $dose = new Dose();
+        $dose->dose = $request->input('dose');
+        $dose->save();
+
+        return redirect()->back()->with('success', 'Dose added successfully.');
+    }
+
+    public function deleteDoseNew($id)
+    {
+        $dose = Dose::findOrFail($id);
+        $dose->delete();
+
+        return redirect()->back()->with('success', 'Dose deleted successfully.');
+    }
 }

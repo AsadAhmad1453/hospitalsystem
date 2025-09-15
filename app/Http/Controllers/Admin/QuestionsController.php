@@ -131,4 +131,87 @@ class QuestionsController extends Controller
             return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
         }
     }
+
+    // New admin panel methods
+    public function indexNew()
+    {
+        $sections = Section::all();
+        return view('admin-new.questions.question-sections', get_defined_vars());
+    }
+
+    public function questionNew()
+    {
+        $sections = Section::all();
+        $questions = Question::with('section')->orderBy('position')->get();
+        $forms = Form::all();
+        return view('admin-new.questions.questions', get_defined_vars());
+    }
+
+    public function saveSectionNew(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        try {
+            Section::create([
+                'name' => $request->name,
+            ]);
+
+            return redirect()->back()->with('success', 'Section created successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to create section. Please try again.');
+        }
+    }
+
+    public function saveQuestionNew(Request $request)
+    {
+        $request->validate([
+            'section_id' => 'required',
+            'question' => 'required|string|max:1000',
+            'question_type' => 'required|integer',
+            'form_id' => 'required|exists:forms,id',
+        ]);
+
+        if($request->question_type == 0 || $request->question_type == 1) {
+            $request->validate([
+                'options' => 'required|array|min:2',
+            ]);
+        }
+
+        $maxPosition = Question::max('position') ?? 0;
+        $question = Question::create([
+            'section_id' => $request->section_id,
+            'question' => $request->question,
+            'question_type' => $request->question_type,
+            'form_id' => $request->form_id,
+            'priority' => $request->priority,
+            'position' => $maxPosition + 1,
+        ]);
+
+        if($request->question_type == 0 || $request->question_type == 1) {
+            foreach ($request->options as $option) {
+                Option::create([
+                    'question_id' => $question->id,
+                    'option' => $option,
+                ]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Question saved successfully.');
+    }
+
+    public function deleteQuestionNew($id)
+    {
+        $question = Question::findOrFail($id);
+        $question->delete();
+
+        return redirect()->back()->with('success', 'Question deleted successfully.');
+    }
+
+    public function addQuestionNew()
+    {
+        $sections = Section::all();
+        return view('admin-new.questions.add-question', compact('sections'));
+    }
 }
