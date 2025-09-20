@@ -300,6 +300,61 @@
             }
         })
 
+        // Initialize toastr with proper options
+        $(document).ready(function() {
+            if (typeof toastr !== 'undefined') {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+            } else {
+                // Create fallback toastr object if not available
+                window.toastr = {
+                    success: function(message, title) {
+                        if (typeof Swal !== 'undefined') {
+                            showToast(message, 'success');
+                        } else {
+                            alert(title ? title + ': ' + message : message);
+                        }
+                    },
+                    error: function(message, title) {
+                        if (typeof Swal !== 'undefined') {
+                            showToast(message, 'error');
+                        } else {
+                            alert(title ? title + ': ' + message : message);
+                        }
+                    },
+                    warning: function(message, title) {
+                        if (typeof Swal !== 'undefined') {
+                            showToast(message, 'warning');
+                        } else {
+                            alert(title ? title + ': ' + message : message);
+                        }
+                    },
+                    info: function(message, title) {
+                        if (typeof Swal !== 'undefined') {
+                            showToast(message, 'info');
+                        } else {
+                            alert(title ? title + ': ' + message : message);
+                        }
+                    }
+                };
+            }
+        });
+
         // Global SweetAlert Helper Functions
         function showSuccess(message, title = 'Success!') {
             if (typeof Swal !== 'undefined') {
@@ -371,6 +426,8 @@
                         Swal.showLoading();
                     }
                 });
+            } else {
+                console.log(message);
             }
         }
 

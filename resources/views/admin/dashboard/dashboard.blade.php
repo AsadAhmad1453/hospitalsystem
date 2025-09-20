@@ -19,6 +19,9 @@
                 <div class="card text-center p-2" style="background-color: #f8f9fa; border-radius: 10px;">
                     <h3 class="admin-stats-value mb-1" id="currentTime">{{ date('H:i') }}</h3>
                     <p class="admin-stats-label mb-0">Current Time</p>
+                    <button class="btn btn-sm btn-outline-primary mt-2" onclick="refreshDashboard()" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i> Refresh Stats
+                    </button>
                 </div>
             </div>
         </div>
@@ -468,6 +471,43 @@ $(document).ready(function() {
             showNotification('New patient registration detected', 'info');
         }
     }, 30000);
+    
+    // Refresh dashboard function
+    window.refreshDashboard = function() {
+        const refreshBtn = document.getElementById('refreshBtn');
+        const originalText = refreshBtn.innerHTML;
+        
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
+        
+        // Clear cache and reload page
+        fetch('{{ route("clear-cache") }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showNotification('Dashboard refreshed successfully!', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                showNotification('Error refreshing dashboard', 'error');
+                refreshBtn.disabled = false;
+                refreshBtn.innerHTML = originalText;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error refreshing dashboard', 'error');
+            refreshBtn.disabled = false;
+            refreshBtn.innerHTML = originalText;
+        });
+    };
 });
 </script>
 @endsection

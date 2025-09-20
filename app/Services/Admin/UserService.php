@@ -44,7 +44,7 @@ class UserService
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|exists:roles,id',
+            'role_id' => 'required|exists:roles,id',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -62,7 +62,7 @@ class UserService
         $user = User::create($userData);
         
         // Assign role
-        $role = Role::findOrFail($request->role);
+        $role = Role::findOrFail($request->role_id);
         $user->assignRole($role);
 
         Log::info('User created successfully', ['user_id' => $user->id, 'email' => $user->email]);
@@ -77,22 +77,22 @@ class UserService
     {
         $user = User::findOrFail($userId);
         
+        // Simple validation
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $userId,
-            'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|exists:roles,id',
+            'password' => 'nullable|string|min:8',
+            'role_id' => 'required|exists:roles,id',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $userData = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
-
-        // Update password if provided
+        // Update basic fields
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        // Update password only if provided
         if ($request->filled('password')) {
-            $userData['password'] = Hash::make($request->password);
+            $user->password = Hash::make($request->password);
         }
 
         // Handle profile picture upload
@@ -101,16 +101,14 @@ class UserService
             if ($user->profile_pic) {
                 Storage::disk('public')->delete($user->profile_pic);
             }
-            $userData['profile_pic'] = $this->handleProfilePictureUpload($request->file('profile_pic'));
+            $user->profile_pic = $this->handleProfilePictureUpload($request->file('profile_pic'));
         }
 
-        $user->update($userData);
+        $user->save();
         
-        // Update role
-        $role = Role::findOrFail($request->role);
+        // Update role - simple approach
+        $role = Role::findOrFail($request->role_id);
         $user->syncRoles([$role]);
-
-        Log::info('User updated successfully', ['user_id' => $user->id, 'email' => $user->email]);
 
         return $user;
     }

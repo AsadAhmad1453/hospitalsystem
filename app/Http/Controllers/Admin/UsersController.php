@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Services\Admin\UserService;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -25,7 +26,22 @@ class UsersController extends Controller
         $roles = Role::with('permissions')->get();
         $users = $this->userService->getAllUsers();
         
-        return view('admin.users.users', compact('roles', 'users'));
+        // Calculate user counts by role
+        $doctorsCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'doctors'); 
+        })->count();
+        
+        $nursesCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'nurse'); 
+        })->count();
+        
+        $dataCollectorsCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'data collector'); 
+        })->count();
+        
+        $totalUsersCount = $users->count();
+        
+        return view('admin.users.users', compact('roles', 'users', 'doctorsCount', 'nursesCount', 'dataCollectorsCount', 'totalUsersCount'));
     }
 
     /**
@@ -75,7 +91,22 @@ class UsersController extends Controller
         $roles = Role::with('permissions')->get();
         $users = $this->userService->getAllUsers();
         
-        return view('admin-new.users.users', compact('roles', 'users'));
+        // Calculate user counts by role for better performance
+        $doctorsCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'doctors'); 
+        })->count();
+        
+        $nursesCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'nurse'); 
+        })->count();
+        
+        $dataCollectorsCount = $users->filter(function($user) { 
+            return $user->roles->contains('name', 'data collector'); 
+        })->count();
+        
+        $totalUsersCount = $users->count();
+        
+        return view('admin-new.users.users', compact('roles', 'users', 'doctorsCount', 'nursesCount', 'dataCollectorsCount', 'totalUsersCount'));
     }
 
     /**
@@ -170,7 +201,6 @@ class UsersController extends Controller
                 'message' => 'User updated successfully'
             ]);
         } catch (\Exception $e) {
-            Log::error('Error updating user: ' . $e->getMessage());
             return response()->json([
                 'success' => false, 
                 'message' => 'Error updating user: ' . $e->getMessage()
@@ -185,5 +215,15 @@ class UsersController extends Controller
     {
         $roles = Role::all();
         return view('admin-new.users.add-user', compact('roles'));
+    }
+
+    /**
+     * Show edit user form (new admin panel)
+     */
+    public function editUserNew($id)
+    {
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+        return view('admin-new.users.edit-user', compact('user', 'roles'));
     }
 }

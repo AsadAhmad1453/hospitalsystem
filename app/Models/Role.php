@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Permission;
+use Spatie\Permission\Contracts\Role as RoleContract;
+use Spatie\Permission\Traits\HasPermissions;
 
-class Role extends Model
+class Role extends Model implements RoleContract
 {
-    use HasFactory;
+    use HasFactory, HasPermissions;
+    
     protected $table = 'roles';
     protected $guarded = [];
 

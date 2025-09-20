@@ -10,6 +10,73 @@
 @endsection
 @section('content')
 
+    <!-- User Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card" style="background-color: #067a63; border-radius: 10px; color: white">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-stats-icon primary me-3">
+                            <i class="fas fa-user-md" style="font-size: 40px"></i>
+                        </div>
+                        <div>
+                            <div class="admin-stats-value" style="font-size: 24px; font-weight: 600">{{ $doctorsCount ?? 0 }}</div>
+                            <div class="admin-stats-label" style="font-size: 14px; font-weight: 600">Total Doctors</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card" style="background-color: #28a745; border-radius: 10px; color: white">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-stats-icon success me-3">
+                            <i class="fas fa-user-nurse" style="font-size: 40px"></i>
+                        </div>
+                        <div>
+                            <div class="admin-stats-value" style="font-size: 24px; font-weight: 600">{{ $nursesCount ?? 0 }}</div>
+                            <div class="admin-stats-label" style="font-size: 14px; font-weight: 600">Total Nurses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card" style="background-color: #17a2b8; border-radius: 10px; color: white">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-stats-icon info me-3">
+                            <i class="fas fa-user-cog" style="font-size: 40px"></i>
+                        </div>
+                        <div>
+                            <div class="admin-stats-value" style="font-size: 24px; font-weight: 600">{{ $dataCollectorsCount ?? 0 }}</div>
+                            <div class="admin-stats-label" style="font-size: 14px; font-weight: 600">Data Collectors</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card" style="background-color: #ffc107; border-radius: 10px; color: white">
+                <div class="card-body p-3">
+                    <div class="d-flex align-items-center">
+                        <div class="admin-stats-icon warning me-3">
+                            <i class="fas fa-users" style="font-size: 40px"></i>
+                        </div>
+                        <div>
+                            <div class="admin-stats-value" style="font-size: 24px; font-weight: 600">{{ $totalUsersCount ?? 0 }}</div>
+                            <div class="admin-stats-label" style="font-size: 14px; font-weight: 600">Total Users</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section id="basic-datatable">
         <div class="row">
             <div class="col-12">

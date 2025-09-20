@@ -208,10 +208,22 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    toastr.success('Question order updated successfully');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.success('Question order updated successfully');
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast('Question order updated successfully', 'success');
+                    } else {
+                        alert('Question order updated successfully');
+                    }
                 },
                 error: function(xhr) {
-                    toastr.error('Error updating question order');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Error updating question order');
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast('Error updating question order', 'error');
+                    } else {
+                        alert('Error updating question order');
+                    }
                 }
             });
         }

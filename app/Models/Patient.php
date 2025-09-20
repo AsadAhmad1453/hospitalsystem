@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Cache;
 
 class Patient extends Model
 {
@@ -91,4 +92,14 @@ class Patient extends Model
     // }
 
 
+    /**
+     * Clear dashboard cache when patient data changes
+     */
+    {
+        parent::boot();
+        
+        static::created(function () {
+            Cache::forget('dashboard_stats');
+        });
+        
 }

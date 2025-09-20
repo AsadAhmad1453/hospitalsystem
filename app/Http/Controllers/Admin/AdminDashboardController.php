@@ -29,7 +29,23 @@ class AdminDashboardController extends Controller
     {
         $stats = $this->dashboardService->getDashboardStatistics();
         
-        return view('admin.dashboard.dashboard', $stats);
+        // Flatten the statistics for the view
+        $dashboardData = [
+            'doctorscount' => $stats['users']['doctors'] ?? 0,
+            'patientscount' => $stats['patients']['total'] ?? 0,
+            'nursescount' => $stats['users']['nurses'] ?? 0,
+            'formscount' => $stats['forms']['total'] ?? 0,
+            'medicinescount' => $stats['medical']['medicines'] ?? 0,
+            'bloodinvcount' => $stats['medical']['blood_tests'] ?? 0,
+            'xrayscount' => $stats['medical']['xrays'] ?? 0,
+            'ultrasoundscount' => $stats['medical']['ultrasounds'] ?? 0,
+            'ctscanscount' => $stats['medical']['ctscans'] ?? 0,
+            'dosagecount' => $stats['medical']['doses'] ?? 0,
+            'bankscount' => $stats['medical']['banks'] ?? 0,
+            'relationscount' => $stats['forms']['questions'] ?? 0,
+        ];
+        
+        return view('admin.dashboard.dashboard', $dashboardData);
     }
 
     /**
@@ -73,13 +89,29 @@ class AdminDashboardController extends Controller
         $pendingTests = BloodInv::where('status', 'pending')->count();
         $abnormalResults = BloodInv::where('is_abnormal', true)->count();
         
-        return view('admin-new.dashboard.dashboard', array_merge($stats, compact(
+        // Flatten the statistics for the new dashboard view
+        $dashboardData = array_merge($stats, [
+            'doctorscount' => $stats['users']['doctors'] ?? 0,
+            'patientscount' => $stats['patients']['total'] ?? 0,
+            'nursescount' => $stats['users']['nurses'] ?? 0,
+            'formscount' => $stats['forms']['total'] ?? 0,
+            'medicinescount' => $stats['medical']['medicines'] ?? 0,
+            'bloodinvcount' => $stats['medical']['blood_tests'] ?? 0,
+            'xrayscount' => $stats['medical']['xrays'] ?? 0,
+            'ultrasoundscount' => $stats['medical']['ultrasounds'] ?? 0,
+            'ctscanscount' => $stats['medical']['ctscans'] ?? 0,
+            'dosagecount' => $stats['medical']['doses'] ?? 0,
+            'bankscount' => $stats['medical']['banks'] ?? 0,
+            'relationscount' => $stats['forms']['questions'] ?? 0,
+        ], compact(
             'roles', 
             'bloodTests', 
             'completedTests', 
             'pendingTests', 
             'abnormalResults'
-        )));
+        ));
+        
+        return view('admin-new.dashboard.dashboard', $dashboardData);
     }
 
     /**
@@ -207,6 +239,20 @@ class AdminDashboardController extends Controller
         } catch (\Exception $e) {
             Log::error('Real-time stats error: ' . $e->getMessage());
             return response()->json(['error' => 'Error fetching statistics'], 500);
+        }
+    }
+
+    /**
+     * Clear dashboard cache
+     */
+    public function clearCache()
+    {
+        try {
+            $this->dashboardService->clearCache();
+            return response()->json(['success' => true, 'message' => 'Cache cleared successfully']);
+        } catch (\Exception $e) {
+            Log::error('Cache clear error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error clearing cache'], 500);
         }
     }
 

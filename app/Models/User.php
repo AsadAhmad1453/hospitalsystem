@@ -12,6 +12,7 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Auth;        
 use App\Models\Round;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Cache;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
@@ -100,5 +101,25 @@ class User extends Authenticatable
         ->where('doctor_status', '0')
         ->where('round_status', '1')
         ->orderBy('token', 'asc');
+    }
+
+    /**
+     * Clear dashboard cache when user data changes
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::created(function () {
+            Cache::forget('dashboard_stats');
+        });
+        
+        static::updated(function () {
+            Cache::forget('dashboard_stats');
+        });
+        
+        static::deleted(function () {
+            Cache::forget('dashboard_stats');
+        });
     }
 }

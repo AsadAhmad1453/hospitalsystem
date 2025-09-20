@@ -36,7 +36,7 @@
                                 <i class="fas fa-user-md"></i>
                             </div>
                             <div>
-                                <div class="number">{{ $users->filter(function($user) { return $user->roles->contains('name', 'doctor'); })->count() }}</div>
+                                <div class="number">{{ $doctorsCount ?? 0 }}</div>
                                 <div class="label">Doctors</div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                                 <i class="fas fa-user-nurse"></i>
                             </div>
                             <div>
-                                <div class="number">{{ $users->filter(function($user) { return $user->roles->contains('name', 'nurse'); })->count() }}</div>
+                                <div class="number">{{ $nursesCount ?? 0 }}</div>
                                 <div class="label">Nurses</div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                                 <i class="fas fa-user-cog"></i>
                             </div>
                             <div>
-                                <div class="number">{{ $users->filter(function($user) { return $user->roles->contains('name', 'data collector'); })->count() }}</div>
+                                <div class="number">{{ $dataCollectorsCount ?? 0 }}</div>
                                 <div class="label">Data Collectors</div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                 <i class="fas fa-users"></i>
                             </div>
                             <div>
-                                <div class="number">{{ $users->count() }}</div>
+                                <div class="number">{{ $totalUsersCount ?? 0 }}</div>
                                 <div class="label">Total Users</div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                                                 <li><a class="dropdown-item" href="#" onclick="viewUser({{ $user->id }})">
                                                     <i class="fas fa-eye me-2"></i>View Details
                                                 </a></li>
-                                                <li><a class="dropdown-item" href="#" onclick="editUser({{ $user->id }}); return false;">
+                                                <li><a class="dropdown-item" href="{{ route('admin-new.edit-user', $user->id) }}">
                                                     <i class="fas fa-edit me-2"></i>Edit User
                                                 </a></li>
                                                 <li><a class="dropdown-item" href="#" onclick="resetPassword({{ $user->id }})">
@@ -254,63 +254,6 @@
     </div>
 </div>
 
-<!-- Edit User Modal -->
-<div class="modal fade" id="editUserModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Edit User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form id="editUserForm">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="edit_name" class="form-label">Full Name *</label>
-                            <input type="text" class="form-control" id="edit_name" name="name" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="edit_email" class="form-label">Email Address *</label>
-                            <input type="email" class="form-control" id="edit_email" name="email" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="edit_password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="edit_password" name="password" minlength="8">
-                            <small class="text-muted">Leave blank to keep current password</small>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="edit_role_id" class="form-label">Role *</label>
-                            <select class="form-control select2" id="edit_role_id" name="role_id" required>
-                                <option value="">Select Role</option>
-                                @if(isset($roles) && $roles->count() > 0)
-                                    @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ ucfirst($role->name) }}</option>
-                                    @endforeach
-                                @else
-                                    <option value="1">Doctor</option>
-                                    <option value="2">Nurse</option>
-                                    <option value="3">Data Collector</option>
-                                @endif
-                            </select>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label for="edit_profile_pic" class="form-label">Profile Picture</label>
-                            <input type="file" class="form-control" id="edit_profile_pic" name="profile_pic" accept="image/*">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-2"></i>Update User
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 <!-- View User Modal -->
 <div class="modal fade" id="viewUserModal" tabindex="-1">
@@ -418,15 +361,6 @@ $(document).ready(function() {
         });
     });
 
-    $('#editUserModal').on('shown.bs.modal', function() {
-        $('#edit_role_id').select2({
-            theme: 'bootstrap-5',
-            width: '100%',
-            placeholder: 'Select Role',
-            allowClear: true,
-            dropdownParent: $('#editUserModal')
-        });
-    });
 
     // Search functionality
     $('#searchInput').on('keyup', function() {
@@ -500,50 +434,6 @@ $(document).ready(function() {
         });
     });
 
-    // Edit form submission
-    $('#editUserForm').on('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        const button = $(this).find('button[type="submit"]');
-        const originalText = setButtonLoading(button, 'Updating...');
-        
-        $.ajax({
-            url: $(this).attr('action'),
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'X-HTTP-Method-Override': 'PUT'
-            },
-            success: function(response) {
-                resetButton(button, originalText);
-                if (response.success) {
-                    $('#editUserModal').modal('hide');
-                    showSuccess(response.message);
-                    location.reload();
-                } else {
-                    showError(response.message);
-                }
-            },
-            error: function(xhr) {
-                resetButton(button, originalText);
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    showError('Error updating user: ' + xhr.responseJSON.message);
-                } else if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    let errorMessage = 'Please fix the following errors:\n';
-                    Object.keys(xhr.responseJSON.errors).forEach(key => {
-                        errorMessage += `• ${xhr.responseJSON.errors[key][0]}\n`;
-                    });
-                    showError(errorMessage);
-                } else {
-                    showError('Error updating user. Please try again.');
-                }
-            }
-        });
-    });
 });
 
 // View user details
@@ -584,32 +474,6 @@ function viewUser(userId) {
         });
 }
 
-// Edit user
-function editUser(userId) {
-    console.log('Loading user data for ID:', userId); // Debug log
-    showLoading('Loading user data...');
-    
-    $.get(`/admin/admin-new/users/${userId}`)
-        .done(function(data) {
-            console.log('User data loaded:', data); // Debug log
-            hideLoading();
-            $('#edit_name').val(data.name);
-            $('#edit_email').val(data.email);
-            $('#edit_role_id').val(data.role_id).trigger('change');
-            
-            $('#editUserForm').attr('action', `/admin/admin-new/users/${userId}`);
-            $('#editUserModal').modal('show');
-        })
-        .fail(function(xhr) {
-            console.error('Error loading user:', xhr); // Debug log
-            hideLoading();
-            if (xhr.responseJSON && xhr.responseJSON.message) {
-                showError('Error loading user: ' + xhr.responseJSON.message);
-            } else {
-                showError('Error loading user data. Please try again.');
-            }
-        });
-}
 
 // Delete user
 function deleteUser(userId) {
