@@ -40,9 +40,12 @@ use Illuminate\Support\Facades\Artisan;
 Auth::routes();
 // website routes
 
-Route::get('/patient/login', [PatientLoginController::class, 'index'])->name('patient.login');
-Route::get('/patient/home', [PatientHomeController::class, 'index'])->name('patient.home');
+Route::get('/patient/login', [PatientLoginController::class, 'index'])->name('patient-login');
+Route::post('/patient/login-post', [PatientLoginController::class, 'login'])->name('patient.login');
 
+Route::prefix('patient')->middleware(['auth','is_patient'])->group(function () {
+    Route::get('/dashboard', [PatientHomeController::class, 'index'])->name('patient-dashboard');
+});
 
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'index')->name('register-student');
@@ -98,8 +101,9 @@ Route::prefix('user')->middleware(['auth','is_user'])->group(function () {
         Route::get('/past-patients', 'pastpatients')->name('past-patients');
         Route::get('/reset-token', 'delAllRounds')->name('del-all-rounds');
         Route::get('/web-reqs', 'webreqs')->name('web-reqs');
+        Route::get('/app-reg', 'appReg')->name('app-reg');
+        Route::get('/register-patient/{patient_id}', 'regPat')->name('register-patient');
     });
-
 
     Route::get('del-user-patient/{id}', [UserController::class, 'delPatient'])->name('del-user-patient');
 

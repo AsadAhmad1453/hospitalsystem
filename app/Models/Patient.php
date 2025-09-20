@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Patient extends Model
 {
@@ -82,5 +83,12 @@ class Patient extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    // Add relationship to the owning user account
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
+
 
 }

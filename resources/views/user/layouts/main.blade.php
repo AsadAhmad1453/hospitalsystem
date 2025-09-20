@@ -129,6 +129,14 @@
                     </a>
                 </li>
                 @endcan
+                @can('app-reg')
+                <li class="{{ Route::is('app-reg') ? 'active' : '' }} nav-item">
+                    <a class="d-flex align-items-center sidelink" href="{{ route('app-reg') }}">
+                        <i data-feather="users"></i>
+                        <span class="menu-title text-truncate" data-i18n="Dashboards">App Registration</span>
+                    </a>
+                </li>
+                @endcan
                 @can('fill form')
                 @foreach ($forms as $form)
                     @php

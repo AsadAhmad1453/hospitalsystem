@@ -24,7 +24,7 @@ class RedirectIfAuthenticated
                 return to_route(match (Auth::user()->role) {
                     0 => 'admin-dashboard',
                     1 => 'user-dashboard',
-                    2 => 'customer-dashboard',
+                    2 => 'patient-dashboard',
                     default => 'staff-login',
                 });
             }

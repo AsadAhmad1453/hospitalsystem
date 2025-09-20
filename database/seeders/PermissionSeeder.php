@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
             'appointment schedule',
             'past patients',
             'website requests',
+            'app-reg',
             'fill form',
             'bio marker',
             'patient form',

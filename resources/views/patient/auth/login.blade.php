@@ -23,7 +23,8 @@
       <p class="text-center text-emerald-600 text-sm mb-6">We’re here to care for you</p>
 
       <!-- Form -->
-      <form action="#" method="POST" class="space-y-5">
+      <form action="{{route('patient.login')}}" method="POST" class="space-y-5">
+        @csrf
         <!-- Email -->
         <div>
           <label for="email" class="block text-sm font-medium text-emerald-700 mb-2">Email</label>

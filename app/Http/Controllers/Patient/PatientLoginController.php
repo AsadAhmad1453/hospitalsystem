@@ -11,4 +11,17 @@ class PatientLoginController extends Controller
     {
         return view('patient.auth.login');
     }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (auth()->guard('web')->attempt($credentials)) {
+            return redirect()->route('patient-dashboard');
+        }
+
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ])->withInput($request->only('email'));
+    }
 }

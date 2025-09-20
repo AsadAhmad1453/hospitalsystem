@@ -12,8 +12,6 @@ class LoginController extends Controller
         return view('user.auth.login');
     }
 
-
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -30,6 +28,6 @@ class LoginController extends Controller
     public function logout()
     {
         auth()->guard('web')->logout();
-        return redirect('/');
+        return redirect('/login');
     }
 }

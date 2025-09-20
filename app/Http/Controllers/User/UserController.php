@@ -26,7 +26,7 @@ class UserController extends Controller
             $activeToken = Round::where('round_status', '1')->first();
 
             $dcs = User::role('data collector')->with('latestActiveRoundAsDC')->get();
-            $doctors = User::role('doctors')->with('latestActiveRoundAsDoctor')->get();
+            $doctors = User::role('doctor')->with('latestActiveRoundAsDoctor')->get();
             $nurses = User::role('nurse')->with('latestActiveRoundAsNurse')->get();
 
             return view('user.dashboard.dashboard', get_defined_vars());

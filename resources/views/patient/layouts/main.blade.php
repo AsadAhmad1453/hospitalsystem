@@ -122,14 +122,30 @@
   <nav class="navbar top-nav d-none d-md-flex">
     <div class="container justify-content-between">
       <a class="navbar-brand text-success fw-bold" href="#">Patient Portal</a>
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <a class="nav-link active" href="#"><i class="bi bi-house-door-fill me-1"></i>Home</a>
         <a class="nav-link" href="#"><i class="bi bi-calendar-event-fill me-1"></i>Appointments</a>
         <a class="nav-link" href="#"><i class="bi bi-chat-dots-fill me-1"></i>Messages</a>
-        <a class="nav-link" href="#"><i class="bi bi-person-fill me-1"></i>Profile</a>
+
+        <!-- Profile Dropdown -->
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-fill me-1"></i>Profile
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="#">My Profile</a></li>
+            <li>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
+
 
   <!-- ===== Main Content ===== -->
 @yield('content')
@@ -139,8 +155,22 @@
     <a class="nav-link active" href="#"><i class="bi bi-house-door-fill"></i>Home</a>
     <a class="nav-link" href="#"><i class="bi bi-calendar-event-fill"></i>Appointments</a>
     <a class="nav-link" href="#"><i class="bi bi-chat-dots-fill"></i>Messages</a>
-    <a class="nav-link" href="#"><i class="bi bi-person-fill"></i>Profile</a>
+  
+    <!-- Profile Dropdown for mobile -->
+    <a class="nav-link dropdown-toggle" href="#" id="mobileProfileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person-fill"></i>Profile
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mobileProfileDropdown">
+      <li><a class="dropdown-item" href="#">My Profile</a></li>
+      <li>
+        <form method="POST" action="{{ route('logout') }}">
+          @csrf
+          <button type="submit" class="dropdown-item text-danger">Logout</button>
+        </form>
+      </li>
+    </ul>
   </nav>
+  
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

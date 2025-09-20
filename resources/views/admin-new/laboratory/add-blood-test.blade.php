@@ -102,7 +102,7 @@
                                 <select class="form-control select2 @error('doctor_id') is-invalid @enderror" 
                                         id="doctor_id" name="doctor_id" required>
                                     <option value="">Select Doctor</option>
-                                    @foreach(\App\Models\User::role('doctors')->get() as $doctor)
+                                    @foreach(\App\Models\User::role('doctor')->get() as $doctor)
                                         <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
                                     @endforeach
                                 </select>

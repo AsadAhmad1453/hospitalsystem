@@ -24,7 +24,7 @@ class PatientEntryController extends Controller
 
     public function addPatient()
     {
-        $doctors = User::role('doctors')->get();
+        $doctors = User::role('doctor')->get();
         $nurses = User::role('nurse')->get();
         $dcs = User::role('data collector')->get();
         $services = Service::all();
@@ -118,7 +118,7 @@ class PatientEntryController extends Controller
     public function editPatient($id)
     {
         $patient = Patient::findOrFail($id);
-        $doctors = User::role('doctors')->get();
+        $doctors = User::role('doctor')->get();
         $nurses = User::role('nurse')->get();
         $dcs = User::role('data collector')->get();
         $services = Service::all();
@@ -172,5 +172,39 @@ class PatientEntryController extends Controller
     public function webreqs(){
         $webreqs = WebReq::all();
         return view('user.patient-entry.web-reqs', get_defined_vars());
+    }
+
+    public function appReg()
+    {
+        $patients = Patient::where('reg_status', '0')->get();
+        return view('user.patient-entry.app-reg', get_defined_vars());
+    }
+
+    public function regPat($patient_id)
+    {
+        $patient = Patient::findOrFail($patient_id);
+
+        // Generate email: unique_number + id @shafayaat.com
+        $email = $patient->unique_number . $patient->id . '@shafayaat.com';
+
+        // Password: cnic with dashes removed
+        $password = str_replace('-', '', $patient->cnic);
+
+        // Create user
+        $user = new User();
+        $user->name = $patient->name;
+        $user->email = $email;
+        $user->password = bcrypt($password);
+        $user->role = '2';
+        $user->save();
+
+        // Assign 'patient' role
+        $user->assignRole('patient');
+
+        // Update reg_status to 1
+        $patient->reg_status = '1';
+        $patient->save();
+
+        return redirect()->back()->with('success', 'Patient registered as user successfully.');
     }
 }

@@ -82,7 +82,7 @@ class ChartDataService
      */
     public function getUserStatisticsByRole()
     {
-        $doctors = User::role('doctors')->count();
+        $doctors = User::role('doctor')->count();
         $nurses = User::role('nurse')->count();
         $dataCollectors = User::role('data collector')->count();
         

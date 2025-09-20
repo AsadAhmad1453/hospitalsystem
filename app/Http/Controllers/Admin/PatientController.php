@@ -69,7 +69,7 @@ class PatientController extends Controller
     public function indexNew()
     {
         $patients = $this->patientService->getAllPatients();
-        $doctors = User::role('doctors')->get();
+        $doctors = User::role('doctor')->get();
         
         return view('admin-new.patients.patients', compact('patients', 'doctors'));
     }

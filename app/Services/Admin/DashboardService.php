@@ -48,7 +48,7 @@ class DashboardService
             'totalForms' => Form::count(),
             'recentPatients' => Patient::where('created_at', '>=', now()->subDays(7))->count(),
             'recentUsers' => User::where('created_at', '>=', now()->subDays(7))->count(),
-            'doctorsCount' => User::role('doctors')->count(),
+            'doctorsCount' => User::role('doctor')->count(),
             'nursesCount' => User::role('nurse')->count(),
             'completedTests' => BloodInv::where('status', 'completed')->count(),
             'pendingTests' => BloodInv::where('status', 'pending')->count(),
@@ -63,7 +63,7 @@ class DashboardService
     {
         return [
             'total' => User::count(),
-            'doctors' => User::role('doctors')->count(),
+            'doctors' => User::role('doctor')->count(),
             'nurses' => User::role('nurse')->count(),
             'data_collectors' => User::role('data collector')->count(),
             'recent' => User::where('created_at', '>=', now()->subDays(7))->count(),
@@ -175,7 +175,7 @@ class DashboardService
     private function getUsersByRole()
     {
         return [
-            'doctors' => User::role('doctors')->count(),
+            'doctors' => User::role('doctor')->count(),
             'nurses' => User::role('nurse')->count(),
             'data_collectors' => User::role('data collector')->count(),
         ];

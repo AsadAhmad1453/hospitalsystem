@@ -4,10 +4,10 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
-class IsAdmin
+class IsPatient
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,13 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-         if (!Auth::check()) {
-            return redirect()->route('admin-login')->withErrors(['email' => 'Please login to access admin panel.']);
+        if (!Auth::check()) {
+            return redirect()->route('patient-login')->withErrors(['email' => 'Please login to access staff panel.']);
         }
 
-        if (Auth::user()->role !== '0') {
+        if (Auth::user()->role !== '2') {
             Auth::logout();
-            return redirect()->route('admin-login')->withErrors(['email' => 'You are not authorized.']);
+            return redirect()->route('patient-login')->withErrors(['email' => 'You are not authorized.']);
         }
 
         return $next($request);

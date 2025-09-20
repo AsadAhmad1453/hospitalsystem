@@ -141,7 +141,7 @@ class UserService
     {
         return [
             'total_users' => User::count(),
-            'doctors_count' => User::role('doctors')->count(),
+            'doctors_count' => User::role('doctor')->count(),
             'nurses_count' => User::role('nurse')->count(),
             'data_collectors_count' => User::role('data collector')->count(),
             'recent_users' => User::where('created_at', '>=', now()->subDays(7))->count(),

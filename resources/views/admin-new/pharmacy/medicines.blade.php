@@ -508,7 +508,7 @@
                             <label for="doctor_id" class="form-label">Prescribed By *</label>
                             <select class="form-control select2" id="doctor_id" name="doctor_id" required>
                                 <option value="">Select Doctor</option>
-                                @foreach(\App\Models\User::role('doctors')->get() as $doctor)
+                                @foreach(\App\Models\User::role('doctor')->get() as $doctor)
                                 <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
                                 @endforeach
                             </select>

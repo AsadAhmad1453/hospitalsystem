@@ -127,7 +127,7 @@
                             <label class="form-label">Doctor</label>
                             <select class="form-control select2" id="doctorFilter">
                                 <option value="">All Doctors</option>
-                                @foreach(\App\Models\User::role('doctors')->get() as $doctor)
+                                @foreach($doctors as $doctor)
                                 <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
                                 @endforeach
                             </select>
@@ -336,7 +336,7 @@
                             <label for="edit_doctor_id" class="form-label">Assigned Doctor *</label>
                             <select class="form-control select2" id="edit_doctor_id" name="doctor_id" required>
                                 <option value="">Select Doctor</option>
-                                @foreach(\App\Models\User::role('doctors')->get() as $doctor)
+                                @foreach($doctors as $doctor)
                                 <option value="{{ $doctor->id }}">{{ $doctor->name }}</option>
                                 @endforeach
                             </select>
