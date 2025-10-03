@@ -24,7 +24,7 @@ class DashboardService
      */
     public function getDashboardStatistics()
     {
-        return Cache::remember('dashboard_stats', 300, function () {
+        return Cache::remember('dashboard_stats', 60, function () {
             return [
                 'users' => $this->getUserStatistics(),
                 'patients' => $this->getPatientStatistics(),

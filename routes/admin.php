@@ -37,6 +37,8 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
         Route::get('/admin-new/dashboard', 'indexNew')->name('admin-new.dashboard');
         Route::get('/admin-new/profile', 'profileNew')->name('admin-new.profile');
         Route::post('/admin-new/update-profile', 'updateProfileNew')->name('admin-new.update-profile');
+        Route::get('/real-time-stats', 'getRealTimeStats')->name('real-time-stats');
+        Route::post('/clear-cache', 'clearCache')->name('clear-cache');
         Route::post('/admin-new/change-password', 'changePassword')->name('admin-new.change-password');
         Route::post('/admin-new/upload-profile-image', 'uploadProfileImage')->name('admin-new.upload-profile-image');
     });
@@ -57,6 +59,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
         Route::get('/admin-new/users/add', 'addUserNew')->name('admin-new.add-user');
         Route::post('/admin-new/save-user', 'saveuserNew')->name('admin-new.save-user');
         Route::get('/admin-new/users/{id}', 'showNew')->name('admin-new.users.show');
+        Route::get('/admin-new/edit-user/{id}', 'editUserNew')->name('admin-new.edit-user');
         Route::put('/admin-new/users/{id}', 'updateNew')->name('admin-new.users.update');
         Route::get('/admin-new/del-user/{id}', 'deluserNew')->name('admin-new.del-user');
         Route::get('/admin-new/roles-table/{id}', 'rolestableNew')->name('admin-new.roles-table');

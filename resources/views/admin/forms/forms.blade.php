@@ -75,6 +75,39 @@
 <script src="{{asset('admin-assets/vendors/js/tables/datatable/buttons.print.min.js')}}"></script>
 <script src="{{asset('admin-assets/js/scripts/extensions/ext-component-sweet-alerts.js')}}"></script>
 <script src="{{asset('admin-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
+
+<!-- Success Message Handling -->
+@if(session('success'))
+<script>
+$(document).ready(function() {
+    // Use SweetAlert2 instead of toastr for consistency
+    Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: '{{ session('success') }}',
+        timer: 3000,
+        showConfirmButton: false,
+        toast: true,
+        position: 'top-end',
+        timerProgressBar: true
+    });
+});
+</script>
+@endif
+
+@if(session('error'))
+<script>
+$(document).ready(function() {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#d33'
+    });
+});
+</script>
+@endif
 <script>
     $(document).ready(function () {
         $('#form').on('submit', function () {

@@ -683,7 +683,13 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                toastr.success('User created successfully!');
+                if (typeof toastr !== 'undefined') {
+                    toastr.success('User created successfully!');
+                } else if (typeof Swal !== 'undefined') {
+                    showToast('User created successfully!', 'success');
+                } else {
+                    alert('User created successfully!');
+                }
                 $('#addUserModal').modal('hide');
                 $('#addUserForm')[0].reset();
                 loadRealTimeStats(); // Refresh stats
@@ -695,9 +701,21 @@ $(document).ready(function() {
                     Object.keys(errors).forEach(key => {
                         errorMessage += `• ${errors[key][0]}\n`;
                     });
-                    toastr.error(errorMessage);
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error(errorMessage);
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast(errorMessage, 'error');
+                    } else {
+                        alert(errorMessage);
+                    }
                 } else {
-                    toastr.error('Error creating user. Please try again.');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Error creating user. Please try again.');
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast('Error creating user. Please try again.', 'error');
+                    } else {
+                        alert('Error creating user. Please try again.');
+                    }
                 }
             },
             complete: function() {
@@ -731,7 +749,13 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                toastr.success('Service added successfully!');
+                if (typeof toastr !== 'undefined') {
+                    toastr.success('Service added successfully!');
+                } else if (typeof Swal !== 'undefined') {
+                    showToast('Service added successfully!', 'success');
+                } else {
+                    alert('Service added successfully!');
+                }
                 $('#addServiceModal').modal('hide');
                 $('#addServiceForm')[0].reset();
                 loadRealTimeStats(); // Refresh stats
@@ -743,9 +767,21 @@ $(document).ready(function() {
                     Object.keys(errors).forEach(key => {
                         errorMessage += `• ${errors[key][0]}\n`;
                     });
-                    toastr.error(errorMessage);
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error(errorMessage);
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast(errorMessage, 'error');
+                    } else {
+                        alert(errorMessage);
+                    }
                 } else {
-                    toastr.error('Error adding service. Please try again.');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Error adding service. Please try again.');
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast('Error adding service. Please try again.', 'error');
+                    } else {
+                        alert('Error adding service. Please try again.');
+                    }
                 }
             },
             complete: function() {
@@ -774,7 +810,13 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                toastr.success('Form created successfully!');
+                if (typeof toastr !== 'undefined') {
+                    toastr.success('Form created successfully!');
+                } else if (typeof Swal !== 'undefined') {
+                    showToast('Form created successfully!', 'success');
+                } else {
+                    alert('Form created successfully!');
+                }
                 $('#addFormModal').modal('hide');
                 $('#addFormForm')[0].reset();
                 loadRealTimeStats(); // Refresh stats
@@ -786,9 +828,21 @@ $(document).ready(function() {
                     Object.keys(errors).forEach(key => {
                         errorMessage += `• ${errors[key][0]}\n`;
                     });
-                    toastr.error(errorMessage);
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error(errorMessage);
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast(errorMessage, 'error');
+                    } else {
+                        alert(errorMessage);
+                    }
                 } else {
-                    toastr.error('Error creating form. Please try again.');
+                    if (typeof toastr !== 'undefined') {
+                        toastr.error('Error creating form. Please try again.');
+                    } else if (typeof Swal !== 'undefined') {
+                        showToast('Error creating form. Please try again.', 'error');
+                    } else {
+                        alert('Error creating form. Please try again.');
+                    }
                 }
             },
             complete: function() {
