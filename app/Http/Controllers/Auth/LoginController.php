@@ -28,7 +28,7 @@ class LoginController extends Controller
         if ($this->attemptLogin($request)) {
             $request->session()->regenerate();
 
-            return to_route('admin-dashboard');
+            return to_route('admin-new.dashboard');
         }
 
         $this->incrementLoginAttempts($request);

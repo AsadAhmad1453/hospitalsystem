@@ -29,10 +29,10 @@ Route::post('/admin/authenticating',[LoginController::class, 'login'])->name('ad
 
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     Route::controller(AdminDashboardController::class)->group(function () {
-        Route::get('/', 'indexNew')->name('admin-dashboard'); // Redirect to new admin panel
-        Route::get('/old-dashboard', 'index')->name('admin-old-dashboard'); // Keep old dashboard accessible
-        Route::get('/manage-profile', 'profileNew')->name('manage-profile'); // Redirect to new profile
-        Route::post('/update-profile', 'updateProfileNew')->name('update-profile');
+        // Route::get('/', 'indexNew')->name('admin-dashboard'); 
+        // Route::get('/old-dashboard', 'index')->name('admin-old-dashboard'); // Keep old dashboard accessible
+        // Route::get('/manage-profile', 'profileNew')->name('manage-profile'); // Redirect to new profile
+        // Route::post('/update-profile', 'updateProfileNew')->name('update-profile');
         // New admin panel routes
         Route::get('/admin-new/dashboard', 'indexNew')->name('admin-new.dashboard');
         Route::get('/admin-new/profile', 'profileNew')->name('admin-new.profile');
@@ -48,10 +48,10 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(UsersController::class)->group(function () {
-        Route::get('/users', 'index')->name('users');
-        Route::post('/save-user', 'saveuser')->name('save-user');
-        Route::get('/del-user/{id}', 'deluser')->name('del-user');
-        Route::get('/roles-table/{id}', 'rolestable')->name('roles-table');
+        // Route::get('/users', 'index')->name('users');
+        // Route::post('/save-user', 'saveuser')->name('save-user');
+        // Route::get('/del-user/{id}', 'deluser')->name('del-user');
+        // Route::get('/roles-table/{id}', 'rolestable')->name('roles-table');
         // New admin panel routes
         Route::get('/admin-new/users', 'indexNew')->name('admin-new.users');
         Route::get('/admin-new/users/add', 'addUserNew')->name('admin-new.add-user');
@@ -63,10 +63,10 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(PatientController::class)->group(function () {
-        Route::get('/patients', 'index')->name('patients');
-        Route::get('/patient-info/{id}', 'patientInfo')->name('patient-info');
-        Route::get('/del-patient/{id}', 'delPatient')->name('del-patient');
-        Route::get('/del-all', 'delAll')->name('del-all');
+        // Route::get('/patients', 'index')->name('patients');
+        // Route::get('/patient-info/{id}', 'patientInfo')->name('patient-info');
+        // Route::get('/del-patient/{id}', 'delPatient')->name('del-patient');
+        // Route::get('/del-all', 'delAll')->name('del-all');
         // New admin panel routes
         Route::get('/admin-new/patients', 'indexNew')->name('admin-new.patients');
         Route::get('/admin-new/patient-info/{id}', 'patientInfoNew')->name('admin-new.patient-info');
@@ -75,17 +75,17 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
         Route::get('/admin-new/del-all', 'delAllNew')->name('admin-new.del-all');
     });
 
-    Route::controller(QuestionsController::class)->group(function () {
-        Route::get('/question-sections', 'index')->name('question-sections');
-        Route::post('/save-section', 'saveSection')->name('save-section');
-        Route::get('/delete-section/{id}', 'deleteSection')->name('del-section');
-        Route::get('/questions', 'question')->name('questions');
-        Route::get('/question-add', 'addQuestion')->name('question-add');
-        Route::post('/save-question', 'saveQuestion')->name('save-question');
-        Route::get('/delete-question/{id}', 'deleteQuestion')->name('del-question');
-        Route::post('/update-question-order', 'updateQuestionOrder')->name('update-question-order');
-        Route::get('/del-all-questions', 'delAllQuestions')->name('del-all-questions');
-    });
+    // Route::controller(QuestionsController::class)->group(function () {
+    //     Route::get('/question-sections', 'index')->name('question-sections');
+    //     Route::post('/save-section', 'saveSection')->name('save-section');
+    //     Route::get('/delete-section/{id}', 'deleteSection')->name('del-section');
+    //     Route::get('/questions', 'question')->name('questions');
+    //     Route::get('/question-add', 'addQuestion')->name('question-add');
+    //     Route::post('/save-question', 'saveQuestion')->name('save-question');
+    //     Route::get('/delete-question/{id}', 'deleteQuestion')->name('del-question');
+    //     Route::post('/update-question-order', 'updateQuestionOrder')->name('update-question-order');
+    //     Route::get('/del-all-questions', 'delAllQuestions')->name('del-all-questions');
+    // });
 
     Route::controller(PermissionController::class)->group(function () {
         Route::get('/permissions', 'index')->name('permissions');
@@ -94,13 +94,6 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(ServiceController::class)->group(function () {
-        Route::get('/services', 'index')->name('services');
-        Route::get('/add-service', 'addService')->name('add-service');
-        Route::get('/edit-service/{id}', 'editService')->name('edit-service');
-        Route::post('/update-service', 'updateService')->name('update-service');
-        Route::post('/save-service', 'saveService')->name('save-service');
-        Route::get('/delete-service/{id}', 'deleteService')->name('del-service');
-        Route::get('/delete-all-services', 'deleteAllServices')->name('del-all-services');
         // New admin panel routes
         Route::get('/admin-new/services', 'indexNew')->name('admin-new.services');
         Route::post('/admin-new/save-service', 'saveServiceNew')->name('admin-new.save-service');
@@ -132,9 +125,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(MedicController::class)->group(function () {
-        Route::get('/medicines', 'index')->name('medicines');
-        Route::post('/save-medic', 'saveMedic')->name('save-medic');
-        Route::get('/delete-medic/{id}', 'deleteMedic')->name('del-medic');
+        // Route::get('/medicines', 'index')->name('medicines');
+        // Route::post('/save-medic', 'saveMedic')->name('save-medic');
+        // Route::get('/delete-medic/{id}', 'deleteMedic')->name('del-medic');
         // New admin panel routes
         Route::get('/admin-new/medicines', 'indexNew')->name('admin-new.medicines');
         Route::get('/admin-new/medicines/add', 'addMedicineNew')->name('admin-new.add-medicine');
@@ -149,9 +142,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(BloodInvController::class)->group(function () {
-        Route::get('/blood-investigation', 'index')->name('blood-investigation');
-        Route::post('/save-blood-inv', 'saveBloodInv')->name('save-blood-inv');
-        Route::get('/delete-blood-inv/{id}', 'deleteBloodInv')->name('del-blood-inv');
+        // Route::get('/blood-investigation', 'index')->name('blood-investigation');
+        // Route::post('/save-blood-inv', 'saveBloodInv')->name('save-blood-inv');
+        // Route::get('/delete-blood-inv/{id}', 'deleteBloodInv')->name('del-blood-inv');
         // New admin panel routes
         Route::get('/admin-new/blood-investigation', 'indexNew')->name('admin-new.blood-investigation');
         Route::get('/admin-new/blood-investigation/add', 'addBloodTestNew')->name('admin-new.add-blood-test');
@@ -160,9 +153,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(XrayController::class)->group(function () {
-        Route::get('/x-rays', 'index')->name('xrays');
-        Route::post('/save-xray', 'saveXray')->name('save-xray');
-        Route::get('/delete-xray/{id}', 'deleteXray')->name('del-xray');
+        // Route::get('/x-rays', 'index')->name('xrays');
+        // Route::post('/save-xray', 'saveXray')->name('save-xray');
+        // Route::get('/delete-xray/{id}', 'deleteXray')->name('del-xray');
         // New admin panel routes
         Route::get('/admin-new/x-rays', 'indexNew')->name('admin-new.xrays');
         Route::post('/admin-new/save-xray', 'saveXrayNew')->name('admin-new.save-xray');
@@ -170,9 +163,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(UltrasoundController::class)->group(function () {
-        Route::get('/ultrasounds', 'index')->name('uss');
-        Route::post('/save-ultrasound', 'saveUltrasound')->name('save-us');
-        Route::get('/delete-ultrasound/{id}', 'deleteUltrasound')->name('del-us');
+        // Route::get('/ultrasounds', 'index')->name('uss');
+        // Route::post('/save-ultrasound', 'saveUltrasound')->name('save-us');
+        // Route::get('/delete-ultrasound/{id}', 'deleteUltrasound')->name('del-us');
         // New admin panel routes
         Route::get('/admin-new/ultrasounds', 'indexNew')->name('admin-new.uss');
         Route::post('/admin-new/save-ultrasound', 'saveUltrasoundNew')->name('admin-new.save-us');
@@ -180,9 +173,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(DoseController::class)->group(function () {
-        Route::get('/dosage', 'index')->name('dosage');
-        Route::post('/save-dose', 'saveDose')->name('save-dose');
-        Route::get('/delete-dose/{id}', 'deleteDose')->name('del-dose');
+        // Route::get('/dosage', 'index')->name('dosage');
+        // Route::post('/save-dose', 'saveDose')->name('save-dose');
+        // Route::get('/delete-dose/{id}', 'deleteDose')->name('del-dose');
         // New admin panel routes
         Route::get('/admin-new/dosage', 'indexNew')->name('admin-new.dosage');
         Route::post('/admin-new/save-dose', 'saveDoseNew')->name('admin-new.save-dose');
@@ -190,9 +183,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(BankController::class)->group(function () {
-        Route::get('/banks', 'index')->name('banks');
-        Route::post('/save-bank', 'saveBank')->name('save-bank');
-        Route::get('/delete-bank/{id}', 'deleteBank')->name('del-bank');
+        // Route::get('/banks', 'index')->name('banks');
+        // Route::post('/save-bank', 'saveBank')->name('save-bank');
+        // Route::get('/delete-bank/{id}', 'deleteBank')->name('del-bank');
         // New admin panel routes
         Route::get('/admin-new/banks', 'indexNew')->name('admin-new.banks');
         Route::post('/admin-new/save-bank', 'saveBankNew')->name('admin-new.save-bank');
@@ -200,9 +193,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(CtscanController::class)->group(function () {
-        Route::get('/ct-scans', 'index')->name('ctscans');
-        Route::post('/save-ctscan', 'save')->name('save-ctscan');
-        Route::get('/delete-ctscan/{id}', 'delete')->name('del-ctscan');
+        // Route::get('/ct-scans', 'index')->name('ctscans');
+        // Route::post('/save-ctscan', 'save')->name('save-ctscan');
+        // Route::get('/delete-ctscan/{id}', 'delete')->name('del-ctscan');
         // New admin panel routes
         Route::get('/admin-new/ct-scans', 'indexNew')->name('admin-new.ctscans');
         Route::post('/admin-new/save-ctscan', 'saveNew')->name('admin-new.save-ctscan');

@@ -354,7 +354,7 @@
                 <h5 class="modal-title">Add New Medicine</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('save-medic') }}" method="POST" id="addMedicineForm">
+            <form action="{{ route('admin-new.save-medic') }}" method="POST" id="addMedicineForm">
                 @csrf
                 <div class="modal-body">
                     <div class="row">

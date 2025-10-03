@@ -70,7 +70,7 @@
                     <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Question Details</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('save-question') }}" method="POST" id="addQuestionForm">
+                    <form action="{{ route('admin-new.save-question') }}" method="POST" id="addQuestionForm">
                         @csrf
                         <div class="row">
                             <!-- Question Text -->
@@ -95,16 +95,32 @@
                                 <select class="form-control @error('question_type') is-invalid @enderror" 
                                         id="question_type" name="question_type" required onchange="toggleOptions()">
                                     <option value="">Select Type</option>
-                                    <option value="0">Multiple Choice</option>
-                                    <option value="1">Single Choice</option>
+                                    <option value="0">Single Choice</option>
+                                    <option value="1">Multiple Choice</option>
                                     <option value="2">Text Input</option>
-                                    <option value="3">Textarea</option>
-                                    <option value="4">Number</option>
-                                    <option value="5">Date</option>
+                                    <option value="3">Date</option>
+                                    <option value="4">Textarea</option>
+                                    <option value="5">Number</option>
                                     <option value="6">File Upload</option>
                                 </select>
                                 <div class="form-text">Choose the appropriate input type for your question.</div>
                                 @error('question_type')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Form Selection -->
+                            <div class="col-md-6 mb-4">
+                                <label for="form_id" class="form-label">Form <span class="text-danger">*</span></label>
+                                <select class="form-control @error('form_id') is-invalid @enderror" 
+                                        id="form_id" name="form_id" required>
+                                    <option value="">Select Form</option>
+                                    @foreach(\App\Models\Form::all() as $form)
+                                        <option value="{{ $form->id }}">{{ $form->name }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="form-text">Select the form this question belongs to.</div>
+                                @error('form_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -128,7 +144,7 @@
                             <!-- Required -->
                             <div class="col-md-6 mb-4">
                                 <label for="is_required" class="form-label">Required Field</label>
-                                <select class="form-control" id="is_required" name="is_required">
+                                <select class="form-control" id="is_required" name="priority">
                                     <option value="0">Optional</option>
                                     <option value="1">Required</option>
                                 </select>
@@ -249,6 +265,7 @@ $(document).ready(function() {
                 setTimeout(() => {
                     window.location.href = '{{ route("admin-new.questions") }}';
                 }, 1500);
+                console.log('success');
             },
             error: function(xhr) {
                 hideLoading(button, originalText);

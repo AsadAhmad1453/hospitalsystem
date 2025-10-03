@@ -68,7 +68,7 @@
                     <h5 class="mb-0"><i class="fas fa-pills me-2"></i>Medicine Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('save-medic') }}" method="POST" id="addMedicineForm">
+                    <form action="{{ route('admin-new.save-medic') }}" method="POST" id="addMedicineForm">
                         @csrf
                         <div class="row">
                             <!-- Basic Information -->

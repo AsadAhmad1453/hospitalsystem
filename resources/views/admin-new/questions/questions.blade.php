@@ -229,12 +229,12 @@
                                     <td>
                                         <span class="badge bg-{{ $question->question_type == 0 ? 'primary' : ($question->question_type == 1 ? 'info' : 'success') }}">
                                             @switch($question->question_type)
-                                                @case(0) Multiple Choice @break
-                                                @case(1) Single Choice @break
+                                                @case(0) Single Choice @break
+                                                @case(1) Multiple Choice @break
                                                 @case(2) Text Input @break
-                                                @case(3) Textarea @break
+                                                @case(3) Date @break
                                                 @case(4) Number @break
-                                                @case(5) Date @break
+                                                @case(5) Textarea @break
                                                 @case(6) File Upload @break
                                                 @default Unknown
                                             @endswitch
@@ -265,11 +265,11 @@
                                         <span class="badge bg-light text-dark">{{ $question->position ?? 0 }}</span>
                                     </td>
                                     <td>
-                                        <div class="dropdown">
+                                        <div class="dropdown position-static">
                                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                 Actions
                                             </button>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu show-overflow-menu" style="position: absolute; z-index: 1050; min-width: 200px;">
                                                 <li><a class="dropdown-item" href="#" onclick="viewQuestion({{ $question->id }})">
                                                     <i class="fas fa-eye me-2"></i>View Details
                                                 </a></li>
@@ -295,6 +295,19 @@
                                                 </a></li>
                                             </ul>
                                         </div>
+                                        <style>
+                                            /* Ensures dropdown overflows table and is fully visible */
+                                            .show-overflow-menu {
+                                                left: auto !important;
+                                                right: 0 !important;
+                                                transform: none !important;
+                                                max-height: 350px;
+                                                overflow-y: auto;
+                                            }
+                                            .dropdown.position-static {
+                                                position: static !important;
+                                            }
+                                        </style>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -315,7 +328,7 @@
                 <h5 class="modal-title">Add New Question</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('save-question') }}" method="POST" id="addQuestionForm">
+            <form action="{{ route('admin-new.save-question') }}" method="POST" id="addQuestionForm">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -430,12 +443,12 @@
                             <label for="edit_question_type" class="form-label">Question Type *</label>
                             <select class="form-control" id="edit_question_type" name="question_type" required onchange="toggleEditOptions()">
                                 <option value="">Select Type</option>
-                                <option value="0">Multiple Choice</option>
-                                <option value="1">Single Choice</option>
+                                <option value="0">Single Choice</option>
+                                <option value="1">Multiple Choice</option>
                                 <option value="2">Text Input</option>
-                                <option value="3">Textarea</option>
-                                <option value="4">Number</option>
-                                <option value="5">Date</option>
+                                <option value="3">Date</option>
+                                <option value="4">Textarea</option>
+                                <option value="5">Number</option>
                                 <option value="6">File Upload</option>
                             </select>
                         </div>
@@ -692,7 +705,7 @@ function refreshTable() {
 
 // View question
 function viewQuestion(questionId) {
-    $.get(`/admin/questions/${questionId}`, function(data) {
+    $.get(`/admin-new/questions/${questionId}`, function(data) {
         $('#viewQuestionContent').html(`
             <div class="row">
                 <div class="col-md-8">
@@ -740,7 +753,7 @@ function viewQuestion(questionId) {
 
 // Edit question
 function editQuestion(questionId) {
-    $.get(`/admin/questions/${questionId}`, function(data) {
+    $.get(`/admin-new/questions/${questionId}`, function(data) {
         $('#edit_question').val(data.question);
         $('#edit_question_type').val(data.question_type);
         $('#edit_section_id').val(data.section_id).trigger('change');
@@ -771,7 +784,7 @@ function editQuestion(questionId) {
         }
         
         toggleEditOptions();
-        $('#editQuestionForm').attr('action', `/admin/questions/${questionId}`);
+        $('#editQuestionForm').attr('action', `/admin-new/questions/${questionId}`);
         $('#editQuestionModal').modal('show');
     });
 }
@@ -781,14 +794,21 @@ function deleteQuestion(questionId) {
     confirmDelete('Are you sure you want to delete this question? This action cannot be undone.').then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/admin/del-question/${questionId}`,
+                url: `/admin/admin-new/delete-question/${questionId}`,
                 type: 'GET',
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function(response) {
                     showSuccess('Question deleted successfully!');
                     location.reload();
                 },
                 error: function(xhr) {
-                    showError('Error deleting question: ' + xhr.responseJSON.message);
+                    let errorMsg = 'Error deleting question.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMsg += ' ' + xhr.responseJSON.message;
+                    }
+                    showError(errorMsg);
                 }
             });
         }
@@ -832,11 +852,11 @@ function manageOptions(questionId) {
 
 // Export functions
 function exportToExcel() {
-    window.open('/admin/questions/export/excel', '_blank');
+    window.open('/admin-new/questions/export/excel', '_blank');
 }
 
 function exportToPDF() {
-    window.open('/admin/questions/export/pdf', '_blank');
+    window.open('/admin-new/questions/export/pdf', '_blank');
 }
 
 // Bulk import

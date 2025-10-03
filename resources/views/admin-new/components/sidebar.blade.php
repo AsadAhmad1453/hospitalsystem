@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <nav class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <a href="{{ route('admin-dashboard') }}" class="sidebar-brand">
+        <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
             <i class="fas fa-hospital"></i>
             <span class="brand-text">Shafayaat</span>
         </a>
@@ -98,7 +98,7 @@
                         <i class="fas fa-x-ray"></i>
                         <span>X-Rays</span>
                     </a>
-                    <a class="nav-link {{ Route::is('admin-new.ultrasounds') ? 'active' : '' }}" href="{{ route('admin-new.ultrasounds') }}">
+                    <a class="nav-link {{ Route::is('admin-new.uss') ? 'active' : '' }}" href="{{ route('admin-new.uss') }}">
                         <i class="fas fa-wave-square"></i>
                         <span>Ultrasounds</span>
                     </a>

@@ -465,7 +465,7 @@
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <a href="{{ route('admin-dashboard') }}" class="sidebar-brand">
+                            <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
                 <i class="fas fa-hospital"></i>
                 <span class="brand-text">Shafayaat</span>
             </a>

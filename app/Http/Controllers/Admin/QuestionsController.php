@@ -68,6 +68,7 @@ class QuestionsController extends Controller
             'question' => 'required|string|max:1000',
             'question_type' => 'required|integer',
             'form_id' => 'required|exists:forms,id',
+            'priority' => 'required|integer',
         ]);
 
         if($request->question_type == 0 || $request->question_type == 1) {
@@ -75,7 +76,9 @@ class QuestionsController extends Controller
             $request->validate([
                 'options' => 'required|array|min:2',
             ]);
+
         }
+
         $maxPosition = Question::max('position') ?? 0;
         $question = Question::create([
             'section_id' => $request->section_id,
@@ -85,6 +88,7 @@ class QuestionsController extends Controller
             'priority' => $request->priority,
             'position' => $maxPosition + 1,
         ]);
+        
         if($request->question_type == 0 || $request->question_type == 1) {
 
             foreach ($request->options as $option) {

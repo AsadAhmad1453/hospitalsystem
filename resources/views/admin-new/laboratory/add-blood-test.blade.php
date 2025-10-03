@@ -70,7 +70,7 @@
                     <h5 class="mb-0"><i class="fas fa-vial me-2"></i>Test Order Details</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('save-blood-inv') }}" method="POST" id="addTestForm">
+                    <form action="{{ route('admin-new.save-blood-inv') }}" method="POST" id="addTestForm">
                         @csrf
                         <div class="row">
                             <!-- Patient & Doctor Information -->

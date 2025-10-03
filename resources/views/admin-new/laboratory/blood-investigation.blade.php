@@ -317,7 +317,7 @@
                 <h5 class="modal-title">Add New Blood Test</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('save-blood-inv') }}" method="POST" id="addTestForm">
+            <form action="{{ route('admin-new.save-blood-inv') }}" method="POST" id="addTestForm">
                 @csrf
                 <div class="modal-body">
                     <div class="row">

@@ -69,7 +69,7 @@
                     <h5 class="card-title mb-0">Personal Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('update-profile') }}" method="POST" id="profileForm" enctype="multipart/form-data">
+                    <form action="{{ route('admin-new.update-profile') }}" method="POST" id="profileForm" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">

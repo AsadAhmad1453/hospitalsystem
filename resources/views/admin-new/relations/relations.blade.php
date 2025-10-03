@@ -90,7 +90,7 @@
                                 <i class="fas fa-cogs"></i>
                             </div>
                             <div>
-                                <div class="number">{{ $questions->where('type', 'multiple_choice')->count() }}</div>
+                                <div class="number">{{ $questions->where('question_type', 0)->count() }}</div>
                                 <div class="label">Multiple Choice</div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                 @foreach($questions as $question)
                                 <tr>
                                     <td>
-                                        <div class="fw-bold">{{ $question->question_text }}</div>
+                                        <div class="fw-bold">{{ $question->question }}</div>
                                         @if($question->description)
                                         <small class="text-muted">{{ Str::limit($question->description, 50) }}</small>
                                         @endif
@@ -141,13 +141,24 @@
                                         <span class="badge bg-info">{{ $question->section->name ?? 'No Section' }}</span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-primary">{{ ucfirst(str_replace('_', ' ', $question->type)) }}</span>
+                                        <span class="badge bg-primary">
+                                            @switch($question->question_type)
+                                                @case(0) Single Choice @break
+                                                @case(1) Multiple Choice @break
+                                                @case(2) Text Input @break
+                                                @case(3) Date @break
+                                                @case(4) Number @break
+                                                @case(5) Textarea @break
+                                                @case(6) File Upload @break
+                                                @default Unknown
+                                            @endswitch
+                                        </span>
                                     </td>
                                     <td>
                                         @if($question->options && $question->options->count() > 0)
                                         <div class="d-flex flex-wrap gap-1">
                                             @foreach($question->options->take(3) as $option)
-                                            <span class="badge bg-light text-dark">{{ $option->option_text }}</span>
+                                            <span class="badge bg-light text-dark">{{ $option->option }}</span>
                                             @endforeach
                                             @if($question->options->count() > 3)
                                             <span class="badge bg-secondary">+{{ $question->options->count() - 3 }} more</span>
@@ -168,11 +179,11 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <div class="dropdown">
+                                        <div class="dropdown position-static">
                                             <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                                 Actions
                                             </button>
-                                            <ul class="dropdown-menu">
+                                            <ul class="dropdown-menu show-overflow-menu" style="position: absolute; z-index: 1050; min-width: 200px;">
                                                 <li><a class="dropdown-item" href="#" onclick="viewRelations({{ $question->id }})">
                                                     <i class="fas fa-eye me-2"></i>View Relations
                                                 </a></li>
@@ -188,6 +199,18 @@
                                                 </a></li>
                                             </ul>
                                         </div>
+                                        <style>
+                                            .show-overflow-menu {
+                                                left: auto !important;
+                                                right: 0 !important;
+                                                transform: none !important;
+                                                max-height: 350px;
+                                                overflow-y: auto;
+                                            }
+                                            .dropdown.position-static {
+                                                position: static !important;
+                                            }
+                                        </style>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -217,7 +240,7 @@
                             <select class="form-control select2" id="selected_question_id" name="selected_question_id" required>
                                 <option value="">Choose a question</option>
                                 @foreach($questions as $question)
-                                <option value="{{ $question->id }}">{{ $question->question_text }}</option>
+                                <option value="{{ $question->id }}">{{ $question->question }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -226,7 +249,7 @@
                             <select class="form-control select2" id="related_question" name="related_question" required>
                                 <option value="">Choose a related question</option>
                                 @foreach($questions as $question)
-                                <option value="{{ $question->id }}">{{ $question->question_text }}</option>
+                                <option value="{{ $question->id }}">{{ $question->question }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -248,6 +271,15 @@
         </div>
     </div>
 </div>
+<style>
+/* Ensure select2 dropdowns render above the modal */
+.modal.show .select2-container--open {
+    z-index: 2000 !important;
+}
+#addRelationModal .select2-container {
+    z-index: 2000 !important;
+}
+</style>
 
 <!-- View Relations Modal -->
 <div class="modal fade" id="viewRelationsModal" tabindex="-1">
@@ -276,7 +308,18 @@ $(document).ready(function() {
     $('#relationsTable').DataTable({
         responsive: true,
         pageLength: 25,
-        order: [[0, 'asc']]
+        order: []
+    });
+
+    // Initialize select2 within modal on open to avoid z-index/overflow issues
+    $('#addRelationModal').on('shown.bs.modal', function () {
+        $('#selected_question_id, #related_question').select2({
+            dropdownParent: $('#addRelationModal'),
+            width: '100%'
+        });
+    }).on('hidden.bs.modal', function () {
+        // Cleanup to prevent duplicates
+        $('#selected_question_id, #related_question').select2('destroy');
     });
 
     // Handle question selection change
@@ -311,7 +354,7 @@ $(document).ready(function() {
             },
             error: function(xhr) {
                 hideLoading(button, originalText);
-                showError('Error saving relation: ' + xhr.responseJSON.message);
+                showError('Error saving relation: ' + (xhr.responseJSON?.message || 'Unknown error'));
             }
         });
     });
@@ -320,17 +363,18 @@ $(document).ready(function() {
 // Load question options
 function loadQuestionOptions(questionId) {
     $.ajax({
-        url: `/admin-new/get-question-options/${questionId}`,
+        url: `/admin/admin-new/get-question-options/${questionId}`,
         type: 'GET',
         success: function(response) {
             let optionsHtml = '<div class="row">';
-            response.options.forEach(function(option) {
+            (response.options || []).forEach(function(option) {
+                const optionLabel = option.option ?? option.option_text ?? '';
                 optionsHtml += `
                     <div class="col-md-6 mb-2">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="question_options[]" value="${option.id}" id="option_${option.id}">
                             <label class="form-check-label" for="option_${option.id}">
-                                ${option.option_text}
+                                ${optionLabel}
                             </label>
                         </div>
                     </div>
@@ -348,24 +392,26 @@ function loadQuestionOptions(questionId) {
 // View relations
 function viewRelations(questionId) {
     $.ajax({
-        url: `/admin-new/get-question-relations/${questionId}`,
+        url: `/admin/admin-new/get-question-relations/${questionId}`,
         type: 'GET',
         success: function(response) {
             let content = `
-                <h6>Question: ${response.question.question_text}</h6>
+                <h6>Question: ${(response.question?.question ?? response.question?.question_text) || ''}</h6>
                 <hr>
                 <h6>Relations:</h6>
             `;
             
-            if (response.relations.length > 0) {
+            if ((response.relations || []).length > 0) {
                 content += '<div class="table-responsive"><table class="table table-sm">';
                 content += '<thead><tr><th>Option</th><th>Related Question</th><th>Actions</th></tr></thead><tbody>';
                 
                 response.relations.forEach(function(relation) {
+                    const optText = relation.option?.option ?? relation.option?.option_text ?? '';
+                    const relQ = relation.related_question?.question ?? relation.related_question?.question_text ?? '';
                     content += `
                         <tr>
-                            <td>${relation.option.option_text}</td>
-                            <td>${relation.related_question.question_text}</td>
+                            <td>${optText}</td>
+                            <td>${relQ}</td>
                             <td>
                                 <button class="btn btn-sm btn-outline-danger" onclick="deleteRelation(${relation.id})">
                                     <i class="fas fa-trash"></i>
@@ -413,7 +459,7 @@ function deleteAllRelations(questionId) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/admin-new/delete-all-relations/${questionId}`,
+                url: `/admin/admin-new/delete-all-relations/${questionId}`,
                 type: 'DELETE',
                 data: {
                     _token: $('meta[name="csrf-token"]').attr('content')

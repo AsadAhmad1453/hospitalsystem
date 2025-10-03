@@ -284,7 +284,7 @@
                 <h5 class="modal-title">Add New Service</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form action="{{ route('save-service') }}" method="POST" id="addServiceForm" enctype="multipart/form-data">
+            <form action="{{ route('admin-new.save-service') }}" method="POST" id="addServiceForm" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
