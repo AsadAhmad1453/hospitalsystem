@@ -420,21 +420,11 @@
                                         <!-- widget link start -->
                                         <div class="widget-link">
                                             <ul class="link">
+                                                @foreach ($services as $service)
                                                 <li>
-                                                    <a href="services-details.html"><i class="fa-solid fa-chevron-right"></i> Cataract Evaluation</a>
+                                                    <a href="{{ route('service-detail', ['id' => $service->id]) }}"><i class="fa-solid fa-chevron-right"></i>{{$service->service_name}}</a>
                                                 </li>
-                                                <li>
-                                                    <a href="services-details.html"><i class="fa-solid fa-chevron-right"></i> Contact Lens Fitting</a>
-                                                </li>
-                                                <li>
-                                                    <a href="services-details.html"><i class="fa-solid fa-chevron-right"></i> Dry Eye Treatment</a>
-                                                </li>
-                                                <li>
-                                                    <a href="services-details.html"><i class="fa-solid fa-chevron-right"></i> Pediatric Eye Care</a>
-                                                </li>
-                                                <li>
-                                                    <a href="services-details.html"><i class="fa-solid fa-chevron-right"></i> Glaucoma Surgery</a>
-                                                </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                         <!-- widget link end -->

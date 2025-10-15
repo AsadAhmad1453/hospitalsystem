@@ -95,11 +95,18 @@ class Patient extends Model
     /**
      * Clear dashboard cache when patient data changes
      */
+    protected static function booted()
     {
-        parent::boot();
-        
         static::created(function () {
             Cache::forget('dashboard_stats');
         });
-        
+
+        static::updated(function () {
+            Cache::forget('dashboard_stats');
+        });
+
+        static::deleted(function () {
+            Cache::forget('dashboard_stats');
+        });
+    }
 }

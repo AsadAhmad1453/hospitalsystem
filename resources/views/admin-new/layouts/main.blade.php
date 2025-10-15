@@ -32,10 +32,6 @@
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
-    <!-- Toastr -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
     <!-- Custom CSS -->
     <style>
         :root {
@@ -469,7 +465,7 @@
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
-                            <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
+            <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
                 <i class="fas fa-hospital"></i>
                 <span class="brand-text">Shafayaat</span>
             </a>
@@ -690,90 +686,6 @@
     
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Toastr Initialization -->
-    <script>
-        $(document).ready(function() {
-            if (typeof toastr !== 'undefined') {
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": true,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-            } else {
-                // Create fallback toastr object if not available
-                window.toastr = {
-                    success: function(message, title) {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: title || 'Success!',
-                                text: message,
-                                timer: 3000,
-                                showConfirmButton: false,
-                                toast: true,
-                                position: 'top-end',
-                                timerProgressBar: true
-                            });
-                        } else {
-                            alert(title ? title + ': ' + message : message);
-                        }
-                    },
-                    error: function(message, title) {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: title || 'Error!',
-                                text: message,
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#d33'
-                            });
-                        } else {
-                            alert(title ? title + ': ' + message : message);
-                        }
-                    },
-                    warning: function(message, title) {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: title || 'Warning!',
-                                text: message,
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#ffc107'
-                            });
-                        } else {
-                            alert(title ? title + ': ' + message : message);
-                        }
-                    },
-                    info: function(message, title) {
-                        if (typeof Swal !== 'undefined') {
-                            Swal.fire({
-                                icon: 'info',
-                                title: title || 'Information',
-                                text: message,
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#17a2b8'
-                            });
-                        } else {
-                            alert(title ? title + ': ' + message : message);
-                        }
-                    }
-                };
-            }
-        });
-    </script>
 
     <!-- Custom JavaScript -->
     <script>

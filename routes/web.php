@@ -23,6 +23,14 @@ use App\Http\Controllers\Website\OpenDataCollectorController;
 use App\Http\Controllers\LMS\RegisterController;
 use App\Http\Controllers\Patient\PatientLoginController;
 use App\Http\Controllers\Patient\PatientHomeController;
+use App\Http\Controllers\Patient\PrescriptionController;
+use App\Http\Controllers\Patient\AppointmentController;
+use App\Http\Controllers\Patient\SleepController;
+use App\Http\Controllers\Patient\LabOrderController;
+use App\Http\Controllers\Patient\ElearningController;
+use App\Http\Controllers\Patient\MedRepsController;
+use App\Http\Controllers\Patient\BioEntryController;
+use App\Http\Controllers\Patient\FitnessController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -45,6 +53,14 @@ Route::post('/patient/login-post', [PatientLoginController::class, 'login'])->na
 
 Route::prefix('patient')->middleware(['auth','is_patient'])->group(function () {
     Route::get('/dashboard', [PatientHomeController::class, 'index'])->name('patient-dashboard');
+    Route::get('/prescription', [PrescriptionController::class, 'index'])->name('prescription');
+    Route::get('/appointment-booking', [AppointmentController::class, 'index'])->name('appointment');
+    Route::get('/sleep-tracker', [SleepController::class, 'index'])->name('sleep');
+    Route::get('/lab-orders', [LabOrderController::class, 'index'])->name('lab-orders');
+    Route::get('/elearning', [ElearningController::class, 'index'])->name('elearning');
+    Route::get('/medreps', [MedRepsController::class, 'index'])->name('medreps');
+    Route::get('/bio-entry', [BioEntryController::class, 'index'])->name('bio-entry');
+    Route::get('/fitness', [FitnessController::class, 'index'])->name('fitness');
 });
 
 Route::controller(RegisterController::class)->group(function () {
