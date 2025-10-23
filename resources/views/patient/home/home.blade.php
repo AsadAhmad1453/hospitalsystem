@@ -1,523 +1,1102 @@
 @extends('patient.layouts.main')
-
-@section('custom-css')
-<!-- Fonts + Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-
-<style>
-:root{
-  --sage: #4e9f6b;
-  --sage-dark: #355f47;
-  --muted: #687067;
-  --card-bg: #ffffff;
-  --page-bg: #f6faf8;
-  --radius: 14px;
-}
-
-/* page */
-body { background: var(--page-bg); font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto; color:#1f2f26; }
-
-/* welcome */
-.welcome { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.25rem; }
-.welcome .title h2 { margin:0; font-size:1.35rem; color:#133f2a; font-weight:700; }
-.welcome .title p { margin:0; color:var(--muted); font-size:0.95rem; }
-
-/* button */
-.btn-sage {
-  background: linear-gradient(180deg,var(--sage),var(--sage-dark));
-  color:#fff; border:none; border-radius:999px; padding:.5rem .9rem;
-  box-shadow: 0 8px 24px rgba(44,84,61,0.06);
-}
-.btn-sage:hover { transform:translateY(-2px); }
-
-/* cards */
-.card { background:var(--card-bg); border-radius:var(--radius); border:1px solid rgba(20,70,40,0.04); box-shadow: 0 6px 18px rgba(30,50,30,0.04); transition:transform .25s, box-shadow .25s; }
-.hover-lift:hover { transform:translateY(-6px); box-shadow:0 14px 36px rgba(30,50,30,0.07); }
-.p-4 { padding:1.25rem !important; }
-
-/* icon circle */
-.icon-circle { width:56px; height:56px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(180deg, rgba(78,159,107,0.12), rgba(78,159,107,0.06)); color:var(--sage-dark); font-size:1.2rem; margin:0 auto .65rem; }
-
-/* stat cards */
-.stat-card { text-align:center; padding:1.2rem; cursor:pointer; }
-.stat-title { font-weight:600; color:#174c32; margin-bottom:.35rem; font-size:.98rem; }
-.stat-value { font-size:1.35rem; font-weight:700; color:#133f2a; margin-bottom:0; }
-.stat-sub { font-size:.85rem; color:var(--muted); margin-top:.35rem; }
-.stat-cta { margin-top:.6rem; font-weight:600; color:var(--sage-dark); font-size:.86rem; }
-
-/* view details link */
-.underline-cta { text-decoration:none; display:inline-flex; gap:.5rem; align-items:center; color:var(--sage-dark); }
-.stat-card:hover .underline-cta { text-decoration:underline; text-underline-offset:6px; }
-
-/* modal */
-.modal .modal-dialog { max-width:920px; }
-.modal-content { border-radius:14px; padding: .8rem; border:1px solid rgba(20,70,40,0.04); box-shadow: 0 18px 40px rgba(20,70,30,0.06); }
-.modal-header { border-bottom:none; padding:.6rem 1rem; display:flex; align-items:center; gap:.6rem; }
-.modal-title { font-weight:700; color:#133f2a; }
-.modal-body { padding:.6rem 1rem 1rem 1rem; }
-
-/* inline meal inputs */
-.meal-inputs { display:none; margin-top:0.85rem; justify-content:center; gap:.6rem; align-items:center; }
-.meal-inputs.active { display:flex; }
-.meal-inputs .form-control { max-width:230px; border-radius:10px; box-shadow:none; }
-
-/* small helper */
-.small-muted { font-size:.88rem; color:var(--muted); }
-
-/* chart container */
-.chart-wrap { background: #fff; border-radius:12px; padding:.6rem; border:1px solid rgba(20,70,40,0.03); }
-
-/* toast */
-.toast-custom { position: fixed; bottom: 20px; right: 20px; z-index: 12000; background: #153a2a; color:#fff; padding:.6rem .9rem; border-radius:8px; box-shadow: 0 10px 30px rgba(20,60,40,0.2); opacity:0; transform: translateY(8px); transition: all .35s ease; }
-
-/* responsive */
-@media (max-width:767px) {
-  .welcome { flex-direction:column; align-items:flex-start; gap:.5rem; }
-  .icon-circle { width:48px; height:48px; }
-}
-</style>
-@endsection
-
-
 @section('content')
-<main class="container pt-3 pb-5 flex-grow-1">
-  <div class="welcome">
-    <div class="title">
-      <h2>Welcome back, <span class="small-muted">John Doe</span></h2>
-      <p class="small-muted">A calm, focused place to view your health at a glance.</p>
-    </div>
-    <div>
-      <button class="btn-sage btn"><i class="fa-solid fa-plus me-2"></i> New Entry</button>
-    </div>
+<div class="container mt-3" id="main-content">
+  <div class="row align-items-center mb-3">
+     <div class="col-auto col-sm-auto mb-sm-0">
+        <figure class="avatar avatar-50 coverimg rounded-circle"><img src="{{asset('assets/img/modern-ai-image/user-6.jpg')}}" alt=""></figure>
+     </div>
+     <div class="col col-sm">
+        <p class="h2 mb-0">Welcome back,</p>
+        <p class="h5 text-secondary mb-0">{{ Auth::user()->name ?? 'Patient' }}</p>
+     </div>
   </div>
-
-  <!-- Top overview -->
-  <div class="row g-4 mb-4">
-    <div class="col-12 col-md-4">
-      <div class="card hover-lift p-4 text-center">
-        <div class="icon-circle"><i class="fa-solid fa-heart-pulse"></i></div>
-        <div class="small-muted">Disease Status</div>
-        <div class="fw-semibold" style="font-size:1.05rem;margin-top:.35rem;">Stable</div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-8">
-      <div class="card hover-lift p-4">
-        <div class="d-flex align-items-center">
-          <div class="icon-circle" style="width:48px;height:48px;border-radius:10px"><i class="fa-solid fa-stethoscope"></i></div>
-          <div style="margin-left:.85rem">
-            <div style="font-weight:700;color:#133f2a">Vitals Summary</div>
-            <div class="small-muted">Snapshot of key vitals</div>
-          </div>
+  <div class="row gx-3">
+     <div class="col-6 col-lg-6 col-xxl-3 mb-3">
+        <div class="card adminuiux-card">
+           <div class="card-body">
+              <div class="row gx-2 gx-sm-3 align-items-center">
+                 <div class="col">
+                    <p class="h4 mb-0"><i class="fa fa-fire fs-4 text-warning"></i> 1,850</p>
+                    <p class="text-secondary small">Calories Burned</p>
+                 </div>
+                 <div class="col-12 col-sm-3 mt-2 mt-sm-0">
+                    <div class="summarychart height-40 w-100">
+                       <canvas id="areachartgreen1"></canvas>
+                    </div>
+                 </div>
+              </div>
+           </div>
         </div>
-
-        <div class="row text-center mt-3">
-          <div class="col">
-            <div class="fw-semibold text-success">120/80</div>
-            <small class="small-muted">Blood Pressure</small>
-          </div>
-          <div class="col">
-            <div class="fw-semibold text-success">78 bpm</div>
-            <small class="small-muted">Heart Rate</small>
-          </div>
-          <div class="col">
-            <div class="fw-semibold text-success">98 mg/dL</div>
-            <small class="small-muted">Sugar</small>
-          </div>
-          <div class="col">
-            <div class="fw-semibold text-success">68 kg</div>
-            <small class="small-muted">Weight</small>
-          </div>
+     </div>
+     <div class="col-6 col-lg-6 col-xxl-3 mb-3">
+        <div class="card adminuiux-card">
+           <div class="card-body">
+              <div class="row gx-2 gx-sm-3 align-items-center">
+                 <div class="col">
+                    <p class="h4 mb-0"><i class="fa-solid fa-moon fs-4 text-primary"></i> 7.2h</p>
+                    <p class="text-secondary small">Sleep Duration</p>
+                 </div>
+                 <div class="col-12 col-sm-3 mt-2 mt-sm-0">
+                    <div class="summarychart height-40 w-100">
+                       <canvas id="areachartblue1"></canvas>
+                    </div>
+                 </div>
+              </div>
+           </div>
         </div>
-      </div>
-    </div>
+     </div>
+     <div class="col-6 col-lg-6 col-xxl-3 mb-3">
+        <div class="card adminuiux-card">
+           <div class="card-body">
+              <div class="row gx-2 gx-sm-3 align-items-center">
+                 <div class="col">
+                    <p class="h4 mb-0"><i class="fa fa-shoe-prints fs-4 text-success"></i> 9,230</p>
+                    <p class="text-secondary small">Steps Today</p>
+                 </div>
+                 <div class="col-12 col-sm-3 mt-2 mt-sm-0">
+                    <div class="summarychart height-40 w-100">
+                       <canvas id="areachartyellow1"></canvas>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="col-6 col-lg-6 col-xxl-3 mb-3">
+        <div class="card adminuiux-card">
+           <div class="card-body">
+              <div class="row gx-2 gx-sm-3 align-items-center">
+                 <div class="col">
+                    <p class="h4 mb-0"><i class="fa fa-heart-pulse fs-4 text-danger"></i> 78</p>
+                    <p class="text-secondary small">Avg Heart Rate</p>
+                 </div>
+                 <div class="col-12 col-sm-3 mt-2 mt-sm-0">
+                    <div class="summarychart height-40 w-100">
+                       <canvas id="areachartred1"></canvas>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
   </div>
-
-  <!-- Medicine & appointment -->
-  <div class="row g-4 mb-4">
-    <div class="col-12 col-md-6">
-      <div class="card hover-lift p-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="icon-circle"><i class="fa-solid fa-pills"></i></div>
-          <div style="margin-left:.75rem">
-            <div style="font-weight:700;color:#133f2a">Today's Medicine</div>
-            <div class="small-muted">Timings & doses</div>
-          </div>
+  <div class="row gx-3">
+     <div class="col-12 col-lg-12 col-xxl-9">
+        <div class="row">
+           <div class="col-12 col-lg-6 col-xxl-8 mb-3">
+              <div class="card adminuiux-card">
+                 <div class="card-header">
+                    <p class="h6">My Health Overview</p>
+                 </div>
+                 <div class="card-body">
+                    <div class="w-100 height-150 mb-3">
+                       <canvas id="patientsummary"></canvas>
+                    </div>
+                    <div class="row">
+                       <div class="col-auto">
+                          <p class="h5 mb-0">12</p>
+                          <p class="text-secondary small">Appointments</p>
+                       </div>
+                       <div class="col-auto">
+                          <p class="h5 mb-0">8</p>
+                          <p class="text-secondary small">Records</p>
+                       </div>
+                       <div class="col-auto">
+                          <p class="h5 mb-0">5</p>
+                          <p class="text-secondary small">Prescriptions</p>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-12 col-lg-6 col-xxl-4 mb-3">
+              <div class="card adminuiux-card h-100">
+                 <div class="card-body">
+                    <div class="row gx-3 mb-3">
+                       <div class="col-auto">
+                          <figure class="avatar avatar-40 rounded-circle"><img src="{{asset('assets/img/modern-ai-image/user-6.jpg')}}" alt=""></figure>
+                       </div>
+                       <div class="col">
+                          <p class="h6 mb-0">{{ Auth::user()->name ?? 'Patient' }}</p>
+                          <p class="text-secondary small">Patient ID: #{{ Auth::id() ?? '001' }}</p>
+                       </div>
+                       <div class="col-auto"><a href="#" class="btn btn-link btn-square"><i data-feather="arrow-up-right"></i></a></div>
+                    </div>
+                    <p><span class="text-secondary small">Last Visit:</span><br>Regular checkup completed successfully.</p>
+                    <div class="swiper swipernonav mb-3">
+                       <div class="swiper-wrapper">
+                          <div class="swiper-slide width-130">
+                             <div class="card border">
+                                <div class="card-body">
+                                   <div class="avatar avatar-40 bg-danger-subtle text-danger-emphasis rounded mb-2"><i class="bi bi-heart-pulse fs-4"></i></div>
+                                   <p class="h5 mb-0">72 <small class="opacity-50 h6 fw-normal">bpm</small></p>
+                                   <p class="text-secondary small">Heart Rate</p>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="swiper-slide width-130">
+                             <div class="card border">
+                                <div class="card-body">
+                                   <div class="avatar avatar-40 bg-warning-subtle text-warning-emphasis rounded mb-2"><i class="bi bi-thermometer-half fs-4"></i></div>
+                                   <p class="h5 mb-0">36.5<sup>&deg;</sup> <small class="opacity-50 h6 fw-normal">C</small></p>
+                                   <p class="text-secondary small">Temperature</p>
+                                </div>
+                             </div>
+                          </div>
+                          <div class="swiper-slide width-130">
+                             <div class="card border">
+                                <div class="card-body">
+                                   <div class="avatar avatar-40 bg-info-subtle text-info-emphasis rounded mb-2"><i class="bi bi-droplet-half fs-4"></i></div>
+                                   <p class="h5 mb-0">99 <small class="opacity-50 h6 fw-normal">%</small></p>
+                                   <p class="text-secondary small">O<sub>2</sub> Saturation</p>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    </div>
+                    <div class="row align-items-center">
+                       <div class="col-auto"><i class="bi bi-calendar-week fs-4 text-secondary"></i></div>
+                       <div class="col">
+                          <p class="h6 mb-0">9:30 AM, Today</p>
+                          <p class="text-secondary small">2 minutes to go</p>
+                       </div>
+                       <div class="col-auto"><button type="button" class="btn btn-link text-success btn-square"><i data-feather="phone"></i></button></div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-12 col-lg-6">
+              <div class="row gx-3">
+                 <div class="col mb-3">
+                    <div class="card adminuiux-card bg-success-subtle">
+                       <div class="card-body">
+                          <i class="bi bi-check-circle fs-4 avatar avatar-40 bg-success text-white rounded mb-2"></i>
+                          <p class="h5 mb-0">Good</p>
+                          <p class="small opacity-75">Health Status</p>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col mb-3">
+                    <div class="card adminuiux-card bg-info-subtle">
+                       <div class="card-body">
+                          <i class="bi bi-calendar-check fs-4 avatar avatar-40 bg-info text-white rounded mb-2"></i>
+                          <p class="h5 mb-0">3</p>
+                          <p class="small opacity-75">This Week</p>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="col mb-3">
+                    <div class="card adminuiux-card bg-warning-subtle">
+                       <div class="card-body">
+                          <i class="bi bi-clock fs-4 avatar avatar-40 bg-warning text-white rounded mb-2"></i>
+                          <p class="h5 mb-0">2</p>
+                          <p class="small opacity-75">Pending</p>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-12 col-lg-6 mb-3">
+              <div class="card adminuiux-card bg-theme-1-space">
+                 <div class="card-header">
+                    <p class="h6"><i data-feather="calendar" class="me-2"></i> My Appointments</p>
+                 </div>
+                 <div class="card-body">
+                    <div class="row">
+                       <div class="col-auto">
+                          <p class="h4 mb-0">12</p>
+                          <p class="small opacity-75">Total</p>
+                       </div>
+                       <div class="col-auto">
+                          <p class="h4 mb-0">8</p>
+                          <p class="small opacity-75">Completed</p>
+                       </div>
+                       <div class="col-auto">
+                          <p class="h4 mb-0">4</p>
+                          <p class="small opacity-75">Upcoming</p>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-12">
+              <div class="card adminuiux-card mb-3">
+                 <div class="card-header">
+                    <p class="h6">My Appointments</p>
+                 </div>
+                 <div class="card-body px-2 pt-0">
+                    <table class="table mb-0" id="dataTable" data-show-toggle="true">
+                       <thead>
+                          <tr>
+                             <th class="">ID</th>
+                             <th>Schedule</th>
+                             <th data-breakpoints="xs">Doctor</th>
+                             <th data-breakpoints="xs sm">Department</th>
+                             <th data-breakpoints="xs">Status</th>
+                             <th>Action</th>
+                          </tr>
+                       </thead>
+                       <tbody>
+                          <tr>
+                             <td>2054ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">9:10 AM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="{{asset('assets/img/modern-ai-image/user-7.jpg')}}" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Dr. Sarah Johnson</p>
+                                      <p class="text-secondary small">Cardiologist</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">Cardiology</p>
+                                <p class="text-secondary small">Room 201</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-yellow">Pending</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">View Details</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Reschedule</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Cancel</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>105ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">10:30 AM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="{{asset('assets/img/modern-ai-image/user-8.jpg')}}" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Dr. Michael Chen</p>
+                                      <p class="text-secondary small">General Medicine</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">General Medicine</p>
+                                <p class="text-secondary small">Room 105</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-blue">Confirmed</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">View Details</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Reschedule</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Cancel</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>058ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">11:30 AM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-1.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Alicia Smith</p>
+                                      <p class="text-secondary small">United States</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">alicia@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-green">Complete</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>500ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">11:55 AM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-2.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Jr. Chen Li</p>
+                                      <p class="text-secondary small">United Kingdom</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">cheli@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-red">Rejected</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>2054ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">12:15 PM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">David Warner</p>
+                                      <p class="text-secondary small">United Kingdom</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">david@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-yellow">Pending</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>105ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">1:30 PM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-4.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Winnie John</p>
+                                      <p class="text-secondary small">Australia</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">winnie@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-blue">Waiting</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>058ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">2:20 AM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-5.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Alicia Smith</p>
+                                      <p class="text-secondary small">United States</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">alicia@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-green">Complete</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                          <tr>
+                             <td>500ID</td>
+                             <td>
+                                <p class="mb-0 fw-medium">3:30 PM</p>
+                                <p class="text-secondary small">9 June 2024</p>
+                             </td>
+                             <td>
+                                <div class="row align-items-center">
+                                   <div class="col-auto">
+                                      <figure class="avatar avatar-40 mb-0 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-6.jpg" alt=""></figure>
+                                   </div>
+                                   <div class="col ps-0">
+                                      <p class="mb-0">Jr. Chen Li</p>
+                                      <p class="text-secondary small">United Kingdom</p>
+                                   </div>
+                                </div>
+                             </td>
+                             <td>
+                                <p class="mb-0">cheli@sales..core.com</p>
+                                <p class="text-secondary small">+44 8466585****1154</p>
+                             </td>
+                             <td><span class="badge badge-sm light bg-red">Rejected</span></td>
+                             <td>
+                                <div class="dropdown d-inline-block">
+                                   <a class="btn btn-link no-caret" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                   <ul class="dropdown-menu dropdown-menu-end">
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Edit</a></li>
+                                      <li><a class="dropdown-item" href="javascript:void(0)">Move</a></li>
+                                      <li><a class="dropdown-item theme-red" href="javascript:void(0)">Delete</a></li>
+                                   </ul>
+                                </div>
+                             </td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </div>
+              </div>
+           </div>
         </div>
-
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item border-0 ps-0 d-flex justify-content-between">
-            <span>Atorvastatin 10mg</span>
-            <small class="small-muted">Morning</small>
-          </li>
-          <li class="list-group-item border-0 ps-0 d-flex justify-content-between">
-            <span>Metformin 500mg</span>
-            <small class="small-muted">Afternoon</small>
-          </li>
-          <li class="list-group-item border-0 ps-0 d-flex justify-content-between">
-            <span>Vitamin D</span>
-            <small class="small-muted">Night</small>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <div class="card hover-lift p-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="icon-circle"><i class="fa-solid fa-calendar-check"></i></div>
-          <div style="margin-left:.75rem">
-            <div style="font-weight:700;color:#133f2a">Upcoming Appointment</div>
-            <div class="small-muted">Next visit details</div>
-          </div>
+     </div>
+     <div class="col-12 col-lg-12 col-xxl-3">
+        <div class="row">
+           <div class="col-12 col-lg-6 col-xxl-12 mb-3">
+              <div class="card adminuiux-card">
+                 <div class="card-body p-2">
+                    <div class="inlinewrap1 inline-calendar"></div>
+                 </div>
+                 <div class="card-footer">
+                    <div class="row">
+                       <div class="col"><input id="inlinewrap1" class="form-control"></div>
+                       <div class="col-auto"><a href="#" class="btn btn-theme"><i class="bi bi-plus"></i> <span>Book Appointment</span></a></div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div class="col-12 col-lg-6 col-xxl-12 mb-3">
+              <div class="card adminuiux-card">
+                 <div class="card-header">
+                    <p class="h6">My Schedule Today</p>
+                 </div>
+                 <div class="card-body p-0 overflow-y-auto height-dynamic" style="--h-dynamic: 648px">
+                    <div class="position-relative table-timestamp-wrap mb-0">
+                       <table class="table table-scheduled-fixed-cell timepunch-table">
+                          <thead>
+                             <tr>
+                                <th class="text-center align-middle fw-normal"><i class="bi bi-clock h5"></i></th>
+                                <th>
+                                   <div class="card">
+                                      <div class="card-body p-2">
+                                         <div class="row gx-3 align-items-center">
+                                            <div class="col-3">
+                                               <figure class="avatar avatar-40 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-4.jpg" alt=""></figure>
+                                            </div>
+                                            <div class="col-9">
+                                               <p class="mb-0 h6 text-truncate">Dr. Ryan Salia</p>
+                                               <p class="text-secondary small fw-normal text-truncate">10:00am-7:00pm</p>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </th>
+                                <th class="">
+                                   <div class="card">
+                                      <div class="card-body p-2">
+                                         <div class="row gx-2 align-items-center">
+                                            <div class="col-3">
+                                               <figure class="avatar avatar-40 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-6.jpg" alt=""></figure>
+                                            </div>
+                                            <div class="col-9">
+                                               <p class="mb-0 h6 text-truncate">Dr. Angelina</p>
+                                               <p class="text-secondary small fw-normal text-truncate">10:00am-7:00pm</p>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </th>
+                                <th class="">
+                                   <div class="card">
+                                      <div class="card-body p-2">
+                                         <div class="row gx-2 align-items-center">
+                                            <div class="col-3">
+                                               <figure class="avatar avatar-40 coverimg rounded-circle"><img src="assets/img/modern-ai-image/user-7.jpg" alt=""></figure>
+                                            </div>
+                                            <div class="col-9">
+                                               <p class="mb-0 h6 text-truncate">Dr. Smriti Vandana</p>
+                                               <p class="text-secondary small fw-normal text-truncate">10:00am-7:00pm</p>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                </th>
+                             </tr>
+                          </thead>
+                          <tbody class="position-relative">
+                             <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">10 AM</span></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-green-subtle status start" style="--aaptsminuts:90; --starttime: 0;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-success p-1 m-1"><i class="bi bi-coin"></i> Paid</span>
+                                         <p class="mb-1 small fw-medium">10:00 am - 11:30 am</p>
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col-auto"><img src="assets/img/modern-ai-image/user-4.jpg" class="avatar avatar-20 rounded-circle" alt=""> <img src="https://i.pravatar.cc/300" class="avatar avatar-20 rounded-circle" alt=""></div>
+                                            <div class="col">Will Johnson</div>
+                                         </div>
+                                         <p class="mb-0 opacity-75 small text-truncated">High fever and cough</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-danger-subtle status start" style="--aaptsminuts:90; --starttime: 0;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-success p-1 m-1"><i class="bi bi-coin"></i> Paid</span>
+                                         <p class="mb-1 small fw-medium">10:00 am - 11:30 am</p>
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col-auto"><img src="assets/img/modern-ai-image/user-4.jpg" class="avatar avatar-20 rounded-circle" alt=""> <img src="https://i.pravatar.cc/300" class="avatar avatar-20 rounded-circle" alt=""></div>
+                                            <div class="col">Will Johnson</div>
+                                         </div>
+                                         <p class="mb-0 opacity-75 small text-truncated">High fever and cough</p>
+                                      </div>
+                                   </div>
+                                </td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-purple-subtle text-purple-emphasis text-center status start" data-bs-toggle="tooltip" title="Unavailable" style="--aaptsminuts:30; --starttime: 30;">
+                                      <div class="card-body d-flex align-items-center justify-content-center"><i data-feather="clock" class="mx-2"></i> <span>Breakfast</span></div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">11 AM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-primary-subtle status start" style="--aaptsminuts:60; --starttime: 90;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-success p-1 m-1"><i class="bi bi-coin"></i> Paid</span>
+                                         <p class="mb-1 small fw-medium">11:30 am - 12:30 pm</p>
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col-auto"><img src="assets/img/modern-ai-image/user-4.jpg" class="avatar avatar-20 rounded-circle" alt=""> <img src="https://i.pravatar.cc/300" class="avatar avatar-20 rounded-circle" alt=""></div>
+                                            <div class="col">Will Johnson</div>
+                                         </div>
+                                         <p class="mb-0 opacity-75 small text-truncated">High fever and cough</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">12 PM</span></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-theme-1-space text-white status start" style="--aaptsminuts:60; --starttime: 120;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-danger p-1 m-1"><i class="bi bi-coin"></i> Unpaid</span>
+                                         <p class="mb-1 small fw-medium">12:00 PM - 1:00 PM</p>
+                                         <div class="row gx-2 align-items-center mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle"><img src="assets/img/modern-ai-image/user-2.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p class="mb-0">Alicia Deverak... <span class="badge text-bg-danger small">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">High fever and Vomiting</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-teal-subtle status start" style="--aaptsminuts:60; --starttime: 120;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-danger p-1 m-1"><i class="bi bi-coin"></i> Unpaid</span>
+                                         <p class="mb-1 small fw-medium">12:00 PM - 1:00 PM</p>
+                                         <div class="row gx-2 align-items-center mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle"><img src="assets/img/modern-ai-image/user-2.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p class="mb-0">Alicia Deverak... <span class="badge text-bg-danger small">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">High fever and Vomiting</p>
+                                      </div>
+                                   </div>
+                                </td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">1 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-danger-subtle text-danger-emphasis text-center status start" data-bs-toggle="tooltip" title="Unavailable" style="--aaptsminuts:30; --starttime: 225;">
+                                      <div class="card-body d-flex align-items-center justify-content-center"><span>Unavailable</span></div>
+                                   </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">2 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-orange-subtle status start" style="--aaptsminuts:60; --starttime: 240;">
+                                      <div class="card-body">
+                                         <span class="position-absolute top-0 end-0 badge bg-danger p-1 m-1"><i class="bi bi-coin"></i> Unpaid</span>
+                                         <p class="mb-1 small fw-medium">2:00 PM - 3:00 PM</p>
+                                         <div class="row gx-2 align-items-center mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle"><img src="assets/img/modern-ai-image/user-2.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p class="mb-0">Alicia Deverak... <span class="badge text-bg-danger small">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">High fever and Vomiting</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-primary-subtle status start" style="--aaptsminuts:30; --starttime: 270;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">2:30 AM - 3:00 AM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-primary-subtle status start overlap-2 one" style="--aaptsminuts:90; --starttime: 270;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">2:30 PM - 4:00 PM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-primary-subtle status start overlap-2 two" style="--aaptsminuts:90; --starttime: 270;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">2:30 PM - 4:00 PM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">3 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">4 PM</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-warning-subtle status start overlap-3 one" style="--aaptsminuts:75; --starttime: 360;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">4:00 PM - 5:15 AM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-orange-subtle status start overlap-3 two" style="--aaptsminuts:75; --starttime: 360;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">4:00 PM - 5:15 AM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-red-subtle status start overlap-3 three" style="--aaptsminuts:75; --starttime: 360;">
+                                      <div class="card-body">
+                                         <div class="row gx-2 mb-1">
+                                            <div class="col">
+                                               <p class="mw-100 text-truncate small mb-1 fw-medium">4:00 PM - 5:15 AM</p>
+                                            </div>
+                                            <div class="col-auto"><i class="text-theme-1 theme-red bi bi-coin h6" data-bs-toggle="tooltip" title="Unpaid"></i></div>
+                                            <div class="col-auto"><i class="bi bi-pencil text-secondary"></i></div>
+                                         </div>
+                                         <div class="row gx-2 mb-2">
+                                            <div class="col-auto"><span class="avatar avatar-20 rounded-circle me-1"><img src="assets/img/modern-ai-image/user-3.jpg" alt=""></span></div>
+                                            <div class="col">
+                                               <p>Sweetu Sinha <span class="badge text-bg-danger mx-2">F</span></p>
+                                            </div>
+                                         </div>
+                                         <p class="small opacity-75">Vomiting Diaria</p>
+                                      </div>
+                                   </div>
+                                </td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">5 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                   <div class="card adminuiux-card bg-danger-subtle text-danger-emphasis text-center status start" data-bs-toggle="tooltip" title="Unavailable" style="--aaptsminuts:30; --starttime: 425;">
+                                      <div class="card-body d-flex align-items-center justify-content-center"><span>Unavailable</span></div>
+                                   </div>
+                                </td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">6 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">7 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">8 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">9 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">15</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">30</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr class="slot">
+                                <td><span class="time-punch">45</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                             <tr>
+                                <td><span class="time-punch">10 PM</span></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                             </tr>
+                          </tbody>
+                       </table>
+                    </div>
+                 </div>
+              </div>
+           </div>
         </div>
-
-        <div class="mt-2 small-muted">Dr. Sarah Khan · Sept 15, 2025 · 10:00 AM</div>
-        <div class="mt-3">
-          <button class="btn-sage btn">View Details</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats: steps, calories, sleep -->
-  <div class="row g-4 mb-4">
-    <!-- Steps -->
-    <div class="col-12 col-md-4">
-      <div class="card stat-card hover-lift" role="button" data-bs-toggle="modal" data-bs-target="#stepsModal">
-        <div class="icon-circle"><i class="fa-solid fa-shoe-prints"></i></div>
-        <div class="stat-title">Steps</div>
-        <div class="stat-value" id="stepsToday">--</div>
-        <div class="stat-sub">Today</div>
-        <div class="stat-cta"><a class="underline-cta">View weekly progress <i class="fa-solid fa-arrow-right" style="font-size:.85rem;margin-left:.4rem"></i></a></div>
-      </div>
-    </div>
-
-    <!-- Calories -->
-    <div class="col-12 col-md-4">
-      <div class="card stat-card hover-lift" role="button" data-bs-toggle="modal" data-bs-target="#caloriesModal">
-        <div class="icon-circle"><i class="fa-solid fa-fire"></i></div>
-        <div class="stat-title">Calories</div>
-        <div class="stat-value" id="caloriesBurnedToday">-- kcal</div>
-        <div class="stat-sub">Burned today</div>
-        <div class="stat-cta"><a class="underline-cta">Track meals & view weekly <i class="fa-solid fa-arrow-right" style="font-size:.85rem;margin-left:.4rem"></i></a></div>
-      </div>
-    </div>
-
-    <!-- Sleep -->
-    <div class="col-12 col-md-4">
-      <div class="card stat-card hover-lift" role="button" data-bs-toggle="modal" data-bs-target="#sleepModal">
-        <div class="icon-circle"><i class="fa-solid fa-moon"></i></div>
-        <div class="stat-title">Sleep</div>
-        <div class="stat-value" id="sleepLast">--</div>
-        <div class="stat-sub">Last night</div>
-        <div class="stat-cta"><a class="underline-cta">Log & view history <i class="fa-solid fa-arrow-right" style="font-size:.85rem;margin-left:.4rem"></i></a></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Messages & Tip -->
-  <div class="row g-4">
-    <div class="col-12 col-md-6">
-      <div class="card hover-lift p-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="icon-circle"><i class="fa-solid fa-message"></i></div>
-          <div style="margin-left:.75rem">
-            <div style="font-weight:700;color:#133f2a">Messages</div>
-            <div class="small-muted">From your care team</div>
-          </div>
-        </div>
-
-        <div class="mt-2 small-muted">2 unread messages from your doctor.</div>
-        <div class="mt-3">
-          <button class="btn btn-sage">View Messages</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-      <div class="card hover-lift p-4">
-        <div class="d-flex align-items-center mb-3">
-          <div class="icon-circle"><i class="fa-solid fa-leaf"></i></div>
-          <div style="margin-left:.75rem">
-            <div style="font-weight:700;color:#133f2a">Health Tip</div>
-            <div class="small-muted">Daily wellness suggestion</div>
-          </div>
-        </div>
-
-        <div class="mt-2 small-muted">Stay hydrated and take short walks after meals for better digestion.</div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<!-- ===== MODALS ===== -->
-
-<!-- Steps Modal -->
-<div class="modal fade" id="stepsModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Weekly Steps</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="small-muted">Your weekly step count. Switch weeks to compare trends.</p>
-
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <button id="prevWeekSteps" class="btn btn-outline-secondary btn-sm">Prev</button>
-          <div class="small-muted fw-semibold" id="stepsWeekLabel">Week 1</div>
-          <button id="nextWeekSteps" class="btn btn-outline-secondary btn-sm">Next</button>
-        </div>
-
-        <div class="chart-wrap">
-          <canvas id="stepsChart" height="120"></canvas>
-        </div>
-      </div>
-    </div>
+     </div>
   </div>
 </div>
 
-<!-- Calories Modal -->
-<div class="modal fade" id="caloriesModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Calories — Intake vs Burned</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="small-muted">Compare intake and calories burned for the week. Add a meal to update today's intake.</p>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-          <div class="small-muted">Calories Burned: <strong id="calBurnedLabel">-- kcal</strong></div>
-          <div class="small-muted">Calories Intake: <strong id="calIntakeLabel">-- kcal</strong></div>
-        </div>
-
-        <div class="chart-wrap mb-3">
-          <canvas id="caloriesChart" height="120"></canvas>
-        </div>
-
-        <div class="d-flex justify-content-center">
-          <button id="addMealBtn" class="btn btn-sage btn-sm">Add Meal</button>
-        </div>
-
-        <div class="meal-inputs" id="mealInputs">
-          <input type="text" id="mealName" class="form-control" placeholder="Meal name (e.g. Sandwich)">
-          <input type="number" id="mealCalories" class="form-control" placeholder="Calories (kcal)">
-          <button id="saveMealBtn" class="btn btn-sage btn-sm">Save</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Sleep Modal -->
-<div class="modal fade" id="sleepModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Sleep Tracker</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p class="small-muted">Start the timer when you go to bed and stop it when you wake — your sleep time will be saved to today's value.</p>
-
-        <div class="chart-wrap mb-3">
-          <canvas id="sleepChart" height="120"></canvas>
-        </div>
-
-        <div class="d-flex justify-content-center">
-          <button id="startSleepBtn" class="btn btn-sage btn-sm">Start Sleep</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 @endsection
 
 
-@section('custom-js')
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-(() => {
-  // Safety helpers to get DOM or return null
-  const $ = id => document.getElementById(id) || null;
-
-  // Data
-  const stepsWeeks = [
-    [8000, 7500, 9000, 8200, 7000, 9400, 8800],
-    [8500, 8900, 9100, 8700, 9500, 9200, 9600]
-  ];
-  let stepsWeekIndex = 0;
-
-  const caloriesData = {
-    intake: [1600,1700,1500,1800,1750,1650,1550],
-    burned: [1800,1850,1900,1750,2000,1950,1800]
-  };
-
-  const sleepHours = [7,6.5,8,7.2,7.8,6.9,7.5];
-
-  // helper: Monday index 0..6
-  const todayIndex = (() => { const d=new Date().getDay(); return (d+6)%7; })();
-
-  // Charts
-  let stepsChart, caloriesChart, sleepChart;
-
-  function initCharts() {
-    const stepsCtx = $('stepsChart').getContext('2d');
-    stepsChart = new Chart(stepsCtx, {
-      type: 'bar',
-      data: {
-        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-        datasets: [{ label:'Steps', data: stepsWeeks[stepsWeekIndex].slice(), backgroundColor: 'rgba(78,159,107,0.95)', borderRadius:6 }]
-      },
-      options: { responsive:true, plugins:{ legend:{ display:false }}, scales:{ y:{ beginAtZero:true } } }
-    });
-
-    const calCtx = $('caloriesChart').getContext('2d');
-    caloriesChart = new Chart(calCtx, {
-      type: 'line',
-      data: {
-        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-        datasets: [
-          { label:'Intake', data: caloriesData.intake.slice(), borderColor: 'rgba(78,159,107,0.95)', backgroundColor:'rgba(78,159,107,0.08)', tension:0.3, fill:true },
-          { label:'Burned', data: caloriesData.burned.slice(), borderColor: 'rgba(220,53,69,0.9)', backgroundColor:'rgba(220,53,69,0.06)', tension:0.3, fill:true }
-        ]
-      },
-      options: { responsive:true, plugins:{ legend:{ display:true, position:'top' } }, scales:{ y:{ beginAtZero:true } } }
-    });
-
-    const sleepCtx = $('sleepChart').getContext('2d');
-    sleepChart = new Chart(sleepCtx, {
-      type: 'line',
-      data: {
-        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-        datasets: [{ label:'Sleep Hours', data: sleepHours.slice(), borderColor: 'rgba(78,159,107,0.95)', backgroundColor:'rgba(78,159,107,0.06)', tension:0.3, fill:true }]
-      },
-      options: { responsive:true, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, suggestedMax:10 } } }
-    });
-  }
-
-  // Update stat displays
-  function refreshSmallStats() {
-    const s = $('stepsToday'); if (s) s.textContent = stepsWeeks[stepsWeekIndex][todayIndex].toLocaleString();
-    const cb = $('caloriesBurnedToday'); if (cb) cb.textContent = caloriesData.burned[todayIndex] + ' kcal';
-    const ciLabel = $('calIntakeLabel'); if (ciLabel) ciLabel.textContent = caloriesData.intake[todayIndex] + ' kcal';
-    const cbLabel = $('calBurnedLabel'); if (cbLabel) cbLabel.textContent = caloriesData.burned[todayIndex] + ' kcal';
-    const sl = $('sleepLast'); if (sl) {
-      const h = Math.floor(sleepHours[todayIndex]);
-      const m = Math.round((sleepHours[todayIndex]-h)*60);
-      sl.textContent = `${h}h ${String(m).padStart(2,'0')}m`;
-    }
-  }
-
-  // small transient toast
-  function showToast(message) {
-    const t = document.createElement('div');
-    t.className = 'toast-custom';
-    t.textContent = message;
-    document.body.appendChild(t);
-    requestAnimationFrame(()=> { t.style.opacity = '0.98'; t.style.transform = 'translateY(0)'; });
-    setTimeout(()=> { t.style.opacity = '0'; t.style.transform = 'translateY(6px)'; setTimeout(()=>t.remove(),400); }, 2000);
-  }
-
-  // Wire up UI after DOM ready
-  document.addEventListener('DOMContentLoaded', () => {
-    // Ensure canvases exist
-    if ($('stepsChart') && $('caloriesChart') && $('sleepChart')) {
-      initCharts();
-      refreshSmallStats();
-    } else {
-      console.warn('Charts: some canvas elements missing.');
-    }
-
-    // Steps modal controls
-    const prevW = $('prevWeekSteps'), nextW = $('nextWeekSteps'), stepsLabel = $('stepsWeekLabel');
-    if (prevW && nextW && stepsLabel && stepsChart) {
-      prevW.addEventListener('click', () => {
-        stepsWeekIndex = (stepsWeekIndex - 1 + stepsWeeks.length) % stepsWeeks.length;
-        stepsChart.data.datasets[0].data = stepsWeeks[stepsWeekIndex].slice();
-        stepsChart.update();
-        stepsLabel.textContent = `Week ${stepsWeekIndex+1}`;
-        refreshSmallStats();
-      });
-      nextW.addEventListener('click', () => {
-        stepsWeekIndex = (stepsWeekIndex + 1) % stepsWeeks.length;
-        stepsChart.data.datasets[0].data = stepsWeeks[stepsWeekIndex].slice();
-        stepsChart.update();
-        stepsLabel.textContent = `Week ${stepsWeekIndex+1}`;
-        refreshSmallStats();
-      });
-    }
-
-    // Calories: toggle meal inputs and save meal
-    const addMealBtn = $('addMealBtn'), mealInputs = $('mealInputs'), saveMealBtn = $('saveMealBtn');
-    if (addMealBtn && mealInputs) {
-      addMealBtn.addEventListener('click', () => mealInputs.classList.toggle('active'));
-    }
-    if (saveMealBtn) {
-      saveMealBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const name = ($('mealName') && $('mealName').value.trim()) || '';
-        const calVal = parseInt(($('mealCalories') && $('mealCalories').value) || '', 10);
-        if (!name || !calVal || isNaN(calVal)) {
-          showToast('Please enter meal name and calories (kcal).');
-          return;
-        }
-        // add to today's intake
-        caloriesData.intake[todayIndex] += calVal;
-        // update chart & labels
-        if (caloriesChart) {
-          caloriesChart.data.datasets[0].data = caloriesData.intake.slice();
-          caloriesChart.update();
-        }
-        if ($('calIntakeLabel')) $('calIntakeLabel').textContent = caloriesData.intake[todayIndex] + ' kcal';
-        showToast(`Added ${calVal} kcal to ${name}`);
-        // reset and hide
-        if ($('mealName')) $('mealName').value = '';
-        if ($('mealCalories')) $('mealCalories').value = '';
-        mealInputs.classList.remove('active');
-      });
-    }
-
-    // Sleep start/stop
-    const startSleepBtn = $('startSleepBtn');
-    let sleepRunning = false, sleepStart = null;
-    if (startSleepBtn) {
-      startSleepBtn.addEventListener('click', () => {
-        if (!sleepRunning) {
-          sleepStart = new Date();
-          sleepRunning = true;
-          startSleepBtn.textContent = 'Stop & Save';
-          startSleepBtn.classList.add('btn-danger');
-          startSleepBtn.classList.remove('btn-sage');
-        } else {
-          const end = new Date();
-          const diffHrs = (end - sleepStart) / 3600000; // hours
-          sleepHours[todayIndex] = +( (sleepHours[todayIndex] || 0) + diffHrs ).toFixed(2);
-          // update chart & stat
-          if (sleepChart) {
-            sleepChart.data.datasets[0].data = sleepHours.slice();
-            sleepChart.update();
-          }
-          const h = Math.floor(sleepHours[todayIndex]);
-          const m = Math.round((sleepHours[todayIndex]-h)*60);
-          if ($('sleepLast')) $('sleepLast').textContent = `${h}h ${String(m).padStart(2,'0')}m`;
-          // reset button
-          sleepRunning = false; sleepStart = null;
-          startSleepBtn.textContent = 'Start Sleep';
-          startSleepBtn.classList.remove('btn-danger');
-          startSleepBtn.classList.add('btn-sage');
-          showToast(`Saved ${ (Math.round(diffHrs*60)/60).toFixed(2) } hours`);
-        }
-      });
-    }
-
-  }); // domcontentloaded end
-})(); // IIFE end
-</script>
-@endsection
