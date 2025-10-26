@@ -9,7 +9,7 @@
     background-color: #f8faf9;
     color: #333;
   }
-
+ 
   .page-header {
     margin-bottom: 2rem;
     text-align: center;
@@ -146,15 +146,22 @@
     color: #7b8b83;
     padding: 2rem 0;
   }
+  .breadcrumb-item+.breadcrumb-item:before {
+      content: '' !important;
+    }
 </style>
 @endsection
 
 @section('content')
 <main class="container py-4 flex-grow-1">
-  <div class="page-header">
-    <h3>Lab Orders & Test Requests</h3>
-    <p>Request, manage, and track your lab tests with ease. Stay on top of your health by keeping your test records organized and accessible.</p>
-  </div>
+  <div class="bg-light rounded px-3 py-2 mb-3 shadow-sm">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0 small">
+            <li class="breadcrumb-item"><a href="{{route('patient-dashboard')}}">Dashboard</a> <i class="fa fa-angle-right"></i> </li>
+            <li class="breadcrumb-item active">Lab Orders</li>
+        </ol>
+    </nav>
+</div>
 
   <div class="info-box">
     <strong>Note:</strong> You can select multiple tests at once. After submission, your healthcare provider will review and confirm your lab order.

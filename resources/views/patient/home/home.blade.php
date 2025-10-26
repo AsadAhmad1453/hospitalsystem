@@ -128,7 +128,7 @@
                           <div class="swiper-slide width-130">
                              <div class="card border">
                                 <div class="card-body">
-                                   <div class="avatar avatar-40 bg-danger-subtle text-danger-emphasis rounded mb-2"><i class="bi bi-heart-pulse fs-4"></i></div>
+                                   <div class="avatar avatar-40 bg-danger-subtle text-danger-emphasis rounded mb-2"><i class="fa fa-heart-pulse fs-4"></i></div>
                                    <p class="h5 mb-0">72 <small class="opacity-50 h6 fw-normal">bpm</small></p>
                                    <p class="text-secondary small">Heart Rate</p>
                                 </div>
@@ -137,7 +137,7 @@
                           <div class="swiper-slide width-130">
                              <div class="card border">
                                 <div class="card-body">
-                                   <div class="avatar avatar-40 bg-warning-subtle text-warning-emphasis rounded mb-2"><i class="bi bi-thermometer-half fs-4"></i></div>
+                                   <div class="avatar avatar-40 bg-warning-subtle text-warning-emphasis rounded mb-2"><i class="fa fa-thermometer-half fs-4"></i></div>
                                    <p class="h5 mb-0">36.5<sup>&deg;</sup> <small class="opacity-50 h6 fw-normal">C</small></p>
                                    <p class="text-secondary small">Temperature</p>
                                 </div>
@@ -146,7 +146,7 @@
                           <div class="swiper-slide width-130">
                              <div class="card border">
                                 <div class="card-body">
-                                   <div class="avatar avatar-40 bg-info-subtle text-info-emphasis rounded mb-2"><i class="bi bi-droplet-half fs-4"></i></div>
+                                   <div class="avatar avatar-40 bg-info-subtle text-info-emphasis rounded mb-2"><i class="fa fa-droplet fs-4"></i></div>
                                    <p class="h5 mb-0">99 <small class="opacity-50 h6 fw-normal">%</small></p>
                                    <p class="text-secondary small">O<sub>2</sub> Saturation</p>
                                 </div>
@@ -155,7 +155,7 @@
                        </div>
                     </div>
                     <div class="row align-items-center">
-                       <div class="col-auto"><i class="bi bi-calendar-week fs-4 text-secondary"></i></div>
+                       <div class="col-auto"><i class="fa fa-calendar-days fs-4 text-secondary"></i></div>
                        <div class="col">
                           <p class="h6 mb-0">9:30 AM, Today</p>
                           <p class="text-secondary small">2 minutes to go</p>
@@ -170,7 +170,7 @@
                  <div class="col mb-3">
                     <div class="card adminuiux-card bg-success-subtle">
                        <div class="card-body">
-                          <i class="bi bi-check-circle fs-4 avatar avatar-40 bg-success text-white rounded mb-2"></i>
+                          <i class="fa fa-check-circle fs-4 avatar avatar-40 bg-success text-white rounded mb-2"></i>
                           <p class="h5 mb-0">Good</p>
                           <p class="small opacity-75">Health Status</p>
                        </div>
@@ -179,7 +179,7 @@
                  <div class="col mb-3">
                     <div class="card adminuiux-card bg-info-subtle">
                        <div class="card-body">
-                          <i class="bi bi-calendar-check fs-4 avatar avatar-40 bg-info text-white rounded mb-2"></i>
+                          <i class="fa fa-calendar-check fs-4 avatar avatar-40 bg-info text-white rounded mb-2"></i>
                           <p class="h5 mb-0">3</p>
                           <p class="small opacity-75">This Week</p>
                        </div>
@@ -188,7 +188,7 @@
                  <div class="col mb-3">
                     <div class="card adminuiux-card bg-warning-subtle">
                        <div class="card-body">
-                          <i class="bi bi-clock fs-4 avatar avatar-40 bg-warning text-white rounded mb-2"></i>
+                          <i class="fa fa-clock fs-4 avatar avatar-40 bg-warning text-white rounded mb-2"></i>
                           <p class="h5 mb-0">2</p>
                           <p class="small opacity-75">Pending</p>
                        </div>

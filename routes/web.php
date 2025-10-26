@@ -31,6 +31,7 @@ use App\Http\Controllers\Patient\ElearningController;
 use App\Http\Controllers\Patient\MedRepsController;
 use App\Http\Controllers\Patient\BioEntryController;
 use App\Http\Controllers\Patient\FitnessController;
+use App\Http\Controllers\Patient\GoalsController;
 use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,7 @@ Route::prefix('patient')->middleware(['auth','is_patient'])->group(function () {
     Route::get('/medreps', [MedRepsController::class, 'index'])->name('medreps');
     Route::get('/bio-entry', [BioEntryController::class, 'index'])->name('bio-entry');
     Route::get('/fitness', [FitnessController::class, 'index'])->name('fitness');
+    Route::get('/personal-goals', [GoalsController::class, 'index'])->name('goals');
 });
 
 Route::controller(RegisterController::class)->group(function () {

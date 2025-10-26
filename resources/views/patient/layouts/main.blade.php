@@ -1,11 +1,10 @@
 <!doctype html>
 <html lang="en">
-   <!-- Mirrored from adminuiux.com/adminuiux/digiclinic-mobile-uiux/clinic-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Oct 2025 06:19:32 GMT -->
    <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
       <meta http-equiv="x-ua-compatible" content="ie=edge">
-      <title>DigiClinic AdminUIUX - Bootstrap HTML Admin template - adminuiux.com</title>
+      <title>SHAFAYAAT</title>
       <link rel="icon" type="image/png" href="assets/img/favicon.png">
       <link rel="preconnect" href="https://fonts.googleapis.com/">
       <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
@@ -23,8 +22,8 @@
                <div class="col-12 mb-auto pt-4"></div>
                <div class="col-auto">
                   <img src="assets/img/logo.svg" alt="" class="height-60 mb-3">
-                  <p class="h6 mb-0">AdminUIUX</p>
-                  <p class="h3 mb-4">Digi Clinic</p>
+                  <p class="h6 mb-0"></p>
+                  <p class="h3 mb-4">SHAFAYAAT</p>
                   <div class="loaderplus mb-2"></div>
                </div>
                <div class="col-12 mt-auto pb-4">
@@ -37,11 +36,10 @@
          <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container-fluid">
                <button class="btn btn-link btn-square sidebar-toggler" type="button" onclick="initSidebar()"><i class="sidebar-svg" data-feather="menu"></i></button> 
-               <a class="navbar-brand" href="clinic-dashboard.html">
+               <a class="navbar-brand" href="">
                   <img data-bs-img="light" src="{{asset('assets/img/logo-light.svg')}}" alt=""> <img data-bs-img="dark" src="assets/img/logo.svg" alt="">
                   <div class="">
-                     <span class="company-name text-uppercase h4"><b>Digi</b>Clinic</span>
-                     <p class="company-tagline">Mobile HTML template</p>
+                     <span class="company-name text-uppercase h4"><b>SHAFAYAAT</b></span>
                   </div>
                </a>
                <div class="ms-auto"></div>
@@ -57,42 +55,42 @@
                         <div class="px-2">
                            <div class="row g-0 text-center mb-2">
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-finance.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-bank fs-4 mx-0"></i></div>
                                     <p class="mb-0">Finance</p>
                                     <p class="fs-12 opacity-50 mb-2">Accounting</p>
                                  </a>
                               </div>
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-network.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-globe fs-4 mx-0"></i></div>
                                     <p class="mb-0">Network</p>
                                     <p class="fs-12 opacity-50 mb-2">Stabilize</p>
                                  </a>
                               </div>
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-ecommerce.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-box fs-4 mx-0"></i></div>
                                     <p class="mb-0">Inventory</p>
                                     <p class="fs-12 opacity-50 mb-2">Assuring</p>
                                  </a>
                               </div>
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-project.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-folder fs-4 mx-0"></i></div>
                                     <p class="mb-0">Project</p>
                                     <p class="fs-12 opacity-50 mb-2">Management</p>
                                  </a>
                               </div>
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-social.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-people fs-4 mx-0"></i></div>
                                     <p class="mb-0">Social</p>
                                     <p class="fs-12 opacity-50 mb-2">Tracking</p>
                                  </a>
                               </div>
                               <div class="col-4">
-                                 <a class="dropdown-item square-item" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-learning.html">
+                                 <a class="dropdown-item square-item" href="">
                                     <div class="avatar avatar-40 rounded mb-2"><i class="bi bi-journal-bookmark fs-4 mx-0"></i></div>
                                     <p class="mb-0">Learning</p>
                                     <p class="fs-12 opacity-50 mb-2">Make-easy</p>
@@ -100,7 +98,7 @@
                               </div>
                            </div>
                         </div>
-                        <div class="text-center"><a class="btn btn-link text-center" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/app-demo.html">View all <i class="bi bi-arrow-right fs-14"></i></a></div>
+                        <div class="text-center"><a class="btn btn-link text-center" href="">View all <i class="bi bi-arrow-right fs-14"></i></a></div>
                      </div>
                   </div>
                   <div class="dropdown d-none d-sm-inline-block">
@@ -112,14 +110,14 @@
                         <li><a class="dropdown-item" data-value="HI">HI - Hindi</a></li>
                      </ul>
                   </div>
-                  <a href="clinic-notifications.html" class="btn btn-link btn-square btn-icon btn-link-header position-relative"><i data-feather="bell"></i> <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger p-1"><small>9+</small> <span class="visually-hidden">unread messages</span></span></a>
+                  <a href="" class="btn btn-link btn-square btn-icon btn-link-header position-relative"><i data-feather="bell"></i> <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger p-1"><small>9+</small> <span class="visually-hidden">unread messages</span></span></a>
                   <div class="dropdown d-inline-block">
                      <a class="dropdown-toggle btn btn-link btn-link-header style-none" id="userprofiledd" data-bs-toggle="dropdown" aria-expanded="false" role="button">
                         <div class="row gx-0 d-inline-flex">
                            <div class="col-auto align-self-center">
                               <figure class="avatar avatar-28 rounded-circle coverimg align-middle"><img src="{{asset('assets/img/modern-ai-image/user-6.jpg')}}" alt="" id="userphotoonboarding2"></figure>
                            </div>
-                           <div class="col align-self-center d-none d-xl-block px-2"><span class="mb-0">AdminUIUX</span></div>
+                           <div class="col align-self-center d-none d-xl-block px-2"><span class="mb-0">{{ Auth::user()->name ?? 'Patient' }}</span></div>
                         </div>
                      </a>
                      <div class="dropdown-menu dropdown-menu-end width-300 pt-0 px-0" aria-labelledby="userprofiledd">
@@ -129,15 +127,14 @@
                                  <figure class="avatar avatar-50 rounded-circle coverimg align-middle"><img src="{{asset('assets/img/modern-ai-image/user-6.jpg')}}" alt=""></figure>
                               </div>
                               <div class="col align-self-center">
-                                 <p class="mb-1"><span>AdminUIUX</span></p>
-                                 <p><i class="bi bi-wallet2 me-2"></i> $1100.00 <small class="opacity-50">Balance</small></p>
+                                 <p class="mb-1"><span>{{ Auth::user()->name ?? 'Patient' }}</span></p>
                               </div>
                            </div>
                         </div>
                         <div class="px-2">
-                           <div><a class="dropdown-item" href="clinic-myprofile.html"><i data-feather="user" class="avatar avatar-18 me-1"></i> My Profile</a></div>
+                           <div><a class="dropdown-item" href=""><i data-feather="user" class="avatar avatar-18 me-1"></i> My Profile</a></div>
                            <div>
-                              <a class="dropdown-item" href="clinic-dashboard.html">
+                              <a class="dropdown-item" href="">
                                  <div class="row g-0">
                                     <div class="col align-self-center"><i data-feather="layout" class="avatar avatar-18 me-1"></i> My Dashboard</div>
                                     <div class="col-auto">
@@ -149,9 +146,9 @@
                                  </div>
                               </a>
                            </div>
-                           <div><a class="dropdown-item" href="clinic-earning.html"><i data-feather="dollar-sign" class="avatar avatar-18 me-1"></i> Earning</a></div>
+                           <div><a class="dropdown-item" href=""><i data-feather="dollar-sign" class="avatar avatar-18 me-1"></i> Earning</a></div>
                            <div>
-                              <a class="dropdown-item" href="clinic-mysubscription.html">
+                              <a class="dropdown-item" href="">
                                  <div class="row">
                                     <div class="col"><i data-feather="gift" class="avatar avatar-18 me-1"></i> Subscription</div>
                                     <div class="col-auto">
@@ -176,8 +173,8 @@
                                  <div><a class="dropdown-item" data-value="HI">HI - Hindi</a></div>
                               </div>
                            </div>
-                           <div><a class="dropdown-item" href="clinic-settings.html"><i data-feather="settings" class="avatar avatar-18 me-1"></i> Account Setting</a></div>
-                           <div><a class="dropdown-item theme-red" href="clinic-login.html"><i data-feather="power" class="avatar avatar-18 me-1"></i> Logout</a></div>
+                           <div><a class="dropdown-item" href=""><i data-feather="settings" class="avatar avatar-18 me-1"></i> Account Setting</a></div>
+                           <div><a class="dropdown-item theme-red" href=""><i data-feather="power" class="avatar avatar-18 me-1"></i> Logout</a></div>
                         </div>
                      </div>
                   </div>
@@ -336,30 +333,25 @@
                   </div>
                </div>
                <ul class="nav flex-column menu-active-line my-3">
-                  <li class="nav-item"><a href="clinic-dashboard.html" class="nav-link"><i class="menu-icon" data-feather="grid"></i> <span class="menu-name">Dashboard</span></a></li>
-                  <li class="nav-item dropdown">
+                  <li class="nav-item {{Route::is('patient-dashboard') ? 'active' : ''}}"><a href="{{route('patient-dashboard')}}" class="nav-link"><i class="menu-icon" data-feather="grid"></i> <span class="menu-name">Dashboard</span></a></li>
+                  <li class="nav-item {{Route::is('prescription') ? 'active' : ''}}"><a href="{{route('prescription')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Prescription</span></a></li>
+                  <li class="nav-item {{Route::is('medreps') ? 'active' : ''}}"><a href="{{route('medreps')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Medical Reports</span></a></li>
+                  <li class="nav-item {{Route::is('fitness') ? 'active' : ''}}"><a href="{{route('fitness')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Fitness Stats</span></a></li>
+                  <li class="nav-item {{Route::is('sleep') ? 'active' : ''}}"><a href="{{route('sleep')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Sleep Tracker</span></a></li>
+                  <li class="nav-item {{Route::is('elearning') ? 'active' : ''}}"><a href="{{route('elearning')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">E - Learning</span></a></li>
+                  <li class="nav-item {{Route::is('appointment') ? 'active' : ''}}"><a href="{{route('appointment')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Appointment</span></a></li>
+                  <li class="nav-item {{Route::is('bio-entry') ? 'active' : ''}}"><a href="{{route('bio-entry')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Bio Marker Entry</span></a></li>
+                  <li class="nav-item {{Route::is('lab-orders') ? 'active' : ''}}"><a href="{{route('lab-orders')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Lab Orders</span></a></li>
+                  <li class="nav-item {{Route::is('goals') ? 'active' : ''}}"><a href="{{route('goals')}}" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Personal Goals</span></a></li>
+                  {{-- <li class="nav-item dropdown">
                      <a href="javascrit:void(0)" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="menu-icon" data-feather="calendar"></i> <span class="menu-name">Schedule</span></a>
                      <div class="dropdown-menu">
-                        <div class="nav-item"><a href="clinic-schedule.html" class="nav-link"><i class="menu-icon" data-feather="calendar"></i> <span class="menu-name">Schedule Calendar</span></a></div>
-                        <div class="nav-item"><a href="clinic-schedule-grid.html" class="nav-link"><i class="menu-icon" data-feather="table"></i> <span class="menu-name">Schedule List</span></a></div>
-                        <div class="nav-item"><a href="clinic-schedule-cards.html" class="nav-link"><i class="menu-icon" data-feather="layers"></i> <span class="menu-name">Schedule Progress</span></a></div>
-                        <div class="nav-item"><a href="clinic-schedule-staff.html" class="nav-link"><i class="menu-icon" data-feather="user-check"></i> <span class="menu-name">Schedule Staff</span></a></div>
+                        <div class="nav-item"><a href="#" class="nav-link"><i class="menu-icon" data-feather="calendar"></i> <span class="menu-name">Schedule Calendar</span></a></div>
+                        <div class="nav-item"><a href="#" class="nav-link"><i class="menu-icon" data-feather="table"></i> <span class="menu-name">Schedule List</span></a></div>
+                        <div class="nav-item"><a href="#" class="nav-link"><i class="menu-icon" data-feather="layers"></i> <span class="menu-name">Schedule Progress</span></a></div>
+                        <div class="nav-item"><a href="#" class="nav-link"><i class="menu-icon" data-feather="user-check"></i> <span class="menu-name">Schedule Staff</span></a></div>
                      </div>
-                  </li>
-                  <li class="nav-item"><a href="clinic-patients.html" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Patients</span></a></li>
-                  <li class="nav-item"><a href="clinic-statistics.html" class="nav-link"><i class="menu-icon" data-feather="pie-chart"></i> <span class="menu-name">Statistics</span></a></li>
-                  <li class="nav-item"><a href="clinic-blogs.html" class="nav-link"><i class="menu-icon" data-feather="file-text"></i> <span class="menu-name">My Publication</span></a></li>
-                  <li class="nav-item"><a href="clinic-billing.html" class="nav-link"><i class="menu-icon bi bi-cash-stack"></i> <span class="menu-name">Billings</span></a></li>
-                  <li class="nav-item dropdown">
-                     <a href="javascrit:void(0)" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="menu-icon" data-feather="folder"></i> <span class="menu-name">Documents</span></a>
-                     <div class="dropdown-menu">
-                        <div class="nav-item"><a href="clinic-patients-documents.html" class="nav-link"><i class="menu-icon" data-feather="users"></i> <span class="menu-name">Patient Documents</span></a></div>
-                        <div class="nav-item"><a href="clinic-staff-documents.html" class="nav-link"><i class="menu-icon" data-feather="briefcase"></i> <span class="menu-name">Staff Documents</span></a></div>
-                     </div>
-                  </li>
-                  <li class="nav-item"><a href="clinic-pages.html" class="nav-link"><i data-feather="layers" class="menu-icon"></i> <span class="menu-name">Pages</span> <span class="badge text-bg-primary mx-2">40+</span></a></li>
-                  <li class="nav-item"><a href="clinic-personalization.html" class="nav-link"><i class="menu-icon bi bi-palette h4"></i> <span class="menu-name">Personalize ❤️</span></a></li>
-                  <li class="nav-item"><a class="nav-link" href="components.html"><i data-feather="cpu" class="menu-icon"></i> <span class="menu-name">Components</span></a></li>
+                  </li> --}}
                </ul>
                <div class="mt-auto"></div>
                <div class="px-3 mb-3 not-iconic">
@@ -373,27 +365,57 @@
                   </div>
                </div>
                <ul class="nav flex-column menu-active-line">
-                  <li class="nav-item"><a href="clinic-chat-call.html" class="nav-link"><i class="menu-icon" data-feather="message-circle"></i> <span class="menu-name">Chat & Calls</span></a></li>
+                  
                   <li class="nav-item"><a href="clinic-settings.html" class="nav-link"><i class="menu-icon" data-feather="settings"></i> <span class="menu-name">Settings</span></a></li>
                </ul>
             </div>
          </div>
          <main class="adminuiux-content has-sidebar" onclick="contentClick()">
           @yield('content')
+          <footer class="adminuiux-mobile-footer style-1">
+                    <div class="container">
+                        <ul class="nav nav-pills nav-justified">
+                            <li class="nav-item">
+                                <a class="nav-link" href="clinic-dashboard.html">
+                                    <span><i class="nav-icon" data-feather="home"></i> <span class="nav-text">Home</span></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="clinic-schedule.html">
+                                    <span><i class="nav-icon" data-feather="calendar"></i> <span class="nav-text">Schedule</span></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="clinic-add-appointment.html" class="nav-link center-menu-btn">
+                                    <span class="bg-theme-r-gradient rounded-circle text-white"><i class="nav-icon fa fa-plus text-white" style="font-size: 20px"></i></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="clinic-patients.html">
+                                    <span><i class="nav-icon" data-feather="users"></i> <span class="nav-text">Patient</span></span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="clinic-chat-call.html">
+                                    <span><i class="nav-icon" data-feather="message-square"></i> <span class="nav-text">Chat</span></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </footer>
         </main>
       </div>
       <footer class="adminuiux-footer has-adminuiux-sidebar text-center mt-auto">
-         <p class="text-secondary small mb-2">&copy;2025, Rights reserved by <a href="https://adminuiux.com/" target="_blank" class="style-none">DigiClinicUIUX</a></p>
+         <p class="text-secondary small mb-2">&copy;2025, Rights reserved</p>
          <ul class="nav small justify-content-center">
-            <li class="nav-item"><a class="nav-link" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/help-center.html">Help</a></li>
+            <li class="nav-item"><a class="nav-link" href="">Help</a></li>
             <li class="nav-item">|</li>
-            <li class="nav-item"><a class="nav-link" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/terms-of-use.html">Terms of Use</a></li>
+            <li class="nav-item"><a class="nav-link" href="">Terms of Use</a></li>
             <li class="nav-item">|</li>
-            <li class="nav-item"><a class="nav-link" href="https://www.adminuiux.com/adminuiux/digiclinic-mobile-uiux/privacy-policy.html">Privacy</a></li>
+            <li class="nav-item"><a class="nav-link" href="">Privacy</a></li>
          </ul>
       </footer>
       <script src="{{asset('assets/js/clinic/clinic-dashboard.js')}}"></script>
       @yield('custom-js')
    </body>
-   <!-- Mirrored from adminuiux.com/adminuiux/digiclinic-mobile-uiux/clinic-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 22 Oct 2025 06:19:55 GMT -->
 </html>

@@ -1,219 +1,343 @@
 @extends('patient.layouts.main')
-
 @section('custom-css')
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #f8faf9;
-        color: #2d3748;
-    }
-
-    .page-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .page-header h1 {
-        font-weight: 700;
-        font-size: 1.8rem;
-        color: #14532d;
-    }
-
-    .page-header p {
-        color: #4b5563;
-        max-width: 700px;
-        margin: 0 auto;
-        font-size: 0.95rem;
-    }
-
-    .appointment-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 14px;
-        box-shadow: 0 4px 10px rgba(20, 83, 45, 0.05);
-        transition: all 0.3s ease;
-        padding: 1.8rem;
-    }
-
-    .appointment-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(20, 83, 45, 0.08);
-    }
-
-    .appointment-card h5 {
-        font-weight: 600;
-        color: #166534;
-        margin-bottom: 0.5rem;
-    }
-
-    .appointment-card p {
-        color: #4b5563;
-        font-size: 0.9rem;
-    }
-
-    .form-control {
-        border-radius: 8px;
-        border: 1px solid #d1d5db;
-        font-size: 0.9rem;
-        padding: 8px 10px;
-    }
-
-    .btn-book {
-        background-color: #15803d;
-        color: white;
-        font-weight: 500;
-        border-radius: 8px;
-        padding: 10px 18px;
-        transition: all 0.3s ease;
-        border: none;
-    }
-
-    .btn-book:hover {
-        background-color: #166534;
-        transform: scale(1.02);
-    }
-
-    .link-box {
-        background-color: #f1f5f3;
-        border: 1px dashed #a7f3d0;
-        padding: 12px;
-        border-radius: 8px;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #374151;
-    }
-
-    .link-box a {
-        color: #15803d;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .link-box a:hover {
-        text-decoration: underline;
-    }
-
-    .modal-content {
-        border-radius: 12px;
-        border: none;
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    .modal-header {
-        background-color: #ecfdf5;
-        border-bottom: 1px solid #d1fae5;
-    }
-
-    .modal-title {
-        font-weight: 600;
-        color: #14532d;
-    }
-
-    .modal-body p {
-        color: #374151;
-    }
-
-    .btn-close {
-        filter: invert(0.3);
-    }
+    .breadcrumb-item+.breadcrumb-item:before {
+        content: '' !important;
+      }
 </style>
 @endsection
-
 @section('content')
-<div class="container pb-5">
-    <div class="page-header py-4 px-3 mb-4 text-center shadow-sm rounded-3" style="background: linear-gradient(90deg, #f0fdf4, #dcfce7);">
-        <h1 class="fw-bold text-success mb-2" style="font-size: 1.9rem;">Book Your Appointment</h1>
-        <p class="text-muted mb-0">Choose between in-person visits or secure telemedicine consultations — effortless and reliable healthcare at your fingertips.</p>
-      </div>
-      
-
-    <div class="row g-4">
-        <!-- In-Person Appointment -->
-        <div class="col-md-6">
-            <div class="appointment-card">
-                <h5><i class="fas fa-user-md me-2 text-success"></i> In-Person Appointment</h5>
-                <p>Meet your doctor face-to-face at the clinic for a direct and detailed consultation.</p>
-
-                <form class="mt-3">
-                    <div class="mb-3">
-                        <label class="form-label">Select Doctor</label>
-                        <select class="form-control">
-                            <option>Dr. Sarah Malik (General Physician)</option>
-                            <option>Dr. Hamza Ahmed (Cardiologist)</option>
-                            <option>Dr. Ayesha Noor (Dermatologist)</option>
-                        </select>
+<div class="container-fluid mt-2">
+    <div class="bg-theme-1-subtle rounded px-2 py-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb text-truncate mb-0">
+                <li class="breadcrumb-item bi"><a href="{{route('patient-dashboard')}}">Dashboard</a> <i class="fa fa-angle-right"></i></li>
+                <li class="breadcrumb-item active bi" aria-current="page">Appointment Booking</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container mt-3" id="main-content">
+    <div class="row gx-3">
+        <div class="col-12 col-md-12 col-xl-8 col-xxl-9">
+            <div class="card adminuiux-card mb-3">
+                <div class="card-body">
+                    <p class="h6 mb-3">Category and Doctors</p>
+                    <div class="mb-2">
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1 active"><i class="fa fa-clipboard2-pulse"></i> <span>Pediatric</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-hand-index-thumb"></i> <span>Orthopedic</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-heart-pulse"></i> <span>Cardiology</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-lungs"></i> <span>Lungs</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-eye"></i> <span>Eye</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-person-arms-up"></i> <span>Physiotherapist</span></button>
+                        <button class="btn btn-sm btn-outline-theme mb-2 me-1"><i class="fa fa-prescription"></i> <span>Other</span></button>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preferred Date</label>
-                        <input type="date" class="form-control">
+                    <div class="swiper swiperautononav mb-3">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide width-220">
+                                <div class="card adminuiux-card border">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-8.jpg')}}" alt="" /></div>
+                                            </div>
+                                            <div class="col-9 mb-3">
+                                                <p class="h6 mb-1">
+                                                    <span class="position-relative">
+                                                        Dr. Ryan Sylia
+                                                        <span class="position-absolute top-50 start-100 translate-middle p-1 bg-success rounded-circle mx-2"><span class="visually-hidden">New alerts</span></span>
+                                                    </span>
+                                                </p>
+                                                <p class="text-secondary small text-truncate">Orthopedic Specialist</p>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <button class="btn btn-sm btn-theme"><i class="fa fa-plus"></i> <span>Select</span></button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p><i class="text-yellow align-middle fa fa-star"></i> <small class="text-secondary">5.0</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide width-220">
+                                <div class="card adminuiux-card border">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-2.jpg')}}" alt="" /></div>
+                                            </div>
+                                            <div class="col-9 mb-3">
+                                                <p class="h6 mb-1 text-truncate">
+                                                    <span class="position-relative">
+                                                        Dr. Chin Chou <span class="position-absolute top-50 start-100 translate-middle p-1 bg-orange rounded-circle mx-2"><span class="visually-hidden">New alerts</span></span>
+                                                    </span>
+                                                </p>
+                                                <p class="text-secondary small text-truncate">Expert Dentist</p>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <button class="btn btn-sm btn-theme"><i class="fa fa-plus"></i> <span>Select</span></button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p><i class="text-yellow align-middle fa fa-star"></i> <small class="text-secondary">5.0</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide width-220">
+                                <div class="card bg-theme-1-subtle border-theme-1">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-4.jpg')}}" alt="" /></div>
+                                            </div>
+                                            <div class="col-9 mb-3">
+                                                <p class="h6 mb-1 text-truncate">Dr. Sundar Vishwas</p>
+                                                <p class="text-secondary small text-truncate">General Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col text-warning">
+                                                <button class="btn btn-sm btn-danger"><i class="fa fa-dash"></i> <span>Deselect</span></button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p><i class="text-yellow align-middle fa fa-star"></i> <small class="text-secondary">5.0</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide width-220">
+                                <div class="card adminuiux-card border">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-6.jpg')}}" alt="" /></div>
+                                            </div>
+                                            <div class="col-9 mb-3">
+                                                <p class="h6 mb-1 text-truncate">Dr. Smita D'Souza</p>
+                                                <p class="text-secondary small text-truncate">General Expert</p>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <button class="btn btn-sm btn-theme"><i class="fa fa-plus"></i> <span>Select</span></button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p><i class="text-yellow align-middle fa fa-star"></i> <small class="text-secondary">5.0</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide width-220">
+                                <div class="card adminuiux-card border">
+                                    <div class="card-body">
+                                        <div class="row gx-3">
+                                            <div class="col-3">
+                                                <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-7.jpg')}}" alt="" /></div>
+                                            </div>
+                                            <div class="col-9 mb-3">
+                                                <p class="h6 mb-1 text-truncate">Dr. Angelina</p>
+                                                <p class="text-secondary small text-truncate">Skincare Specialist</p>
+                                            </div>
+                                        </div>
+                                        <div class="row align-items-center">
+                                            <div class="col">
+                                                <button class="btn btn-sm btn-theme"><i class="fa fa-plus"></i> <span>Select</span></button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <p><i class="text-yellow align-middle fa fa-star"></i> <small class="text-secondary">5.0</small></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preferred Time</label>
-                        <input type="time" class="form-control">
+                    <p class="h6 mb-3">Patient Details</p>
+                    <div class="row gx-3 align-items-center">
+                        <div class="col col-sm mb-3">
+                            <div class="input-group input-group-md search-wrap rounded w-100">
+                                <span class="input-group-text bg-none"><i class="fa fa-search"></i></span> <input class="form-control" id="searchpatientname" placeholder="Search Patient" value="Alex" />
+                            </div>
+                        </div>
+                        <div class="col-auto mb-3"><button class="btn btn-outline-theme" data-bs-toggle="collapse" data-bs-target=".patinetcollapse" aria-expanded="true" aria-controls="addnewpatient">+ New</button></div>
                     </div>
-                    <button type="button" class="btn btn-book w-100" data-bs-toggle="modal" data-bs-target="#successModal">Book Appointment</button>
-                </form>
+                    <div class="row patinetcollapse collapse show" id="resultpatient">
+                        <div class="col-12 mb-3">
+                            <p>We have found <b>2</b> search result...</p>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6 col-xxl-4 mb-3">
+                            <div class="card adminuiux-card border">
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                        <div class="col-auto mb-3">
+                                            <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-5.jpg')}}" alt="" /></div>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <p class="h6 mb-0">
+                                                <span class="position-relative">
+                                                    Alexa John <span class="position-absolute top-50 start-100 translate-middle p-1 bg-success rounded-circle mx-2"><span class="visually-hidden">online</span></span>
+                                                </span>
+                                            </p>
+                                            <p class="opacity-75 small mb-2">United States</p>
+                                            <span class="badge badge-sm badge-light rounded-pill text-bg-theme-accent-1">Revisit</span> <span class="badge badge-sm badge-light rounded-pill text-bg-theme-accent-1">VIP</span>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <button class="btn btn-sm btn-theme"><i class="me-1" data-feather="plus"></i><span>Select</span></button>
+                                        </div>
+                                        <div class="col text-end">
+                                            <p class="opacity-75 small mb-0">Last Visit</p>
+                                            <p class="small">26 July 2024</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6 col-xxl-4 mb-3">
+                            <div class="card bg-theme-1-subtle border-theme-1">
+                                <div class="card-body">
+                                    <div class="row justify-content-center">
+                                        <div class="col-auto mb-3">
+                                            <div class="avatar avatar-40 rounded-circle coverimg mb-3"><img src="{{asset('assets/img/modern-ai-image/user-8.jpg')}}" alt="" /></div>
+                                        </div>
+                                        <div class="col mb-3">
+                                            <p class="h6 mb-0">
+                                                <span class="position-relative">
+                                                    Alex Smith <span class="position-absolute top-50 start-100 translate-middle p-1 bg-success rounded-circle mx-2"><span class="visually-hidden">online</span></span>
+                                                </span>
+                                            </p>
+                                            <p class="opacity-75 small mb-2">London, UK</p>
+                                            <span class="badge badge-sm badge-light rounded-pill text-bg-theme-accent-1">Revisit</span> <span class="badge badge-sm badge-light rounded-pill text-bg-theme-accent-1">VIP</span>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <button class="btn btn-sm btn-danger"><i class="me-1 fa fa-dash"></i><span>Deselect</span></button>
+                                        </div>
+                                        <div class="col text-end">
+                                            <p class="opacity-75 small mb-0">Last Visit</p>
+                                            <p class="small">26 July 2024</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collapse patinetcollapse" id="addnewpatient">
+                        <p class="h6 mb-3">New Patient Details</p>
+                        <div class="row mb-1">
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="patientname" placeholder="Enter Patient First Name" value="Alex" /> <label for="patientname">Patient First Name</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="patientmlname" placeholder="Enter Patient Middle Name" /> <label for="patientmlname">Patient Middle Name</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="patientlname" placeholder="Enter Patient Last Name" value="Smith" /> <label for="patientlname">Patient Last Name</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="dobdate" placeholder="Select Birthday" /> <label for="dobdate">Select Birthday</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="phoneon" placeholder="Enter phone" value="+91 4152 21A45488004" /> <label for="phoneon">Enter Phone</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="emailaddresson" placeholder="Enter Email Address" value="alex.smith@tgmail.com" /> <label for="emailaddresson">Email Address</label>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="h6 mb-3">New Patient Address</p>
+                        <div class="row mb-1">
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="house" placeholder="Enter house number" value="12" /> <label for="house">House Number</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="street" placeholder="Enter Street" value="Featherstone Street" /> <label for="street">Street</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="locality" placeholder="Enter locality" value="Ward" /> <label for="locality">Locality</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="town" placeholder="Enter Town" value="London" /> <label for="town">Town</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="city" placeholder="Enter City" value="London" /> <label for="city">City</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="postcode" placeholder="Enter Postcode" value="NG25 5AY" /> <label for="postcode">Postcode</label></div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-4">
+                                <div class="form-floating mb-3"><input class="form-control" id="country" placeholder="Enter Country" value="United Kingdom" /> <label for="country">Country</label></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="h6 mb-3">Consultation</p>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="service">
+                                    <option>Follow up</option>
+                                    <option>Offline Consultation</option>
+                                    <option>Online Consultation</option>
+                                    <option>Surgery</option>
+                                </select>
+                                <label for="service">Select Service</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-floating"><input class="form-control" id="healthissue" placeholder="Health Issue in few words" /> <label for="healthissue">Health Issue in few words</label></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Telemedicine Appointment -->
-        <div class="col-md-6">
-            <div class="appointment-card">
-                <h5><i class="fas fa-video me-2 text-success"></i> Telemedicine Appointment</h5>
-                <p>Consult your doctor online from home through a private, secure video session.</p>
-
-                <form class="mt-3">
-                    <div class="mb-3">
-                        <label class="form-label">Select Doctor</label>
-                        <select class="form-control">
-                            <option>Dr. Sarah Malik (General Physician)</option>
-                            <option>Dr. Hamza Ahmed (Cardiologist)</option>
-                            <option>Dr. Ayesha Noor (Dermatologist)</option>
-                        </select>
+        <div class="col-12 col-md-12 col-xl-4 col-xxl-3">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-xl-12">
+                    <p class="h6 mb-3">Select Date</p>
+                    <div class="card adminuiux-card mb-3">
+                        <div class="card-body px-2 pt-0">
+                            <div class="inlinewrap1 inline-calendar mx-auto"></div>
+                            <input id="inlinewrap1" class="d-none" />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preferred Date</label>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preferred Time</label>
-                        <input type="time" class="form-control">
-                    </div>
-                    <button type="button" class="btn btn-book w-100" data-bs-toggle="modal" data-bs-target="#successModal">Book Telemedicine</button>
-                </form>
-
-                <div class="mt-4 link-box">
-                    <p class="mb-1">Your telemedicine link will appear here once confirmed:</p>
-                    <a href="#">No meeting link available</a>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-12 mb-2">
+                    <p class="h6 mb-3">Select Time</p>
+                    <button class="btn btn-sm btn-outline-theme mb-2 me-1 active"><span>11:00 AM</span></button> <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>11:30 AM</span></button>
+                    <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>12:00 PM</span></button> <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>12:30 PM</span></button>
+                    <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>1:00 PM</span></button> <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>1:30 PM</span></button>
+                    <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>2:00 PM</span></button> <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>2:30 PM</span></button>
+                    <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>3:00 PM</span></button> <button class="btn btn-sm btn-outline-theme mb-2 me-1"><span>3:30 PM</span></button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel"><i class="fas fa-check-circle text-success me-2"></i> Appointment Confirmed</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <p>Your appointment has been successfully booked.</p>
-                    <p class="text-muted mb-2">You will receive a confirmation message shortly.</p>
-                    <p class="mb-0"><strong>Stay healthy, stay punctual.</strong></p>
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">Okay</button>
-                </div>
+    <div class="alert alert-info mb-3">
+        <p class="h6">Summary</p>
+        <p>Appointment with <span class="fw-medium">Dr. Sundar Viswas</span> will be scheduled on <span class="fw-medium">26 July 2024 : 11:00 AM</span></p>
+    </div>
+    <div class="mb-4">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-theme my-2"><i class="fa fa-floppy me-2"></i> Confirm</button> <button class="btn btn-outline-theme my-2 mx-2">Draft</button>
             </div>
+            <div class="col-auto"><button class="btn btn-link my-2">Cancel</button></div>
         </div>
     </div>
-
 </div>
 @endsection
 
-@section('custom-js')
-<script src="https://kit.fontawesome.com/a2e0e9b6d3.js" crossorigin="anonymous"></script>
-@endsection
+
