@@ -218,10 +218,10 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             @if($service->image)
-                                            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->service_name }}" 
+                                            <img src="{{ asset('storage/' . $service->image) }}" alt="{{ $service->service_name }}"
                                                  class="rounded me-3" width="50" height="50" style="object-fit: cover;">
                                             @else
-                                            <div class="bg-primary rounded d-flex align-items-center justify-content-center me-3" 
+                                            <div class="bg-primary rounded d-flex align-items-center justify-content-center me-3"
                                                  style="width: 50px; height: 50px;">
                                                 <i class="fas fa-stethoscope text-white"></i>
                                             </div>
@@ -487,7 +487,7 @@ $(document).ready(function() {
     $('[data-filter]').on('click', function(e) {
         e.preventDefault();
         const filter = $(this).data('filter');
-        
+
         if (filter === 'all') {
             $('.service-card').show();
             $('#servicesTable tbody tr').show();
@@ -517,11 +517,11 @@ $(document).ready(function() {
     // Form submission
     $('#addServiceForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(this);
         const button = $(this).find('button[type="submit"]');
         const originalText = showLoading(button);
-        
+
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
@@ -544,11 +544,11 @@ $(document).ready(function() {
 
 // View service details
 function viewService(serviceId) {
-    $.get(`/admin/services/${serviceId}`, function(data) {
+    $.get(`/admin/admin-new/services/${serviceId}`, function(data) {
         $('#viewServiceContent').html(`
             <div class="row">
                 <div class="col-md-4">
-                    ${data.image ? 
+                    ${data.image ?
                         `<img src="/storage/${data.image}" alt="${data.service_name}" class="img-fluid rounded">` :
                         `<div class="bg-primary rounded d-flex align-items-center justify-content-center" style="height: 200px;">
                             <i class="fas fa-stethoscope text-white fa-3x"></i>
@@ -585,7 +585,7 @@ function viewService(serviceId) {
 
 // Edit service
 function editService(serviceId) {
-    $.get(`/admin/services/${serviceId}`, function(data) {
+    $.get(`/admin/admin-new/services/${serviceId}`, function(data) {
         $('#edit_service_name').val(data.service_name);
         $('#edit_amount').val(data.amount);
         $('#edit_category').val(data.category);
@@ -593,7 +593,7 @@ function editService(serviceId) {
         $('#edit_description').val(data.description);
         $('#edit_detail_description').val(data.detail_description);
         $('#edit_is_available').val(data.is_available);
-        
+
         $('#editServiceForm').attr('action', `/admin/services/${serviceId}`);
         $('#editServiceModal').modal('show');
     });
@@ -604,7 +604,7 @@ function deleteService(serviceId) {
     confirmDelete('Are you sure you want to delete this service? This action cannot be undone.').then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: `/admin/del-service/${serviceId}`,
+                url: `/admin/admin-new/delete-service/${serviceId}`,
                 type: 'GET',
                 success: function(response) {
                     showSuccess('Service deleted successfully!');

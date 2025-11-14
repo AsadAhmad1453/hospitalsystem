@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Login - Shafayaat Hospital</title>
-    
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
         :root {
             --primary-color: #067a63;
@@ -249,15 +249,15 @@
             .login-left {
                 padding: 40px 20px;
             }
-            
+
             .login-right {
                 padding: 40px 20px;
             }
-            
+
             .brand-logo {
                 font-size: 2rem;
             }
-            
+
             .form-title {
                 font-size: 1.5rem;
             }
@@ -313,14 +313,14 @@
                     <div class="shape"></div>
                     <div class="shape"></div>
                 </div>
-                
+
                 <a href="#" class="brand-logo">
-                    <i class="fas fa-hospital"></i>
+                    <img src="{{ asset('website-assets/images/logo/logo.png') }}" alt="Shafayaat Logo" class="me-2" style="height:56px;width:66px;vertical-align:middle;background:#fff;border-radius:50%;padding:4px;">
                     <span>Shafayaat</span>
                 </a>
-                
+
                 <h2 class="welcome-text">Welcome to the Future of Healthcare Management</h2>
-                
+
                 <ul class="feature-list">
                     <li><i class="fas fa-check-circle"></i> Complete Patient Management</li>
                     <li><i class="fas fa-check-circle"></i> Real-time Analytics & Reports</li>
@@ -330,13 +330,13 @@
                     <li><i class="fas fa-check-circle"></i> Secure & Reliable</li>
                 </ul>
             </div>
-            
+
             <!-- Right Side - Login Form -->
             <div class="col-lg-6 login-right">
                 <div class="login-form">
                     <h1 class="form-title">Admin Login</h1>
                     <p class="form-subtitle">Sign in to access the admin dashboard</p>
-                    
+
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul class="mb-0">
@@ -346,18 +346,18 @@
                             </ul>
                         </div>
                     @endif
-                    
+
                     <form action="{{ route('admin.login') }}" method="POST" id="loginForm">
                         @csrf
-                        
+
                         <div class="form-floating">
-                            <input type="email" 
-                                   class="form-control @error('email') is-invalid @enderror" 
-                                   id="email" 
-                                   name="email" 
+                            <input type="email"
+                                   class="form-control @error('email') is-invalid @enderror"
+                                   id="email"
+                                   name="email"
                                    placeholder="Enter your email"
-                                   value="{{ old('email') }}" 
-                                   required 
+                                   value="{{ old('email') }}"
+                                   required
                                    autofocus>
                             <label for="email">
                                 <i class="fas fa-envelope me-2"></i>Email Address
@@ -368,12 +368,12 @@
                                 </div>
                             @enderror
                         </div>
-                        
+
                         <div class="form-floating position-relative">
-                            <input type="password" 
-                                   class="form-control @error('password') is-invalid @enderror" 
-                                   id="password" 
-                                   name="password" 
+                            <input type="password"
+                                   class="form-control @error('password') is-invalid @enderror"
+                                   id="password"
+                                   name="password"
                                    placeholder="Enter your password"
                                    required>
                             <label for="password">
@@ -388,14 +388,14 @@
                                 </div>
                             @enderror
                         </div>
-                        
+
                         <div class="form-check mb-4">
                             <input class="form-check-input" type="checkbox" id="remember" name="remember">
                             <label class="form-check-label" for="remember">
                                 Remember me for 30 days
                             </label>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-login" id="loginBtn">
                             <span class="loading-spinner">
                                 <i class="fas fa-spinner fa-spin me-2"></i>
@@ -414,13 +414,13 @@
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Password toggle functionality
         function togglePassword() {
             const passwordInput = document.getElementById('password');
             const toggleIcon = document.getElementById('toggleIcon');
-            
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 toggleIcon.classList.remove('fa-eye');
@@ -444,7 +444,7 @@
             input.addEventListener('focus', function() {
                 this.parentElement.classList.add('focused');
             });
-            
+
             input.addEventListener('blur', function() {
                 if (!this.value) {
                     this.parentElement.classList.remove('focused');

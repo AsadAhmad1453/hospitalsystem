@@ -29,7 +29,7 @@ Route::post('/admin/authenticating',[LoginController::class, 'login'])->name('ad
 
 Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     Route::controller(AdminDashboardController::class)->group(function () {
-        // Route::get('/', 'indexNew')->name('admin-dashboard'); 
+        // Route::get('/', 'indexNew')->name('admin-dashboard');
         // Route::get('/old-dashboard', 'index')->name('admin-old-dashboard'); // Keep old dashboard accessible
         // Route::get('/manage-profile', 'profileNew')->name('manage-profile'); // Redirect to new profile
         // Route::post('/update-profile', 'updateProfileNew')->name('update-profile');

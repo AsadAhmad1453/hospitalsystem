@@ -1962,7 +1962,7 @@ button:focus {
   -ms-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   transform: translateY(-50%);
-  background: url("../images/logo/Shafayaat.png") no-repeat;
+  background: url("../images/logo/logo.png") no-repeat;
   background-position: left center;
   background-size: cover;
   width: 24px;
@@ -2646,8 +2646,8 @@ button:focus {
   position: relative;
 }
 .preloader .preloader-icon img {
-  width: 100px;
-  height: 100px;
+  /* width: 100px;
+  height: 100px; */
 }
 .preloader .preloader-text {
   display: -webkit-flex;

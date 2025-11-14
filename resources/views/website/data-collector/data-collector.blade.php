@@ -1,8 +1,8 @@
 @extends('website.layouts.data-collector-layout')
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('admin-assets/css/custom-css.css') }}">
-
 @endsection
+
 @section('content')
 <section id="multiple-column-form">
     <div class="row justify-content-center">
@@ -31,7 +31,7 @@
                                     </ul>
                                 </div>
                             </div>
-                           
+
                             <input type="hidden" id="patient_id" name="patient_id" value="{{ $patient_id }}">
 
                             @foreach ($sections as $section)
@@ -96,11 +96,9 @@
                             </div>
                             @endforeach
 
-                            
-
                             <div class="formbold-form-btn-wrapper col-12 ">
-                                <div class="col-2 d-flex justify-content-between    ">
-                                    <button id="prev-btn" class=" formbold-back-btn">
+                                <div class="col-2 d-flex justify-content-between">
+                                    <button id="prev-btn" class="formbold-back-btn">
                                         Back
                                     </button>
                                 </div>
@@ -207,10 +205,33 @@ $(document).ready(function () {
         $('#submit-btn').toggle(idx === sections.length - 1);
     }
 
+    // MODIFIED: Mark question as skipped - hide the block always regardless of answer state!
     function markQuestionSkipped(qid) {
         skippedQuestions[qid] = true;
+
+        // Hide and disable
         $('#question-' + qid).hide().find('input,select,textarea').prop('disabled', true);
+
+        // Clear any answer from selectedAnswers in memory
         delete selectedAnswers[qid];
+
+        // Clear the UI selection of answer for this question as well
+        let q = questions.find(q => q.id == qid);
+
+        if (q) {
+            if (q.question_type == 0) {
+                // radio
+                $('input.option-radio[data-question-id="' + qid + '"]').prop('checked', false);
+            } else if (q.question_type == 1) {
+                // checkbox
+                $('input.option-checkbox[data-question-id="' + qid + '"]').prop('checked', false);
+            } else {
+                // text or date, etc
+                $('#question-' + qid).find('input,textarea').val('');
+            }
+        }
+        // Always hide regardless of answer
+        $('#question-' + qid).hide();
     }
 
     function unskipQuestion(qid) {
@@ -303,6 +324,8 @@ $(document).ready(function () {
         let q = questions.find(q => q.id == qid);
         $('#answer-warning-' + qid).hide();
 
+        if (skippedQuestions[qid]) return; // Don't store answers for skipped questions
+
         if (q.question_type == 0) {
             selectedAnswers[qid] = $(this).data('option-id');
         } else if (q.question_type == 1) {
@@ -339,6 +362,11 @@ $(document).ready(function () {
         applyDependencies(qid, optid);
     });
 
+    // --- THIS IS THE MAIN FIX AREA ---
+    /**
+     * Fix: When dependency skips a question, also clear its answer in UI and in-memory,
+     * and ALSO make sure the skipped question is HIDDEN even if previously answered.
+     */
     function applyDependencies(triggerQid, selectedOptionId, silent = false) {
         let deps = dependencies.filter(dep => dep.question_id == triggerQid && dep.option_id == selectedOptionId);
 
@@ -347,33 +375,44 @@ $(document).ready(function () {
 
         if (deps.length === 0) {
             if (!silent) {
+                // Fully unskip all
                 questions.forEach(q => unskipQuestion(q.id));
                 showSection(currentSectionIndex);
             }
             return;
         }
 
-        // Clear previous skips
+        // First, unskip all (reset skipping state)
         questions.forEach(q => {
             unskipQuestion(q.id);
         });
 
-        // For each dependency, skip all questions between trigger and dependent question
+        // Collect all qids to skip (between trigger and dependent for each dep)
+        let toSkip = new Set();
+
         for (const dep of deps) {
             const triggerIndex = questions.findIndex(q => q.id == triggerQid);
             const targetIndex = questions.findIndex(q => q.id == dep.dependent_question_id);
 
-            // Skip all questions between trigger and target (excluding both trigger and target)
-            for (let i = triggerIndex + 1; i < targetIndex; i++) {
-                const betweenQid = questions[i].id;
-                markQuestionSkipped(betweenQid);
+            if (triggerIndex !== -1 && targetIndex !== -1 && targetIndex > triggerIndex) {
+                for (let i = triggerIndex + 1; i < targetIndex; i++) {
+                    toSkip.add(questions[i].id);
+                }
             }
-
-            // Ensure dependent question is visible
+            // Ensure dependent question is visible (never skipped)
             unskipQuestion(dep.dependent_question_id);
         }
 
-        // Jump to the section containing the dependent question (if not silent)
+        // For all qids to skip, mark as skipped (which hides & disables input)
+        for (let qid of toSkip) {
+            markQuestionSkipped(qid);
+        }
+        // Also: forcibly hide if previously answered and in skipped list
+        toSkip.forEach(qid => {
+            $('#question-' + qid).hide();
+        });
+
+        // Jump to section containing the dependent question (unless silent)
         if (!silent) {
             let targetSectionIndex = currentSectionIndex;
             deps.forEach(dep => {
@@ -385,32 +424,32 @@ $(document).ready(function () {
                     }
                 }
             });
-
             currentSectionIndex = targetSectionIndex;
             showSection(currentSectionIndex);
         }
     }
+    // --- END MAIN FIX ---
 
     $('#recordBtn').on('click', function () {
             navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
                 mediaRecorder = new MediaRecorder(stream);
                 audioChunks = [];
-    
+
                 mediaRecorder.ondataavailable = function (event) {
                     if (event.data.size > 0) {
                         audioChunks.push(event.data);
                     }
                 };
-    
+
                 mediaRecorder.onstop = function () {
                     audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     const audioURL = URL.createObjectURL(audioBlob);
                     $('#audioPlayer').attr('src', audioURL).show();
-    
+
                     // Optional: Upload the audioBlob
                     uploadRecording(audioBlob);
                 };
-    
+
                 mediaRecorder.start();
                 $('#recordBtn').prop('disabled', true);
                 $('#pauseBtn').prop('disabled', false);
@@ -429,10 +468,10 @@ $(document).ready(function () {
                 }
             });
         });
-    
+
         $('#pauseBtn').on('click', function () {
             if (!mediaRecorder) return;
-    
+
             if (mediaRecorder.state === 'recording') {
                 mediaRecorder.pause();
                 $(this).html('<i data-feather="play"></i>');
@@ -443,22 +482,22 @@ $(document).ready(function () {
                 feather.replace();
             }
         });
-    
+
         $('#stopBtn').on('click', function () {
             if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
                 mediaRecorder.stop();
                 $('#recordBtn').prop('disabled', false);
                 $('#pauseBtn').prop('disabled', true).html('<i data-feather="pause"></i>');
-                feather.replace(); 
+                feather.replace();
                 $('#stopBtn').prop('disabled', true);
             }
         });
-    
+
         // Optional: AJAX upload to Laravel
         function uploadRecording(blob) {
             let formData = new FormData();
             formData.append('voice_recording', blob, 'recording.webm');
-    
+
             $.ajax({
                 url: "{{ route('upload-voice') }}",
                 type: 'POST',

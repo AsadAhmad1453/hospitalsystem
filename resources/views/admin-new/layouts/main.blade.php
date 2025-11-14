@@ -7,31 +7,31 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Shafayaat Hospital - Admin Panel')</title>
     <meta name="description" content="Shafayaat Hospital Management System - Comprehensive Healthcare Administration">
-    
+
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('admin-assets/images/ico/favicon.ico') }}">
-    
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+
     <!-- DataTables -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
-    
+
     <!-- Select2 -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
+
     <!-- Custom CSS -->
     <style>
         :root {
@@ -445,20 +445,20 @@
         .modal .select2-container {
             z-index: 9999 !important;
         }
-        
+
         .modal .select2-dropdown {
             z-index: 9999 !important;
         }
-        
+
         .modal .select2-search--dropdown {
             z-index: 9999 !important;
         }
-        
+
         .modal .select2-results {
             z-index: 9999 !important;
         }
     </style>
-    
+
     @yield('custom-css')
 </head>
 <body>
@@ -466,11 +466,11 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
-                <i class="fas fa-hospital"></i>
+                <img src="{{ asset('website-assets/images/logo/logo.png') }}" alt="Shafayaat Logo" class="me-2" style="height:56px;width:66px;vertical-align:middle;background:#fff;border-radius:50%;padding:4px;">
                 <span class="brand-text">Shafayaat</span>
             </a>
         </div>
-        
+
         <div class="sidebar-nav">
             <ul class="nav flex-column">
                 <!-- Dashboard -->
@@ -628,12 +628,12 @@
                 </button>
                 <h4 class="mb-0">@yield('page-title', 'Dashboard')</h4>
             </div>
-            
+
             <div class="header-right">
                 <!-- User Dropdown -->
                 <div class="dropdown user-dropdown">
                     <button class="btn btn-link d-flex align-items-center" type="button" data-bs-toggle="dropdown">
-                        <img src="{{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('admin-assets/images/portrait/small/avatar-s-11.jpg') }}" 
+                        <img src="{{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('admin-assets/images/portrait/small/avatar-s-11.jpg') }}"
                              alt="User Avatar" class="user-avatar me-2">
                         <div class="text-start">
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
@@ -650,7 +650,7 @@
                         </a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}" 
+                            <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a>
@@ -671,19 +671,19 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
+
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
-    
+
     <!-- Select2 -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
+
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -693,7 +693,7 @@
         document.getElementById('sidebarToggle').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
-            
+
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');
         });

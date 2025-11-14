@@ -68,7 +68,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-1.png') }}" alt="icon about one">
+                                            <img src="{{ asset('website-assets/images/why-choose/patient-centered.png') }}" alt="icon about one">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
@@ -79,7 +79,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-2.png') }}" alt="icon about two">
+                                            <img src="{{ asset('website-assets/images/why-choose/healthcare.png') }}" alt="icon about two">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">

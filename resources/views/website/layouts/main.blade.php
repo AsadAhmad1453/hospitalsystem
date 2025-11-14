@@ -14,7 +14,7 @@
         <!-- favicon icon -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
         <link rel="shortcut icon" href="{{ asset('website-assets/images/favicon.png') }}" type="image/x-icon">
-        <link rel="icon" href="{{ asset('website-assets/images/favicon.png') }}" type="image/x-icon">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
         <!-- font awesome css -->
         <link rel="stylesheet" href="{{ asset('website-assets/css/all.min.css') }}">
         <!-- bootstrap css -->
@@ -40,9 +40,9 @@
             <!-- preloader start -->
             <div class="preloader">
                 <div class="preloader-icon">
-                    <img src="{{ asset('website-assets/images/logo/Shafayaat.png') }}" alt="loader image">
+                    <img src="{{ asset('website-assets/images/logo/logo.png') }}" width="300px" alt="loader image">
                 </div>
-                <div class="preloader-text">
+                {{-- <div class="preloader-text">
                     <p>S</p>
                     <p>H</p>
                     <p>A</p>
@@ -52,7 +52,7 @@
                     <p>A</p>
                     <p>A</p>
                     <p>T</p>
-                </div>
+                </div> --}}
             </div>
             <!-- preloader end -->
 
@@ -74,7 +74,7 @@
                     <!-- offcanvas logo start -->
                     <div class="offcanvas-logo">
                         <figure>
-                            <img src="{{ asset('website-assets/images/logo/Shafayaat.png') }}" width="80px" alt="offcanvas logo">
+                            <img src="{{ asset('website-assets/images/logo/logo.png') }}" width="80px" alt="offcanvas logo">
                             <strong class="text-uppercase text=primary h4 ms-2">Shafayaat</strong>
                         </figure>
                     </div>
@@ -228,7 +228,7 @@
                                         <div class="logo my-2 m-4">
                                             <a href="{{ route('home') }}">
                                                 <figure>
-                                                    <img src="{{ asset('website-assets/images/logo/Shafayaat.png') }}" width="70px" alt="header logo">
+                                                    <img src="{{ asset('website-assets/images/logo/logo.png') }}" width="70px" alt="header logo">
                                                 </figure>
                                             </a>
                                             <h4 class="ms-2 text-primary text-uppercase"><strong>Shafayaat</strong></h4>
@@ -314,7 +314,7 @@
                                         <a href="{{ route('home') }}" style="text-decoration: none;">
                                             <div style="display: flex; align-items: center; gap: 12px;">
                                                 <figure style="margin: 0;">
-                                                    <img src="{{ asset('website-assets/images/logo/Shafayaat.png') }}" width="50" alt="footer logo">
+                                                    <img src="{{ asset('website-assets/images/logo/logo.png') }}" width="50" alt="footer logo">
                                                 </figure>
                                                 <span class="text-uppercase" style="color: #035e58; font-size: 1.5rem; font-weight: 600; letter-spacing: 1px;">Shafayaat</span>
                                             </div>

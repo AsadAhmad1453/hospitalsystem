@@ -21,7 +21,7 @@
                         <div class="hero-content wow fadeInUp" data-wow-delay=".2s">
                             <!-- section title start -->
                             <div class="section-title">
-                                <span class="sub-title">Welcome Shafayaat</span>
+                                <span class="sub-title">Welcome to Shafayaat</span>
                                 <h1>Shaping the Future of Healthcare</h1>
                                 <p class="text-black">
                                     We bring modern, affordable, and patient-centered healthcare that blends technology with natural solutions. With a focus on prevention and personalized care, we empower you to take control of your health.
@@ -30,7 +30,7 @@
                             <!-- section title end -->
                             <!-- hero button wappper start -->
                             <div class="hero-button-wappper">
-                                <button 
+                                <button
                                     type="button"
                                     class="theme-button style-1 book-appointment-btn"
                                     aria-label="Book Appointment"
@@ -195,7 +195,7 @@
                             <!-- about img 1 start -->
                             <div class="about-img-1 text-center">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('website-assets/images/about/about-1-1.jpg') }}" alt="about image one">
+                                    <img src="{{ asset('website-assets/images/hero/hero1.jpg') }}" alt="about image one">
                                 </figure>
                             </div>
                             <!-- about img 1 end -->
@@ -211,7 +211,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-1.png') }}" alt="icon about one">
+                                            <img src="{{ asset('website-assets/images/about/diabetes-icon.png') }}" alt="icon about one">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
@@ -224,7 +224,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-2.png') }}" alt="icon about two">
+                                            <img src="{{ asset('website-assets/images/about/heart-icon.png') }}" alt="icon about two">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
@@ -237,7 +237,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-3.png') }}" alt="icon about three">
+                                            <img src="{{ asset('website-assets/images/about/kidney.png') }}" alt="icon about three">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
@@ -250,7 +250,7 @@
                                 <div class="about-features-item">
                                     <div class="about-features-icon">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/about/icon-about-3.png') }}" alt="icon about three">
+                                            <img src="{{ asset('website-assets/images/about/mental-icon.png') }}" alt="icon about three">
                                         </figure>
                                     </div>
                                     <div class="about-features-title">
@@ -278,7 +278,7 @@
                             <!-- about img 2 start -->
                             <div class="about-img-2">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('website-assets/images/about/about-1-2.jpg') }}" alt="about image two">
+                                    <img src="{{ asset('website-assets/images/image222.avif') }}" height="100%" alt="about image two">
                                 </figure>
                             </div>
                             <!-- about img 2 end -->
@@ -321,7 +321,7 @@
                                     <div class="service-items">
                                         <div class="service-icon">
                                             <figure>
-                                                <img src="{{ asset('website-assets/images/services/icon-service-2.png') }}" alt="icon service two">
+                                                <img src="{{ asset('website-assets/images/services/medical-service.png') }}" alt="icon service two">
                                             </figure>
                                         </div>
                                         <div class="service-content">
@@ -329,22 +329,22 @@
                                                 <h2><a href="{{route('service-detail', $service->id)}}">{{$service->service_name}}</a></h2>
                                                 <p>{{$service->description}}</p>
                                             </div>
-                                            
+
                                             <!-- Book Appointment Button -->
                                             <div class="d-flex flex-column align-items-start mt-4 ">
-                                                <button 
+                                                <button
                                                     type="button"
-                                                    class="btn book-appointment-btn my-2" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#bookAppointmentModal" 
-                                                    data-service-id="{{$service->id}}" 
+                                                    class="btn book-appointment-btn my-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#bookAppointmentModal"
+                                                    data-service-id="{{$service->id}}"
                                                     data-service-name="{{$service->service_name}}">
                                                     Book Appointment
                                                 </button>
                                                 <a href="{{route('service-detail', $service->id)}}" class="read-more-btn mt-2">More Details</a>
                                             </div>
-                                    
-                                            
+
+
                                         </div>
                                     </div>
                                     <!-- service items end -->
@@ -385,12 +385,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="appointment_date">Date</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    id="appointment_date" 
-                                    name="appointment_date" 
-                                    required 
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="appointment_date"
+                                    name="appointment_date"
+                                    required
                                     autocomplete="off"
                                     placeholder="Select a date"
                                 >
@@ -544,7 +544,7 @@
                         </div>
                     </div>
                 </form>
-                
+
             </div>
         </div>
 
@@ -569,7 +569,7 @@
                                 <div class="why-choose-box">
                                     <div class="icon-box">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/why-choose/icon-why-choose-1.png') }}" alt="icon why choose one">
+                                            <img src="{{ asset('website-assets/images/why-choose/patient-centered.png') }}" alt="icon why choose one">
                                         </figure>
                                     </div>
                                     <div class="why-choose-box-content">
@@ -582,7 +582,7 @@
                                 <div class="why-choose-box">
                                     <div class="icon-box">
                                         <figure>
-                                            <img src="{{ asset('website-assets/images/why-choose/icon-why-choose-2.png') }}" alt="icon why choose two">
+                                            <img src="{{ asset('website-assets/images/why-choose/healthcare.png') }}" alt="icon why choose two">
                                         </figure>
                                     </div>
                                     <div class="why-choose-box-content">
@@ -610,14 +610,14 @@
                             <!-- why choose img 1 start -->
                             <div class="why-choose-img-1">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('website-assets/images/why-choose/why-choose-img-1-1.jpg') }}" alt="why choose image one">
+                                    <img src="{{ asset('website-assets/images/diabetes.jpg') }}" alt="why choose image one">
                                 </figure>
                             </div>
                             <!-- why choose img 1 end -->
                             <!-- why choose img 2 start -->
                             <div class="why-choose-img-2">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('website-assets/images/why-choose/why-choose-img-1-2.jpg') }}" alt="why choose image two">
+                                    <img src="{{ asset('website-assets/images/compass.jpg') }}" alt="why choose image two">
                                 </figure>
                             </div>
                             <!-- why choose img 2 end -->
@@ -705,7 +705,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                     @if(session('success'))
                                         <div class="alert alert-success mt-3">
@@ -1502,7 +1502,7 @@
                             <!-- section title end -->
                             <!-- cta button wapper start -->
                             <div class="cta-button-wapper">
-                                <button 
+                                <button
                                     type="button"
                                     class="theme-button style-4 book-appointment-btn"
                                     aria-label="Get Appointment"
@@ -1551,7 +1551,7 @@
                             <!-- faq image start -->
                             <div class="faq-image wow fadeInUp" data-wow-delay=".3s">
                                 <figure class="image-anime">
-                                    <img src="{{ asset('website-assets/images/faqs/faqs-1-1.jpg') }}" alt="faq image one">
+                                    <img src="{{ asset('website-assets/images/faqs.jpg') }}" alt="faq image one">
                                 </figure>
                             </div>
                             <!-- faq image end -->
@@ -2137,7 +2137,7 @@
 @endsection
 @section('custom-js')
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(document).ready(function () {
         $('#bookAppointmentModal').on('shown.bs.modal', function () {
@@ -2209,7 +2209,7 @@
         }
     });
 </script>
-{{-- 
+{{--
 <script>
     // Optional: If you want to pre-select the service in the modal when clicking "Book Appointment"
     document.addEventListener('DOMContentLoaded', function () {
@@ -2226,9 +2226,9 @@
             });
         });
     });
-</script> 
+</script>
 --}}
-{{--     
+{{--
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         // When the Book Appointment button is clicked
@@ -2259,6 +2259,6 @@
             }).appendTo(this);
         });
     });
-</script> 
+</script>
 --}}
 @endsection

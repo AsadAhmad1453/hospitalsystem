@@ -82,7 +82,7 @@
                             <h3 class="">
                                 @foreach ($roles as $role)
                                     @if($role->id == Auth::user()->role_id)
-                                        <strong>{{ $role->name }}</strong>
+                                        <strong>{{ ucfirst($role->name) }}</strong>
                                     @endif
                                 @endforeach
                             </h3>

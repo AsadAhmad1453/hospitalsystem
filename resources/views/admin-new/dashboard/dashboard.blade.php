@@ -119,7 +119,7 @@
     </div>
 
     <!-- Charts and Analytics -->
-    <div class="row mb-4">
+    {{-- <div class="row mb-4">
         <!-- Patient Statistics Chart -->
         <div class="col-xl-8 col-lg-7 mb-4">
             <div class="card h-100">
@@ -198,7 +198,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Medical Services Overview -->
     <div class="row mb-4">
@@ -512,13 +512,13 @@ let currentPeriod = '7days';
 // Patient Statistics Chart - Dynamic
 function loadPatientChart(period = '7days') {
     currentPeriod = period;
-    
+
     // Show loading state
     const ctx = document.getElementById('patientChart').getContext('2d');
     if (patientChart) {
         patientChart.destroy();
     }
-    
+
     // Show loading indicator
     ctx.fillStyle = '#f8f9fa';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -526,7 +526,7 @@ function loadPatientChart(period = '7days') {
     ctx.font = '16px Arial';
     ctx.textAlign = 'center';
     ctx.fillText('Loading chart data...', ctx.canvas.width / 2, ctx.canvas.height / 2);
-    
+
     // Fetch data from API
     $.ajax({
         url: '{{ route("admin-new.api.patient-statistics") }}',
@@ -537,7 +537,7 @@ function loadPatientChart(period = '7days') {
             if (patientChart) {
                 patientChart.destroy();
             }
-            
+
             // Create new chart with dynamic data
             patientChart = new Chart(ctx, {
                 type: 'line',
@@ -586,7 +586,7 @@ function loadPatientChart(period = '7days') {
 // Initialize chart on page load
 $(document).ready(function() {
     loadPatientChart('7days');
-    
+
     // Period dropdown functionality
     $('.dropdown-item').on('click', function(e) {
         e.preventDefault();
@@ -596,7 +596,7 @@ $(document).ready(function() {
             'last30days': '30days',
             'last3months': '3months'
         };
-        
+
         if (periodMap[period]) {
             loadPatientChart(periodMap[period]);
             $('.dropdown-toggle').text($(this).text());
@@ -607,18 +607,18 @@ $(document).ready(function() {
 // Real-time clock
 function updateClock() {
     const now = new Date();
-    const timeString = now.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
+    const timeString = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
     });
-    const dateString = now.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+    const dateString = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
     });
-    
+
     // Update time display if element exists
     const timeElement = document.querySelector('.fw-bold.text-primary');
     if (timeElement) {
@@ -663,18 +663,18 @@ function loadRealTimeStats() {
 // Load real-time stats on page load
 $(document).ready(function() {
     loadRealTimeStats();
-    
+
     // Add User Form Handler
     $('#addUserForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.html();
-        
+
         // Show loading state
         submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Creating...');
         submitBtn.prop('disabled', true);
-        
+
         $.ajax({
             url: '{{ route("admin-new.save-user") }}',
             method: 'POST',
@@ -724,21 +724,21 @@ $(document).ready(function() {
             }
         });
     });
-    
-    
+
+
     // Add Service Form Handler
     $('#addServiceForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.html();
-        
+
         // Show loading state
         submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Adding...');
         submitBtn.prop('disabled', true);
-        
+
         const formData = new FormData(this);
-        
+
         $.ajax({
             url: '{{ route("admin-new.save-service") }}',
             method: 'POST',
@@ -790,18 +790,18 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     // Add Form Form Handler
     $('#addFormForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const submitBtn = $(this).find('button[type="submit"]');
         const originalText = submitBtn.html();
-        
+
         // Show loading state
         submitBtn.html('<i class="fas fa-spinner fa-spin me-2"></i>Creating...');
         submitBtn.prop('disabled', true);
-        
+
         $.ajax({
             url: '{{ route("admin-new.save-form") }}',
             method: 'POST',
@@ -851,7 +851,7 @@ $(document).ready(function() {
             }
         });
     });
-    
+
     // Reset forms when modals are hidden
     $('#addUserModal, #addServiceModal, #addFormModal').on('hidden.bs.modal', function() {
         $(this).find('form')[0].reset();
