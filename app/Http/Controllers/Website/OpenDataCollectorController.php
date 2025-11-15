@@ -27,9 +27,9 @@ class OpenDataCollectorController extends Controller
     {
         // Check if the form has any questions
         $questionsCount = Question::where('form_id', $form_id)->count();
-        
+
         if ($questionsCount === 0) {
-            
+
             return redirect()->back()->with('error', 'This form does not have any questions.');
         }
 
@@ -70,8 +70,59 @@ class OpenDataCollectorController extends Controller
         return redirect()->route('dc-forms', $request->patient_id);
     }
 
+
+    public function getQuestionDependency(Request $request)
+    {
+        $question_id = $request->input('question_id');
+        $option_id = $request->input('option_id');
+
+        // Find the dependency row for this question and option
+        $dependency = Dependency::where('question_id', $question_id)
+            ->where('option_id', $option_id)
+            ->first();
+
+        if (!$dependency) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No dependency exists for this combination.'
+            ]);
+        }
+
+        $dependent_question_id = $dependency->dependent_question_id;
+
+        // Get all question IDs between the parent and the dependent question (not including the parent, including the dependent)
+        // For accurate range, we assume 'position' is present and ordered
+        $parentQuestion = Question::find($question_id);
+        $depQuestion = Question::find($dependent_question_id);
+
+        if (!$parentQuestion || !$depQuestion) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Question not found.'
+            ]);
+        }
+
+        // Get min and max position (not ids) to handle proper range
+        $minPos = min($parentQuestion->position, $depQuestion->position);
+        $maxPos = max($parentQuestion->position, $depQuestion->position);
+
+        $questionsInRange = Question::where('form_id', $parentQuestion->form_id)
+            ->where('position', '>', $parentQuestion->position)
+            ->where('position', '<', $depQuestion->position)
+            ->orderBy('position')
+            ->pluck('id')
+            ->toArray();
+
+        return response()->json([
+            'success' => true,
+            'dependency_id' => $dependency->id,
+            'dependent_question_id' => $dependent_question_id,
+            'questions_in_range' => $questionsInRange,
+        ]);
+    }
+
     public function addPatient()
-    {   
+    {
         return view('website.data-collector.patient-info', get_defined_vars());
     }
 

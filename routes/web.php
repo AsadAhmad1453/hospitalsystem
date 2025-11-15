@@ -83,6 +83,7 @@ Route::controller(OpenDataCollectorController::class)->group(function () {
     Route::get('/add-patient', 'addPatient')->name('open-patients');
     Route::post('/save-patient', 'savePatient')->name('save-open-patient');
     Route::get('/forms/{patient_id}', 'dataCollectorForms')->name('dc-forms');
+    Route::post('/get-question-dependency', 'getQuestionDependency')->name('question-dependency');
     Route::get('/data-collector/{form_id}/{patient_id}', 'showCollectorForm')->name('open-data-collector');
     Route::post('/data-collector/submit/{form_id}', 'submitAnswers')->name('save-open-data-collector');
 });
