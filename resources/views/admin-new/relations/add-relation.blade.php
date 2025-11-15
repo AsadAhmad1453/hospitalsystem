@@ -92,14 +92,14 @@
                                 <label for="selected_question_id" class="form-label">
                                     Parent Question <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 @error('selected_question_id') is-invalid @enderror" 
+                                <select class="form-control select2 @error('selected_question_id') is-invalid @enderror"
                                         id="selected_question_id" name="selected_question_id" required>
                                     <option value="">Choose a parent question</option>
                                     @foreach($questions as $question)
-                                        <option value="{{ $question->id }}" 
+                                        <option value="{{ $question->id }}"
                                                 data-type="{{ $question->question_type }}"
                                                 data-section="{{ $question->section->name ?? 'No Section' }}">
-                                            {{ $question->question_text }} 
+                                            {{ $question->question }}
                                             <small class="text-muted">({{ $question->section->name ?? 'No Section' }})</small>
                                         </option>
                                     @endforeach
@@ -128,13 +128,13 @@
                                 <label for="related_question" class="form-label">
                                     Related Question <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control select2 @error('related_question') is-invalid @enderror" 
-                                        id="related_question" name="related_question">
+                                <select class="form-control select2 @error('related_question') is-invalid @enderror"
+                                        id="related_question"  name="related_question">
                                     <option value="">Choose a related question</option>
                                     @foreach($questions as $question)
-                                        <option value="{{ $question->id }}" 
+                                        <option value="{{ $question->id }}"
                                                 data-section="{{ $question->section->name ?? 'No Section' }}">
-                                            {{ $question->question_text }} 
+                                            {{ $question->question }}
                                             <small class="text-muted">({{ $question->section->name ?? 'No Section' }})</small>
                                         </option>
                                     @endforeach
@@ -202,7 +202,7 @@ $(document).ready(function() {
     $('#selected_question_id').on('change', function() {
         const questionId = $(this).val();
         const questionType = $(this).find('option:selected').data('type');
-        
+
         if (questionId) {
             loadQuestionOptions(questionId, questionType);
             $('#relatedQuestionSection, #relatedQuestionField').show();
@@ -221,11 +221,11 @@ $(document).ready(function() {
     // Form submission
     $('#addRelationForm').on('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(this);
         const button = $(this).find('button[type="submit"]');
         const originalText = showLoading(button);
-        
+
         $.ajax({
             url: $(this).attr('action'),
             type: 'POST',
@@ -262,8 +262,8 @@ function loadQuestionOptions(questionId, questionType) {
                     optionsHtml += `
                         <div class="col-md-6 mb-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" 
-                                       name="question_options[]" value="${option.id}" 
+                                <input class="form-check-input" type="checkbox"
+                                       name="question_options[]" value="${option.id}"
                                        id="option_${option.id}">
                                 <label class="form-check-label" for="option_${option.id}">
                                     ${option.option}
@@ -273,10 +273,10 @@ function loadQuestionOptions(questionId, questionType) {
                     `;
                 });
                 optionsHtml += '</div>';
-                
+
                 $('#questionOptionsContainer').html(optionsHtml);
                 $('#questionOptionsSection').show();
-                
+
                 // Add change handler for checkboxes
                 $('input[name="question_options[]"]').on('change', function() {
                     updateSubmitButton();
@@ -297,7 +297,7 @@ function updateSubmitButton() {
     const hasParentQuestion = $('#selected_question_id').val() !== '';
     const hasRelatedQuestion = $('#related_question').val() !== '';
     const hasSelectedOptions = $('input[name="question_options[]"]:checked').length > 0;
-    
+
     if (hasParentQuestion && hasRelatedQuestion && hasSelectedOptions) {
         $('#submitBtn').prop('disabled', false);
     } else {
@@ -309,20 +309,20 @@ function previewRelation() {
     const parentQuestionId = $('#selected_question_id').val();
     const relatedQuestionId = $('#related_question').val();
     const selectedOptions = $('input[name="question_options[]"]:checked');
-    
+
     if (!parentQuestionId || !relatedQuestionId || selectedOptions.length === 0) {
         showError('Please complete all required fields first.');
         return;
     }
-    
+
     const parentQuestionText = $('#selected_question_id option:selected').text();
     const relatedQuestionText = $('#related_question option:selected').text();
-    
+
     let selectedOptionsText = [];
     selectedOptions.each(function() {
         selectedOptionsText.push($(this).next('label').text().trim());
     });
-    
+
     let previewHtml = `
         <div class="alert alert-info">
             <h6 class="mb-3">📋 Relation Logic Preview:</h6>
@@ -350,10 +350,10 @@ function previewRelation() {
             </div>
         </div>
     `;
-    
+
     document.getElementById('previewContent').innerHTML = previewHtml;
     document.getElementById('previewSection').style.display = 'block';
-    
+
     // Scroll to preview
     document.getElementById('previewSection').scrollIntoView({ behavior: 'smooth' });
 }
@@ -384,7 +384,7 @@ function displayValidationErrors(errors) {
     // Clear previous errors
     $('.is-invalid').removeClass('is-invalid');
     $('.invalid-feedback').remove();
-    
+
     // Display new errors
     Object.keys(errors).forEach(field => {
         const input = $(`[name="${field}"]`);
