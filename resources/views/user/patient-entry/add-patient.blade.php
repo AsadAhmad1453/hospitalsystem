@@ -105,7 +105,7 @@
                                         name="dateofbirth"
                                         placeholder="Date of Birth"
                                         value="{{ old('dateofbirth') }}"
-                                        max="{{ date('Y-m-d') }}" />     
+                                        max="{{ date('Y-m-d') }}" />
                                         @error('dateofbirth')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -146,7 +146,7 @@
                                             <span class="text-danger" style="font-weight: 600">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                
+
                                 <input type="hidden" name="patient_status" value="1">
                                 <div class="col-md-6 col-12">
                                     <div class="form-group">
@@ -167,7 +167,6 @@
                                                     <th>Service Name</th>
                                                     <th>Cost</th>
                                                     <th>Check</th>
-                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>

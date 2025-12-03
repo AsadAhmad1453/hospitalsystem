@@ -16,6 +16,13 @@
 @endsection
 @section('content')
 
+    <div class="data-table-page-hero">
+        <div>
+            <h2>Active Patients</h2>
+            <p>Manage today’s queue, payments, and patient check‑ins from a single place.</p>
+        </div>
+    </div>
+
     <section id="basic-datatable">
         <div class="row">
             <div class="col-12">

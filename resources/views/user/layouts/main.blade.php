@@ -33,11 +33,171 @@
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/pages/page-profile.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/vendors/css/forms/select/select2.min.css') }}">
     <!-- END: Page CSS-->
-    @yield('custom-css')
 
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('admin-assets/css/style.css')}}">
     <!-- END: Custom CSS-->
+
+    <style>
+        :root {
+            --u-primary: #0d7a65;
+            --u-primary-dark: #04382c;
+            --u-accent: #14c8a1;
+            --u-bg: #f4fbf8;
+            --u-border: #d9ebe3;
+        }
+
+        body.vertical-layout {
+            background: radial-gradient(circle at top left, #f8fffb 0, #f0f7f4 45%, #e5f2ec 100%);
+        }
+
+        .header-navbar {
+            border-radius: 18px;
+            margin-top: 1.2rem;
+            box-shadow: 0 16px 40px rgba(6, 61, 47, 0.15);
+            background: linear-gradient(125deg, var(--u-primary) 0%, var(--u-primary-dark) 55%, #021e18 100%);
+        }
+
+        .header-navbar .user-nav span.user-name {
+            color: #fff;
+        }
+
+        .header-navbar .user-nav span.user-status {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .main-menu.menu-light {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 24px;
+            box-shadow: 0 26px 60px rgba(6, 51, 40, 0.22);
+            border-right: 0;
+        }
+
+        .main-menu .navbar-header {
+            padding-top: 1.4rem;
+            padding-bottom: .4rem;
+        }
+
+        .main-menu .navbar-header h3 {
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--u-primary-dark);
+        }
+
+        .navigation-main > li > a.sidelink {
+            border-radius: 14px;
+            padding: .7rem 1rem;
+            margin: .15rem .6rem;
+            transition: background .2s ease, color .2s ease, transform .15s ease;
+        }
+
+        .navigation-main > li.active > a.sidelink,
+        .navigation-main > li:hover > a.sidelink {
+            background: linear-gradient(135deg, var(--u-primary), var(--u-primary-dark));
+            color: #fff !important;
+            box-shadow: 0 10px 24px rgba(6, 61, 47, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .navigation-main > li.active > a.sidelink i,
+        .navigation-main > li:hover > a.sidelink i {
+            color: #fff !important;
+        }
+
+        .navigation-main > li > a.sidelink i {
+            color: var(--u-primary);
+        }
+
+        .card {
+            border-radius: 20px;
+            border: 1px solid rgba(217, 235, 227, 0.9);
+            box-shadow: 0 14px 40px rgba(6, 61, 47, 0.12);
+        }
+
+        .data-table-page-hero {
+            margin-bottom: 1.25rem;
+            padding: 1.4rem 1.6rem;
+            border-radius: 20px;
+            background: linear-gradient(130deg, var(--u-primary), var(--u-primary-dark));
+            color: #fff;
+            box-shadow: 0 20px 45px rgba(6, 61, 47, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: .75rem;
+        }
+
+        .data-table-page-hero h2 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .data-table-page-hero p {
+            margin: 0;
+            opacity: .85;
+        }
+
+        .table thead th {
+            border-bottom: none;
+            background: linear-gradient(135deg, #f4fbf8, #e6f2ec);
+            color: #064337;
+            font-weight: 600;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #fafdfb;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--u-primary), var(--u-primary-dark));
+            border: none;
+            box-shadow: 0 12px 24px rgba(6, 61, 47, 0.3);
+        }
+
+        .badge-success {
+            background: rgba(13, 122, 101, 0.12);
+            color: var(--u-primary-dark);
+        }
+
+        .app-content .content-wrapper {
+            padding-top: 1.6rem;
+        }
+
+        .card-congratulations {
+            background: radial-gradient(circle at top left, #12b488, #0d7a65 40%, #04382c 100%);
+            border: none;
+            box-shadow: 0 26px 60px rgba(6, 61, 47, 0.25);
+            border-radius: 24px;
+        }
+
+        .card-congratulations .avatar.bg-warning {
+            background: rgba(255, 255, 255, 0.15) !important;
+        }
+
+        .card-congratulations .avatar .avatar-content i {
+            color: #fff;
+        }
+
+        .footer.footer-light {
+            border-top: none;
+            background: transparent;
+        }
+
+        @media (max-width: 767px) {
+            .header-navbar {
+                border-radius: 0 0 18px 18px;
+                margin-top: 0;
+            }
+
+            .main-menu.menu-fixed {
+                border-radius: 20px;
+            }
+        }
+    </style>
+
+    @yield('custom-css')
 
 </head>
 <!-- END: Head-->

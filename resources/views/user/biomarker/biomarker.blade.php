@@ -19,6 +19,14 @@
 
 @endsection
 @section('content')
+
+<div class="data-table-page-hero">
+    <div>
+        <h2>Biomarker Queue</h2>
+        <p>See who is ready for biomarker entry and jump straight into examination.</p>
+    </div>
+</div>
+
 <section id="basic-datatable">
         <div class="row">
             <div class="col-12">

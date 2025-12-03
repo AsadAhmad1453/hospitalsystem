@@ -13,6 +13,13 @@
 @endsection
 @section('content')
 
+    <div class="data-table-page-hero">
+        <div>
+            <h2 class="text-white">Data Collection Queue</h2>
+            <p>Select a patient to launch the data‑collector flow for this form.</p>
+        </div>
+    </div>
+
     <section id="basic-datatable">
         <div class="row">
             <div class="col-12">

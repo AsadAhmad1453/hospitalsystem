@@ -16,6 +16,13 @@
 @endsection
 @section('content')
 
+    <div class="data-table-page-hero">
+        <div>
+            <h2>Past Patients</h2>
+            <p>Quickly revisit patient histories, invoices, and follow‑up information.</p>
+        </div>
+    </div>
+
     <section id="basic-datatable">
         <div class="row">
             <div class="col-12">

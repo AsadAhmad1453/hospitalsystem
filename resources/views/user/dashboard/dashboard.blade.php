@@ -4,19 +4,57 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/plugins/charts/chart-apex.css')}}">
 
 <style>
-    .reset {
-        border: none;
-        z-index: 1;
+    .dash-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.5fr);
+        gap: 1.5rem;
     }
 
-    .next {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+    @media (max-width: 991px) {
+        .dash-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .card-metrics {
+        border-radius: 22px;
         border: none;
-        z-index: 1;
-        display: flex;
-        align-items: center;
+        box-shadow: 0 26px 50px rgba(6, 61, 47, 0.18);
+    }
+
+    .token-pill {
+        background: #f4fbf8;
+        border-radius: 16px;
+        padding: .75rem 1rem;
+    }
+
+    .token-pill h2 {
+        margin: 0;
+    }
+
+    .role-strip h4 {
+        font-weight: 600;
+    }
+
+    .role-strip + .role-strip {
+        margin-top: 1.25rem;
+    }
+
+    .role-strip .progress {
+        background-color: #e5f2ec;
+    }
+
+    .role-list-item {
+        border-radius: 10px;
+        padding: .5rem .75rem;
+        background: #f7fbf9;
+        margin-bottom: .3rem;
+    }
+
+    .role-toggle-btn {
+        border-radius: 999px;
+        padding: .35rem .9rem;
+        font-size: .78rem;
     }
 </style>
 @endsection
@@ -24,105 +62,124 @@
     <div class="content-body">
                 <!-- Dashboard Analytics Start -->
                 <section id="dashboard-analytics">
-                    <div class="row match-height">
-                        <!-- Greetings Card starts -->
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            <div class="card card-congratulations">
+                    <div class="dash-grid">
+                        <!-- Greetings Card -->
+                        <div>
+                            <div class="card card-congratulations mb-2">
                                 <div class="card-body text-center">
-                                   <div class="avatar avatar-xl bg-warning shadow">
+                                    <div class="avatar avatar-xl bg-warning shadow mb-1">
                                         <div class="avatar-content">
                                             <i data-feather="award" class="font-large-1"></i>
                                         </div>
                                     </div>
                                     <div class="text-center">
                                         <h1 class="mb-1 text-white">Welcome {{Auth::user()->name }}!</h1>
-                                      
-                                        <h4 style="color: white">
+                                        <h4 class="text-white">
                                              Hope you're having a great day at work!
                                         </h4>
                                         <br>
-                                         <h2 class="font-weight-bolder mt-1" id="weather-temp" style="color: white">Loading...</h2>
-                                        <p class="card-text" id="weather-desc">Fetching weather...</p>
+                                        <h2 class="font-weight-bolder mt-1 text-white" id="weather-temp">Loading...</h2>
+                                        <p class="card-text text-white-50" id="weather-desc">Fetching weather...</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-12">
-                            <div class="card">
+                        <!-- Token + Team Status -->
+                        <div>
+                            <div class="card card-metrics">
                                 <div class="card-body">
-                                    <div class="row pb-50">
-                                        <div class="col-12 d-flex justify-content-between">
-                                            <div class="col-4">
-                                                <h2 class="font-weight-bolder mb-25">
-                                                   {{ $activeToken?->token ?? ' No Token' }}
-                                                </h2>
-                                                <p class="card-text font-weight-bold mb-2">Current Token </p>
-                                            </div>
-                                            <div class="col-4">
-                                                <h2 class="font-weight-bolder mb-25">
-                                                    {{ $totalToken ? ($totalToken->token ? "{$totalToken->token}" : 'No Patient') : 'No Patient' }}
-                                                </h2>
-                                                <p class="card-text font-weight-bold mb-2">Total Token</p>
-                                            </div>
-                                            <div class="col-4">
-                                                @can('reset token')
-                                                    <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary course-sure" data-jobs="sdadas"><i data-feather="refresh-cw"></i> &ensp; Token</a>
-                                                @endcan
-                                            </div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-1">
+                                        <div class="token-pill mb-1">
+                                            <p class="mb-25 text-muted font-small-3">Current Token</p>
+                                            <h2 class="font-weight-bolder">
+                                                {{ $activeToken?->token ?? 'No Token' }}
+                                            </h2>
                                         </div>
-                                    </div>
-                                    <hr />
-                                    <div class="row avg-sessions pt-50">
-                                        <div class="col-12 mt-1 mb-2">
-                                            <h4>Data Collectors</h4>
+                                        <div class="token-pill mb-1">
+                                            <p class="mb-25 text-muted font-small-3">Total Token</p>
+                                            <h2 class="font-weight-bolder">
+                                                {{ $totalToken ? ($totalToken->token ? "{$totalToken->token}" : 'No Patient') : 'No Patient' }}
+                                            </h2>
                                         </div>
-                                        @foreach ($dcs as $dc)
-                                            <div class="col-6 mb-2">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="">{{$dc->name}}: </p>
-                                                    <p>{{ $dc->latestActiveRoundAsDC?->token ?? 'No round' }}</p>
-                                                </div>
-                                                <div class="progress progress-bar-primary" style="height: 6px">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="row avg-sessions pt-50">
-                                        <div class="col-12 mt-1 mb-2">
-                                            <h4>Nurses</h4>
+                                        @can('reset token')
+                                        <div class="mb-1">
+                                            <a href="{{ route('del-all-rounds') }}" type="button" class="btn btn-primary course-sure">
+                                                <i data-feather="refresh-cw" class="mr-25"></i>Reset Token
+                                            </a>
                                         </div>
-                                        @foreach ($nurses as $nurse)
-                                            <div class="col-6 mb-2">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="">{{$nurse->name}}: </p>
-                                                    <p>{{ $nurse->latestActiveRoundAsNurse?->token ?? 'No round' }}</p>
-                                                </div>
-                                                <div class="progress progress-bar-primary" style="height: 6px">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <div class="row avg-sessions pt-50">
-                                        <div class="col-12 mb-2">
-                                            <h4>Doctors</h4>
-                                        </div>
-                                        @foreach ($doctors as $doctor)
-                                            <div class="col-6 mb-2">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <p class="">{{$doctor->name}}: </p>
-                                                    <p>{{ $doctor->latestActiveRoundAsDoctor?->token ?? 'No round' }}</p>
-                                                </div>
-                                                <div class="progress progress-bar-primary" style="height: 6px">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="50" aria-valuemax="100" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                        @endcan
                                     </div>
 
+                                    <hr>
 
+                                    <div class="mt-2">
+                                        {{-- Data Collectors --}}
+                                        <div class="role-strip">
+                                            <div class="d-flex justify-content-between align-items-center mb-25">
+                                                <h4 class="mb-0">Data Collectors</h4>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-sm role-toggle-btn"
+                                                        data-role-target="dc">
+                                                    Show more
+                                                </button>
+                                            </div>
+                                            @foreach ($dcs as $index => $dc)
+                                                <div class="role-list-item dc-item {{ $index >= 3 ? 'd-none' : '' }}">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0">{{$dc->name}}</p>
+                                                        <span class="text-muted font-small-3">
+                                                            Token: {{ $dc->latestActiveRoundAsDC?->token ?? 'No round' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        {{-- Nurses --}}
+                                        <div class="role-strip">
+                                            <div class="d-flex justify-content-between align-items-center mb-25">
+                                                <h4 class="mb-0">Nurses</h4>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-sm role-toggle-btn"
+                                                        data-role-target="nurse">
+                                                    Show more
+                                                </button>
+                                            </div>
+                                            @foreach ($nurses as $index => $nurse)
+                                                <div class="role-list-item nurse-item {{ $index >= 3 ? 'd-none' : '' }}">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0">{{$nurse->name}}</p>
+                                                        <span class="text-muted font-small-3">
+                                                            Token: {{ $nurse->latestActiveRoundAsNurse?->token ?? 'No round' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        {{-- Doctors --}}
+                                        <div class="role-strip">
+                                            <div class="d-flex justify-content-between align-items-center mb-25">
+                                                <h4 class="mb-0">Doctors</h4>
+                                                <button type="button"
+                                                        class="btn btn-outline-primary btn-sm role-toggle-btn"
+                                                        data-role-target="doctor">
+                                                    Show more
+                                                </button>
+                                            </div>
+                                            @foreach ($doctors as $index => $doctor)
+                                                <div class="role-list-item doctor-item {{ $index >= 3 ? 'd-none' : '' }}">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0">{{$doctor->name}}</p>
+                                                        <span class="text-muted font-small-3">
+                                                            Token: {{ $doctor->latestActiveRoundAsDoctor?->token ?? 'No round' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -279,6 +336,27 @@
             }
         });
      });
+
+    // Toggle show more/less for role lists
+    $(document).on('click', '.role-toggle-btn', function () {
+        const role = $(this).data('role-target');
+        const $items = $('.' + role + '-item');
+        const isExpanded = $(this).data('expanded') === true;
+
+        if (isExpanded) {
+            // Collapse back to first 3
+            $items.each(function (index) {
+                $(this).toggleClass('d-none', index >= 3);
+            });
+            $(this).text('Show more');
+            $(this).data('expanded', false);
+        } else {
+            // Show all
+            $items.removeClass('d-none');
+            $(this).text('Show less');
+            $(this).data('expanded', true);
+        }
+    });
 </script>
 
 

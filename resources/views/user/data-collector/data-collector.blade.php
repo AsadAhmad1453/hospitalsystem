@@ -1,477 +1,557 @@
 @extends('user.layouts.main')
 @section('custom-css')
 <link rel="stylesheet" href="{{ asset('admin-assets/css/custom-css.css') }}">
+<style>
+    :root {
+        --dc-primary: #0d7a65;
+        --dc-primary-dark: #064337;
+        --dc-accent: #14c8a1;
+        --dc-muted: #7c8c84;
+        --dc-panel: #f8fcfa;
+        --dc-border: #dfeee8;
+    }
 
+    .dc-section {
+        background: #f3f9f6;
+    }
+
+    .dc-shell {
+        border-radius: 32px;
+        background: #fff;
+        padding: 2.5rem;
+        box-shadow: 0 40px 70px rgba(6, 41, 33, 0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .dc-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid var(--dc-border);
+        padding-bottom: 1.2rem;
+        margin-bottom: 2rem;
+    }
+
+    .dc-head h4 {
+        margin: 0;
+        font-weight: 700;
+        color: var(--dc-primary-dark);
+    }
+
+    .dc-step-pill {
+        background: var(--dc-panel);
+        border-radius: 999px;
+        padding: .65rem 1.5rem;
+        font-weight: 600;
+        color: var(--dc-primary-dark);
+        border: 1px solid var(--dc-border);
+    }
+
+    .dc-section-panel {
+        display: none;
+        animation: fadeIn .35s ease;
+    }
+
+    .dc-question {
+        background: var(--dc-panel);
+        border-radius: 22px;
+        padding: 1.5rem;
+        border: 1px solid transparent;
+        transition: border-color .25s ease;
+    }
+
+    .dc-question + .dc-question {
+        margin-top: 1.5rem;
+    }
+
+    .dc-question-title {
+        font-weight: 600;
+        color: var(--dc-primary-dark);
+    }
+
+    .dc-question.required .dc-question-title::after {
+        content: '*';
+        color: #dc3545;
+        margin-left: .35rem;
+    }
+
+    .dc-option-input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .dc-option-tile {
+        border-radius: 18px;
+        border: 1px solid var(--dc-border);
+        background: #fff;
+        padding: 1.15rem;
+        min-height: 110px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-direction: column;
+        font-weight: 600;
+        color: var(--dc-primary-dark);
+        box-shadow: 0 12px 25px rgba(7, 64, 51, 0.08);
+        transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+        cursor: pointer;
+    }
+
+    .dc-option-tile span {
+        font-size: 1rem;
+    }
+
+    .dc-option-input:checked + .dc-option-tile {
+        border-color: var(--dc-primary);
+        box-shadow: 0 18px 40px rgba(6, 61, 47, 0.2);
+        background: linear-gradient(140deg, rgba(13,122,101,0.08), rgba(6,67,55,0.08));
+    }
+
+    .dc-line-input {
+        border-radius: 14px;
+        border: 1px solid var(--dc-border);
+        padding: .85rem 1rem;
+        font-weight: 500;
+        color: var(--dc-primary-dark);
+        background: #fff;
+        transition: border-color .2s, box-shadow .2s;
+    }
+
+    .dc-line-input:focus {
+        border-color: var(--dc-primary);
+        box-shadow: 0 0 0 3px rgba(13, 122, 101, 0.12);
+    }
+
+    .dc-date-input {
+        max-width: 320px;
+    }
+
+    .dc-nav {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2.5rem;
+    }
+
+    .dc-btn {
+        border: none;
+        border-radius: 14px;
+        padding: .95rem 2.4rem;
+        font-weight: 600;
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .dc-btn:disabled {
+        opacity: .6;
+        pointer-events: none;
+    }
+
+    .dc-btn-primary {
+        background: linear-gradient(135deg, var(--dc-primary), var(--dc-primary-dark));
+        color: #fff;
+        box-shadow: 0 20px 35px rgba(6, 65, 51, 0.25);
+    }
+
+    .dc-btn-outline {
+        background: #fff;
+        color: var(--dc-primary-dark);
+        border: 1px solid var(--dc-border);
+    }
+
+    .dc-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .dc-recorder {
+        position: fixed;
+        bottom: 24px;
+        right: 75px;
+        z-index: 55;
+        background: #fff;
+        border-radius: 20px;
+        padding: 1rem;
+        box-shadow: 0 20px 40px rgba(6, 41, 33, 0.25);
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .dc-recorder audio {
+        min-width: 140px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 991px) {
+        .dc-shell {
+            padding: 1.8rem;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .dc-shell {
+            border-radius: 22px;
+            padding: 1.4rem;
+        }
+
+        .dc-date-input {
+            max-width: 100%;
+        }
+
+        .dc-recorder {
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+</style>
 @endsection
+
 @section('content')
-<section id="multiple-column-form">
+<section id="multiple-column-form" class="dc-section py-3 py-md-5">
     <div class="row justify-content-center">
-        <div class="col-md-12 col-lg-12">
-            <div class="card shadow">
-                <div class="formbold-main-wrapper">
-                    <div class="formbold-form-wrapper">
-                        <form action="{{ route('save-data-collector', $questions->first()->form_id) }}" method="POST">
-                            @csrf
-                            <div class="formbold-steps" >
-                                <div class="d-flex align-items-center float-right mt-3 mb-2">
-                                    <button id="recordBtn" type="button" class="btn btn-sm p-1 btn-danger "><i data-feather="mic"></i></button>
-                                    <button id="pauseBtn" type="button" class="btn btn-sm p-1 btn-secondary ml-1" disabled><i data-feather="pause"></i></button>
-                                    <button id="stopBtn" type="button" class="btn btn-sm p-1 btn-dark ml-1" disabled><i data-feather="square"></i></button>
-                                    <audio id="audioPlayback" controls class="ml-3" style="display: none"></audio>
-                                </div>
-                                {{-- list all the sections --}}
-                                <div class="sections-slider-wrapper">
-                                    <ul class="">
-                                        @foreach ($sections as $section)
-                                            <li class="formbold-step-menu{{ $loop->index+1 }} section-item" data-section-id="{{ $section->id }}">
-                                                <span>{{ $loop->index+1 }}</span>
-                                                {{ $section->name }}
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                           
-                            <input type="hidden" id="patient_id" name="patient_id" value="{{ $patientId }}">
+        <div class="col-12 col-xl-10">
+            <div class="dc-shell">
+                <form action="{{ route('save-data-collector', $questions->first()->form_id) }}" method="POST">
+                    @csrf
+                    <input type="hidden" id="patient_id" name="patient_id" value="{{ $patientId }}">
+                    @php
+                        $totalSteps = $sections->count();
+                    @endphp
+                    <div class="dc-head">
+                        <div>
+                            <p class="text-uppercase text-muted small mb-1">Currently capturing</p>
+                            <h4 id="active-section-name">{{ $sections->first()->name ?? 'Section' }}</h4>
+                        </div>
+                        <div class="dc-step-pill">
+                            Step <span id="current-step-label">1</span> / {{ $totalSteps }}
+                        </div>
+                    </div>
 
-                            @foreach ($sections as $section)
-                            <div class="section-block" id="section-{{ $section->id }}" style="display: none;">
+                    @foreach ($sections as $index => $section)
+                        <div class="dc-section-panel" id="section-block-{{ $index }}" data-section-name="{{ $section->name }}" style="{{ $index === 0 ? '' : 'display:none;' }}">
+                            <div class="question-stack">
                                 @foreach ($questions->where('section.id', $section->id) as $question)
-                                    <div class="question-block mb-3" id="question-{{ $question->id }}">
-                                        <div class="question-step">
-                                            <div class=" ">
-                                                <strong class="h4">{{ $question->question }}</strong>
-                                                <span id="answer-warning-{{ $question->id }}" class="text-danger mt-2 d-block" style="display: none;"></span>
-                                            </div>
-
-                                            @if($question->question_type == '0' || $question->question_type == '1')
-                                                <div class="options-grid">
-                                                    @foreach ($question->options as $option)
-                                                        @if($question->question_type == '0')
-                                                            <div class="option-box-wrapper">
-                                                                <input id="q{{ $question->id }}_{{ $option->id }}"
-                                                                    type="radio"
-                                                                    name="{{ $question->id }}"
-                                                                    value="{{ $option->id }}"
-                                                                    data-question-id="{{ $question->id }}"
-                                                                    data-option-id="{{ $option->id }}"
-                                                                    class="option-radio">
-                                                                <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
-                                                            </div>
-                                                        @elseif($question->question_type == '1')
-                                                            <div class="option-box-wrapper">
-                                                                <input id="q{{ $question->id }}_{{ $option->id }}"
-                                                                    type="checkbox"
-                                                                    name="{{ $question->id }}[]"
-                                                                    value="{{ $option->id }}"
-                                                                    data-question-id="{{ $question->id }}"
-                                                                    data-option-id="{{ $option->id }}"
-                                                                    class="option-checkbox">
-                                                                <label for="q{{ $question->id }}_{{ $option->id }}" class="option-box">{{ $option->option }}</label>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
-                                                </div>
-                                            @elseif($question->question_type == '2')
-                                            <div class="d-flex justify-content-start ">
-                                                <input type="text"
-                                                    class="form-control"
-                                                    name="{{ $question->id }}"
-                                                    data-question-id="{{ $question->id }}"
-                                                    placeholder="Type your answer...">
-                                            </div>
-                                            @elseif($question->question_type == '3')
-                                            <div class="d-flex justify-content-start ">
-                                                <input type="date"
-                                                    class="w-50 form-control"
-                                                    name="{{ $question->id }}"
-                                                    data-question-id="{{ $question->id }}"
-                                                    max="{{ date('Y-m-d') }}" >
-                                            </div>
-                                            @endif
-
+                                    <div class="dc-question {{ $question->priority == 1 ? 'required' : '' }}" id="question-{{ $question->id }}">
+                                        <div class="d-flex justify-content-between flex-wrap gap-2 mb-3">
+                                            <p class="mb-0 dc-question-title">{{ $question->question }}</p>
+                                            <span class="badge badge-light text-uppercase">
+                                                {{ $question->question_type == '0' ? 'Single' : ($question->question_type == '1' ? 'Multi' : 'Input') }}
+                                            </span>
                                         </div>
+                                        @if($question->question_type == '0')
+                                            <div class="row g-3">
+                                                @foreach ($question->options as $option)
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="position-relative">
+                                                            <input
+                                                                id="q{{ $question->id }}_{{ $option->id }}"
+                                                                type="radio"
+                                                                name="{{ $question->id }}"
+                                                                value="{{ $option->id }}"
+                                                                class="dc-option-input option-radio section-select-trigger"
+                                                                data-question="{{ $question->id }}"
+                                                                onchange="handleSingleSelectChange({{ $question->id }}, {{ $option->id }})"
+                                                            >
+                                                            <label for="q{{ $question->id }}_{{ $option->id }}" class="dc-option-tile">
+                                                                <span>{{ $option->option }}</span>
+                                                                <small class="text-muted">Tap to select</small>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @elseif($question->question_type == '1')
+                                            <div class="row g-3">
+                                                @foreach ($question->options as $option)
+                                                    <div class="col-12 col-md-6">
+                                                        <div class="position-relative">
+                                                            <input
+                                                                id="q{{ $question->id }}_{{ $option->id }}"
+                                                                type="checkbox"
+                                                                name="{{ $question->id }}[]"
+                                                                value="{{ $option->id }}"
+                                                                class="dc-option-input option-checkbox section-select-trigger"
+                                                                data-question="{{ $question->id }}"
+                                                                onchange="handleSingleSelectChange({{ $question->id }}, {{ $option->id }})"
+                                                            >
+                                                            <label for="q{{ $question->id }}_{{ $option->id }}" class="dc-option-tile">
+                                                                <span>{{ $option->option }}</span>
+                                                                <small class="text-muted">Select all that apply</small>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @elseif($question->question_type == '2')
+                                            <input type="text" class="form-control dc-line-input" name="{{ $question->id }}" placeholder="Type your answer..." autocomplete="off">
+                                        @elseif($question->question_type == '3')
+                                            <input type="date" class="form-control dc-line-input " name="{{ $question->id }}" max="{{ date('Y-m-d') }}">
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>
-                            @endforeach
+                        </div>
+                    @endforeach
 
-                            
-
-                            <div class="formbold-form-btn-wrapper col-12 ">
-                                <div class="col-2 d-flex justify-content-between    ">
-                                    <button id="prev-btn" class=" formbold-back-btn">
-                                        Back
-                                    </button>
-                                </div>
-                                <div class="col-7"></div>
-                                <div class="col-3  d-flex justify-content-end">
-                                    <button id="next-btn" class="formbold-btn float-right mr-0">
-                                        Next Step
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_1675_1807)">
-                                        <path d="M10.7814 7.33312L7.20541 3.75712L8.14808 2.81445L13.3334 7.99979L8.14808 13.1851L7.20541 12.2425L10.7814 8.66645H2.66675V7.33312H10.7814Z" fill="white"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_1675_1807">
-                                        <rect width="16" height="16" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                        </svg>
-                                    </button>
-                                    <button id="submit-btn" class="formbold-btn">
-                                        Submit
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_1675_1807)">
-                                        <path d="M10.7814 7.33312L7.20541 3.75712L8.14808 2.81445L13.3334 7.99979L8.14808 13.1851L7.20541 12.2425L10.7814 8.66645H2.66675V7.33312H10.7814Z" fill="white"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_1675_1807">
-                                        <rect width="16" height="16" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="dc-nav">
+                        <button type="button" id="prev-btn" class="dc-btn dc-btn-outline" style="display:none;">Previous</button>
+                        <div class="ml-auto d-flex gap-2">
+                            <button type="button" id="next-btn" class="dc-btn dc-btn-primary" style="{{ $totalSteps < 2 ? 'display:none;' : '' }}">Next section</button>
+                            <button id="submit-btn" type="submit" class="dc-btn dc-btn-primary" style="{{ $totalSteps > 1 ? 'display:none;' : '' }}">Submit responses</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
-
         </div>
     </div>
 </section>
+<div class="dc-recorder">
+    <button id="recordBtn" type="button" class="btn btn-danger btn-sm rounded-pill px-3"><i data-feather="mic"></i></button>
+    <button id="pauseBtn" type="button" class="btn btn-secondary btn-sm rounded-pill px-3" disabled><i data-feather="pause"></i></button>
+    <button id="stopBtn" type="button" class="btn btn-dark btn-sm rounded-pill px-3" disabled><i data-feather="square"></i></button>
+    <audio id="audioPlayer" controls style="display: none"></audio>
+</div>
 @endsection
 
 @section('custom-js')
 <script>
-$(document).ready(function () {
-    var sections = @json($sections);
-    var questions = @json($questions);
-    var dependencies = @json($dependencies);
+    // Track hidden questions per question ID
+    let hiddenQuestionsTracker = {};
 
-    let currentSectionIndex = 0;
-    let skippedQuestions = {};
-    let selectedAnswers = {};
-    let activeDependencies = {}; // keeps track of trigger-question and selected option
+    function handleSingleSelectChange(questionId, optionId) {
+        // Check if this is a checkbox (multi-select) or radio (single-select)
+        const isCheckbox = $('#q' + questionId + '_' + optionId).is(':checkbox');
+
+        if (isCheckbox) {
+            // For multi-select: restore all hidden questions first, then check all checked options
+            if (hiddenQuestionsTracker[questionId]) {
+                hiddenQuestionsTracker[questionId].forEach(function(hiddenQuestionId) {
+                    $('#question-' + hiddenQuestionId).show();
+                });
+                hiddenQuestionsTracker[questionId] = [];
+            }
+
+            // Get all checked options for this question
+            const checkedOptions = $('input[name="' + questionId + '[]"]:checked');
+            if (checkedOptions.length > 0) {
+                // Check dependencies for all checked options
+                let allHiddenQuestions = [];
+                let checkedCount = checkedOptions.length;
+                let processedCount = 0;
+
+                checkedOptions.each(function() {
+                    const optId = $(this).val();
+                    checkDependencyForOption(questionId, optId, function(hiddenQuestions) {
+                        if (hiddenQuestions && hiddenQuestions.length > 0) {
+                            allHiddenQuestions = allHiddenQuestions.concat(hiddenQuestions);
+                        }
+                        processedCount++;
+                        if (processedCount === checkedCount) {
+                            // All dependencies checked, now hide unique questions
+                            const uniqueHiddenQuestions = [...new Set(allHiddenQuestions)];
+                            uniqueHiddenQuestions.forEach(function(questionIdToHide) {
+                                $('#question-' + questionIdToHide).hide();
+                            });
+                            hiddenQuestionsTracker[questionId] = uniqueHiddenQuestions;
+                        }
+                    });
+                });
+            }
+        } else {
+            // For single-select (radio): restore previous hidden questions first
+            if (hiddenQuestionsTracker[questionId]) {
+                hiddenQuestionsTracker[questionId].forEach(function(hiddenQuestionId) {
+                    $('#question-' + hiddenQuestionId).show();
+                });
+                // Clear the tracker for this question
+                delete hiddenQuestionsTracker[questionId];
+            }
+
+            // Check dependency for the selected option
+            checkDependencyForOption(questionId, optionId, function(hiddenQuestions) {
+                if (hiddenQuestions && hiddenQuestions.length > 0) {
+                    hiddenQuestions.forEach(function(questionIdToHide) {
+                        $('#question-' + questionIdToHide).hide();
+                    });
+                    hiddenQuestionsTracker[questionId] = hiddenQuestions;
+                }
+            });
+        }
+    }
+
+    function checkDependencyForOption(questionId, optionId, callback) {
+        $.ajax({
+            url: '{{ route("question-dependency") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                question_id: questionId,
+                option_id: optionId
+            },
+            success: function(response) {
+                if (response.success && response.questions_in_range && response.questions_in_range.length > 0) {
+                    callback(response.questions_in_range);
+                } else {
+                    callback([]);
+                }
+            },
+            error: function(xhr) {
+                console.error('Error checking dependency:', xhr);
+                callback([]);
+            }
+        });
+    }
+</script>
+<script>
+    // Only audio recording functionality
     let mediaRecorder;
     let audioChunks = [];
     let audioBlob = null;
 
-
-    dependencies.forEach(dep => {
-        markQuestionSkipped(dep.dependent_question_id);
-    });
-    showSection(currentSectionIndex);
-
-    function showSection(idx) {
-        $('.section-block').hide();
-        let $section = $('#section-' + sections[idx].id);
-        $section.show();
-
-        $section.find('.question-block').each(function () {
-            let qid = $(this).attr('id').replace('question-', '');
-            let $block = $(this);
-
-            if (skippedQuestions[qid]) {
-                $block.hide().find('input,select,textarea').prop('disabled', true);
-            } else {
-                $block.show().find('input,select,textarea').prop('disabled', false);
-
-                let q = questions.find(q => q.id == qid);
-                if (q && selectedAnswers[qid] !== undefined) {
-                    if (q.question_type == 0) {
-                        $('input.option-radio[data-question-id="' + qid + '"][data-option-id="' + selectedAnswers[qid] + '"]').prop('checked', true);
-                    } else if (q.question_type == 1) {
-                        selectedAnswers[qid].forEach(optid => {
-                            $('input.option-checkbox[data-question-id="' + qid + '"][data-option-id="' + optid + '"]').prop('checked', true);
-                        });
-                    } else if (q.question_type == 2 || q.question_type == 3) {
-                        $block.find('input, textarea').val(selectedAnswers[qid]);
-                    }
-                }
-            }
-        });
-
-        // Reapply dependency logic for all tracked dependencies
-        Object.keys(activeDependencies).forEach(triggerQid => {
-            applyDependencies(triggerQid, activeDependencies[triggerQid], true); // silent = true
-        });
-
-        $('.section-item').removeClass('active');
-        $('.section-item[data-section-id="' + sections[idx].id + '"]').addClass('active');
-
-        $('#prev-btn').toggle(idx > 0);
-        $('#next-btn').toggle(idx < sections.length - 1);
-        $('#submit-btn').toggle(idx === sections.length - 1);
-    }
-
-    function markQuestionSkipped(qid) {
-        skippedQuestions[qid] = true;
-        $('#question-' + qid).hide().find('input,select,textarea').prop('disabled', true);
-        delete selectedAnswers[qid];
-    }
-
-    function unskipQuestion(qid) {
-        skippedQuestions[qid] = false;
-        $('#question-' + qid).show().find('input,select,textarea').prop('disabled', false);
-    }
-
-    function validateCurrentSection() {
-        let valid = true;
-        $('#section-' + sections[currentSectionIndex].id + ' .question-block:visible').each(function () {
-            let qid = $(this).attr('id').replace('question-', '');
-            let q = questions.find(q => q.id == qid);
-
-            // Only validate if priority is 1 (required)
-            if (q && q.priority == 1) {
-                let answered = false;
-
-                if (q.question_type == 0) {
-                    answered = $(this).find('input[type="radio"]:checked').length > 0;
-                } else if (q.question_type == 1) {
-                    answered = $(this).find('input[type="checkbox"]:checked').length > 0;
-                } else {
-                    answered = $(this).find('input, textarea').val().trim() !== '';
-                }
-
-                if (!answered) {
-                    valid = false;
-                    $('#answer-warning-' + qid).text('Please answer this question!').show();
-                } else {
-                    $('#answer-warning-' + qid).hide();
-                }
-            } else {
-                // Hide warning for optional questions
-                $('#answer-warning-' + qid).hide();
-            }
-        });
-        return valid;
-    }
-
-    $('#next-btn').click(function (e) {
-        e.preventDefault();
-        if (validateCurrentSection()) {
-            currentSectionIndex++;
-            showSection(currentSectionIndex);
-        }
-    });
-
-    $('#prev-btn').click(function (e) {
-        e.preventDefault();
-        currentSectionIndex--;
-        showSection(currentSectionIndex);
-    });
-
-    $('#submit-btn').click(function (e) {
-        if (!validateCurrentSection()) {
-            e.preventDefault();
-            return;
-        }
-
-        // Disable all skipped questions and unanswered questions before submission
-        $('.question-block').each(function () {
-            let qid = $(this).attr('id').replace('question-', '');
-            let q = questions.find(q => q.id == qid);
-            let isSkipped = skippedQuestions[qid];
-
-            // Determine if the question is answered
-            let answered = false;
-            if (q) {
-                if (q.question_type == 0) {
-                    answered = $(this).find('input[type="radio"]:checked').length > 0;
-                } else if (q.question_type == 1) {
-                    answered = $(this).find('input[type="checkbox"]:checked').length > 0;
-                } else {
-                    answered = $(this).find('input, textarea').val() && $(this).find('input, textarea').val().trim() !== '';
-                }
-            }
-
-            if (isSkipped || !answered) {
-                $(this).find('input,select,textarea').prop('disabled', true);
-            } else {
-                $(this).find('input,select,textarea').prop('disabled', false);
-            }
-        });
-    });
-
-    $(document).on('change keyup', 'input, select, textarea', function () {
-        let qid = $(this).data('question-id');
-        if (!qid) return;
-
-        let q = questions.find(q => q.id == qid);
-        $('#answer-warning-' + qid).hide();
-
-        if (q.question_type == 0) {
-            // Single-select (radio)
-            selectedAnswers[qid] = $(this).data('option-id');
-            activeDependencies[qid] = $(this).data('option-id');
-            applyDependencies(qid, selectedAnswers[qid]);
-
-        } else if (q.question_type == 1) {
-            // Multi-select (checkbox)
-            selectedAnswers[qid] = $('input[data-question-id="' + qid + '"]:checked').map(function () {
-                return $(this).data('option-id');
-            }).get();
-
-            // Remove old dependencies of this question
-            Object.keys(activeDependencies).forEach(depQid => {
-                if (depQid == qid) {
-                    delete activeDependencies[depQid];
-                }
-            });
-
-            // Reapply dependencies for all selected options
-            selectedAnswers[qid].forEach(optid => {
-                activeDependencies[qid] = optid;
-                applyDependencies(qid, optid);
-            });
-
-        } else {
-            // Text or Date input
-            selectedAnswers[qid] = $(this).val();
-        }
-    });
-
-
-    $(document).on('change', '.option-radio', function () {
-        let qid = $(this).data('question-id');
-        let optid = $(this).data('option-id');
-
-        $('input[name="' + qid + '"]').each(function () {
-            $(this).prev('i').attr('data-feather', 'circle');
-        });
-
-        // Set selected option's icon to 'check-circle'
-        $(this).prev('i').attr('data-feather', 'check-circle');
-
-        // Re-render feather icons
-        if (typeof feather !== 'undefined') {
-            feather.replace({
-                width: 14,
-                height: 14
-            });
-        }
-
-        selectedAnswers[qid] = optid;
-        activeDependencies[qid] = optid;
-
-        applyDependencies(qid, optid);
-    });
-
-    function applyDependencies(triggerQid, selectedOptionId, silent = false)
-    {
-        // Get all dependencies for the trigger question
-        let allDeps = dependencies.filter(dep => dep.question_id == triggerQid);
-
-        // Get all currently selected options for the question
-        let selectedOptionIds = $('input[data-question-id="' + triggerQid + '"]:checked').map(function () {
-            return $(this).data('option-id');
-        }).get();
-
-        // Loop through all dependencies related to this trigger
-        allDeps.forEach(dep => {
-            const targetQid = dep.dependent_question_id;
-
-            if (selectedOptionIds.includes(dep.option_id)) {
-                // If this option is selected, show the dependent question
-                unskipQuestion(targetQid);
-            } else {
-                // If not selected, hide it
-                markQuestionSkipped(targetQid);
-            }
-        });
-
-        if (!silent) {
-            showSection(currentSectionIndex);
-        }
-    }
-
-
     $('#recordBtn').on('click', function () {
-            navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-    
-                mediaRecorder.ondataavailable = function (event) {
-                    if (event.data.size > 0) {
-                        audioChunks.push(event.data);
-                    }
-                };
-    
-                mediaRecorder.onstop = function () {
-                    audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-                    const audioURL = URL.createObjectURL(audioBlob);
-                    $('#audioPlayer').attr('src', audioURL).show();
-    
-                    // Optional: Upload the audioBlob
-                    uploadRecording(audioBlob);
-                };
-    
-                mediaRecorder.start();
-                $('#recordBtn').prop('disabled', true);
-                $('#pauseBtn').prop('disabled', false);
-                $('#stopBtn').prop('disabled', false);
-            }).catch(function (err) {
-                if (typeof Swal !== 'undefined') {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Microphone Access Denied',
-                        text: err.message,
-                        confirmButtonText: 'OK',
-                        confirmButtonColor: '#d33'
-                    });
-                } else {
-                    alert('Microphone access denied: ' + err.message);
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = function (event) {
+                if (event.data.size > 0) {
+                    audioChunks.push(event.data);
                 }
-            });
-        });
-    
-        $('#pauseBtn').on('click', function () {
-            if (!mediaRecorder) return;
-    
-            if (mediaRecorder.state === 'recording') {
-                mediaRecorder.pause();
-                $(this).html('<i data-feather="play"></i>');
-                feather.replace();
-            } else if (mediaRecorder.state === 'paused') {
-                mediaRecorder.resume();
-                $(this).html('<i data-feather="pause"></i>');
-                feather.replace();
+            };
+
+            mediaRecorder.onstop = function () {
+                audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const audioURL = URL.createObjectURL(audioBlob);
+                $('#audioPlayer').attr('src', audioURL).show();
+
+                uploadRecording(audioBlob);
+            };
+
+            mediaRecorder.start();
+            $('#recordBtn').prop('disabled', true);
+            $('#pauseBtn').prop('disabled', false);
+            $('#stopBtn').prop('disabled', false);
+        }).catch(function (err) {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Microphone Access Denied',
+                    text: err.message,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#d33'
+                });
+            } else {
+                alert('Microphone access denied: ' + err.message);
             }
         });
-    
-        $('#stopBtn').on('click', function () {
-            if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
-                mediaRecorder.stop();
-                $('#recordBtn').prop('disabled', false);
-                $('#pauseBtn').prop('disabled', true).html('<i data-feather="pause"></i>');
-                feather.replace(); 
-                $('#stopBtn').prop('disabled', true);
-            }
-        });
-    
-        // Optional: AJAX upload to Laravel
-        function uploadRecording(blob) {
-            let formData = new FormData();
-            formData.append('voice_recording', blob, 'recording.webm');
-    
-            $.ajax({
-                url: "{{ route('upload-voice') }}",
-                type: 'POST',
-                data: formData,
-                headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    console.log('Uploaded successfully:', response);
-                },
-                error: function (xhr) {
-                    console.error('Upload failed:', xhr.responseText);
-                }
-            });
+    });
+
+    $('#pauseBtn').on('click', function () {
+        if (!mediaRecorder) return;
+        if (mediaRecorder.state === 'recording') {
+            mediaRecorder.pause();
+            $(this).html('<i data-feather="play"></i>');
+            if (typeof feather !== 'undefined') feather.replace();
+        } else if (mediaRecorder.state === 'paused') {
+            mediaRecorder.resume();
+            $(this).html('<i data-feather="pause"></i>');
+            if (typeof feather !== 'undefined') feather.replace();
         }
-});
+    });
+
+    $('#stopBtn').on('click', function () {
+        if (mediaRecorder && (mediaRecorder.state === 'recording' || mediaRecorder.state === 'paused')) {
+            mediaRecorder.stop();
+            $('#recordBtn').prop('disabled', false);
+            $('#pauseBtn').prop('disabled', true).html('<i data-feather="pause"></i>');
+            if (typeof feather !== 'undefined') feather.replace();
+            $('#stopBtn').prop('disabled', true);
+        }
+    });
+
+    function uploadRecording(blob) {
+        let formData = new FormData();
+        formData.append('voice_recording', blob, 'recording.webm');
+
+        $.ajax({
+            url: "{{ route('upload-voice') }}",
+            type: 'POST',
+            data: formData,
+            headers: { 'X-CSRF-TOKEN': "{{ csrf_token() }}" },
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log('Uploaded successfully:', response);
+            },
+            error: function (xhr) {
+                console.error('Upload failed:', xhr.responseText);
+            }
+        });
+    }
+
+    // MULTISTEP FORM FUNCTIONALITY
+    $(function(){
+        let totalSteps = {{ $sections->count() }};
+        let currentStep = 0;
+        const $activeSectionName = $('#active-section-name');
+        const $currentStepLabel = $('#current-step-label');
+
+        function updateSectionMeta(index) {
+            const currentPanel = $('#section-block-' + index);
+            $activeSectionName.text(currentPanel.data('section-name'));
+            $currentStepLabel.text(index + 1);
+        }
+
+        function showStep(index) {
+            $('.dc-section-panel').hide();
+            $('#section-block-' + index).show();
+            updateSectionMeta(index);
+
+            if(index == 0){
+                $('#prev-btn').hide();
+            } else {
+                $('#prev-btn').show();
+            }
+
+            if(index >= totalSteps - 1){
+                $('#next-btn').hide();
+                $('#submit-btn').show();
+            } else {
+                $('#next-btn').show();
+                $('#submit-btn').hide();
+            }
+        }
+
+        showStep(currentStep);
+
+        $('#next-btn').on('click', function(e){
+            e.preventDefault();
+            if(currentStep < totalSteps - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        $('#prev-btn').on('click', function(e){
+            e.preventDefault();
+            if(currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+    });
 </script>
 @endsection
+
+

@@ -80,7 +80,7 @@ Route::post('/query-submit', [HomePageController::class, 'querySubmit'])->name('
 
 
 Route::controller(OpenDataCollectorController::class)->group(function () {
-    Route::get('/add-patient', 'addPatient')->name('open-patients');
+    Route::get('/data-collection-portal', 'addPatient')->name('open-patients');
     Route::post('/save-patient', 'savePatient')->name('save-open-patient');
     Route::get('/forms/{patient_id}', 'dataCollectorForms')->name('dc-forms');
     Route::post('/get-question-dependency', 'getQuestionDependency')->name('question-dependency');
