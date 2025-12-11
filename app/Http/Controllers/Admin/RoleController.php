@@ -10,7 +10,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('admin.add-roles.add-roles', compact('roles'));
+        return view('admin-new.staff.staff', compact('roles'));
     }
 
     public function saveRole(Request $request)
@@ -35,7 +35,7 @@ class RoleController extends Controller
             'guard_name' => 'web',
         ]);
 
-        return redirect()->route('roles')->with('success', 'Role created successfully.');
+        return redirect()->route('admin-new.staff')->with('success', 'Role created successfully.');
     }
 
 
@@ -44,6 +44,6 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->delete();
 
-        return redirect()->route('roles')->with('success', 'Role deleted successfully.');
+        return redirect()->route('admin-new.staff')->with('success', 'Role deleted successfully.');
     }
 }

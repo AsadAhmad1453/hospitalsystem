@@ -145,9 +145,9 @@ Route::middleware(['auth', 'is_admin'])->prefix('admin')->group(function () {
     });
 
     Route::controller(BloodInvController::class)->group(function () {
-        // Route::get('/blood-investigation', 'index')->name('blood-investigation');
-        // Route::post('/save-blood-inv', 'saveBloodInv')->name('save-blood-inv');
-        // Route::get('/delete-blood-inv/{id}', 'deleteBloodInv')->name('del-blood-inv');
+        Route::get('/blood-investigation', 'index')->name('blood-investigation');
+        Route::post('/save-blood-inv', 'saveBloodInv')->name('save-blood-inv');
+        Route::get('/delete-blood-inv/{id}', 'deleteBloodInv')->name('del-blood-inv');
         // New admin panel routes
         Route::get('/admin-new/blood-investigation', 'indexNew')->name('admin-new.blood-investigation');
         Route::get('/admin-new/blood-investigation/add', 'addBloodTestNew')->name('admin-new.add-blood-test');

@@ -11,7 +11,7 @@
                 <div class="card-body p-4">
                     <div class="row align-items-center">
                         <div class="col-md-8">
-                            <h2 class="mb-2">Welcome back, {{ Auth::user()->name }}! 👋</h2>
+                            <h2 class="mb-2">Welcome back, {{ Auth::user()->name }}!</h2>
                             <p class="text-muted mb-0">Here's what's happening at Shafayaat Hospital today.</p>
                         </div>
                         <div class="col-md-4 text-md-end">
@@ -32,23 +32,20 @@
     </div>
 
     <!-- Key Statistics -->
-    <div class="row mb-4">
+    <div class="row mb-2">
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" data-stat="doctorsCount">
+            <div class="card stats-card h-100"  data-stat="doctorsCount">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center">
                             <div class="icon me-3">
                                 <i class="fas fa-user-md"></i>
                             </div>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <div class="number stat-number">{{ $doctorscount ?? 0 }}</div>
-                                <div class="label">Total Doctors</div>
+                                <div class="label">&nbsp;Total Doctors</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <small class="opacity-75">Active Staff</small>
                     </div>
                 </div>
             </div>
@@ -62,14 +59,11 @@
                             <div class="icon me-3">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <div class="number stat-number">{{ $nursescount ?? 0 }}</div>
-                                <div class="label">Total Nurses</div>
+                                <div class="label">&nbsp;Total Nurses</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <small class="opacity-75">Care Team</small>
                     </div>
                 </div>
             </div>
@@ -83,14 +77,11 @@
                             <div class="icon me-3">
                                 <i class="fas fa-user-injured"></i>
                             </div>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 <div class="number stat-number">{{ $patientscount ?? 0 }}</div>
-                                <div class="label">Total Patients</div>
+                                <div class="label">&nbsp;Total Patients</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <small class="opacity-75">Registered</small>
                     </div>
                 </div>
             </div>
@@ -104,101 +95,16 @@
                             <div class="icon me-3">
                                 <i class="fas fa-stethoscope"></i>
                             </div>
-                            <div>
-                                <div class="number">{{ $servicescount ?? 0 }}</div>
-                                <div class="label">Medical Services</div>
+                            <div class="d-flex align-items-center">
+                                <div class="number stat-number">{{ $servicescount ?? 0 }}</div>
+                                <div class="label">&nbsp;Services</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-end">
-                        <small class="opacity-75">Available</small>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Charts and Analytics -->
-    {{-- <div class="row mb-4">
-        <!-- Patient Statistics Chart -->
-        <div class="col-xl-8 col-lg-7 mb-4">
-            <div class="card h-100">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Patient Statistics</h5>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            Last 7 Days
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
-                            <li><a class="dropdown-item" href="#">Last 30 Days</a></li>
-                            <li><a class="dropdown-item" href="#">Last 3 Months</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <canvas id="patientChart" height="300"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Stats -->
-        <div class="col-xl-4 col-lg-5 mb-4">
-            <div class="card h-100">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Quick Statistics</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-light rounded">
-                                <div class="bg-primary rounded-circle p-2 me-3">
-                                    <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold">{{ $formscount ?? 0 }}</div>
-                                    <small class="text-muted">Forms Created</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-light rounded">
-                                <div class="bg-success rounded-circle p-2 me-3">
-                                    <i class="fas fa-question-circle text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold">{{ $questionscount ?? 0 }}</div>
-                                    <small class="text-muted">Questions Added</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-light rounded">
-                                <div class="bg-info rounded-circle p-2 me-3">
-                                    <i class="fas fa-layer-group text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold">{{ $sectionscount ?? 0 }}</div>
-                                    <small class="text-muted">Form Sections</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="d-flex align-items-center p-3 bg-light rounded">
-                                <div class="bg-warning rounded-circle p-2 me-3">
-                                    <i class="fas fa-university text-white"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <div class="fw-bold">{{ $bankscount ?? 0 }}</div>
-                                    <small class="text-muted">Bank Accounts</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 
     <!-- Medical Services Overview -->
     <div class="row mb-4">
@@ -210,39 +116,43 @@
                 <div class="card-body">
                     <div class="row g-4">
                         <div class="col-xl-3 col-md-6">
-                            <div class="text-center p-4 border rounded">
-                                <div class="bg-primary rounded-circle p-3 d-inline-block mb-3">
-                                    <i class="fas fa-capsules text-white fa-2x"></i>
+                            <div class="p-4 d-flex align-items-center border rounded">
+                                <div class="bg-primary rounded-circle p-2 d-inline-block ">
+                                    <i class="fas fa-capsules text-white fa-1x"></i>
                                 </div>
-                                <h4 class="fw-bold">{{ $medicinescount ?? 0 }}</h4>
-                                <p class="text-muted mb-0">Medicines</p>
+                                &nbsp;
+                                <h2 class="fw-bold m-0">{{ $medicinescount ?? 0 }}</h2>
+                                <p class="text-muted m-0">&nbsp;&nbsp;Medicines</p>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="text-center p-4 border rounded">
-                                <div class="bg-danger rounded-circle p-3 d-inline-block mb-3">
-                                    <i class="fas fa-tint text-white fa-2x"></i>
+                            <div class="p-4 d-flex align-items-center border rounded">
+                                <div class="bg-danger rounded-circle p-2 d-inline-block ">
+                                    <i class="fas fa-tint text-white fa-1x"></i>
                                 </div>
-                                <h4 class="fw-bold">{{ $bloodinvcount ?? 0 }}</h4>
-                                <p class="text-muted mb-0">Blood Tests</p>
+                                &nbsp;
+                                <h2 class="fw-bold m-0">{{ $bloodinvcount ?? 0 }}</h2>
+                                <p class="text-muted m-0">&nbsp;&nbsp;Blood Tests</p>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="text-center p-4 border rounded">
-                                <div class="bg-info rounded-circle p-3 d-inline-block mb-3">
-                                    <i class="fas fa-x-ray text-white fa-2x"></i>
+                            <div class="p-4 d-flex align-items-center border rounded">
+                                <div class="bg-info rounded-circle p-2 d-inline-block ">
+                                    <i class="fas fa-x-ray text-white fa-1x"></i>
                                 </div>
-                                <h4 class="fw-bold">{{ $xrayscount ?? 0 }}</h4>
-                                <p class="text-muted mb-0">X-Ray Services</p>
+                                &nbsp;
+                                <h2 class="fw-bold m-0">{{ $xrayscount ?? 0 }}</h2>
+                                <p class="text-muted m-0">&nbsp;&nbsp;X-Ray Services</p>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
-                            <div class="text-center p-4 border rounded">
-                                <div class="bg-success rounded-circle p-3 d-inline-block mb-3">
-                                    <i class="fas fa-wave-square text-white fa-2x"></i>
+                            <div class="p-4 d-flex align-items-center border rounded">
+                                <div class="bg-success rounded-circle p-2 d-inline-block ">
+                                    <i class="fas fa-wave-square text-white fa-1x"></i>
                                 </div>
-                                <h4 class="fw-bold">{{ $ultrasoundscount ?? 0 }}</h4>
-                                <p class="text-muted mb-0">Ultrasounds</p>
+                                &nbsp;
+                                <h2 class="fw-bold m-0">{{ $ultrasoundscount ?? 0 }}</h2>
+                                <p class="text-muted m-0">&nbsp;&nbsp;Ultrasounds</p>
                             </div>
                         </div>
                     </div>

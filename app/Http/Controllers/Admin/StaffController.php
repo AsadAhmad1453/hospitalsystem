@@ -114,12 +114,13 @@ class StaffController extends Controller
     {
         try {
             $request->validate([
-                'permissions' => 'required|array',
+                'permissions' => 'nullable|array',
                 'permissions.*' => 'exists:permissions,id'
             ]);
 
             $role = Role::findOrFail($id);
-            $permissions = Permission::whereIn('id', $request->permissions)->get();
+            $permissionIds = $request->input('permissions', []);
+            $permissions = Permission::whereIn('id', $permissionIds)->get();
             $role->syncPermissions($permissions);
 
             return response()->json([

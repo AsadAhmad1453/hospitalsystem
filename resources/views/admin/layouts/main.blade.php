@@ -62,7 +62,9 @@
                             <span class="avatar-status-online"></span></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-user">
-                        <a href="{{route('manage-profile')}}" class="dropdown-item" ><i class="mr-50 fa fa-user"></i> Profile
+                        <a
+                         {{-- href="{{route('admin-new.profile')}}" --}}
+                         class="dropdown-item" ><i class="mr-50 fa fa-user"></i> Profile
                         </a>
                         <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mr-50 fa fa-power-off"></i> Logout
                         </a>

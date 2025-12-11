@@ -227,31 +227,52 @@ $(document).ready(function() {
         
         const formData = new FormData(this);
         const button = $(this).find('button[type="submit"]');
-        const originalText = showLoading(button);
+        const originalText = button.html();
+        
+        // Show loading state
+        button.html('<i class="fas fa-spinner fa-spin me-2"></i>Creating...');
+        button.prop('disabled', true);
+        
+        // Clear previous errors
+        $('.is-invalid').removeClass('is-invalid');
+        $('.invalid-feedback').remove();
         
         $.ajax({
             url: $(this).attr('action'),
-            type: 'POST',
+            method: 'POST',
             data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
-                hideLoading(button, originalText);
-                showSuccess('User created successfully!');
-                setTimeout(() => {
-                    window.location.href = '{{ route("admin-new.users") }}';
-                }, 1500);
+                if (response.success) {
+                    showSuccess(response.message);
+                    setTimeout(function() {
+                        window.location.href = '{{ route("admin-new.users") }}';
+                    }, 1500);
+                } else {
+                    showError(response.message);
+                    button.html(originalText);
+                    button.prop('disabled', false);
+                }
             },
             error: function(xhr) {
-                hideLoading(button, originalText);
-                if (xhr.responseJSON && xhr.responseJSON.errors) {
-                    displayValidationErrors(xhr.responseJSON.errors);
+                button.html(originalText);
+                button.prop('disabled', false);
+                
+                if (xhr.status === 422) {
+                    const errors = xhr.responseJSON.errors;
+                    displayValidationErrors(errors);
                 } else {
-                    showError('Error creating user: ' + (xhr.responseJSON?.message || 'Unknown error'));
+                    let errorMessage = 'An error occurred. Please try again.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    showError(errorMessage);
                 }
             }
         });
     });
+
 });
 
 function togglePassword() {

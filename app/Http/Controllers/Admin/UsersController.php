@@ -26,20 +26,11 @@ class UsersController extends Controller
         $roles = Role::with('permissions')->get();
         $users = $this->userService->getAllUsers();
         
-        // Calculate user counts by role
-        $doctorsCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'doctors'); 
-        })->count();
-        
-        $nursesCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'nurse'); 
-        })->count();
-        
-        $dataCollectorsCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'data collector'); 
-        })->count();
-        
-        $totalUsersCount = $users->count();
+        $stats = $this->userService->getUserStatistics();
+        $doctorsCount = $stats['doctors_count'];
+        $nursesCount = $stats['nurses_count'];
+        $dataCollectorsCount = $stats['data_collectors_count'];
+        $totalUsersCount = $stats['total_users'];
         
         return view('admin.users.users', compact('roles', 'users', 'doctorsCount', 'nursesCount', 'dataCollectorsCount', 'totalUsersCount'));
     }
@@ -91,20 +82,11 @@ class UsersController extends Controller
         $roles = Role::with('permissions')->get();
         $users = $this->userService->getAllUsers();
         
-        // Calculate user counts by role for better performance
-        $doctorsCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'doctors'); 
-        })->count();
-        
-        $nursesCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'nurse'); 
-        })->count();
-        
-        $dataCollectorsCount = $users->filter(function($user) { 
-            return $user->roles->contains('name', 'data collector'); 
-        })->count();
-        
-        $totalUsersCount = $users->count();
+        $stats = $this->userService->getUserStatistics();
+        $doctorsCount = $stats['doctors_count'];
+        $nursesCount = $stats['nurses_count'];
+        $dataCollectorsCount = $stats['data_collectors_count'];
+        $totalUsersCount = $stats['total_users'];
         
         return view('admin-new.users.users', compact('roles', 'users', 'doctorsCount', 'nursesCount', 'dataCollectorsCount', 'totalUsersCount'));
     }
@@ -116,16 +98,10 @@ class UsersController extends Controller
     {
         try {
             $this->userService->createUser($request);
-            return response()->json([
-                'success' => true, 
-                'message' => 'User Added Successfully'
-            ]);
+            return redirect()->route('admin-new.users')->with('success', 'User Added Successfully');
         } catch (\Exception $e) {
             Log::error('Error creating user: ' . $e->getMessage());
-            return response()->json([
-                'success' => false, 
-                'message' => 'Something went wrong. Please try again.'
-            ]);
+            return redirect()->route('admin-new.users')->with('error', 'Error: ' . $e->getMessage());
         }
     }
 

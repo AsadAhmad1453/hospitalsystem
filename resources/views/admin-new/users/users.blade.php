@@ -27,77 +27,54 @@
 
     <!-- Statistics Cards -->
     <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-user-md"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $doctorsCount ?? 0 }}</div>
-                                <div class="label">Doctors</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @php
+            $stats = [
+                [
+                    'key' => 'doctorsCount',
+                    'icon' => 'fas fa-user-md',
+                    'count' => $doctorsCount ?? 0,
+                    'label' => 'Doctors'
+                ],
+                [
+                    'key' => 'nursesCount',
+                    'icon' => 'fas fa-user-nurse',
+                    'count' => $nursesCount ?? 0,
+                    'label' => 'Nurses'
+                ],
+                [
+                    'key' => 'dataCollectorsCount',
+                    'icon' => 'fas fa-user-cog',
+                    'count' => $dataCollectorsCount ?? 0,
+                    'label' => 'Data Collectors'
+                ],
+                [
+                    'key' => 'totalUsersCount',
+                    'icon' => 'fas fa-users',
+                    'count' => $totalUsersCount ?? 0,
+                    'label' => 'Total Users'
+                ],
+            ];
+        @endphp
 
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-user-nurse"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $nursesCount ?? 0 }}</div>
-                                <div class="label">Nurses</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-user-cog"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $dataCollectorsCount ?? 0 }}</div>
-                                <div class="label">Data Collectors</div>
+        @foreach($stats as $stat)
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card stats-card h-100" data-stat="{{ $stat['key'] }}">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center">
+                                <div class="icon me-3">
+                                    <i class="{{ $stat['icon'] }}"></i>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <div class="number stat-number">{{ $stat['count'] }}</div>
+                                    <div class="label">&nbsp;{{ $stat['label'] }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $totalUsersCount ?? 0 }}</div>
-                                <div class="label">Total Users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <!-- Users Table -->

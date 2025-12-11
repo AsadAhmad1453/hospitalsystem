@@ -32,77 +32,54 @@
 
     <!-- Statistics Cards -->
     <div class="row mb-4">
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $roles->count() }}</div>
-                                <div class="label">Total Roles</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @php
+            $stats = [
+                [
+                    'count' => $roles->count(),
+                    'label' => 'Total Roles',
+                    'icon' => 'fas fa-users',
+                    'style' => ''
+                ],
+                [
+                    'count' => $permissions->count(),
+                    'label' => 'Total Permissions',
+                    'icon' => 'fas fa-user-shield',
+                    'style' => 'background: linear-gradient(135deg, #28a745 0%, #20c997 100%);'
+                ],
+                [
+                    'count' => $activeUsers ?? 0,
+                    'label' => 'Active Users',
+                    'icon' => 'fas fa-user-check',
+                    'style' => 'background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);'
+                ],
+                [
+                    'count' => $pendingApprovals ?? 0,
+                    'label' => 'Pending Approvals',
+                    'icon' => 'fas fa-clock',
+                    'style' => 'background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);'
+                ],
+            ];
+        @endphp
 
+        @foreach($stats as $stat)
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+            <div class="card stats-card h-100" style="{{ $stat['style'] }}">
                 <div class="card-body d-flex align-items-center">
                     <div class="flex-grow-1">
                         <div class="d-flex align-items-center">
                             <div class="icon me-3">
-                                <i class="fas fa-user-shield"></i>
+                                <i class="{{ $stat['icon'] }}"></i>
                             </div>
-                            <div>
-                                <div class="number">{{ $permissions->count() }}</div>
-                                <div class="label">Total Permissions</div>
+                            <div class="d-flex align-items-center">
+                                <div class="number stat-number">{{ $stat['count'] }}</div>
+                                <div class="label">&nbsp;{{ $stat['label'] }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #17a2b8 0%, #6f42c1 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $activeUsers ?? 0 }}</div>
-                                <div class="label">Active Users</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card stats-card h-100" style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="d-flex align-items-center">
-                            <div class="icon me-3">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div>
-                                <div class="number">{{ $pendingApprovals ?? 0 }}</div>
-                                <div class="label">Pending Approvals</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 
     <!-- Roles and Permissions Management -->
@@ -187,7 +164,7 @@
                     
                     <form id="permissionsForm" action="{{ route('admin-new.assign-permissions', $selectedRole->id) }}" method="POST">
                         @csrf
-                        <input type="hidden" name="permissions[{{ $selectedRole->id }}]" value="">
+                        <!-- Hidden input removed to fix validation error -->
                         
                         <div class="row">
                             @foreach($permissions->groupBy('module') as $module => $modulePermissions)
@@ -201,8 +178,8 @@
                                         <div class="form-check mb-2">
                                             <input class="form-check-input permission-checkbox" 
                                                    type="checkbox" 
-                                                   name="permissions[{{ $selectedRole->id }}][]" 
-                                                   value="{{ $permission->name }}" 
+                                                   name="permissions[]" 
+                                                   value="{{ $permission->id }}" 
                                                    id="perm_{{ $permission->id }}"
                                                    {{ $selectedRole->hasPermissionTo($permission->name) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="perm_{{ $permission->id }}">
@@ -321,7 +298,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="role_name" class="form-label">Role Name *</label>
-                        <input type="text" class="form-control" id="role_name" name="name" required>
+                        <input type="text" class="form-control" id="role_name" name="role_name" required>
                     </div>
                     <div class="mb-3">
                         <label for="role_description" class="form-label">Description</label>

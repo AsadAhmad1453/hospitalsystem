@@ -20,13 +20,36 @@ class BloodInvController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'test_name' => 'required|string|max:255',
+            'test_type' => 'required|string|max:255',
+            'test_code' => 'nullable|string|max:255',
+            'priority' => 'nullable|string|max:50',
+            'description' => 'nullable|string',
+            'expected_date' => 'nullable|date',
+            'cost' => 'nullable|numeric|min:0',
+            'patient_id' => 'required|exists:patients,id',
+            'doctor_id' => 'required|exists:users,id',
         ]);
 
-        $bloodInv = new BloodInv();
-        $bloodInv->name = $request->name;
-        $bloodInv->save();
+        try {
+            $bloodInv = new BloodInv();
+            $bloodInv->name = $request->name;
+            $bloodInv->test_name = $request->test_name;
+            $bloodInv->test_type = $request->test_type;
+            $bloodInv->test_code = $request->test_code;
+            $bloodInv->priority = $request->priority;
+            $bloodInv->description = $request->description;
+            $bloodInv->expected_date = $request->expected_date;
+            $bloodInv->cost = $request->cost;
+            $bloodInv->patient_id = $request->patient_id;
+            $bloodInv->doctor_id = $request->doctor_id;
+            $bloodInv->status = 'pending';
+            $bloodInv->save();
 
-        return redirect()->back()->with('success', 'Blood Investigation added successfully.');
+            return response()->json(['success' => true, 'message' => 'Blood Investigation added successfully.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Error adding blood investigation.']);
+        }
     }
 
     public function deleteBloodInv($id)
@@ -50,7 +73,6 @@ class BloodInvController extends Controller
     public function saveBloodInvNew(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
             'test_name' => 'required|string|max:255',
             'test_type' => 'required|string|max:255',
             'test_code' => 'nullable|string|max:255',
@@ -64,7 +86,7 @@ class BloodInvController extends Controller
 
         try {
             $bloodInv = new BloodInv();
-            $bloodInv->name = $request->name;
+            $bloodInv->name = $request->test_name;
             $bloodInv->test_name = $request->test_name;
             $bloodInv->test_type = $request->test_type;
             $bloodInv->test_code = $request->test_code;

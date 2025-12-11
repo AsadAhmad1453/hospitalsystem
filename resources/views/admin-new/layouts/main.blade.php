@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -420,7 +421,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Custom Scrollbar */
@@ -459,14 +462,20 @@
         }
     </style>
 
+    <!-- Custom CSS File -->
+    <link rel="stylesheet" href="{{ asset('admin-assets/css/custom-css.css') }}">
+
+
     @yield('custom-css')
 </head>
+
 <body>
     <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="{{ route('admin-new.dashboard') }}" class="sidebar-brand">
-                <img src="{{ asset('website-assets/images/logo/logo.png') }}" alt="Shafayaat Logo" class="me-2" style="height:56px;width:66px;vertical-align:middle;background:#fff;border-radius:50%;padding:4px;">
+                <img src="{{ asset('website-assets/images/logo/logo.png') }}" alt="Shafayaat Logo" class="me-2"
+                    style="height:56px;width:66px;vertical-align:middle;background:#fff;border-radius:50%;padding:4px;">
                 <span class="brand-text">Shafayaat</span>
             </a>
         </div>
@@ -475,7 +484,8 @@
             <ul class="nav flex-column">
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.dashboard') ? 'active' : '' }}" href="{{ route('admin-new.dashboard') }}">
+                    <a class="nav-link {{ Route::is('admin-new.dashboard') ? 'active' : '' }}"
+                        href="{{ route('admin-new.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i>
                         <span>Dashboard</span>
                     </a>
@@ -483,16 +493,19 @@
 
                 <!-- User Management -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.users') ? 'active' : '' }}" href="{{ route('admin-new.users') }}">
+                    <a class="nav-link {{ Route::is('admin-new.users') ? 'active' : '' }}"
+                        href="{{ route('admin-new.users') }}">
                         <i class="fas fa-users"></i>
                         <span>Users</span>
-                        <span class="badge">{{ \App\Models\User::count() }}</span>
+                        {{-- {{ dd) }} --}}
+                        <span class="badge">{{ \App\Models\User::get()->count() }}</span>
                     </a>
                 </li>
 
                 <!-- Staff & Permissions -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.staff') ? 'active' : '' }}" href="{{ route('admin-new.staff') }}">
+                    <a class="nav-link {{ Route::is('admin-new.staff') ? 'active' : '' }}"
+                        href="{{ route('admin-new.staff') }}">
                         <i class="fas fa-user-shield"></i>
                         <span>Staff & Permissions</span>
                     </a>
@@ -500,7 +513,8 @@
 
                 <!-- Patient Management -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.patients') || Route::is('admin-new.patient-info') ? 'active' : '' }}" href="{{ route('admin-new.patients') }}">
+                    <a class="nav-link {{ Route::is('admin-new.patients') || Route::is('admin-new.patient-info') ? 'active' : '' }}"
+                        href="{{ route('admin-new.patients') }}">
                         <i class="fas fa-user-injured"></i>
                         <span>Patients</span>
                         <span class="badge">{{ \App\Models\Patient::count() }}</span>
@@ -509,7 +523,8 @@
 
                 <!-- Medical Services -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.services') ? 'active' : '' }}" href="{{ route('admin-new.services') }}">
+                    <a class="nav-link {{ Route::is('admin-new.services') ? 'active' : '' }}"
+                        href="{{ route('admin-new.services') }}">
                         <i class="fas fa-stethoscope"></i>
                         <span>Medical Services</span>
                         <span class="badge">{{ \App\Models\Service::count() }}</span>
@@ -518,25 +533,31 @@
 
                 <!-- Form Builder -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.forms') || Route::is('admin-new.question-sections') || Route::is('admin-new.questions') || Route::is('admin-new.relations') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#formBuilderMenu">
+                    <a class="nav-link {{ Route::is('admin-new.forms') || Route::is('admin-new.question-sections') || Route::is('admin-new.questions') || Route::is('admin-new.relations') ? 'active' : '' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#formBuilderMenu">
                         <i class="fas fa-clipboard-list"></i>
                         <span>Form Builder</span>
                         <i class="fas fa-chevron-down ms-auto"></i>
                     </a>
-                    <div class="collapse submenu {{ Route::is('admin-new.forms') || Route::is('admin-new.question-sections') || Route::is('admin-new.questions') || Route::is('admin-new.relations') ? 'show' : '' }}" id="formBuilderMenu">
-                        <a class="nav-link {{ Route::is('admin-new.forms') ? 'active' : '' }}" href="{{ route('admin-new.forms') }}">
+                    <div class="collapse submenu {{ Route::is('admin-new.forms') || Route::is('admin-new.question-sections') || Route::is('admin-new.questions') || Route::is('admin-new.relations') ? 'show' : '' }}"
+                        id="formBuilderMenu">
+                        <a class="nav-link {{ Route::is('admin-new.forms') ? 'active' : '' }}"
+                            href="{{ route('admin-new.forms') }}">
                             <i class="fas fa-file-alt"></i>
                             <span>Forms</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.question-sections') ? 'active' : '' }}" href="{{ route('admin-new.question-sections') }}">
+                        <a class="nav-link {{ Route::is('admin-new.question-sections') ? 'active' : '' }}"
+                            href="{{ route('admin-new.question-sections') }}">
                             <i class="fas fa-layer-group"></i>
                             <span>Sections</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.questions') ? 'active' : '' }}" href="{{ route('admin-new.questions') }}">
+                        <a class="nav-link {{ Route::is('admin-new.questions') ? 'active' : '' }}"
+                            href="{{ route('admin-new.questions') }}">
                             <i class="fas fa-question-circle"></i>
                             <span>Questions</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.relations') ? 'active' : '' }}" href="{{ route('admin-new.relations') }}">
+                        <a class="nav-link {{ Route::is('admin-new.relations') ? 'active' : '' }}"
+                            href="{{ route('admin-new.relations') }}">
                             <i class="fas fa-project-diagram"></i>
                             <span>Relations</span>
                         </a>
@@ -545,26 +566,32 @@
 
                 <!-- Laboratory -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.blood-investigation') || Route::is('admin-new.xrays') || Route::is('admin-new.uss') || Route::is('admin-new.ctscans') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#labMenu">
+                    <a class="nav-link {{ Route::is('admin-new.blood-investigation') || Route::is('admin-new.xrays') || Route::is('admin-new.uss') || Route::is('admin-new.ctscans') ? 'active' : '' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#labMenu">
                         <i class="fas fa-flask"></i>
                         <span>Laboratory</span>
                         <i class="fas fa-chevron-down ms-auto"></i>
                     </a>
-                    <div class="collapse submenu {{ Route::is('admin-new.blood-investigation') || Route::is('admin-new.xrays') || Route::is('admin-new.uss') || Route::is('admin-new.ctscans') ? 'show' : '' }}" id="labMenu">
-                        <a class="nav-link {{ Route::is('admin-new.blood-investigation') ? 'active' : '' }}" href="{{ route('admin-new.blood-investigation') }}">
+                    <div class="collapse submenu {{ Route::is('admin-new.blood-investigation') || Route::is('admin-new.xrays') || Route::is('admin-new.uss') || Route::is('admin-new.ctscans') ? 'show' : '' }}"
+                        id="labMenu">
+                        <a class="nav-link {{ Route::is('admin-new.blood-investigation') ? 'active' : '' }}"
+                            href="{{ route('admin-new.blood-investigation') }}">
                             <i class="fas fa-tint"></i>
                             <span>Blood Investigation</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.xrays') ? 'active' : '' }}" href="{{ route('admin-new.xrays') }}">
+                        <a class="nav-link {{ Route::is('admin-new.xrays') ? 'active' : '' }}"
+                            href="{{ route('admin-new.xrays') }}">
                             <i class="fas fa-x-ray"></i>
                             <span>X-Rays</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.uss') ? 'active' : '' }}" href="{{ route('admin-new.uss') }}">
+                        <a class="nav-link {{ Route::is('admin-new.uss') ? 'active' : '' }}"
+                            href="{{ route('admin-new.uss') }}">
                             <i class="fas fa-wave-square"></i>
                             <span>Ultrasounds</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.ctscans') ? 'active' : '' }}" href="{{ route('admin-new.ctscans') }}">
-                            <i class="fas fa-scanner"></i>
+                        <a class="nav-link {{ Route::is('admin-new.ctscans') ? 'active' : '' }}"
+                            href="{{ route('admin-new.ctscans') }}">
+                            <i class="fa-solid fa-heart-pulse"></i>
                             <span>CT Scans</span>
                         </a>
                     </div>
@@ -572,17 +599,21 @@
 
                 <!-- Pharmacy -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.medicines') || Route::is('admin-new.dosage') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#pharmacyMenu">
+                    <a class="nav-link {{ Route::is('admin-new.medicines') || Route::is('admin-new.dosage') ? 'active' : '' }}"
+                        href="#" data-bs-toggle="collapse" data-bs-target="#pharmacyMenu">
                         <i class="fas fa-pills"></i>
                         <span>Pharmacy</span>
                         <i class="fas fa-chevron-down ms-auto"></i>
                     </a>
-                    <div class="collapse submenu {{ Route::is('admin-new.medicines') || Route::is('admin-new.dosage') ? 'show' : '' }}" id="pharmacyMenu">
-                        <a class="nav-link {{ Route::is('admin-new.medicines') ? 'active' : '' }}" href="{{ route('admin-new.medicines') }}">
+                    <div class="collapse submenu {{ Route::is('admin-new.medicines') || Route::is('admin-new.dosage') ? 'show' : '' }}"
+                        id="pharmacyMenu">
+                        <a class="nav-link {{ Route::is('admin-new.medicines') ? 'active' : '' }}"
+                            href="{{ route('admin-new.medicines') }}">
                             <i class="fas fa-capsules"></i>
                             <span>Medicines</span>
                         </a>
-                        <a class="nav-link {{ Route::is('admin-new.dosage') ? 'active' : '' }}" href="{{ route('admin-new.dosage') }}">
+                        <a class="nav-link {{ Route::is('admin-new.dosage') ? 'active' : '' }}"
+                            href="{{ route('admin-new.dosage') }}">
                             <i class="fas fa-weight"></i>
                             <span>Dosage</span>
                         </a>
@@ -591,7 +622,8 @@
 
                 <!-- Financial -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.banks') ? 'active' : '' }}" href="{{ route('admin-new.banks') }}">
+                    <a class="nav-link {{ Route::is('admin-new.banks') ? 'active' : '' }}"
+                        href="{{ route('admin-new.banks') }}">
                         <i class="fas fa-university"></i>
                         <span>Banks</span>
                     </a>
@@ -600,7 +632,8 @@
 
                 <!-- Settings -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.settings') ? 'active' : '' }}" href="{{ route('admin-new.settings') }}">
+                    <a class="nav-link {{ Route::is('admin-new.settings') ? 'active' : '' }}"
+                        href="{{ route('admin-new.settings') }}">
                         <i class="fas fa-cog"></i>
                         <span>Settings</span>
                     </a>
@@ -609,7 +642,8 @@
 
                 <!-- Profile -->
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('admin-new.profile') ? 'active' : '' }}" href="{{ route('admin-new.profile') }}">
+                    <a class="nav-link {{ Route::is('admin-new.profile') ? 'active' : '' }}"
+                        href="{{ route('admin-new.profile') }}">
                         <i class="fas fa-user"></i>
                         <span>Profile</span>
                     </a>
@@ -634,7 +668,7 @@
                 <div class="dropdown user-dropdown">
                     <button class="btn btn-link d-flex align-items-center" type="button" data-bs-toggle="dropdown">
                         <img src="{{ Auth::user()->profile_pic ? asset('storage/' . Auth::user()->profile_pic) : asset('admin-assets/images/portrait/small/avatar-s-11.jpg') }}"
-                             alt="User Avatar" class="user-avatar me-2">
+                            alt="User Avatar" class="user-avatar me-2">
                         <div class="text-start">
                             <div class="fw-bold">{{ Auth::user()->name }}</div>
                             <small class="text-muted">Administrator</small>
@@ -643,18 +677,21 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="{{ route('admin-new.profile') }}">
-                            <i class="fas fa-user me-2"></i>Profile
-                        </a></li>
+                                <i class="fas fa-user me-2"></i>Profile
+                            </a></li>
                         <li><a class="dropdown-item" href="#">
-                            <i class="fas fa-cog me-2"></i>Settings
-                        </a></li>
-                        <li><hr class="dropdown-divider"></li>
+                                <i class="fas fa-cog me-2"></i>Settings
+                            </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
                                 @csrf
                             </form>
                         </li>
@@ -718,7 +755,9 @@
             $('.data-table').DataTable({
                 responsive: true,
                 pageLength: 25,
-                order: [[0, 'desc']],
+                order: [
+                    [0, 'desc']
+                ],
                 language: {
                     search: "Search:",
                     lengthMenu: "Show _MENU_ entries",
@@ -853,4 +892,5 @@
 
     @yield('custom-js')
 </body>
+
 </html>

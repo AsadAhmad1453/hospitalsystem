@@ -43,7 +43,7 @@ class UserService
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8|',
             'role_id' => 'required|exists:roles,id',
             'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -52,6 +52,7 @@ class UserService
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $request->role_id,
         ];
 
         // Handle profile picture upload
@@ -60,12 +61,12 @@ class UserService
         }
 
         $user = User::create($userData);
-        
+
         // Assign role
         $role = Role::findOrFail($request->role_id);
         $user->assignRole($role);
 
-        Log::info('User created successfully', ['user_id' => $user->id, 'email' => $user->email]);
+        // Log::info('User created successfully', ['user_id' => $user->id, 'email' => $user->email]);
 
         return $user;
     }

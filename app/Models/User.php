@@ -59,8 +59,8 @@ class User extends Authenticatable
     public function latestActiveRoundAsDoctor()
     {
         return $this->hasOneThrough(
-            \App\Models\Round::class,
-            \App\Models\Patient::class,
+            Round::class,
+            Patient::class,
             'doctor_id',      // Foreign key on Patient (points to users table as doctor)
             'patient_id',     // Foreign key on Round (points to patients table)
             'id',             // Local key on User
@@ -74,8 +74,8 @@ class User extends Authenticatable
     public function latestActiveRoundAsNurse()
     {
         return $this->hasOneThrough(
-            \App\Models\Round::class,
-            \App\Models\Patient::class,
+            Round::class,
+            Patient::class,
             'nurse_id',       // Foreign key on Patient (points to users table as nurse)
             'patient_id',     // Foreign key on Round (points to patients table)
             'id',             // Local key on User
