@@ -47,8 +47,8 @@ class BioMarkerController extends Controller
             'systolic_blood_pressure' => 'required',
             'diastolic_blood_pressure' => 'required',
             'temperature' => 'required',
-            'weather' => 'required',
-            'reports' => 'required|file|max:2048',
+            'weather' => 'nullable',
+            'reports' => 'nullable|file|max:2048',
         ]);
 
         $filePath = null;

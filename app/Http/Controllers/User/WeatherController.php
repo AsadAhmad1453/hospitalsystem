@@ -21,7 +21,7 @@ class WeatherController extends Controller
         $lon = $request->query('lon');
         $city = $request->query('city');
 
-        $weatherService = new \App\Services\WeatherService();
+        $weatherService = new WeatherService();
 
         if ($lat && $lon) {
             $weather = $weatherService->getWeatherByCoordinates($lat, $lon);

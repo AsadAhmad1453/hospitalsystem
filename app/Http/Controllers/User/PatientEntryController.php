@@ -205,6 +205,9 @@ class PatientEntryController extends Controller
         $patient->reg_status = '1';
         $patient->save();
 
-        return redirect()->back()->with('success', 'Patient registered as user successfully.');
+        return redirect()->back()
+            ->with('success', 'Patient registered as user successfully.')
+            ->with('new_patient_email', $email)
+            ->with('new_patient_password', $password);
     }
 }

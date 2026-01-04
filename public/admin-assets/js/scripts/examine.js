@@ -5,6 +5,9 @@ $(document).ready(function () {
     $('#submit-diagnosis-form').on('click', function (e) {
         e.preventDefault();
 
+        // Sync CKEditor data to textareas
+        // Data is now synced automatically via change listener for CKEditor 5
+
         // Get the HTML strings
         var prescriptionHtml = getPrescriptionHtmlString();
         var investigationHtml = getInvestigationHtmlString();
@@ -62,38 +65,45 @@ $(document).ready(function () {
     $('.file-input').dropify();
 
     // Submit diagnosis form
-    $('.message-input').keydown(function(event) {
+    // Submit diagnosis form is separate
+    // AI Chat Widget Logic
+    $('#user-input').keydown(function(event) {
         if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault(); // prevent newline in input
-            $('.send-button').click(); // trigger the send button
+            $('#ai-send-btn').click(); // trigger the send button
         }
     });
 
-    $('.send-button').click(function () {
-        const prompt = $('.message-input').val().trim();
+    $('#ai-send-btn').click(function () {
+        const prompt = $('#user-input').val().trim();
         if (!prompt) return;
     
         // Append user's message
-        $('.chat-container').append(`
-            <div class="message user-message">${prompt}</div>
+        $('#chat-container').append(`
+            <div class="message user-message">
+                <div class="message-bubble">${prompt}</div>
+            </div>
         `);
     
-        $('.message-input').val('');
-        $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+        $('#user-input').val('');
+        const chatContainer = document.getElementById('chat-container');
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     
         // Append typing indicator as a message placeholder
         const typingId = 'typing-' + Date.now(); // Unique ID for this placeholder
-        $('.chat-container').append(`
-            <div class="message ai-message typing-placeholder" id="${typingId}">
-                <div class="typing-dots">
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
+        $('#chat-container').append(`
+            <div class="message bot-message typing-placeholder" id="${typingId}">
+                <div class="message-bubble">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
                 </div>
             </div>
         `);
     
-        $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
     
         // Fetch the AI response
         fetch('/user/ai/ask', {
@@ -109,14 +119,21 @@ $(document).ready(function () {
             .then(data => {
                 // Replace typing indicator with actual response
                 $('#' + typingId).replaceWith(`
-                    <div class="message ai-message">${data.reply}</div>
+                    <div class="message bot-message">
+                         <div class="message-bubble">${data.reply}</div>
+                    </div>
                 `);
-                $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight);
+                
+                // Re-fetch container to be safe and scroll
+                const container = document.getElementById('chat-container');
+                container.scrollTop = container.scrollHeight;
             })
             .catch(err => {
                 console.error('Fetch error:', err);
                 $('#' + typingId).replaceWith(`
-                    <div class="message error-message">AI: Request failed.</div>
+                    <div class="message bot-message error-message">
+                        <div class="message-bubble text-danger">AI: Request failed. Please try again.</div>
+                    </div>
                 `);
             });
     });
@@ -210,36 +227,85 @@ $(document).ready(function () {
         printWindow.close();
     });
 
-    // ✅ Bind CKEditor to fields and preview
-    const editors = {};
-    function bindEditor(id, targetSelector) {
-        ClassicEditor
-            .create(document.querySelector(id))
-            .then(editor => {
-                editors[id] = editor;
+    // ✅ Tab Switching Logic
+    $('.exam-tab-link').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const tab = $(this).data('tab');
 
-                if (targetSelector) {
-                    editor.model.document.on('change:data', () => {
-                        const value = editor.getData();
-                        $(targetSelector).html(value); // Live update
+        $('.exam-tab-link').removeClass('active');
+        $(this).addClass('active');
+
+        $('.tab-pane').removeClass('active');
+        $('#' + tab).addClass('active');
+        
+        return false;
+    });
+
+    // ✅ Initialize CKEditor 5 for all textareas
+    if (typeof ClassicEditor !== 'undefined') {
+        
+        const editors = {};
+        const config = {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ],
+        };
+
+        const editorIds = [
+            { id: 'complaint', display: '#display-complaint' },
+            { id: 'symptoms', display: '#display-symptoms' },
+            { id: 'provisional-diagnosis', display: '#display-provisional-diagnosis' },
+            { id: 'final-diagnosis', display: '#display-final-diagnosis' }, // Also updates #display-diagnosis if exists
+            { id: 'special_notes', display: '#display_special_notes' }
+        ];
+
+        editorIds.forEach(item => {
+            if (document.querySelector('#' + item.id)) {
+                ClassicEditor
+                    .create(document.querySelector('#' + item.id), config)
+                    .then(editor => {
+                        editors[item.id] = editor;
+                        
+                        // Sync data on change
+                        editor.model.document.on('change:data', () => {
+                            const data = editor.getData();
+                            if (item.display) {
+                                $(item.display).html(data);
+                            }
+                            if (item.id === 'final-diagnosis') {
+                                $('#display-diagnosis').html(data);
+                            }
+                            // Update original textarea for form submission
+                            $('#' + item.id).val(data);
+                        });
+                        
+                    })
+                    .catch(() => {
+                        // Silent failure as per request
                     });
-                }
-            })
-            .catch(error => {
-                console.error(`CKEditor init failed on ${id}:`, error);
-            });
-    }
+            }
+        });
 
-    // Fields to bind
-    bindEditor('#complaint', '#display-complaint');
-    bindEditor('#symptoms', '#display-symptoms');
-    bindEditor('#blood_pressure', null);
-    bindEditor('#provisional-diagnosis', '#display-provisional-diagnosis');
-    bindEditor('#final-diagnosis', '#display-final-diagnosis');
-    bindEditor('#final_diagnosis', '#display-diagnosis');
-    bindEditor('#special_notes', '#display_special_notes');
-    bindEditor('#medication', '#display-medication');
-    bindEditor('#investigation', '#display-investigation');
+        // Initialize any other generic .ckeditor-textarea references not in the specific list
+        document.querySelectorAll('.ckeditor-textarea').forEach(element => {
+            const id = element.id;
+            // Check if not already initialized
+            if (id && !editors[id] && !editorIds.some(e => e.id === id)) {
+                 ClassicEditor
+                    .create(element, config)
+                    .then(editor => {
+                        editors[id] = editor;
+                         editor.model.document.on('change:data', () => {
+                            $('#' + id).val(editor.getData());
+                        });
+                    })
+                    .catch(() => {});
+            }
+        });
+        
+    } else {
+        // Silent failure as per request
+    }
 
 
     // Display prescription in the prescription tab

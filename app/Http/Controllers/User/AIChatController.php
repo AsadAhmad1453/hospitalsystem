@@ -21,6 +21,7 @@ class AIChatController extends Controller
             ])->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [
+                    ['role' => 'system', 'content' => 'You are a helpful and knowledgeable medical assistant for a hospital management system. Assist doctors with diagnosis, drug interactions, and general medical queries. Be concise and professional.'],
                     ['role' => 'user', 'content' => $prompt],
                 ],
             ]);

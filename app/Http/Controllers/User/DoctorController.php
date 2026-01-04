@@ -128,41 +128,72 @@ class DoctorController extends Controller
 
         public function updateApp(Request $request, $id)
         {
+            $request->validate([
+                'appointment_date' => 'required|date',
+                'services' => 'required|array',
+                'services.*' => 'exists:services,id',
+            ]);
+
             $appointment = Appointment::where('id', $id)->first();
             $appointment->update([
                 'appointment_date' => $request->appointment_date
             ]);
 
-            return back();
+            // Sync services
+            if ($request->has('services')) {
+                // Delete existing services for this appointment
+                AppointmentService::where('appointment_id', $appointment->id)->delete();
+
+                // Add new services
+                foreach ($request->services as $service_id) {
+                    AppointmentService::create([
+                        'appointment_id' => $appointment->id,
+                        'service_id' => $service_id,
+                    ]);
+                }
+            } else {
+                // If no services are provided, delete all existing ones
+                AppointmentService::where('appointment_id', $appointment->id)->delete();
+            }
+
+            return back()->with('success', 'Appointment updated successfully!');
         }
 
 
-        public function saveApp($patient_id)
-        {
+    public function saveApp($id)
+    {
+        $appointment = Appointment::findOrFail($id);
 
-            $appointment = Appointment::where('patient_id', (int)$patient_id)->first();
-            // dd(storage_path('app/google-calendar/service-account-credentials.json'));
-            $appointmentDate = Carbon::createFromFormat('Y-m-d', $appointment->appointment_date);
+        // Get all service names associated with this appointment
+        $serviceNames = $appointment->services->pluck('service_name')->implode(', ');
 
-            $event = Event::create([
-                'name' => "Appointment: {$appointment->patient->name} ({$appointment->service->name})",
+        try {
+            // Ensure the calendar ID is properly configured or set.
+            $event = \Spatie\GoogleCalendar\Event::create([
+                'name' => "Appointment: {$appointment->patient->name} ({$serviceNames})",
                 'startDateTime' => Carbon::parse($appointment->appointment_date . ' ' . $appointment->appointment_time),
                 'endDateTime' => Carbon::parse($appointment->appointment_date . ' ' . $appointment->appointment_time)->addMinutes(30),
-                'description' => "Patient ID: {$appointment->patient_id}\nService: {$appointment->service->name}\nPhone: {$appointment->patient->phone}",
+                'description' => "Patient ID: {$appointment->patient_id}\nServices: {$serviceNames}\nPhone: {$appointment->patient->phone}",
             ]);
-
-            $appointment->update([
-                'status' => '1'
-            ]);
-
-            return redirect()->route('appointments');
+        } catch (\Exception $e) {
+            // Log the error but continue to save the appointment locally
+            // \Log::error('Google Calendar Event Creation Failed: ' . $e->getMessage());
+             // Optionally flash a warning session
+             // session()->flash('warning', 'Appointment saved locally, but could not be added to Google Calendar.');
         }
+
+        $appointment->update([
+            'status' => '1'
+        ]);
+
+        return redirect()->route('appointments')->with('success', 'Appointment saved successfully!');
+    }
 
         public function delApp($id)
         {
             Appointment::where('id', $id)->delete();
 
-            return back();
+            return back()->with('success', 'Appointment deleted successfully.');
         }
 
         public function examinePatients()
